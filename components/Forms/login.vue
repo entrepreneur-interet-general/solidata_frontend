@@ -154,7 +154,7 @@ export default {
 
 			this.alert    = null
 			this.loading  = true
-
+			
 			// dispatch action from store/auth
 			this.$store.dispatch('auth/login', {
 				email : this.email,

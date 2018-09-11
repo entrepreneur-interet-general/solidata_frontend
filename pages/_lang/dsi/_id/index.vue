@@ -8,9 +8,9 @@
 		>
 	
 		<SectionTitle
-			:title="$store.state.prj.current.infos.title"
-			:intro="$store.state.prj.current.infos.description"
-			:icon="$store.state.mainIcons.projects.icon"
+			:title="$store.state.dsi.current.infos.title"
+			:intro="$store.state.dsi.current.infos.description"
+			:icon="$store.state.mainIcons.datasets.icon"
 		>
 		</SectionTitle>
 
@@ -35,7 +35,7 @@ export default {
 	// cf : https://github.com/nuxt/nuxt.js/issues/1687#issuecomment-331870619
 	middleware : ["getItem"],
 	meta : {
-		collection 	: 'prj',
+		collection 	: 'dsi',
 		level 		: 'get_one',
 	},
 

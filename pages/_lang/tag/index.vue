@@ -10,7 +10,7 @@
     <SectionTitle
       :title="$t('tags.name', $store.state.locale)"
       :intro="$t('tags.intro', $store.state.locale)"
-      :icon="'fas fa-tags'"
+      :icon="$store.state.mainIcons.tags.icon"
     >
     </SectionTitle>
 

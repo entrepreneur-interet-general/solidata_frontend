@@ -21,7 +21,6 @@
 
 `
 	<CreateItem
-		:e6="e6"
 		:itemType="itemType"
 		:itemAbr="itemAbr"
 		:itemSteps="itemSteps"
@@ -47,15 +46,15 @@ export default {
 	},
 
 	// TO DO : middleware to check if logged and authenticated
-	middleware : [ ],
+	// middleware : [ ],
 
 	data () {
 		return {
+			
 			// for form component
-			e6: 1,
 			itemType 	: "datamodels",
 			itemAbr 	: "dmt",
-			itemSteps 	: [  "title", "description" ],
+			itemSteps 	: [  "title", "description", "open_level_edit" ],
 
 		}
 	},

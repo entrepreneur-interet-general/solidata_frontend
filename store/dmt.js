@@ -34,7 +34,12 @@ export const mutations = {
 		store.list_query 	= data.query_resume
 		store.list_counts 	= data.counts
 
-	  },
+	},
+	
+	set_current (store, data) {
+		console.log("\n... store/dmt : set_current...")
+		store.current 		= data.data
+	},
 
 }
 
@@ -56,6 +61,25 @@ export const actions = {
 			commit('set_list', response);
 			return response
 		  })
-	  },
+	},
+
+	// async getItem ({commit, state, rootState}, item_id) {
+	// 	console.log("\n... store/dmt : getItem...");
+	// 	var config = { 
+	// 		headers : { 'Authorization' : rootState.auth.access_token },
+	// 	}
+	// 	console.log("... store/dmt : config : ", config );
+		
+	// 	return this.$axios.$get('dmt/infos/get_one/'+item_id , config )
+	// 	  .then(response => {
+	// 		console.log("... store/dmt : response : ", response);
+	// 		commit('set_current', response);
+	// 		return response
+	// 	  })
+	// 	  .catch(error => {
+	// 		console.log(error.response)
+	// 		return error
+	// 	  })
+	// },
 
 }

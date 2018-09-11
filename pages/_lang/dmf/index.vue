@@ -6,11 +6,11 @@
 		dark 
 		:height="$store.state.mainSectionsHeight"
 		>
-	
+			
 		<SectionTitle
-			:title="$t('projects.name', $store.state.locale)"
-			:intro="$t('projects.intro', $store.state.locale)"
-			:icon="$store.state.mainIcons.projects.icon"
+			:title="$t('datamodels.name', $store.state.locale)"
+			:intro="$t('datamodels.intro', $store.state.locale)"
+			:icon="$store.state.mainIcons.datamodel_fields.icon"
 		>
 		</SectionTitle>
 

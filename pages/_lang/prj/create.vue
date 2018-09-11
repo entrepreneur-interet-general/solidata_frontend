@@ -22,7 +22,6 @@
 
 
 	<CreateItemForm
-		:e6="e6"
 		:itemType="itemType"
 		:itemAbr="itemAbr"
 		:itemSteps="itemSteps"
@@ -53,10 +52,9 @@ export default {
 	data () {
 		return {
 			// for form component
-			e6: 1,
 			itemType 	: "projects",
 			itemAbr 	: "prj",
-			itemSteps 	: [  "title", "description", "licence" ],
+			itemSteps 	: [  "title", "description", "licence", "open_level_edit", "open_level_show" ],
 
 		}
 	},

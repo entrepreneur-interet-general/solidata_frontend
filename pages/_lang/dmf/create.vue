@@ -12,7 +12,7 @@
 		<SectionTitle
 			:title="$t(itemType+'.name', $store.state.locale)"
 			:intro="$t(itemType+'.create', $store.state.locale)"
-			:icon="$store.state.mainIcons.tags.icon"
+			:icon="$store.state.mainIcons.datamodel_fields.icon"
 			>
 		</SectionTitle>
 
@@ -21,7 +21,6 @@
 
 `
 	<CreateItem
-		:e6="e6"
 		:itemType="itemType"
 		:itemAbr="itemAbr"
 		:itemSteps="itemSteps"
@@ -47,21 +46,23 @@ export default {
 	},
 
 	// TO DO : middleware to check if logged and authenticated
-	middleware : [ ],
+	// middleware : [ ],
 
 	data () {
 		return {
+			
 			// for form component
-			e6: 1,
-			itemType 	: "tags",
-			itemAbr 	: "tag",
+			itemType 	: "datamodel_fields",
+			itemAbr 	: "dmf",
 			itemSteps 	: [  
 				"title", 
 				"description", 
 				"f_code",
 				"f_object",
+				"f_type",
 				"f_comments",
-				"open_level_edit" 
+				"f_is_required",
+				"open_level_edit",
 			],
 
 		}

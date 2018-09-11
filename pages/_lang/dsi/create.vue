@@ -21,7 +21,6 @@
 
 `
 	<CreateItem
-		:e6="e6"
 		:itemType="itemType"
 		:itemAbr="itemAbr"
 		:itemSteps="itemSteps"
@@ -52,7 +51,6 @@ export default {
 	data () {
 		return {
 			// for form component
-			e6: 1,
 			itemType 	: "datasets",
 			itemAbr 	: "dsi",
 			itemSteps 	: [  "title", "file", "description", "licence" ],

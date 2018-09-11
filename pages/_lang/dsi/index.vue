@@ -10,7 +10,7 @@
     <SectionTitle
       :title="$t('datasets.name', $store.state.locale)"
       :intro="$t('datasets.intro', $store.state.locale)"
-      :icon="'fas fa-database'"
+      :icon="$store.state.mainIcons.datasets.icon"
     >
     </SectionTitle>
 

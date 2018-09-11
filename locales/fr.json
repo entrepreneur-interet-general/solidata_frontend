@@ -13,6 +13,8 @@
 		"mydatasets"    : "mes datasets",
 		"alldatamodels" : "Datamodels",
 		"mydatamodels"  : "mes datamodels",
+		"alldatamodelfields" : "Champs de datamodels",
+		"mydatamodelfields"  : "mes champs de datamodels",
 		"allrecipes"    : "Recettes",
 		"myrecipes"     : "mes recettes",
 		"alltags"       : "Etiquettes",
@@ -73,6 +75,15 @@
 		"licence" 		: "Licence",
 		"resume" 		: "Résumé",
 
+		"open_level_edit" : "open level pour l'édition",
+		"open_level_show" : "open level pour la prévisualisation",
+
+		"f_code" 		: "code du champ" ,
+		"f_object" 		: "objet du champ" ,
+		"f_type" 		: "type du champ" ,
+		"f_comments" 	: "commentaires sur le champ" ,
+		"f_is_required"	: "champ requis" ,
+
 		"team"			: "Équipe",
 		"settings"		: "Préférences"
 
@@ -132,6 +143,13 @@
 		"licence" 		: "Choisissez une licence",
 		"tags" 			: "Choisissez des étiquettes pour qualifier le projet",
 		"openlevel" 	: "Choisissez un niveau d'ouverture",
+		"open_level_edit" : "Open level pour l'édition",
+		"open_level_show" : "Open level pour la prévisualisation",
+		"f_code" 		: "Code du champ" ,
+		"f_object" 		: "Objet du champ" ,
+		"f_type" 		: "Type du champ" ,
+		"f_comments" 	: "Commentaires sur le champ" ,
+		"f_is_required"	: "Champ requis" ,
 		"resume"		: "Résumé"
 	},
 
@@ -145,9 +163,36 @@
 		"licence" 		: "Choisissez une licence",
 		"tags" 			: "Choisissez des étiquettes pour qualifier le modèle de données",
 		"openlevel" 	: "Choisissez un niveau d'ouverture",
+		"open_level_edit" : "Open level pour l'édition",
+		"open_level_show" : "Open level pour la prévisualisation",
+		"f_code" 		: "Code du champ" ,
+		"f_object" 		: "Objet du champ" ,
+		"f_type" 		: "Type du champ" ,
+		"f_comments" 	: "Commentaires sur le champ" ,
+		"f_is_required"	: "Champ requis" ,
 		"resume"		: "Résumé"
 	},
 	
+	"datamodel_fields" : {
+		"name"			: "Champs de modèle de données",
+		"singular"		: "Champ de modèle de données",
+		"intro" 		: "Gérer tous vos champ de modèles de données",
+		"create"		: "Créer un nouveau champ de modèle de données",
+		"title"			: "Nommez votre champ de modèle de données",
+		"description" 	: "Décrivez votre champ de modèle de données en quelques mots",
+		"licence" 		: "Choisissez une licence",
+		"tags" 			: "Choisissez des étiquettes pour qualifier le champ de modèle de données",
+		"openlevel" 	: "Choisissez un niveau d'ouverture",
+		"open_level_edit" : "Open level pour l'édition",
+		"open_level_show" : "Open level pour la prévisualisation",
+		"f_code" 		: "Code du champ" ,
+		"f_object" 		: "Objet du champ" ,
+		"f_type" 		: "Type du champ" ,
+		"f_comments" 	: "Commentaires sur le champ" ,
+		"f_is_required"	: "Champ requis" ,
+		"resume"		: "Résumé"
+	},
+
 	"datasets" : {
 		"name" 			: "Données",
 		"singular"		: "Jeu de données",
@@ -159,6 +204,13 @@
 		"licence" 		: "Choisissez une licence",
 		"tags" 			: "Choisissez des étiquettes pour qualifier le jeu de données",
 		"openlevel" 	: "Choisissez un niveau d'ouverture",
+		"open_level_edit" : "Open level pour l'édition",
+		"open_level_show" : "Open level pour la prévisualisation",
+		"f_code" 		: "Code du champ" ,
+		"f_object" 		: "Objet du champ" ,
+		"f_type" 		: "Type du champ" ,
+		"f_comments" 	: "Commentaires sur le champ" ,
+		"f_is_required"	: "Champ requis" ,
 		"resume"		: "Résumé"
 	},
 	
@@ -172,6 +224,13 @@
 		"licence" 		: "Choisissez une licence",
 		"tags" 			: "Choisissez des étiquettes pour qualifier cette recette",
 		"openlevel" 	: "Choisissez un niveau d'ouverture",
+		"open_level_edit" : "Open level pour l'édition",
+		"open_level_show" : "Open level pour la prévisualisation",
+		"f_code" 		: "Code du champ" ,
+		"f_object" 		: "Objet du champ" ,
+		"f_type" 		: "Type du champ" ,
+		"f_comments" 	: "Commentaires sur le champ" ,
+		"f_is_required"	: "Champ requis" ,
 		"resume"		: "Résumé"
 	},
 	
@@ -185,6 +244,13 @@
 		"licence" 		: "Choisissez une licence",
 		"tags" 			: "Choisissez des étiquettes pour qualifier cette étiquette",
 		"openlevel" 	: "Choisissez un niveau d'ouverture",
+		"open_level_edit" : "Open level pour l'édition",
+		"open_level_show" : "Open level pour la prévisualisation",
+		"f_code" 		: "Code du champ" ,
+		"f_object" 		: "Objet du champ" ,
+		"f_type" 		: "Type du champ" ,
+		"f_comments" 	: "Commentaires sur le champ" ,
+		"f_is_required"	: "Champ requis" ,
 		"resume"		: "Résumé"
 	}
 

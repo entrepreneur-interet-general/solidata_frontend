@@ -13,6 +13,8 @@
 		"mydatasets"    : "my datasets",
 		"alldatamodels" : "Datamodels",
 		"mydatamodels"  : "my datamodels",
+		"alldatamodelfields" : "Datamodel fields",
+		"mydatamodelfields"  : "my datamodel fields",
 		"allrecipes"    : "Recipes",
 		"myrecipes"     : "my recipes",
 		"alltags"       : "Tags",
@@ -73,6 +75,15 @@
 		"licence" 		: "Licence",
 		"resume" 		: "Resume",
 
+		"open_level_edit" : "open level for edition",
+		"open_level_show" : "open level for preview",
+
+		"f_code" 		: "field code" ,
+		"f_object" 		: "field object" ,
+		"f_type" 		: "field type" ,
+		"f_comments" 	: "field comments" ,
+		"f_is_required"	: "field is required" ,
+
 		"team"			: "Team",
 		"settings"		: "Settings"
 
@@ -132,6 +143,13 @@
 		"licence" 		: "Choose a licence",
 		"tags" 			: "Choose tags to qualify this project",
 		"openlevel" 	: "Choose a level of open data",
+		"open_level_edit" : "Open level for edition",
+		"open_level_show" : "Open level for preview",
+		"f_code" 		: "Field code" ,
+		"f_object" 		: "Field object" ,
+		"f_type" 		: "Field type" ,
+		"f_comments" 	: "Field comments" ,
+		"f_is_required"	: "Field is required" ,
 		"resume" 		: "Resume"
 	},
 
@@ -145,9 +163,36 @@
 		"licence" 		: "Choose a licence",
 		"tags" 			: "Choose tags to qualify this datamodel",
 		"openlevel" 	: "Choose a level of open data",
+		"open_level_edit" : "Open level for edition",
+		"open_level_show" : "Open level for preview",
+		"f_code" 		: "Field code" ,
+		"f_object" 		: "Field object" ,
+		"f_type" 		: "Field type" ,
+		"f_comments" 	: "Field comments" ,
+		"f_is_required"	: "Field is required" ,
 		"resume" 		: "Resume"
 	},
-	
+
+	"datamodel_fields" : {
+		"name" 			: "Datamodel fields",
+		"singular"		: "Datamodel field",
+		"intro" 		: "Manage your datamodel field",
+		"create"		: "Create a new datamodel field",
+		"title"			: "Name your datamodel field",
+		"description" 	: "Describe your datamodel field",
+		"licence" 		: "Choose a licence",
+		"tags" 			: "Choose tags to qualify this datamodel field",
+		"openlevel" 	: "Choose a level of open data",
+		"open_level_edit" : "Open level for edition",
+		"open_level_show" : "Open level for preview",
+		"f_code" 		: "Field code" ,
+		"f_object" 		: "Field object" ,
+		"f_type" 		: "Field type" ,
+		"f_comments" 	: "Field comments" ,
+		"f_is_required"	: "Field is required" ,
+		"resume" 		: "Resume"
+	},
+
 	"datasets" : {
 		"name" 			: "Datasets",
 		"singular"		: "Dataset",
@@ -159,6 +204,13 @@
 		"licence" 		: "Choose a licence",
 		"tags" 			: "Choose tags to qualify this dataset",
 		"openlevel" 	: "Choose a level of open data",
+		"open_level_edit" : "Open level for edition",
+		"open_level_show" : "Open level for preview",
+		"f_code" 		: "Field code" ,
+		"f_object" 		: "Field object" ,
+		"f_type" 		: "Field type" ,
+		"f_comments" 	: "Field comments" ,
+		"f_is_required"	: "Field is required" ,
 		"resume" 		: "Resume"
 	},
 	
@@ -173,6 +225,13 @@
 		"licence" 		: "Choose a licence",
 		"tags" 			: "Choose tags to qualify this recipe",
 		"openlevel" 	: "Choose a level of open data",
+		"open_level_edit" : "Open level for edition",
+		"open_level_show" : "Open level for preview",
+		"f_code" 		: "Field code" ,
+		"f_object" 		: "Field object" ,
+		"f_type" 		: "Field type" ,
+		"f_comments" 	: "Field comments" ,
+		"f_is_required"	: "Field is required" ,
 		"resume" 		: "Resume"
 	},
 	
@@ -187,6 +246,13 @@
 		"licence" 		: "Choose a licence",
 		"tags" 			: "Choose tags to qualify this tag",
 		"openlevel" 	: "Choose a level of open data",
+		"open_level_edit" : "Open level for edition",
+		"open_level_show" : "Open level for preview",
+		"f_code" 		: "Field code" ,
+		"f_object" 		: "Field object" ,
+		"f_type" 		: "Field type" ,
+		"f_comments" 	: "Field comments" ,
+		"f_is_required"	: "Field is required" ,
 		"resume" 		: "Resume"
 	}
 

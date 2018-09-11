@@ -94,24 +94,25 @@ export const actions = {
 
 	},
 
-	async getItem ({commit, state, rootState}, item_id) {
-		console.log("\n... store/prj : getItem...");
-		var config = { 
-			headers : { 'Authorization' : rootState.auth.access_token },
-		}
-		console.log("... store/prj : config : ", config );
+	// async getItem ({commit, state, rootState}, item_id) {
+	// 	console.log("\n... store/prj : getItem...");
+	// 	var config = { 
+	// 		headers : { 'Authorization' : rootState.auth.access_token },
+	// 	}
+	// 	console.log("... store/prj : config : ", config );
 		
-		return this.$axios.$get('prj/infos/get_one/'+item_id , config )
-		  .then(response => {
-			console.log("... store/prj : response : ", response);
-			commit('set_current', response);
-			return response
-		  })
-		  .catch(error => {
-			console.log(error.response)
-			return error
-		  })
-	},
+	// 	// return this.$axios.$get('prj/infos/get_one/'+item_id , config )
+	// 	return this.$axios.$get(`prj/infos/get_one/${item_id}` , config )
+	// 		.then(response => {
+	// 			console.log("... store/prj : response : ", response);
+	// 			commit('set_current', response);
+	// 			return response
+	// 		})
+	// 		.catch(error => {
+	// 			console.log(error.response)
+	// 			return error
+	// 		})
+	// },
 
 
 

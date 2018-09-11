@@ -10,7 +10,7 @@
     <SectionTitle
       :title="$t('datamodels.name', $store.state.locale)"
       :intro="$t('datamodels.intro', $store.state.locale)"
-      :icon="'fas fa-table'"
+      :icon="$store.state.mainIcons.datamodels.icon"
     >
     </SectionTitle>
 

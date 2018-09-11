@@ -1,7 +1,7 @@
+// import axios from 'axios'
 
 
-
-export default function ({ context, store, redirect, route, params}) {
+export default function ({ context, store, redirect, route, params, $axios}) {
 
 
 	console.log("\n- - - Middleware : getItem...") ; 
@@ -27,11 +27,34 @@ export default function ({ context, store, redirect, route, params}) {
 	console.log('- - - current_level : ', current_level ) ;
 
 
-	// get item by dispatching action in store corresponding to collection and level
-	const current_item = store.dispatch( current_collection + "/getItem", item_id ) ;
-	return Promise.all ([ 
-		current_item,
+	var config = { 
+		headers : { 'Authorization' : store.state.auth.access_token },
+	}
+	console.log("- - - getItem : config : ", config );
+	
+	const current_item = $axios.get(`${current_collection}/infos/get_one/${item_id}` , config )
+		.then(response => {
+			console.log("... getItem : response : ", response.data);
+			store.commit(`${current_collection}/set_current`, response.data);
+			return response
+		})
+		.catch(error => {
+			console.log(error.response)
+			return error
+		})
+	
+	return Promise.all([
+		current_item
 	]) ;
+
+
+
+
+	// get item by dispatching action in store corresponding to collection and level
+	// const current_item = store.dispatch( current_collection + "/getItem", item_id ) ;
+	// return Promise.all ([ 
+	// 	current_item,
+	// ]) ;
 
 	// return store.dispatch( current_collection + "/getItem", item_id )
 	// 	.then(response => {

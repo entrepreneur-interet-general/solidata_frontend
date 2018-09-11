@@ -10,7 +10,7 @@
     <SectionTitle
       :title="$t('recipes.title', $store.state.locale)"
       :intro="$t('recipes.intro', $store.state.locale)"
-      :icon="'fas fa-magic'"
+      :icon="$store.state.mainIcons.recipes.icon"
     >
     </SectionTitle>
 

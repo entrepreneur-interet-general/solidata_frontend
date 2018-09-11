@@ -21,7 +21,6 @@
 
 `
 	<CreateItem
-		:e6="e6"
 		:itemType="itemType"
 		:itemAbr="itemAbr"
 		:itemSteps="itemSteps"
@@ -52,10 +51,12 @@ export default {
 	data () {
 		return {
 			// for form component
-			e6: 1,
 			itemType 	: "recipes",
 			itemAbr 	: "rec",
-			itemSteps 	: [  "title", "description" ],
+			itemSteps 	: [  
+				"title", 
+				"description",	
+			],
 
 		}
 	},
