@@ -1,0 +1,193 @@
+{
+	"links": {
+		"home"			: "Home",
+		"dashboard"		: "Dashboard",
+		"about"			: "About",
+		"github"		: "Github",
+		"english"		: "English version",
+		"french"		: "French version",
+
+		"allprojects"   : "Projects",
+		"myprojects"    : "my projects",
+		"alldatasets"   : "Datasets",
+		"mydatasets"    : "my datasets",
+		"alldatamodels" : "Datamodels",
+		"mydatamodels"  : "my datamodels",
+		"allrecipes"    : "Recipes",
+		"myrecipes"     : "my recipes",
+		"alltags"       : "Tags",
+		"mytags"        : "my tags",
+
+		"allusers"      : "Users",
+
+		"mysettings"    : "Settings",
+		"myprofile"     : "Profile",
+		"mypwd"         : "Password"
+
+	},
+
+	"rules" : {
+		"email" 		: "Please enter a valid email",
+		"length"		: "Invalid character length, max : ",
+		"password"		: "Password must contain an upper case letter, a numeric character, and a special character",
+		"required"		: "This field is required"
+	},
+	
+	"openlevel" : {
+		"opendata" 		: "opendata",
+		"commons" 		: "commons",
+		"collective" 	: "collective",
+		"private" 		: "private"
+	},
+
+	"global" : {
+		"hi"			: "Hi",
+		"and"			: "and",
+		"lang"			: "Language",
+
+		"validate"		: "Validate",
+		"select"		: "Select",
+		"upload"		: "Upload a file",
+		"remove"		: "Remove",
+		"nofile"		: "No file selected yet",
+		"continue"		: "Continue",
+		"cancel"		: "Cancel",
+		"save"			: "Save",
+		"next" 			: "Next",
+		"back" 			: "Previous",
+
+		"list"			: "list",
+		"create"		: "create",
+		"export"		: "export",
+
+		"email"			: "Email",
+		"name" 			: "Name",
+		"surname" 		: "Surname",
+		"password"		: "Password",
+
+		"title" 		: "Title",
+		"description" 	: "Description",
+		"tag" 			: "Tag",
+		"tags" 			: "Tags",
+		"file" 			: "File",
+		"licence" 		: "Licence",
+		"resume" 		: "Resume",
+
+		"team"			: "Team",
+		"settings"		: "Settings"
+
+	},
+
+
+	"home": {
+		"title"				: "Solidata EN",
+		"subtitle"			: "Clean, transform, enrich and share your data",
+		"tagline"			: "Define a datamodel, consolidate your data with your team and export your results",
+		"startbtn"  		: "Get started",
+		"videobtn"  		: "Watch the video",
+
+		"loginPage"			: "Login",
+		"loginForm"			: "Login form",
+		"loginToRegister" 	: "Already have an account? ",
+		"registerToLogin" 	: "You don't have an account yet? ",
+		"agreement"			: "I agree to the",
+		"termsService"		: "Terms of service",
+		"privacyPolicy"		: "Privacy Policy",
+
+		"forgotPwd" 		: "Have you forgotten your password ?",
+		"forgotPwdPage" 	: "Reset your password",
+		"forgotPwdAction" 	: "Send me a link to renew my password",
+
+		"registerPage"		: "Register",
+		"registerForm"		: "Register form",
+		
+		"logoutPage" 		: "Logout",
+		"logoutMsg" 		: "Are you sure you want to logout ?",
+		
+		"introduction"		: "This is an introduction in English."
+	},
+	
+
+	"about": {
+		"title"			: "About",
+		"introduction"	: "This page is made to give you more informations."
+	},
+
+	"dashboard" : {
+		"name" 			: "Dashboard",
+		"intro" 		: "Manage all the elements allowing to open data",
+		"introAnon" 	: "All the elements created and opened by our community"
+	},
+	
+	"users" : {
+	},
+
+	"projects" : {
+		"name"			: "Projects",
+		"singular"		: "Project",
+		"intro"			: "Manage your projects",
+		"create"		: "Create a new project",
+		"title"			: "Name your project",
+		"description" 	: "Briefly describe your project",
+		"licence" 		: "Choose a licence",
+		"tags" 			: "Choose tags to qualify this project",
+		"openlevel" 	: "Choose a level of open data",
+		"resume" 		: "Resume"
+	},
+
+	"datamodels" : {
+		"name" 			: "Datamodels",
+		"singular"		: "Datamodel",
+		"intro" 		: "Manage your datamodels",
+		"create"		: "Create a new datamodel",
+		"title"			: "Name your datamodel",
+		"description" 	: "Describe your datamodel",
+		"licence" 		: "Choose a licence",
+		"tags" 			: "Choose tags to qualify this datamodel",
+		"openlevel" 	: "Choose a level of open data",
+		"resume" 		: "Resume"
+	},
+	
+	"datasets" : {
+		"name" 			: "Datasets",
+		"singular"		: "Dataset",
+		"intro" 		: "Manage your datasets",
+		"create"		: "Import a new dataset",
+		"file" 			: "Choose a file",
+		"title"			: "Name your dataset",
+		"description" 	: "Describe your dataset",
+		"licence" 		: "Choose a licence",
+		"tags" 			: "Choose tags to qualify this dataset",
+		"openlevel" 	: "Choose a level of open data",
+		"resume" 		: "Resume"
+	},
+	
+	"recipes" : {
+		"name" 			: "Recipes",
+		"singular"		: "Recipe",
+		"intro" 		: "Manage your recipes",
+		"create"		: "Create a new recipe",
+		"title"			: "Name your recipe",
+		"nameLabel" 	: "Name",
+		"description" 	: "Describe your recipe",
+		"licence" 		: "Choose a licence",
+		"tags" 			: "Choose tags to qualify this recipe",
+		"openlevel" 	: "Choose a level of open data",
+		"resume" 		: "Resume"
+	},
+	
+	"tags" : {
+		"name" 			: "Tags",
+		"singular"		: "Tag",
+		"intro" 		: "Manage your tags",
+		"create"		: "Create a new tag",
+		"title"			: "Name your tag",
+		"nameLabel" 	: "Name",
+		"description" 	: "Describe your tag",
+		"licence" 		: "Choose a licence",
+		"tags" 			: "Choose tags to qualify this tag",
+		"openlevel" 	: "Choose a level of open data",
+		"resume" 		: "Resume"
+	}
+
+}

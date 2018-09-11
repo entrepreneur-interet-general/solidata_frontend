@@ -1,0 +1,191 @@
+{
+	"links": {
+		"home"			: "Accueil",
+		"dashboard"		: "Vue d'ensemble",
+		"about"			: "Ã propos",
+		"github"		: "Github",
+		"english"		: "Version Anglaise",
+		"french"		: "Version Française",
+
+		"allprojects"   : "Projets",
+		"myprojects"    : "mes projets",
+		"alldatasets"   : "Datasets",
+		"mydatasets"    : "mes datasets",
+		"alldatamodels" : "Datamodels",
+		"mydatamodels"  : "mes datamodels",
+		"allrecipes"    : "Recettes",
+		"myrecipes"     : "mes recettes",
+		"alltags"       : "Etiquettes",
+		"mytags"        : "mes étiquettes",
+
+		"allusers"      : "Tous les utilisateurs",
+
+		"mysettings"    : "Préférences",
+		"myprofile"     : "Profil",
+		"mypwd"         : "Mot de passe"
+
+	},
+
+	"openlevel" : {
+		"opendata" 		: "opendata",
+		"commons" 		: "communs",
+		"collective" 	: "collectif",
+		"private" 		: "privé"
+	},
+
+	"rules" : {
+		"email" 		: "Veuillez entrer un email valide",
+		"length"		: "Mauvaise longueur de caractères, max. : ",
+		"password"		: "Mot de passe invalide, doit contenir une lettre en majuscule, un numéro, et un caractère spécial",
+		"required"		: "Ce champ doit être complété"
+	},
+
+	"global" : {
+		"hi"			: "Bonjour",
+		"and"			: "et",
+		"lang"			: "Langage",
+
+		"validate"		: "Valider",
+		"select"		: "Selectionner",
+		"upload"		: "Charger un fichier",
+		"remove"		: "Supprimer",
+		"nofile"		: "Pas de fichier sélectionné",
+		"continue"		: "Continuer",
+		"cancel"		: "Annuler",
+		"save"			: "Sauver",
+		"next" 			: "Suivant",
+		"back" 			: "Précédent",
+
+		"list"			: "liste",
+		"create"		: "créer",
+		"export"		: "exporter",
+
+		"email"			: "Email",
+		"name" 			: "Prénom",
+		"surname"	 	: "Nom",
+		"password"		: "Mot de passe",
+
+		"title" 		: "Titre",
+		"description" 	: "Description",
+		"tag" 			: "Etiquette",
+		"tags" 			: "Etiquettes",
+		"file" 			: "Fichier",
+		"licence" 		: "Licence",
+		"resume" 		: "Résumé",
+
+		"team"			: "Équipe",
+		"settings"		: "Préférences"
+
+	},
+
+	"home": {
+		"title"				: "Solidata FR",
+		"subtitle"			: "Nettoyer, transformer, enrichir et partager vos données",
+		"tagline"			: "Définissez un modèle de données, consolidez vos données à plusieurs et exportez vos résultats",
+		
+		"startbtn"  		: "Commencer !",
+		"startbtn"  		: "Commencer !",
+		"videobtn"  		: "Regarder la video",
+
+		"loginPage"			: "Se connecter",
+		"loginForm"			: "Formulaire de login",
+		"loginToRegister" 	: "Vous avez déjà un compte? ",
+		"registerToLogin" 	: "Vous n'avez pas encore de compte? ",
+		"agreement"			: "J'accepte les ",
+		"termsService"		: "Terms of service",
+		"privacyPolicy"		: "Privacy Policy",
+
+		"forgotPwd" 		: "Vous avez oublié votre mot de passe ?",
+		"forgotPwdPage" 	: "Renouvelez votre mot de passe",
+		"forgotPwdAction" 	: "M'envoyer un lien pour renouveller mon mot de passe",
+
+		"registerPage"		: "S'enregistrer",
+		"registerForm"		: "Formulaire d'enregistrement",
+
+		"logoutPage"		: "Se déconnecter",
+		"logoutMsg" 		: "Etes-vous certain.e de vouloir vous déconnecter ?",
+
+		"introduction"		: "Ceci est un texte d'introduction en Français."
+	},
+
+	"about": {
+		"title"			: "Ã propos",
+		"introduction"	: "Cette page est faite pour vous donner plus d'informations."
+	},
+
+	"dashboard" : {
+		"name" 			: "Vue d'ensemble",
+		"intro" 		: "Gérer tous les éléments permettant d'ouvrir des données",
+		"introAnon" 	: "Tous les éléments ouverts par notre communauté"
+	},
+
+	"users" : {
+	},
+
+	"projects" : {
+		"name"			: "Projets",
+		"singular"		: "Projet",
+		"intro"			: "Gérer vos projets d'ouverture de données",
+		"create"		: "Créer un nouveau projet d'ouverture de données",
+		"title"			: "Nommez votre projet d'ouverture de données",
+		"description" 	: "Décrivez votre projet en quelques mots",
+		"licence" 		: "Choisissez une licence",
+		"tags" 			: "Choisissez des étiquettes pour qualifier le projet",
+		"openlevel" 	: "Choisissez un niveau d'ouverture",
+		"resume"		: "Résumé"
+	},
+
+	"datamodels" : {
+		"name"			: "Modèles de données",
+		"singular"		: "Modèle de données",
+		"intro" 		: "Gérer tous vos modèles de données",
+		"create"		: "Créer un nouveau modèle de données",
+		"title"			: "Nommez votre modèle de données",
+		"description" 	: "Décrivez votre modèle de données en quelques mots",
+		"licence" 		: "Choisissez une licence",
+		"tags" 			: "Choisissez des étiquettes pour qualifier le modèle de données",
+		"openlevel" 	: "Choisissez un niveau d'ouverture",
+		"resume"		: "Résumé"
+	},
+	
+	"datasets" : {
+		"name" 			: "Données",
+		"singular"		: "Jeu de données",
+		"intro" 		: "Gérer tous vos jeux de données",
+		"create"		: "Importer un nouveau jeu de données",
+		"file" 			: "Choisissez un fichier",
+		"title"			: "Nommez votre jeu de données",
+		"description"	: "Décrivez votre jeu de données en quelques mots",
+		"licence" 		: "Choisissez une licence",
+		"tags" 			: "Choisissez des étiquettes pour qualifier le jeu de données",
+		"openlevel" 	: "Choisissez un niveau d'ouverture",
+		"resume"		: "Résumé"
+	},
+	
+	"recipes" : {
+		"name" 			: "Recettes",
+		"singular"		: "Recette",
+		"intro" 		: "Gérer toutes vos recettes",
+		"create" 		: "Créer une nouvelle recette",
+		"title"			: "Nommez votre recette",
+		"description" 	: "Décrivez votre recette en quelques mots",
+		"licence" 		: "Choisissez une licence",
+		"tags" 			: "Choisissez des étiquettes pour qualifier cette recette",
+		"openlevel" 	: "Choisissez un niveau d'ouverture",
+		"resume"		: "Résumé"
+	},
+	
+	"tags" : {
+		"name" 			: "Etiquettes",
+		"singular"		: "Etiquette",
+		"intro" 		: "Gérer toutes vos étiquettes",
+		"create" 		: "Créer une nouvelle étiquette",
+		"title"			: "Nommez votre étiquette",
+		"description" 	: "Décrivez votre étiquette en quelques mots",
+		"licence" 		: "Choisissez une licence",
+		"tags" 			: "Choisissez des étiquettes pour qualifier cette étiquette",
+		"openlevel" 	: "Choisissez un niveau d'ouverture",
+		"resume"		: "Résumé"
+	}
+
+}
