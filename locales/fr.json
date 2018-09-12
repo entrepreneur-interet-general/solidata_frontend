@@ -131,6 +131,23 @@
 	},
 
 	"users" : {
+		"name"			: "Utilisateurs",
+		"singular"		: "Utilisateur",
+		"intro"			: "Gérer vos utilisateurs",
+		"create"		: "Créer un nouvel utilisateur",
+		"title"			: "Nommez votre utilisateur",
+		"description" 	: "Décrivez votre utilisateur en quelques mots",
+		"licence" 		: "Choisissez une licence",
+		"tags" 			: "Choisissez des étiquettes pour qualifier l'utilisateur",
+		"openlevel" 	: "Choisissez un niveau d'ouverture",
+		"open_level_edit" : "Open level pour l'édition",
+		"open_level_show" : "Open level pour la prévisualisation",
+		"f_code" 		: "Code du champ" ,
+		"f_object" 		: "Objet du champ" ,
+		"f_type" 		: "Type du champ" ,
+		"f_comments" 	: "Commentaires sur le champ" ,
+		"f_is_required"	: "Champ requis" ,
+		"resume"		: "Résumé"
 	},
 
 	"projects" : {

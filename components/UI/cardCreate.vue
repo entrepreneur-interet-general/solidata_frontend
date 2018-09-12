@@ -39,6 +39,11 @@
 <script>
 export default {
 	props : [ "tab", "defaultHeight", "defaultFlex" ],
+
+	mounted () {
+		console.log("\n- cardCreate / mounted ---> tab... ", this.tab ) ;
+	},
+
 	data () {
 	  return {
 		  

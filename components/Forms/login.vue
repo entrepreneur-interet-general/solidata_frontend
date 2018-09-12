@@ -22,29 +22,32 @@
 				</v-alert>
 				
 
-				<EmailField
+				<!-- <EmailField
 					:rawInput="email"
 					v-model="email"
 					@input="updateEmail"
 					>
-				</EmailField>
-				<!-- <v-text-field 
-					id="email2"
-					v-model="email2"
+				</EmailField> -->
+				<v-text-field 
+					v-model="email"
+
 					:rules="[rules.email, rules.required]"
+					:label="$t('global.email', $store.state.locale )"
+
+					id="email"
 					prepend-icon="person" 
-					name="email2" 
-					:label="$t('global.email', $store.state.locale )+'2'"
-					type="text">
-				</v-text-field> -->
+					name="email" 
+					type="text"
+					>
+				</v-text-field>
 
 
-				<PasswordField
+				<!-- <PasswordField
 					:rawInput="password"
 					v-model="password"
 					@input="updatePassword"
 					>
-				</PasswordField>
+				</PasswordField> -->
 				<!-- <v-text-field 
 					id="password" 
 					v-model="password"
@@ -54,7 +57,17 @@
 					:label="$t('global.password', $store.state.locale )"
 					type="password">
 				</v-text-field> -->
+				<v-text-field 
+					v-model="password"
 
+					:rules="[rules.required]"
+					:label="$t('global.password', $store.state.locale )"
+
+					id="password" 
+					prepend-icon="lock" 
+					name="password" 
+					type="password">
+				</v-text-field>
 
 
 			</v-form>
@@ -127,7 +140,11 @@ export default {
 			loading: false,
 			
 			rules: {
-					email	: v => (v || '').match(/@/) || this.$t('rules.email', this.$store.state.locale),
+					// email	: v => (v || '').match(/@/) || this.$t('rules.email', this.$store.state.locale),
+					email: v => {
+						const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+						return pattern.test(v) || this.$t('rules.email', this.$store.state.locale)
+					},
 					length	: len => v => (v || '').length >= len || this.$t('rules.length', this.$store.state.locale) ,
 					// password: v => (v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
 					// password: v => (v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||

@@ -20,6 +20,16 @@ export const state = () => ({
 
 export const getters = {
 
+	get_params : state =>  {
+		return state.parameters
+	},
+
+	// get_params (state)  {
+	// 	return state.parameters
+	// },
+
+
+
 	// get_config (state)  {
 
 	// 	const usr_access_token = rootState.auth.access_token ;
@@ -57,42 +67,42 @@ export const mutations = {
 
 export const actions = {
 
-	async getList ({commit, state, rootState}) {
+	// async getList ({commit, state, rootState}) {
 		
-		console.log("\n... store/prj : getList...");
-		console.log("... store/prj : parameters : ", state.parameters);
+	// 	console.log("\n... store/prj : getList...");
+	// 	console.log("... store/prj : parameters : ", state.parameters);
 
-		// const config = get_config ;
-		// var usr_access_token = rootState.auth.access_token ;
-		// console.log("... store/prj : getList... usr_access_token :", usr_access_token );
-		// if ( rootState.auth.access_token != null ) {
-		// if ( !rootState.auth.isAnonymous ) {
-		// 	var config = { 
-		// 		headers : { 'Authorization' : rootState.auth.access_token },
-		// 		params	: state.parameters
-		// 	}
-		// }
-		// else {
-		var config = { 
-			headers : { 'Authorization' : rootState.auth.access_token },
-			// withCredentials: true,
-			params	: state.parameters
-		}
-		// }
-		console.log("... store/prj : config : ", config );
+	// 	// const config = get_config ;
+	// 	// var usr_access_token = rootState.auth.access_token ;
+	// 	// console.log("... store/prj : getList... usr_access_token :", usr_access_token );
+	// 	// if ( rootState.auth.access_token != null ) {
+	// 	// if ( !rootState.auth.isAnonymous ) {
+	// 	// 	var config = { 
+	// 	// 		headers : { 'Authorization' : rootState.auth.access_token },
+	// 	// 		params	: state.parameters
+	// 	// 	}
+	// 	// }
+	// 	// else {
+	// 	var config = { 
+	// 		headers : { 'Authorization' : rootState.auth.access_token },
+	// 		// withCredentials: true,
+	// 		params	: state.parameters
+	// 	}
+	// 	// }
+	// 	console.log("... store/prj : config : ", config );
 
-		return this.$axios.$get('prj/infos/list', config )
-		  .then(response => {
-			console.log("... store/prj : response : ", response);
-			commit('set_list', response);
-			return response
-		  })
-		  .catch(error => {
-			console.log(error.response)
-			return error
-		  })
+	// 	return this.$axios.$get('prj/infos/list', config )
+	// 	  .then(response => {
+	// 		console.log("... store/prj : response : ", response);
+	// 		commit('set_list', response);
+	// 		return response
+	// 	  })
+	// 	  .catch(error => {
+	// 		console.log(error.response)
+	// 		return error
+	// 	  })
 
-	},
+	// },
 
 	// async getItem ({commit, state, rootState}, item_id) {
 	// 	console.log("\n... store/prj : getItem...");

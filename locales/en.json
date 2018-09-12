@@ -131,6 +131,23 @@
 	},
 	
 	"users" : {
+		"name"			: "Users",
+		"singular"		: "User",
+		"intro"			: "Manage the users",
+		"create"		: "Create a new user",
+		"title"			: "Name your user",
+		"description" 	: "Briefly describe your user",
+		"licence" 		: "Choose a licence",
+		"tags" 			: "Choose tags to qualify this user",
+		"openlevel" 	: "Choose a level of open data",
+		"open_level_edit" : "Open level for edition",
+		"open_level_show" : "Open level for preview",
+		"f_code" 		: "Field code" ,
+		"f_object" 		: "Field object" ,
+		"f_type" 		: "Field type" ,
+		"f_comments" 	: "Field comments" ,
+		"f_is_required"	: "Field is required" ,
+		"resume" 		: "Resume"
 	},
 
 	"projects" : {

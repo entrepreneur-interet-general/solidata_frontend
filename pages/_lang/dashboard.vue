@@ -77,7 +77,6 @@
 				</v-container>
 
 
-				<!-- PREVIEW CARDS NOT IN TEAM -->
 				<v-card>
 					
 					<v-container
@@ -86,6 +85,7 @@
 					>
 						<v-layout row wrap>
 
+							<!-- CREATE CARD IF LOGGED GUEST -->
 							<CardCreate
 								v-if="$store.state.auth.isLogged"
 								:tab="tab"
@@ -99,30 +99,32 @@
 							<!-- <template 
 							 		v-if="$store.state[tab].alert != {}" 
 								> -->
-								<CardPreview 
-									v-for="(card,i) in items[tab]['docs_user_is_in_team']"
-									:key="i"
-									:index="i"
-									:tab="tab"
-									:item="card"
-									:inTeam="'yes'"
-									:defaultFlex="defaultFlex"
-									:defaultHeight="defaultHeight"
-									>
-								</CardPreview>
-								
-								
-								<CardPreview 
-									v-for="(card,i) in items[tab]['docs_user_not_in_team']"
-									:key="i"
-									:index="i"
-									:tab="tab"
-									:item="card"
-									:inTeam="'no'"
-									:defaultFlex="defaultFlex"
-									:defaultHeight="defaultHeight"
-									>
-								</CardPreview>
+							<!-- PREVIEW CARDS IS IN TEAM -->
+							<CardPreview 
+								v-for="(card,i) in items[tab]['docs_user_is_in_team']"
+								:key="i"
+								:index="i"
+								:tab="tab"
+								:item="card"
+								:inTeam="'yes'"
+								:defaultFlex="defaultFlex"
+								:defaultHeight="defaultHeight"
+								>
+							</CardPreview>
+							
+							
+							<!-- PREVIEW CARDS NOT IN TEAM -->
+							<CardPreview 
+								v-for="(card,i) in items[tab]['docs_user_not_in_team']"
+								:key="i"
+								:index="i"
+								:tab="tab"
+								:item="card"
+								:inTeam="'no'"
+								:defaultFlex="defaultFlex"
+								:defaultHeight="defaultHeight"
+								>
+							</CardPreview>
 
 
 							<!-- </template>
@@ -169,6 +171,16 @@ export default {
 	},
 	
 	middleware : ["getListItems"],
+	meta : {
+		collection 	: [
+			'prj',
+			'dmt',
+			'dmf',
+			'dsi',
+			'tag',
+		],
+		level 		: 'get_list',
+	},
 
 	computed: {
 
@@ -176,10 +188,11 @@ export default {
 
 		items () { 
 			return { 
-				projects    : this.$store.state.prj.list,
-				datamodels  : this.$store.state.dmt.list,
-				datasets    : this.$store.state.dsi.list,
-				tags        : this.$store.state.tag.list,
+				projects			: this.$store.state.prj.list,
+				datamodels			: this.$store.state.dmt.list,
+				datamodel_fields	: this.$store.state.dmf.list,
+				datasets			: this.$store.state.dsi.list,
+				tags				: this.$store.state.tag.list,
 			} 
 		},
 
@@ -197,14 +210,10 @@ export default {
 			tabsList          : [
 				"projects", 
 				"datamodels", 
+				"datamodel_fields",
 				"datasets", 
 				"tags"
 			],
-			// cards: [
-			//   { title: 'Pre-fab homes',       id:"DSQFGH" },
-			//   { title: 'Favorite road trips', id:"azghjrue" },
-			//   { title: 'Best airlines',       id:"dzerst" }
-			// ]
 		}
 	},
 

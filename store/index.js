@@ -59,7 +59,13 @@ export const state = () => ({
 		'CC BY',
 		'CC BY-SA',
 	],
-	openlevel 			: ['opendata', 'commons', 'collective', 'private'],
+	// openlevel choices must be coherent with backend choices
+	openlevel 			: [
+		'open_data', 
+		'commons', 
+		'collective', 
+		'private'
+	],
 
 
 	// MAIN DRAWER
@@ -280,7 +286,7 @@ export const actions = {
 				console.log("... createItem / response : ", response ) ; 
 
 				// set up corresponding store 
-				this.$store.commit( `${payload.collection}/set_current`, response.data )
+				commit( `${payload.collection}/set_current`, response.data, { root: true } )
 				
 				// retrieve item id
 				const new_item_id = response.data._id
@@ -294,9 +300,33 @@ export const actions = {
 				return error
 			})
 
-	}
+	},
 
 
+	getListItems ({commit, state, rootState}, collection ) {
+		console.log("\n... getListItems : collection : ", collection);
+		
+		// const parameters = this.$store.getters[`${collection}/get_params`]
+		const parameters = rootState[`${collection}`].parameters
+		console.log("... getListItems : parameters : ", parameters);
+		
+		const config = { 
+			headers : { 'Authorization' : rootState.auth.access_token },
+			params	: parameters
+		} ;
 
+		console.log("... getListItems : config : ", config );
+
+		return this.$axios.$get(`${collection}/infos/list`, config )
+			.then(response => {
+				console.log(`... getListItems : response : `, response);
+				commit(`${collection}/set_list`, response);
+				return response
+			})
+			.catch(error => {
+				
+			})
+
+	},
 
 }

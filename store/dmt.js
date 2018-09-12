@@ -45,23 +45,23 @@ export const mutations = {
 
 export const actions = {
 
-	getList ({commit, state, rootState}) {
-		console.log("\n... store/dmt : getList...");
-		console.log("... store/dmt : parameters : ", state.parameters);
-		const config = { 
-			headers : { 'Authorization' : rootState.auth.access_token },
-			params	: state.parameters
-		} ;
+	// getList ({commit, state, rootState}) {
+	// 	console.log("\n... store/dmt : getList...");
+	// 	console.log("... store/dmt : parameters : ", state.parameters);
+	// 	const config = { 
+	// 		headers : { 'Authorization' : rootState.auth.access_token },
+	// 		params	: state.parameters
+	// 	} ;
 
-		console.log("... store/dmt : config : ", config );
+	// 	console.log("... store/dmt : config : ", config );
 
-		return this.$axios.$get('dmt/infos/list', config )
-		  .then(response => {
-			console.log("... store/dmt : response : ", response);
-			commit('set_list', response);
-			return response
-		  })
-	},
+	// 	return this.$axios.$get('dmt/infos/list', config )
+	// 	  .then(response => {
+	// 		console.log("... store/dmt : response : ", response);
+	// 		commit('set_list', response);
+	// 		return response
+	// 	  })
+	// },
 
 	// async getItem ({commit, state, rootState}, item_id) {
 	// 	console.log("\n... store/dmt : getItem...");
