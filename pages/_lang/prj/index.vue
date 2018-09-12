@@ -10,11 +10,21 @@
 			>
 		
 			<SectionTitle
+				v-if="$store.state.auth.isLogged"
 				:title="$t(`${tab}.name`, $store.state.locale)"
 				:intro="$t(`${tab}.intro`, $store.state.locale)"
 				:icon="$store.state.mainIcons[tab].icon"
 				>
 			</SectionTitle>
+
+			<SectionTitle
+				v-else
+				:title="$t(`${tab}.name`, $store.state.locale)"
+				:intro="$t(`${tab}.introAnon`, $store.state.locale)"
+				:icon="$store.state.mainIcons[tab].icon"
+				>
+			</SectionTitle>
+
 
 		</v-jumbotron>
 	
