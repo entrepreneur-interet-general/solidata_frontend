@@ -1,5 +1,3 @@
-
-
 // cf : https://itnext.io/custom-social-auth-flow-with-auth-nuxtjs-org-daa836676587
 // cf : https://axios.nuxtjs.org/extend.html
 
@@ -9,9 +7,9 @@ export default function ({ $axios, redirect, store }) {
 
 	$axios.onRequest(config => {
 		console.log('\n> > > plugin axios / Making request to : ' + config.method + " -> " + config.url) ;
+		config.headers['Access-Control-Allow-Origin'] = "*";
 		// config.headers['Content-Type'] = 'application/json';
 		// config.headers['Authorization'] = store.state.auth.access_token ;
-		config.headers['Access-Control-Allow-Origin'] = "*";
 		// config.headers['Access-Control-Allow-Headers'] = "Origin, X-Requested-With, Content-Type, Accept";
 		// config.headers['Access-Control-Allow-Credentials'] = true ;
 

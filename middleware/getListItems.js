@@ -9,18 +9,18 @@ export default function ({ context, store, route, redirect }) {
 
 	var promises_list = [] ;
 	
+	collections_list.forEach ( function (coll, index, initial_array ){
+		console.log("- - - coll : ", coll ) ; 
+		var temp_dispatch = store.dispatch('getListItems', coll ) ;
+		promises_list.push(temp_dispatch) ;
+	}) ;
+	
 	// for (var i = 0; i < collections_list.length ; i++) {
 	// 	var coll = collections_list[i] ;
 	// 	console.log("- - - coll : ", coll ) ; 
 	// 	var temp_dispatch = store.dispatch('getListItems', coll ) ;
 	// 	promises_list.push(temp_dispatch) ;
 	// } ;
-	
-	collections_list.forEach ( function (coll, index, initial_array ){
-		console.log("- - - coll : ", coll ) ; 
-		var temp_dispatch = store.dispatch('getListItems', coll ) ;
-		promises_list.push(temp_dispatch) ;
-	}) ;
 	
 	//// request list of items using central store mutation 
 	// const prj_dispatch = store.dispatch('getListItems', 'prj' ) ;

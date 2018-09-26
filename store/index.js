@@ -32,6 +32,7 @@ const mainIconsConst = {
 							create				: { icon : "add" },
 							edit				: { icon : "fas fa-pen" },
 							upload				: { icon : "fas fa-file-upload" },
+							delete				: { icon : "far fa-trash-alt" },
 							cancel				: { icon : "cancel" },
 							export				: { icon : "get_app" },
 								
@@ -66,7 +67,34 @@ export const state = () => ({
 		'collective', 
 		'private'
 	],
-
+	user_edit_auth 			: [
+		'owner', 
+		'manager', 
+		'editor', 
+		'contributor'
+	],
+	user_edit_auth_rights	: {
+		'owner' 		: {
+			'can_edit_r_fields' : ['infos', 'public_auth','data_raw','team','mapping'],
+			'can_edit_datasets'	: ['dsi','data_raw','tag','dmt','dmf','dso','rec',],
+			'can_delete' 		: true,
+		}, 
+		'manager'		: {
+			'can_edit_r_fields' : ['infos', 'public_auth','data_raw','team','mapping'],
+			'can_edit_datasets'	: ['dsi','tag','dmt','dmf','dso','rec'],
+			'can_delete' 		: false,
+		}, 
+		'editor'		: {
+			'can_edit_r_fields' : ['infos', 'public_auth','data_raw'],
+			'can_edit_datasets'	: ['dsi','tag','dmt','dmf'],
+			'can_delete'	 	: false,
+		}, 
+		'contributor' 	: {
+			'can_edit_r_fields'	: ['data_raw'],
+			'can_edit_datasets' : ['dsi'],
+			'can_delete' 		: false,
+		}
+	},
 
 	// MAIN DRAWER
 	drawerItems: [
@@ -164,11 +192,11 @@ export const state = () => ({
 			title: 'links.mysettings',
 			model: false,
 			children: [
-				{ title: 'links.myprofile',	 icon: mainIconsConst.profile.icon, to: '/usr',	needLogged:true },
-				{ title: 'links.mypwd',		 icon: mainIconsConst.password.icon, to: '/usr/password', needLogged:true },
-				{ title: 'home.loginPage',	icon: mainIconsConst.login.icon,	to: '/login', hideWhenLogged: true },
-				{ title: 'home.registerPage', icon: mainIconsConst.register.icon,	to: '/register', hideWhenLogged: true },
-				{ title: 'home.logoutPage',	 icon: mainIconsConst.logout.icon, to: '/logout', needLogged:true },
+				{ title: 'links.myprofile',	 	icon: mainIconsConst.profile.icon, to: '/usr',	needLogged:true },
+				{ title: 'links.mypwd',		 	icon: mainIconsConst.password.icon, to: '/usr/password', needLogged:true },
+				{ title: 'home.loginPage',		icon: mainIconsConst.login.icon,	to: '/login', hideWhenLogged: true },
+				{ title: 'home.registerPage', 	icon: mainIconsConst.register.icon,	to: '/register', hideWhenLogged: true },
+				{ title: 'home.logoutPage',	 	icon: mainIconsConst.logout.icon, to: '/logout', needLogged:true },
 			]
 		},
 
@@ -324,7 +352,35 @@ export const actions = {
 				return response
 			})
 			.catch(error => {
-				
+				console.log("... getListItems / error : ", error ) ; 
+				return error
+			})
+
+	},
+
+	updateItem ({commit, state, rootState}, input ) {
+		console.log("\n... updateItem : input : ", input);
+		
+		var collection 	= input.coll ;
+		var doc_id 		= input.doc_id ; 
+		var fields 		= input.form ; 
+
+		const config = { 
+			headers : { 'Authorization' : rootState.auth.access_token },
+			// params	: parameters
+		} ;
+
+		console.log("... updateItem : config : ", config );
+
+		return this.$axios.$put(`${collection}/edit/${doc_id}`, fields, config )
+			.then(response => {
+				console.log(`... updateItem : response : `, response);
+				commit(`${collection}/set_list`, response);
+				return response
+			})
+			.catch(error => {
+				console.log("... updateItem / error : ", error ) ; 
+				return error
 			})
 
 	},

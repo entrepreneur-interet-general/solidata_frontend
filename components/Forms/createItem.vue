@@ -117,14 +117,26 @@
 									@input="updateFType"
 									>
 								</TextArea> -->
-								<v-text-field
+								<!-- <v-text-field
 									v-if="stepInfo == 'f_type'"
 									v-model="valuesToSend.f_type"
 									:label="$t('global.'+stepInfo, $store.state.locale )"
 									box
 									color="primary"
 									clearable
-								></v-text-field>
+								></v-text-field> -->
+								<v-select
+									v-if="stepInfo == 'f_type'"
+									v-model="valuesToSend.f_type"
+									auto
+									box
+									hide-details
+									:label="$t('global.'+stepInfo, $store.state.locale)"
+									:items="$store.state.dmf.dmf_types"
+									single-line
+									>
+								</v-select>
+
 
 								<!-- <TextArea
 									v-if="stepInfo == 'f_object'"

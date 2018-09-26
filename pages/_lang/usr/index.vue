@@ -11,6 +11,7 @@
 			:title="$t('users.name', $store.state.locale)"
 			:intro="$t('users.intro', $store.state.locale)"
 			:icon="$store.state.mainIcons.users.icon"
+			:to_link="'/dashboard'"
 		>
 		</SectionTitle>
 

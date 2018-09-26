@@ -2,6 +2,8 @@
 
 export const state = () => ({
 
+	edit_mode		: false,
+
 	current : {},
 	list 	: [
 		{ title: 'Usr one', 	id:"DSQFGH" },

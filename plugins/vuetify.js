@@ -23,22 +23,22 @@ Vue.use(Vuetify, {
 		// success:      colors.green.lighten-2,
 	
 		// CUSTOM : cf https://vuetifyjs.com/en/theme-generator 
-		primary: "#8E24AA", 
-		secondary: "#B388FF", 
-		accent: "#9c27b0", 
-		error: "#FF5252", 
-		warning: "#FFC107", 
-		info: "#26A69A", 
-		success: "#64DD17"
+		primary		: "#8E24AA", 
+		secondary	: "#B388FF", 
+		accent		: "#9c27b0", 
+		error		: "#FF5252", 
+		warning		: "#FFC107", 
+		info		: "#26A69A", 
+		success		: "#64DD17"
 		 
 		// DEFAULT
-		// primary: '#1976D2',
-		// info: '#2196F3',
+		// primary	: '#1976D2',
+		// info		: '#2196F3',
 		// secondary: '#424242',
-		// accent: '#82B1FF',
-		// error: '#FF5252',
-		// success: '#4CAF50',
-		// warning: '#FFC107'
+		// accent	: '#82B1FF',
+		// error	: '#FF5252',
+		// success	: '#4CAF50',
+		// warning	: '#FFC107'
 	}
 })
 

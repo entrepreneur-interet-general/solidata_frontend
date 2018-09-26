@@ -13,6 +13,7 @@
 			:title="$t(itemType+'.name', $store.state.locale)"
 			:intro="$t(itemType+'.create', $store.state.locale)"
 			:icon="$store.state.mainIcons.datamodel_fields.icon"
+			:to_link="'/dmf'"
 			>
 		</SectionTitle>
 

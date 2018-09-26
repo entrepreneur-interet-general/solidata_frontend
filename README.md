@@ -14,6 +14,7 @@ part 2b/3 of the TADATA! sofware suite ([ApiViz](https://github.com/entrepreneur
 ## GOALS
 
 - an intuitive UX to manage open data projects ;
+- support for multilingual (english and french to begin with) ;
 - allow you to consume data from your own csv/xls files or external APIs ;
 - consolidate your data : apply your own datamodel, simplify columns, apply metadatas, ... ; 
 - share the consolidated datas on API endpoints with the level of openness you decide (opendata, commons, collective, private) ;

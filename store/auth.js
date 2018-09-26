@@ -11,7 +11,7 @@ const anonymousInfos = {
 	infos : {
 		email: null, 
 		name: "anonymous",
-		psudo: "anon",
+		pseudo: "anon",
 		surname: "anon-surname",
 		password: "anon-password",
 	}

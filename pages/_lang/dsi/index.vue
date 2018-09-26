@@ -7,6 +7,7 @@
 			color="primary" 
 			dark 
 			:height="$store.state.mainSectionsHeight"
+			:to_link="'/dashboard'"
 			>
 		
 			<SectionTitle

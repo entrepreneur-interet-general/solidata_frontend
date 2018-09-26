@@ -3,6 +3,7 @@ export const state = () => ({
 
 	msg 			: null,
 	alert			: {}, 
+	edit_mode		: false,
 
 	parameters 		:  {
 		page 		: 1,
@@ -14,8 +15,23 @@ export const state = () => ({
 	
 	list_query 		: null,
 	list 			: [],
-	list_counts 	: null
+	list_counts 	: null,
 	
+	// dmf types
+	dmf_types 			: [
+		'text',
+		'name',
+		'float',
+		'integer',
+		'date',
+		'price',
+		'adress',
+		'latitude',
+		'longitude',
+		'other'
+	],
+
+
 })
 
 export const getters = {

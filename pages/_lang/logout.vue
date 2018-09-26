@@ -11,6 +11,7 @@
 						:icon="$store.state.mainIcons.logout.icon"
 						:title="$t('home.logoutPage', $store.state.locale )">
 					</CardTitle>
+					
 					<!-- <v-card-title dark class="info white--text">
 
 						<span class="headline">{{ $t('home.logoutPage', $store.state.locale ) }}</span>

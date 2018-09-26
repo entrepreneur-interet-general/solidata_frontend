@@ -1,25 +1,35 @@
 <template>
 
-  <v-container fluid fill-height>
-	  <v-layout row align-center spacer>
+	<v-container fluid fill-height
+		>
+		<v-layout row align-center spacer
+		>
 			<v-flex>
-				<h3 class="display-3">
-					<v-btn icon outline fab dark>
+				<!-- typos : cf : https://vuetifyjs.com/en/style/typography#font-sizes -->
+				<div class="display-1">
+					<v-btn 
+						icon 
+						outline 
+						fab 
+						dark
+						>
 						<v-icon>
 							{{ icon }}
 						</v-icon> 
 					</v-btn>
 					<span>{{ title }}</span>
-				</h3>
-				<span class="subheading pl-4 ml-5">
-					{{ intro }}
-				</span>
+					<span class="subheading pl-4 ml-5">
+						{{ intro }}
+					</span>
+				</div>
+
 			</v-flex>
-	  </v-layout>
+		</v-layout>
 
 		<template
 			v-if="!isDashboard"
 			>
+			
 			<v-spacer></v-spacer>
 
 			<v-menu center right>
@@ -28,7 +38,7 @@
 					slot="activator"
 					dark
 					icon
-					to='/dashboard'
+					:to='to_link'
 					>
 					<v-icon>clear</v-icon>
 				</v-btn>
@@ -42,10 +52,16 @@
 
 <script>
 export default {
-	props : [ "title", "icon", "intro", "isDashboard" ],
+	props : [ 
+		"title",
+		"icon",
+		"intro",
+		"isDashboard",
+		"to_link"
+	],
 	data () {
-	  return {
-	  }
+		return {
+		}
 	},
 }
 </script>

@@ -1,34 +1,41 @@
 <template>
 
-	<v-jumbotron 
-		class="pa-0" 
-		color="primary" 
-		dark 
-		:height="$store.state.mainSectionsHeight"
-		>
+	<div>
+
+		<!-- <div
+			class="primary white--text pa-0" 
+			:height="$store.state.mainSectionsHeight"
+			>
+			
+			<SectionTitle
+				:title="$t('datamodel_fields.singular', $store.state.locale )"
+				:intro="''"
+				:icon="$store.state.mainIcons.datamodel_fields.icon"
+				:to_link="'/dmf'"
+				>
+			</SectionTitle>
+		
+		</div> -->
 	
-		<SectionTitle
-			:title="$store.state.dmf.current.infos.title"
-			:intro="$store.state.dmf.current.infos.description"
-			:icon="$store.state.mainIcons.datamodel_fields.icon"
-		>
-		</SectionTitle>
-
-
-
-
-	</v-jumbotron>
+		<CardDmf
+			:dmf_data="$store.state.dmf.current"
+			>
+		</CardDmf>
 	
+	</div>
+
 </template>
 
 
 
 <script>
 import SectionTitle from '~/components/UI/sectionTitle.vue'
+import CardDmf from '~/components/UI/cardDmf.vue'
 
 export default {
 	components : {
 		SectionTitle,
+		CardDmf,
 	},
 
 	// add var-arg to middleware with meta

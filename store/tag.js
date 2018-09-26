@@ -2,6 +2,7 @@ export const state = () => ({
 
 	msg 			: null,
 	alert			: {}, 
+	edit_mode		: false,
 
 	parameters 		:  {
 		page 		: 1,
