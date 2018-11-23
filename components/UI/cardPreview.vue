@@ -56,10 +56,10 @@
 				:height="defaultHeight"
 				>
 					<v-container
-							fill-height
-							fluid
-							pa-2
-					>
+						fill-height
+						fluid
+						pa-2
+						>
 							<v-layout fill-height>
 									<v-flex xs12 align-end flexbox>
 											<span class="headline" >

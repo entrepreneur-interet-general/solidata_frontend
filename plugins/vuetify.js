@@ -23,9 +23,12 @@ Vue.use(Vuetify, {
 		// success:      colors.green.lighten-2,
 	
 		// CUSTOM : cf https://vuetifyjs.com/en/theme-generator 
-		primary		: "#8E24AA", 
-		secondary	: "#B388FF", 
-		accent		: "#9c27b0", 
+			//"#8E24AA", main purple
+			//"#9c27b0", light purple
+			//"#cf6c37", coral
+		primary		: "#209A82", // jpy green
+		secondary	: "#29c7a7", // jpy light green
+		accent		: "#cf6c37", 
 		error		: "#FF5252", 
 		warning		: "#FFC107", 
 		info		: "#26A69A", 

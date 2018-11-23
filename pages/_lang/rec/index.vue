@@ -85,6 +85,7 @@
 
 
 <script>
+import ItemsList from '~/components/UI/itemsList.vue'
 import SectionTitle from '~/components/UI/sectionTitle.vue'
 import CardPreview from '~/components/UI/cardPreview.vue'
 import CardCreate from '~/components/UI/cardCreate.vue'

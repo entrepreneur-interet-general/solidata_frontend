@@ -45,7 +45,7 @@ export const state = () => ({
 	// current_collection : 'prj',
 
 
-	mainSectionsHeight 	: "150px", 
+	mainSectionsHeight 	: "75px", 
 	mainIcons 			: mainIconsConst, 
 
 	// cf : https://www.data.gouv.fr/fr/licences
@@ -210,7 +210,7 @@ export const state = () => ({
 	fixedNav: true,
 	right: true,
 	rightDrawer: false,
-	title: 'Solidata',
+	title: 'Solidata - beta',
 
 
 	// LOCALES MULTILANGUAGE

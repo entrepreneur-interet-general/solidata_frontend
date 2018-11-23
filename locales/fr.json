@@ -92,6 +92,10 @@
 		"f_comments" 	: "Commentaires" ,
 		"f_is_required"	: "Champ requis" ,
 
+		"team"			: "Equipe",
+		"inTeam"		: "vous faîtes partie de l'équipe",
+		"notTeam"		: "vous ne faîtes pas partie de l'équipe",
+
 		"settings"		: "Préférences"
 
 	},

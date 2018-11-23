@@ -1,9 +1,28 @@
 <template>
 
-	<v-flex
+	<v-layout
 		v-bind="{ [`xs${defaultFlex}`]: true }"
+		align-center
+		class="pb-4 pt-4"
 		>
-		<v-card 
+
+		<v-flex text-md-center>
+
+			<v-btn 
+				large
+				:to="$store.state.mainIcons[tab]['to']+'/create'"
+				 
+				color="accent">
+				<v-icon large>{{ $store.state.mainIcons.create.icon }}</v-icon>
+				<v-spacer></v-spacer>
+				<span class="title">{{ $t(tab+'.create', $store.state.locale) }}</span>
+			</v-btn>
+
+		</v-flex>
+
+
+
+		<!-- <v-card 
 			:to="$store.state.mainIcons[tab]['to']+'/create'"
 			dark
 			color="primary"
@@ -30,15 +49,21 @@
 				</v-container>
 			</v-card-media>
 
-		</v-card>
+		</v-card> -->
 
-	</v-flex>
+
+
+	</v-layout>
 		
 </template>
 
 <script>
 export default {
-	props : [ "tab", "defaultHeight", "defaultFlex" ],
+	props : [ 
+		"tab", 
+		"defaultHeight", 
+		"defaultFlex" 
+	],
 
 	mounted () {
 		console.log("\n- cardCreate / mounted ---> tab... ", this.tab ) ;

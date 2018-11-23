@@ -533,6 +533,7 @@
 
 
 			<v-card 
+				v-show="$store.state.dmf.edit_mode"
 				ref="form"
 				class=""
 				>
@@ -588,6 +589,9 @@
 
 
 <script>
+
+import ObjectFormatterUpdate from "~/utils/objectFormatterUpdate.js"
+
 export default {
 
 	props : [ "dmf_data" ],
@@ -635,6 +639,7 @@ export default {
 
 		form () {
 			return {
+
 				'infos.title': 				this.title,
 				'infos.description': 		this.description,
 
@@ -646,6 +651,7 @@ export default {
 				'data_raw.f_type': 			this.f_type,
 				'data_raw.f_comments':		this.f_comments,
 				'data_raw.f_is_required':	this.f_is_required
+
 			}
 		}
 	},
@@ -657,6 +663,23 @@ export default {
 	},
 
 	methods: {
+
+		// prepareFormData (formData) {
+			
+		// 	console.log("\nprepareFormData / formData : ", formData)
+
+		// 	var FormDataMarshalled = [] ;
+
+		// 	for (var key in formData) {
+		// 		var raw_field = {
+		// 			"field_to_update" 	: key,
+		// 			"field_value" 		: formData[key]
+		// 		};
+		// 		FormDataMarshalled.push(raw_field)
+		// 	} ;
+
+		// 	return FormDataMarshalled
+		// },
 
 		checkUserAuth (field_name) {
 
@@ -700,7 +723,7 @@ export default {
 		
 		submitDmf () {
 
-			console.log("n\Submit_dmf... ")
+			console.log("\nSubmit_dmf... ")
 
 			this.formHasErrors = false
 
@@ -710,11 +733,14 @@ export default {
 				
 			// })
 
+			var formData = ObjectFormatterUpdate.prepareFormData(this.form) ;
+			console.log("\nSubmit_dmf / formData : ", formData)
+
 			// dispatch action from store
 			this.$store.dispatch('updateItem', {
 				coll	: 'dmf',
 				doc_id  : this.item_id,
-				form 	: this.form,
+				form 	: formData, //this.form,
 			}).then(result => {
 				this.alert = {type: 'success', message: result.msg}
 				this.loading = false

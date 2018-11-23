@@ -29,53 +29,23 @@
 		</v-jumbotron>
 	
 
-		<v-card>
-			
-			<v-container
-				fluid
-				grid-list-md
+		<!-- ITEMS LIST -->
+		<!-- <ItemsList
+			:tab="tab"
+			:items="items.docs"
+			:defaultFlex="defaultFlex"
+			:defaultHeight="defaultHeightAdd"
 			>
-				<v-layout row wrap>
+		</ItemsList> -->
 
-					<!-- CREATE CARD IF LOGGED GUEST -->
-					<CardCreate
-						v-if="$store.state.auth.isLogged"
-						:tab="tab"
-						:defaultFlex="defaultFlex"
-						:defaultHeight="defaultHeightAdd"
-						>
-					</CardCreate>
-				
-					<!-- PREVIEW CARDS IS IN TEAM -->
-					<CardPreview 
-						v-for="(card,i) in items.docs['docs_user_is_in_team']"
-						:key="i"
-						:index="i"
-						:tab="tab"
-						:item="card"
-						:inTeam="'yes'"
-						:defaultFlex="defaultFlex"
-						:defaultHeight="defaultHeight"
-						>
-					</CardPreview>
-					
-					
-					<!-- PREVIEW CARDS NOT IN TEAM -->
-					<CardPreview 
-						v-for="(card,i) in items.docs['docs_user_not_in_team']"
-						:key="i"
-						:index="i"
-						:tab="tab"
-						:item="card"
-						:inTeam="'no'"
-						:defaultFlex="defaultFlex"
-						:defaultHeight="defaultHeight"
-						>
-					</CardPreview>
-
-				</v-layout>
-			</v-container>
-		</v-card>
+		<!-- ITEMS LIST -->
+		<ItemsListDI
+			:tab="tab"
+			:items_coll="items.docs"
+			:defaultFlex="defaultFlex"
+			:defaultHeight="defaultHeightAdd"
+			>
+		</ItemsListDI>
 
 	
 	</div>
@@ -85,16 +55,21 @@
 
 
 <script>
+
+import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
+// import ItemsList from '~/components/UI/itemsList.vue'
 import SectionTitle from '~/components/UI/sectionTitle.vue'
-import CardPreview from '~/components/UI/cardPreview.vue'
-import CardCreate from '~/components/UI/cardCreate.vue'
+// import CardPreview from '~/components/UI/cardPreview.vue'
+// import CardCreate from '~/components/UI/cardCreate.vue'
 
 export default {
 
 	components : {
+		// ItemsList,
+		ItemsListDI,
 		SectionTitle,
-		CardPreview,
-		CardCreate
+		// CardPreview,
+		// CardCreate
 	},
 
 	middleware : ["getListItems"],

@@ -27,57 +27,27 @@
 			</SectionTitle>
 
 		</v-jumbotron>
-	
 
-		<v-card>
-			
-			<v-container
-				fluid
-				grid-list-md
+
+		<!-- ITEMS LIST -->
+		<!-- <ItemsList
+			:tab="tab"
+			:items="items.docs"
+			:defaultFlex="defaultFlex"
+			:defaultHeight="defaultHeightAdd"
 			>
-				<v-layout row wrap>
+		</ItemsList> -->
 
-					<!-- CREATE CARD IF LOGGED GUEST -->
-					<CardCreate
-						v-if="$store.state.auth.isLogged"
-						:tab="tab"
-						:defaultFlex="defaultFlex"
-						:defaultHeight="defaultHeightAdd"
-						>
-					</CardCreate>
-				
-					<!-- PREVIEW CARDS IS IN TEAM -->
-					<CardPreview 
-						v-for="(card,i) in items.docs['docs_user_is_in_team']"
-						:key="i"
-						:index="i"
-						:tab="tab"
-						:item="card"
-						:inTeam="'yes'"
-						:defaultFlex="defaultFlex"
-						:defaultHeight="defaultHeight"
-						>
-					</CardPreview>
-					
-					
-					<!-- PREVIEW CARDS NOT IN TEAM -->
-					<CardPreview 
-						v-for="(card,i) in items.docs['docs_user_not_in_team']"
-						:key="i"
-						:index="i"
-						:tab="tab"
-						:item="card"
-						:inTeam="'no'"
-						:defaultFlex="defaultFlex"
-						:defaultHeight="defaultHeight"
-						>
-					</CardPreview>
+		<!-- ITEMS LIST -->
+		<ItemsListDI
+			:tab="tab"
+			:items_coll="items.docs"
+			:defaultFlex="defaultFlex"
+			:defaultHeight="defaultHeightAdd"
+			>
+		</ItemsListDI>
 
-				</v-layout>
-			</v-container>
-		</v-card>
 
-	
 	</div>
 
 </template>
@@ -85,51 +55,56 @@
 
 
 <script>
-import SectionTitle from '~/components/UI/sectionTitle.vue'
-import CardPreview from '~/components/UI/cardPreview.vue'
-import CardCreate from '~/components/UI/cardCreate.vue'
 
-export default {
+	import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
+	// import ItemsList from '~/components/UI/itemsList.vue'
+	import SectionTitle from '~/components/UI/sectionTitle.vue'
+	// import CardPreview from '~/components/UI/cardPreview.vue'
+	// import CardCreate from '~/components/UI/cardCreate.vue'
 
-	components : {
-		SectionTitle,
-		CardPreview,
-		CardCreate
-	},
+	export default {
 
-	middleware : ["getListItems"],
-	meta : {
-		collection 	: ['dmf'],
-		level 		: 'get_list',
-	},
-	
-	computed: {
-
-		items () { 
-			return { 
-				docs 	: this.$store.state.dmf.list,
-			} 
+		components : {
+			ItemsListDI,
+			// ItemsList,
+			SectionTitle,
+			// CardPreview,
+			// CardCreate
 		},
 
-	},
+		middleware : ["getListItems"],
+		meta : {
+			collection 	: ['dmf'],
+			level 		: 'get_list',
+		},
+		
+		computed: {
 
-	mounted () {
-		console.log("\n- dashboard / mounted ---> tab... ", this.tab ) ;
-		console.log("- dashboard / mounted ---> items... ", this.items ) ;
-	},
-	
-	data () {
-		return {
-			tab 				: 'datamodel_fields',
-			defaultHeightAdd	: "240px",
-			defaultHeight		: "150px",
-			defaultFlex			: 2,
-		}
-	},
+			items () { 
+				return { 
+					docs 	: this.$store.state.dmf.list,
+				} 
+			},
 
-	methods: {
-	},
+		},
 
-}
+		mounted () {
+			console.log("\n- dashboard / mounted ---> tab... ", this.tab ) ;
+			console.log("- dashboard / mounted ---> items... ", this.items ) ;
+		},
+		
+		data () {
+			return {
+				tab 				: 'datamodel_fields',
+				defaultHeightAdd	: "240px",
+				defaultHeight		: "150px",
+				defaultFlex			: 3,
+			}
+		},
+
+		methods: {
+		},
+
+	}
 
 </script>

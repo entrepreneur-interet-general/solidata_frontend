@@ -91,7 +91,7 @@
 			<v-spacer></v-spacer>
 
 			<v-btn 
-				color="primary"
+				color="accent"
 				type="submit" 
 				form="login-form"
 				:loading="loading" 

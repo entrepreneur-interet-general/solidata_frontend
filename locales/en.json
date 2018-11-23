@@ -93,6 +93,9 @@
 		"f_is_required"	: "Field is required" ,
 		
 		"team"			: "Team",
+		"inTeam"		: "you are part of the team",
+		"notTeam"		: "you are not part of the team",
+
 		"settings"		: "Settings"
 
 	},
@@ -222,7 +225,7 @@
 	"datamodel_fields" : {
 		"name" 			: "Datamodel fields",
 		"singular"		: "Datamodel field",
-		"intro" 		: "Manage your datamodel field",
+		"intro" 		: "Manage your datamodel fields",
 		"introAnon"		: "All the datamodel fields shared by the community",
 		"create"		: "Create a new datamodel field",
 		"title"			: "Name your datamodel field",

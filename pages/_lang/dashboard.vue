@@ -35,28 +35,34 @@
 			centered
 			color=""
 			icons-and-text
-		>
+			>
 			<v-tabs-slider color="primary"></v-tabs-slider>
 
 
-			<!-- TAB HEAD -->
+			<!-- TABS HEAD -->
 			<v-tab 
 				v-for="(tab,i) in tabsList"
 				:key="i"
-				:href="'#'+tab">
+				:href="'#'+tab"
+				>
 				{{ $t( tab+'.name', $store.state.locale)  }}
-				<v-icon>{{ tabs[tab]['icon'] }}</v-icon>
+				<v-icon small>
+					{{ tabs[tab]['icon'] }}
+				</v-icon>
 			</v-tab>
 
-			<!-- TAB ITEMS CONTAINER -->
+
+
+			<!-- TABS ITEMS CONTAINER -->
 			<v-tab-item
 				v-for="(tab,i) in tabsList"
 				:id="tab"
 				:key="i"
-			>
+				>
+
 
 				<!-- TAB ITEMS SUBTITLE -->
-				<v-container 
+				<!-- <v-container 
 					v-if="$store.state.auth.isLogged"
 					fluid 
 					>
@@ -66,84 +72,30 @@
 						align-center 
 						spacer
 						>
-						<v-flex>
-							<span class="display-1">
+						<v-flex class="text-xs-center">
+							<span class="headline">
 								<span>{{ $t(tab+'.intro', $store.state.locale) }}</span>
-								<!-- <span v-else>{{ $t(tab+'.name', $store.state.locale) }}</span> -->
 							</span>
 						</v-flex>
 					</v-layout>
 					
-				</v-container>
+				</v-container> -->
 
 
-				<v-card>
-					
-					<v-container
-						fluid
-						grid-list-md
+
+				<!-- ITEMS LIST -->
+				<ItemsListDI
+					:tab="tab"
+					:items_coll="items[tab]"
+					:defaultFlex="defaultFlex"
+					:defaultHeight="defaultHeightAdd"
 					>
-						<v-layout row wrap>
+				</ItemsListDI>
 
-							<!-- CREATE CARD IF LOGGED GUEST -->
-							<CardCreate
-								v-if="$store.state.auth.isLogged"
-								:tab="tab"
-								:defaultFlex="defaultFlex"
-								:defaultHeight="defaultHeightAdd"
-								>
-							</CardCreate>
-						
-
-							
-							<!-- <template 
-							 		v-if="$store.state[tab].alert != {}" 
-								> -->
-							<!-- PREVIEW CARDS IS IN TEAM -->
-							<CardPreview 
-								v-for="(card,i) in items[tab]['docs_user_is_in_team']"
-								:key="i"
-								:index="i"
-								:tab="tab"
-								:item="card"
-								:inTeam="'yes'"
-								:defaultFlex="defaultFlex"
-								:defaultHeight="defaultHeight"
-								>
-							</CardPreview>
-							
-							
-							<!-- PREVIEW CARDS NOT IN TEAM -->
-							<CardPreview 
-								v-for="(card,i) in items[tab]['docs_user_not_in_team']"
-								:key="i"
-								:index="i"
-								:tab="tab"
-								:item="card"
-								:inTeam="'no'"
-								:defaultFlex="defaultFlex"
-								:defaultHeight="defaultHeight"
-								>
-							</CardPreview>
-
-
-							<!-- </template>
-
-							<template 
-									v-else
-								>
-								<p >
-									there was a fucking alert : <br>
-									{{ $store.state.prj.alert.message }}
-								</p>
-							</template> -->
-
-						</v-layout>
-					</v-container>
-				</v-card>
-
+				
 
 			</v-tab-item>
+
 
 
 		</v-tabs>
@@ -159,15 +111,19 @@
 
 <script>
 
+import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
+// import ItemsList from '~/components/UI/itemsList.vue'
 import SectionTitle from '~/components/UI/sectionTitle.vue'
-import CardPreview from '~/components/UI/cardPreview.vue'
-import CardCreate from '~/components/UI/cardCreate.vue'
+// import CardPreview from '~/components/UI/cardPreview.vue'
+// import CardCreate from '~/components/UI/cardCreate.vue'
 
 export default {
 	components : {
+		// ItemsList,
+		ItemsListDI,
 		SectionTitle,
-		CardPreview,
-		CardCreate
+		// CardPreview,
+		// CardCreate
 	},
 	
 	middleware : ["getListItems"],

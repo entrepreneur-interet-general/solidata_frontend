@@ -2,23 +2,24 @@
 
 	<v-container fluid fill-height
 		>
-		<v-layout row align-center spacer
+		<v-layout row align-center spacer height="100"
 		>
 			<v-flex>
 				<!-- typos : cf : https://vuetifyjs.com/en/style/typography#font-sizes -->
-				<div class="display-1">
-					<v-btn 
+				<div class="title pl-5 pb-0 mt-0">
+					<!-- <v-btn 
 						icon 
-						outline 
 						fab 
 						dark
 						>
 						<v-icon>
 							{{ icon }}
 						</v-icon> 
-					</v-btn>
+					</v-btn> -->
 					<span>{{ title }}</span>
-					<span class="subheading pl-4 ml-5">
+				</div>
+				<div class="pl-5 mt-0">
+					<span class="subheading">
 						{{ intro }}
 					</span>
 				</div>

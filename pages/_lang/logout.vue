@@ -55,7 +55,7 @@
 
 						<v-btn 
 							large block
-							color="warning"
+							color="error"
 							type="submit" 
 							@click.prevent="submitLogout" 
 							:loading="loading" 
