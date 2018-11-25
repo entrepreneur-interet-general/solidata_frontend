@@ -1,41 +1,65 @@
 <template>
 
-
 	<div>
-
-		<!-- COMPONENT PREVIEW/EDIT : INFOS + TEAM -->
 
 		<v-layout row justify-center class="pa-0 ma-0">
 
 
-			<v-btn 
-				class="pa-0 ma-0"
-				flat 
-				block 
-				:disabled="!canEdit"
-				color="" 
-				style="text-transform: none !important;"
-				@click="open()"
+			<!--  SUBFIELD NAME  -->
+			<v-flex
+				v-if="!is_preview"
+				:class="subFieldsSize"
 				>
-				
-				<span>
-					{{ item_data }} 
-					<!-- - {{ coll }} / {{ collName }}
-					- is_create :{{ is_create }}
-					- {{ parentField }}.{{ subField }}
-					- canEdit : {{ canEdit }} -->
-				</span>
+				<v-btn 
+					class="pa-0 ma-0"
+					disabled 
+					block 
+					color="grey" 
+					style="text-transform: none !important;"
+					>
+					<span>
+						{{ subField }}
+					</span>
+				</v-btn>
+			</v-flex>
 
-				<v-icon small right v-if="canEdit"> 
-					edit
-				</v-icon>
 
-			</v-btn>
+			<!--  SUBFIELD VALUE + BUTTON  -->
+			<v-flex
+				:class="valueBlockSize"
+				>
+				<v-btn 
+					class="pa-0 ma-0"
+					flat 
+					block 
+					:disabled="!canEdit"
+					color="" 
+					style="text-transform: none !important;"
+					@click="open()"
+					>
+					<span>
+						{{ item_data }} 
+						<!-- - {{ coll }} / {{ collName }} -->
+						<!-- - is_create :{{ is_create }} -->
+						<!-- - {{ parentField }}.{{ subField }} -->
+						<!-- - canEdit : {{ canEdit }} -->
+						<!-- - {{ valueBlockSize }} -->
 
+					</span>
+					<v-icon small right v-if="canEdit" color="accent"> 
+						edit
+					</v-icon>
+				</v-btn>
+			</v-flex>
+
+
+
+
+			<!--  UPDATE DIALOG  -->
 			<v-dialog 
 				v-model="dialog" 
 				persistent 
-				max-width="600px"
+				max-width="500px"
 				>
 
 				<v-card>
@@ -47,17 +71,51 @@
 						</span>
 					</v-card-title>
 
-					<v-card-text>
+					<!-- <v-divider></v-divider> -->
+
+					<v-card-text class="py-0 ma-0">
 						<v-container grid-list-md class="py-0 ma-0">
 							<v-layout wrap>
 
-								<!-- <v-flex xs12 sm6 md4>
-									<v-text-field label="Legal first name*" required>
-									</v-text-field>
-								</v-flex> -->
-
 								<v-flex xs12>
+
+
+									<!-- CHOICES VALUE -->
+									<v-select
+										v-if="subField in $store.state.subFieldsWithChoices "
+										v-model="item_data"
+										:label="$t('global.'+subField, $store.state.locale)"
+										:items="$store.state.subFieldsWithChoices[subField]['choices']"
+										single-line
+										>
+									</v-select>
+
+
+									<!-- BOOLEAN VALUE -->
+									<v-checkbox
+										v-else-if=" $store.state.subFieldsWithBoolean.includes(subField) "
+										v-model="item_data"
+										:label="$t('global.'+subField, $store.state.locale)"
+										>
+									</v-checkbox>
+
+
+									<!-- TEXT AREA VALUE -->
+									<v-textarea
+										v-else-if=" $store.state.subFieldsWithTextarea.includes(subField) "
+										v-model="item_data"
+										outline
+										:label="$t('global.'+subField, $store.state.locale )"
+										auto-grow
+										color="primary"
+										rows="4"
+										clearable
+									></v-textarea>
+
+
+									<!-- TEXT VALUE -->
 									<v-text-field
+										v-else
 										:ref="subField"
 										v-model="item_data"
 										:rules="[() => !!item_data || $t('rules.required', $store.state.locale )]"
@@ -66,28 +124,12 @@
 										:placeholder="$t('global.'+subField, $store.state.locale )"
 										required
 									></v-text-field>
+
+
 								</v-flex>
 
 
-
-								<!-- <v-flex xs12 sm6 md4>
-									<v-text-field
-										label="Legal last name*"
-										hint="example of persistent helper text"
-										persistent-hint
-										required
-									></v-text-field>
-								</v-flex>
-
-								<v-flex xs12 sm6>
-									<v-select
-										:items="['0-17', '18-29', '30-54', '54+']"
-										label="Age*"
-										required
-									></v-select>
-								</v-flex>
-
-								<v-flex xs12 sm6>
+								<!-- <v-flex xs12>
 									<v-autocomplete
 										:items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
 										label="Interests"
@@ -95,12 +137,16 @@
 									></v-autocomplete>
 								</v-flex> -->
 
+
+
 							</v-layout>
 						</v-container>
 
 						<!-- <small>*indicates required field</small> -->
 
 					</v-card-text>
+
+					<!-- <v-divider></v-divider> -->
 
 					<v-card-actions>
 						<v-spacer></v-spacer>
@@ -114,6 +160,7 @@
 
 				</v-card>
 			</v-dialog>
+
 
 		</v-layout>
 
@@ -140,6 +187,7 @@ export default {
 		"coll",
 		"collName",
 		"is_create",
+		"is_preview",
 		"parentField",
 		"subField",
 		"item_id",
@@ -150,6 +198,7 @@ export default {
 
 	mounted () {
 		console.log("\n- valueEdit / mounted ---> item_data : ", this.item_data ) ;
+
 	},
 
 
@@ -157,13 +206,15 @@ export default {
 
 		return {
 			
-			edit_mode		: false,
-
+			// edit_mode		: false,
 			dialog			: false,
-
 			snack			: false,
 			snackColor		: '',
 			snackText		: 'closed',
+
+			valueFullSize 	: "xs12 ma-0 pa-2",
+			valuePartSize 	: "xs12 md9 ma-0 pa-2",
+			subFieldsSize 	: "xs12 md3 ma-0 pa-2",
 
 			is_req 			: ['yes','no'],
 			errorMessages	: '',
@@ -174,15 +225,18 @@ export default {
 
 	computed: {
 
+		valueBlockSize () {
+			// console.log('\n valueBlockSize - is_create : ', this.is_create) ;
+			return (this.is_preview) ? this.valueFullSize : this.valuePartSize ;
+		},
+
 		form () {
-
 			return {
-
 				"field_to_update" 	: this.parentField+'.'+this.subField ,
 				"field_value"		: this.item_data,
-
 			}
 		}
+
 	},
 
 	watch: {

@@ -2,15 +2,46 @@
 
 	<div>
 
+		<v-jumbotron 
+			class="pa-0" 
+			color="primary" 
+			dark 
+			:height="$store.state.mainSectionsHeight"
+			>
+		
+			<SectionTitle
+				v-if="$store.state.auth.isLogged"
+				:title="$t(`${tab}.name`, $store.state.locale)"
+				:intro="$t(`${tab}.edit`, $store.state.locale)"
+				:icon="$store.state.mainIcons[tab]['icon']"
+				:to_link="'/dashboard'"
+				>
+			</SectionTitle>
 
-		<ItemViewEdit
+			<SectionTitle
+				v-else
+				:title="$t(`${tab}.name`, $store.state.locale)"
+				:intro="$t(`${tab}.introAnon`, $store.state.locale)"
+				:icon="$store.state.mainIcons[tab].icon"
+				>
+			</SectionTitle>
+
+		</v-jumbotron>
+
+		
+
+
+		<ViewEditDMF
 			:flex_vars="'xs8 offset-xs2'"
 			:is_create="false"
+			:is_preview="false"
 			:parentFieldslist="parentFieldsList"
 			:item_doc="$store.state.dmf.current"
 			>
-		</ItemViewEdit>
+		</ViewEditDMF>
 
+
+		{{ meta_collection }}
 
 		<!-- <div
 			class="primary white--text pa-0" 
@@ -27,11 +58,6 @@
 		
 		</div> -->
 	
-		<!-- <CardDmf
-			:dmf_data="$store.state.dmf.current"
-			>
-		</CardDmf> -->
-
 
 
 	</div>
@@ -43,19 +69,14 @@
 <script>
 
 import SectionTitle from '~/components/UI/sectionTitle.vue'
-
-import ItemViewEdit from '~/components/UI/itemViewEdit.vue' 
-import CardDmf from '~/components/UI/cardDmf.vue'
-// import CardInfos from '~/components/UI/parentFields/cardInfos.vue'
+import ViewEditDMF from '~/components/UI/viewEditDMF.vue' 
 
 export default {
 	components : {
 
 		SectionTitle,
+		ViewEditDMF, 
 
-		ItemViewEdit, 
-		CardDmf,
-		// CardInfos,
 	},
 
 	// add var-arg to middleware with meta
@@ -68,6 +89,9 @@ export default {
 
 	data () {
 		return {
+
+			tab : 'datamodel_fields',
+
 			parentFieldsList : [
 
 				{ 
@@ -79,10 +103,19 @@ export default {
 				},
 
 				{ 
+					parentFieldName : "public_auth",
+					subFields 	: [
+						"open_level_edit", 
+					] 
+				},
+
+				{ 
 					parentFieldName : "data_raw",
 					subFields 	: [
 						"f_code", 
-						"f_object"
+						"f_type", 
+						"f_comments", 
+						"f_is_required", 
 					] 
 				},
 
@@ -90,8 +123,6 @@ export default {
 		}
 	},
 
-	methods: {
-	},
 
 }
 

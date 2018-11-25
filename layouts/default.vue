@@ -119,29 +119,47 @@
 		</v-content>
 
 
+
+
+
 		<!-- DEBUGGING / DISPLAY STORE CONTENTS -->
-		<v-divider class="my-3"></v-divider>
-		<v-content>
-			<v-container>
-				<h3> ==> DEBUGGING DEFAULT LAYOUT</h3>
-				<v-divider class="my-3"></v-divider>
-				<div>isAnonymous : {{ $store.state.auth.isAnonymous}}</div>
-				<div>isLogged : {{ $store.state.auth.isLogged}}</div>
-				<div>locale : {{ $store.state.locale }} </div>
-				<br> 
-				<div>user_infos : {{ $store.state.auth.user_infos}}</div>
-				<div>user_id : {{ $store.state.auth.user_id}}</div>
-				<br> 
-				<div>access_token : {{ $store.state.auth.access_token}}</div>
-				<div>refresh_token : {{ $store.state.auth.refresh_token}}</div>
-				<br> 
-				<div>prj.alert : {{ $store.state.prj.alert.message}}</div>
-				<br> 
-				<div>dmf.current : {{ $store.state.dmf.current}}</div>
+		<v-divider class="mt-5"></v-divider>
 
-			</v-container>
-		</v-content> 
+		<v-container grid-list-xl>
+			<v-layout row wrap>
+				<v-flex class="xs-10 offset-xs-1">
+					<v-alert       
+						:value="true"
+						type="error"
+						>
+							<h3> ==> DEBUGGING DEFAULT LAYOUT</h3>
 
+							<v-divider class="my-3"></v-divider>
+							
+							<div>isAnonymous : {{ $store.state.auth.isAnonymous}}</div>
+							<div>isLogged : {{ $store.state.auth.isLogged}}</div>
+							<div>locale : {{ $store.state.locale }} </div>
+							<div>subFieldsWithChoices : {{ $store.state.subFieldsWithChoices}}</div>
+							<div>subFieldsWithBoolean : {{ $store.state.subFieldsWithBoolean}}</div>
+							
+							<br> 
+							<div>user_infos : {{ $store.state.auth.user_infos}}</div>
+							<div>user_id : {{ $store.state.auth.user_id}}</div>
+							
+							<br> 
+							<div>access_token : {{ $store.state.auth.access_token}}</div>
+							<div>refresh_token : {{ $store.state.auth.refresh_token}}</div>
+							
+							<br> 
+							<div>prj.alert : {{ $store.state.prj.alert.message}}</div>
+							
+							<br> 
+							<div>dmf.current : {{ $store.state.dmf.current}}</div>
+					
+					</v-alert>
+				</v-flex>
+			</v-layout>
+		</v-container>
 
 		<SecondaryDrawer 
 			@toggleRight="change_right"

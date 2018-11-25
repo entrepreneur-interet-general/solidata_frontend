@@ -13,6 +13,67 @@ const collectionsDict = {
 	tag : "tags" ,
 }
 
+const dmf_types_list 		= [
+	'text',
+	'email',
+	'float',
+	'integer',
+	'date',
+	'price',
+	'adress',
+	'latitude',
+	'longitude',
+	'other'
+]
+
+const licences_list 			= [
+	'MIT', 
+	'GNU', 
+	'OpenGL', 
+	'CCO', 
+	'PDDL', 
+	'ODC-By', 
+	'ODbL',
+	'CC BY',
+	'CC BY-SA',
+]
+
+// openlevel choices must be coherent with backend choices
+const openlevel_list 			= [
+	'open_data', 
+	'commons', 
+	'collective', 
+	'private'
+]
+const user_edit_auth_list 			= [
+	'owner', 
+	'manager', 
+	'editor', 
+	'contributor'
+]
+const user_edit_auth_rights_list	= {
+	'owner' 		: {
+		'can_edit_r_fields' : ['infos', 'public_auth','data_raw','team','mapping'],
+		'can_edit_datasets'	: ['dsi','data_raw','tag','dmt','dmf','dso','rec',],
+		'can_delete' 		: true,
+	}, 
+	'manager'		: {
+		'can_edit_r_fields' : ['infos', 'public_auth','data_raw','team','mapping'],
+		'can_edit_datasets'	: ['dsi','tag','dmt','dmf','dso','rec'],
+		'can_delete' 		: false,
+	}, 
+	'editor'		: {
+		'can_edit_r_fields' : ['infos', 'public_auth','data_raw'],
+		'can_edit_datasets'	: ['dsi','tag','dmt','dmf'],
+		'can_delete'	 	: false,
+	}, 
+	'contributor' 	: {
+		'can_edit_r_fields'	: ['data_raw'],
+		'can_edit_datasets' : ['dsi'],
+		'can_delete' 		: false,
+	}
+}
+
 const mainIconsConst = {
 
 	home				: { icon : "fas fa-home",				 to:"/" },
@@ -55,10 +116,19 @@ export const state = () => ({
 	
 	// current_collection : 'prj',
 
-	collectionsNames	: collectionsDict,
-	mainSectionsHeight 	: "75px", 
-	mainIcons 			: mainIconsConst, 
+	collectionsNames		: collectionsDict,
+	mainSectionsHeight 		: "50px", 
+	mainIcons 				: mainIconsConst, 
 
+	licencesList				: licences_list,
+	openlevelList				: openlevel_list,
+	user_edit_authList			: user_edit_auth_list,
+	user_edit_auth_rightsList	: user_edit_auth_rights_list,
+
+
+
+
+	// TO DO : DEPRECATE UNTIL -->
 	// cf : https://www.data.gouv.fr/fr/licences
 	licences 			: [
 		'MIT', 
@@ -106,6 +176,61 @@ export const state = () => ({
 			'can_delete' 		: false,
 		}
 	},
+	//  -->
+
+
+	// VALUES : meta data about parentField and subFields
+
+	parentFieldsWithList : [
+		"modif_log", 
+		"translations",
+		"team"
+	],
+
+	subFieldsWithList : [
+		
+		// in parentField : specs
+		"child_of_tag", "parent_of_tag",
+		
+		// in parentField : uses
+		"by_usr", "by_dmt", "by_dsi", "by_dso", "by_prj",
+		
+		// in parentField : datasets
+		"tag_list","prj_list","dmt_list","dmf_list","dsi_list","dsr_list","dso_list","rec_list","func_list",
+		
+		// in parentField : mapping
+		"dsi_to_dmf", "rec_to_dmf","rec_to_func",
+			"visible_dmf_list","params",
+		
+		// in parentField : data_raw
+		"f_data",
+
+		// in parentField : profile
+		"usr_profiles", 
+
+		// in parentField : professional_infos
+		"user_professional_infos", 
+
+	],
+
+	subFieldsWithChoices : {
+		"open_level_edit" 	: { choices : openlevel_list } ,
+		"open_level_show" 	: { choices : openlevel_list } ,
+		"user_edit_auth"	: { choices : user_edit_auth_list } ,
+		"licence" 			: { choices : licences_list } ,
+		"f_type" 			: { choices : dmf_types_list } ,
+	},
+
+	subFieldsWithBoolean : [
+		"f_is_required",
+	],
+
+	subFieldsWithTextarea : [
+		"description", 
+		"f_description",
+		"f_comments"
+	],
+
 
 	// MAIN DRAWER
 	drawerItems: [
@@ -215,8 +340,8 @@ export const state = () => ({
 	],
 
 	// FOR DRAWERS CONTROLS
-	miniVariant: true,
-	drawer: true,
+	miniVariant: false,
+	drawer: false,
 	clipped: true,
 	fixedNav: true,
 	right: true,

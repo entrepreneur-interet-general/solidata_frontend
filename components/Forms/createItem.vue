@@ -207,7 +207,7 @@
 									box
 									hide-details
 									:label="$t('global.'+stepInfo, $store.state.locale)"
-									:items="$store.state.licences"
+									:items="$store.state.licencesList"
 									single-line
 									>
 								</v-select>
@@ -230,7 +230,7 @@
 									box
 									hide-details
 									:label="$t('global.'+stepInfo, $store.state.locale)"
-									:items="$store.state.openlevel"
+									:items="$store.state.openlevelList"
 									single-line
 									>
 								</v-select>
@@ -251,7 +251,7 @@
 									box
 									hide-details
 									:label="$t('global.'+stepInfo, $store.state.locale)"
-									:items="$store.state.openlevel"
+									:items="$store.state.openlevelList"
 									single-line
 									>
 								</v-select>
@@ -421,6 +421,7 @@ export default {
 			loading 	: false,
 			
 			valuesToSend : {
+				
 				title 				: '',
 				description 		: '',
 				licence 			: '',

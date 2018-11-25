@@ -1,24 +1,37 @@
 <template>
 
-	<v-container fluid fill-height
+	<v-container 
+		fluid 
+		fill-height
 		>
-		<v-layout row align-center spacer height="100"
-		>
+		
+		<v-layout row align-center spacer>
 			<v-flex>
 				<!-- typos : cf : https://vuetifyjs.com/en/style/typography#font-sizes -->
 				<div class="title pl-5 pb-0 mt-0">
-					<!-- <v-btn 
-						icon 
-						fab 
-						dark
+					
+					<v-btn 
+						icon
+						flat
+						small
+						class="ml-0 py-0"
+						
 						>
-						<v-icon>
+						<v-icon 
+							small 
+							dark
+							class="pa-0 ma-0"
+							left
+							>
 							{{ icon }}
 						</v-icon> 
-					</v-btn> -->
+					</v-btn>
 					<span>{{ title }}</span>
-				</div>
-				<div class="pl-5 mt-0">
+					
+					<span> - </span>
+
+				<!-- </div>
+				<div class="pl-4 ml-5 mt-0">  -->
 					<span class="subheading">
 						{{ intro }}
 					</span>

@@ -3,16 +3,26 @@
 	<v-card>
 
 		<v-card-title
-			class="display-1 font-weight-bold"
+			class="display-1 pa-0 font-weight-bold"
 			>
 
 			<v-btn 
 				flat
+				class="ma-0"
 				block
 				:to="$store.state.mainIcons[tab]['to'] + '/' + item._id"
 				color="primary"
 				>
-				{{ item.infos.title }}	
+
+				<v-icon small left color="accent"> 
+					{{ $store.state.mainIcons[tab]['icon'] }}
+				</v-icon>
+				
+				<span>
+					{{ item.infos.title }}
+				</span>
+
+
 			</v-btn>
 
 		</v-card-title>
@@ -80,9 +90,9 @@
 		<v-divider></v-divider>
 
 
-		<v-card-actions>
+		<!-- <v-card-actions>
 			
-			<!-- team button -->
+			<!- - team button - ->
 			<v-btn 
 				flat block class="text-lowercase" 
 				:to="$store.state.mainIcons[tab]['to'] + '/' + item._id + '/team'"
@@ -91,7 +101,7 @@
 				{{ $t('global.team', $store.state.locale) }}
 			</v-btn>
 
-			<!-- settings button -->
+			<!- - settings button - ->
 			<v-btn 
 				v-if="inTeam === 'yes'"
 				flat block class="text-lowercase" 
@@ -101,7 +111,7 @@
 				{{ $t('global.settings', $store.state.locale) }}
 			</v-btn>
 		
-		</v-card-actions>
+		</v-card-actions> -->
 
 
 	</v-card>

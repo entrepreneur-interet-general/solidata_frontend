@@ -13,7 +13,7 @@
 				v-if="$store.state.auth.isLogged"
 				:title="$t(`${tab}.name`, $store.state.locale)"
 				:intro="$t(`${tab}.intro`, $store.state.locale)"
-				:icon="$store.state.mainIcons[tab].icon"
+				:icon="$store.state.mainIcons[tab]['icon']"
 				:to_link="'/dashboard'"
 				>
 			</SectionTitle>
@@ -56,9 +56,10 @@
 
 <script>
 
+	import SectionTitle from '~/components/UI/sectionTitle.vue'
+
 	import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
 	// import ItemsList from '~/components/UI/itemsList.vue'
-	import SectionTitle from '~/components/UI/sectionTitle.vue'
 	// import CardPreview from '~/components/UI/cardPreview.vue'
 	// import CardCreate from '~/components/UI/cardCreate.vue'
 
