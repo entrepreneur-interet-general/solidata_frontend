@@ -3,40 +3,51 @@ export const strict = false
 
 import ObjectCleaner from "~/utils/ObjectCleaner.js"
 
+
+const collectionsDict = {
+	prj : "projects" ,
+	dmt : "datamodels" ,
+	dmf : "datamodel_fields" ,
+	dsi : "datasets" ,
+	rec : "recipes" ,
+	tag : "tags" ,
+}
+
 const mainIconsConst = {
-							home				: { icon : "fas fa-home",				 to:"/" },
-							// dashboard	 : { icon : "fas fa-th-list",				to:"/dashboard",	abr:"dsh"},
-							dashboard	 		: { icon : "fas fa-eye",				to:"/dashboard",	abr:"dsh"},
-							
-							projects			: { icon : "fas fa-project-diagram",	to:"/prj",			abr:"prj" },
-							datamodels			: { icon : "fas fa-table",				to:"/dmt",			abr:"dmt" },
-							datamodel_fields	: { icon : "far fa-square",				to:"/dmf",			abr:"dmf" },
-							datasets			: { icon : "fas fa-database",			to:"/dsi",			abr:"dsi" },
-							recipes				: { icon : "fas fa-magic",				to:"/rec",			abr:"rec" },
-							tags				: { icon : "fas fa-tag",				to:"/tag",			abr:"tag" },
-							users		 		: { icon : "fas fa-user-friends",	 	to:"/usr",			abr:"usrs" },
-							
-							settings			: { icon : "settings",					to:"/usr/settings", abr:"dsh" },
 
-							profile	 			: { icon : "fas fa-user-circle",		to:"/usr",			abr:"usr" },
-							password			: { icon : "fas fa-unlock",			 	to:"/usr/password", abr:"pwd" },
-							login				: { icon : "fas fa-sign-in-alt",		to:"/login" },
-							register			: { icon : "fas fa-user-plus",			to:"/register" },
-							logout				: { icon : "power_settings_new",		to:"/logout" },
+	home				: { icon : "fas fa-home",				 to:"/" },
+	// dashboard	 : { icon : "fas fa-th-list",				to:"/dashboard",	abr:"dsh"},
+	dashboard	 		: { icon : "fas fa-eye",				to:"/dashboard",	abr:"dsh"},
+	
+	projects			: { icon : "fas fa-project-diagram",	to:"/prj",			abr:"prj" },
+	datamodels			: { icon : "fas fa-table",				to:"/dmt",			abr:"dmt" },
+	datamodel_fields	: { icon : "far fa-square",				to:"/dmf",			abr:"dmf" },
+	datasets			: { icon : "fas fa-database",			to:"/dsi",			abr:"dsi" },
+	recipes				: { icon : "fas fa-magic",				to:"/rec",			abr:"rec" },
+	tags				: { icon : "fas fa-tag",				to:"/tag",			abr:"tag" },
+	users		 		: { icon : "fas fa-user-friends",	 	to:"/usr",			abr:"usrs" },
+	
+	settings			: { icon : "settings",					to:"/usr/settings", abr:"dsh" },
 
-							language			: { icon : "language" },
-							video				: { icon : "play_circle_outline" },
+	profile	 			: { icon : "fas fa-user-circle",		to:"/usr",			abr:"usr" },
+	password			: { icon : "fas fa-unlock",			 	to:"/usr/password", abr:"pwd" },
+	login				: { icon : "fas fa-sign-in-alt",		to:"/login" },
+	register			: { icon : "fas fa-user-plus",			to:"/register" },
+	logout				: { icon : "power_settings_new",		to:"/logout" },
 
-							list				: { icon : "list" },
-							favorites			: { icon : "favorite" },
-							create				: { icon : "add" },
-							edit				: { icon : "fas fa-pen" },
-							upload				: { icon : "fas fa-file-upload" },
-							delete				: { icon : "far fa-trash-alt" },
-							cancel				: { icon : "cancel" },
-							export				: { icon : "get_app" },
-								
-						}		
+	language			: { icon : "language" },
+	video				: { icon : "play_circle_outline" },
+
+	list				: { icon : "list" },
+	favorites			: { icon : "favorite" },
+	create				: { icon : "add" },
+	edit				: { icon : "fas fa-pen" },
+	upload				: { icon : "fas fa-file-upload" },
+	delete				: { icon : "far fa-trash-alt" },
+	cancel				: { icon : "cancel" },
+	export				: { icon : "get_app" },
+		
+}		
 
 export const state = () => ({
 	
@@ -44,7 +55,7 @@ export const state = () => ({
 	
 	// current_collection : 'prj',
 
-
+	collectionsNames	: collectionsDict,
 	mainSectionsHeight 	: "75px", 
 	mainIcons 			: mainIconsConst, 
 

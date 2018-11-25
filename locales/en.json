@@ -42,6 +42,13 @@
 		"private" 		: "private"
 	},
 
+	"dialog" : {
+		"opened"		: "Dialog opened",
+		"closed"		: "Dialog closed",
+		"saved"			: "Data saved",
+		"canceled"		: "Canceled"
+	},
+
 	"global" : {
 		"hi"			: "Hi",
 		"yes"			: "yes",
@@ -62,6 +69,7 @@
 		"continue"		: "Continue",
 		"refresh"		: "Refresh",
 		"cancel"		: "Cancel",
+		"close"			: "Close",
 		"save"			: "Save",
 		"next" 			: "Next",
 		"back" 			: "Previous",
@@ -166,6 +174,7 @@
 		"introAnon"		: "The community of users",
 		"create"		: "Create a new user",
 		"title"			: "Name your user",
+		"edit"			: "Edit your informations",
 		"description" 	: "Briefly describe your user",
 		"licence" 		: "Choose a licence",
 		"tags" 			: "Choose tags to qualify this user",
@@ -186,6 +195,7 @@
 		"intro"			: "Manage your projects",
 		"introAnon"		: "All the projects shared by the community",
 		"create"		: "Create a new project",
+		"edit"			: "Edit your project",
 		"title"			: "Name your project",
 		"description" 	: "Briefly describe your project",
 		"licence" 		: "Choose a licence",
@@ -207,6 +217,7 @@
 		"intro" 		: "Manage your datamodels",
 		"introAnon"		: "All the datamodels shared by the community",
 		"create"		: "Create a new datamodel",
+		"edit"			: "Edit your datamodel",
 		"title"			: "Name your datamodel",
 		"description" 	: "Describe your datamodel",
 		"licence" 		: "Choose a licence",
@@ -228,6 +239,7 @@
 		"intro" 		: "Manage your datamodel fields",
 		"introAnon"		: "All the datamodel fields shared by the community",
 		"create"		: "Create a new datamodel field",
+		"edit"			: "Edit your datamodel field",
 		"title"			: "Name your datamodel field",
 		"description" 	: "Describe your datamodel field",
 		"licence" 		: "Choose a licence",
@@ -249,6 +261,7 @@
 		"intro" 		: "Manage your datasets",
 		"introAnon"		: "All the datasets shared by the community",
 		"create"		: "Import a new dataset",
+		"edit"			: "Edit your dataset",
 		"file" 			: "Choose a file",
 		"title"			: "Name your dataset",
 		"description" 	: "Describe your dataset",
@@ -271,6 +284,7 @@
 		"intro" 		: "Manage your recipes",
 		"introAnon"		: "All the recipes shared by the community",
 		"create"		: "Create a new recipe",
+		"edit"			: "Edit your recipe",
 		"title"			: "Name your recipe",
 		"nameLabel" 	: "Name",
 		"description" 	: "Describe your recipe",
@@ -293,6 +307,7 @@
 		"intro" 		: "Manage your tags",
 		"introAnon"		: "All the tags shared by the community",
 		"create"		: "Create a new tag",
+		"edit"			: "Edit your tag",
 		"title"			: "Name your tag",
 		"nameLabel" 	: "Name",
 		"description" 	: "Describe your tag",

@@ -42,6 +42,13 @@
 		"required"		: "Ce champ doit être complété"
 	},
 
+	"dialog" : {
+		"opened"		: "Dialogue ouvert",
+		"closed"		: "Dialogue fermé",
+		"saved"			: "Donnée sauvegardée",
+		"canceled"		: "Annulé"
+	},
+
 	"global" : {
 		"hi"			: "Bonjour",
 		"yes"			: "oui",
@@ -62,6 +69,7 @@
 		"continue"		: "Continuer",
 		"refresh"		: "Rafraîchir",
 		"cancel"		: "Annuler",
+		"close"			: "Fermer",
 		"save"			: "Sauver",
 		"next" 			: "Suivant",
 		"back" 			: "Précédent",
@@ -164,6 +172,7 @@
 		"intro"			: "Gérer vos utilisateurs",
 		"introAnon"		: "Liste de tous les utilisateurs",
 		"create"		: "Créer un nouvel utilisateur",
+		"edit"			: "Editer vos informations",
 		"title"			: "Nommez votre utilisateur",
 		"description" 	: "Décrivez votre utilisateur en quelques mots",
 		"licence" 		: "Choisissez une licence",
@@ -185,6 +194,7 @@
 		"intro"			: "Gérer vos projets d'ouverture de données",
 		"introAnon"		: "Liste de tous les projets",
 		"create"		: "Créer un nouveau projet d'ouverture de données",
+		"edit"			: "Editer votre projet d'ouverture de données",
 		"title"			: "Nommez votre projet d'ouverture de données",
 		"description" 	: "Décrivez votre projet en quelques mots",
 		"licence" 		: "Choisissez une licence",
@@ -206,6 +216,7 @@
 		"intro" 		: "Gérer tous vos modèles de données",
 		"introAnon"		: "Les modèles de données produits par la communauté",
 		"create"		: "Créer un nouveau modèle de données",
+		"edit"			: "Editer votre modèle de données",
 		"title"			: "Nommez votre modèle de données",
 		"description" 	: "Décrivez votre modèle de données en quelques mots",
 		"licence" 		: "Choisissez une licence",
@@ -227,6 +238,7 @@
 		"intro" 		: "Gérer tous vos champ de modèles de données",
 		"introAnon"		: "Les champs de modèles de données produits par la communauté",
 		"create"		: "Créer un nouveau champ de modèle de données",
+		"edit"			: "Editer votre champ de modèle de données",
 		"title"			: "Nommez votre champ de modèle de données",
 		"description" 	: "Décrivez votre champ de modèle de données en quelques mots",
 		"licence" 		: "Choisissez une licence",
@@ -248,6 +260,7 @@
 		"intro" 		: "Gérer tous vos jeux de données",
 		"introAnon"		: "Les jeux de données partagés par la communauté",
 		"create"		: "Importer un nouveau jeu de données",
+		"edit"			: "Editer votre jeu de données",
 		"file" 			: "Choisissez un fichier",
 		"title"			: "Nommez votre jeu de données",
 		"description"	: "Décrivez votre jeu de données en quelques mots",
@@ -270,6 +283,7 @@
 		"intro" 		: "Gérer toutes vos recettes",
 		"introAnon"		: "Les recettes utilisables par la communauté",
 		"create" 		: "Créer une nouvelle recette",
+		"edit"			: "Editer votre recette",
 		"title"			: "Nommez votre recette",
 		"description" 	: "Décrivez votre recette en quelques mots",
 		"licence" 		: "Choisissez une licence",
@@ -291,6 +305,7 @@
 		"intro" 		: "Gérer toutes vos étiquettes",
 		"introAnon"		: "Les tags produits par la communauté",
 		"create" 		: "Créer une nouvelle étiquette",
+		"edit"			: "Editer votre étiquette",
 		"title"			: "Nommez votre étiquette",
 		"description" 	: "Décrivez votre étiquette en quelques mots",
 		"licence" 		: "Choisissez une licence",

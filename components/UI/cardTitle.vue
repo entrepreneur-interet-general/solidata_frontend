@@ -1,31 +1,54 @@
 <template>
 
-	<v-card-title 
-		dark 
-		class="primary white--text"
-		>
+	<div>
 
-		<v-btn icon dark>
-			<v-icon>{{ icon }}</v-icon>
-		</v-btn> 
-		<span class="headline">{{ title }}</span>
+		<!-- <v-card-title 
+			dark 
+			height="15"
+			class="primary white--text"
+			>
 
-		<v-spacer></v-spacer>
+			<v-btn icon dark>
+				<v-icon>{{ icon }}</v-icon>
+			</v-btn> 
+			<span class="headline">{{ title }}</span>
 
-		<v-menu center right>
-			<v-btn
-				nuxt
-				slot="activator"
-				dark
+			<v-spacer></v-spacer>
+
+			<v-menu center right>
+				<v-btn
+					nuxt
+					slot="activator"
+					dark
+					icon
+					to='/'
+					>
+					<v-icon>clear</v-icon>
+				</v-btn>
+			</v-menu>
+
+		</v-card-title> -->
+	
+		<v-toolbar
+			color="primary"
+			dark
+			>
+			<v-toolbar-side-icon>
+				<v-icon>{{ icon }}</v-icon>
+			</v-toolbar-side-icon>
+			<v-toolbar-title>{{ title }}</v-toolbar-title>
+			<v-spacer></v-spacer>
+			<v-btn 
 				icon
 				to='/'
 				>
 				<v-icon>clear</v-icon>
 			</v-btn>
-		</v-menu>
+		</v-toolbar>
 
-	</v-card-title>
-	
+	</div>
+
+
 </template>
 
 <script>

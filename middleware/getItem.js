@@ -33,6 +33,7 @@ export default function ({ context, store, redirect, route, params, $axios}) {
 	console.log("- - - getItem : config : ", config );
 	
 	const current_item = $axios.get(`${current_collection}/infos/get_one/${item_id}` , config )
+	
 		.then(response => {
 			console.log("... getItem : response : ", response.data);
 			store.commit(`${current_collection}/set_current`, response.data);

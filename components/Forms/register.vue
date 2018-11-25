@@ -64,7 +64,7 @@
 			
 			<v-spacer></v-spacer>
 			<v-btn 
-				color="primary"
+				color="accent"
 				type="submit" 
 				form="register-form"
 				:loading="loading" 

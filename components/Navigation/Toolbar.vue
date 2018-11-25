@@ -237,14 +237,13 @@
 
 
 
-        <v-btn 
+        <!-- <v-btn 
           icon 
           href="https://github.com/entrepreneur-interet-general/solidata_frontend"
           target="_blank"
           >
           <v-icon>fab fa-github</v-icon>
-          <!-- {{ $t('links.github', $store.state.locale ) }} -->
-        </v-btn>
+        </v-btn> -->
         
     </v-toolbar>
 

@@ -585,16 +585,23 @@
 
 		</v-flex>
 	</v-layout>
+
 </template>
 
 
 <script>
 
 import ObjectFormatterUpdate from "~/utils/objectFormatterUpdate.js"
+import ItemViewEdit from '~/components/UI/itemViewEdit.vue'
+
 
 export default {
 
 	props : [ "dmf_data" ],
+
+	components : {
+		ItemViewEdit,
+	},
 
 	mounted () {
 		console.log("\n- cardDmf / mounted ---> dmf_data : ", this.dmf_data ) ;
@@ -664,22 +671,6 @@ export default {
 
 	methods: {
 
-		// prepareFormData (formData) {
-			
-		// 	console.log("\nprepareFormData / formData : ", formData)
-
-		// 	var FormDataMarshalled = [] ;
-
-		// 	for (var key in formData) {
-		// 		var raw_field = {
-		// 			"field_to_update" 	: key,
-		// 			"field_value" 		: formData[key]
-		// 		};
-		// 		FormDataMarshalled.push(raw_field)
-		// 	} ;
-
-		// 	return FormDataMarshalled
-		// },
 
 		checkUserAuth (field_name) {
 

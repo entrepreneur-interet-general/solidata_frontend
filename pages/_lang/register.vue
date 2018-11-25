@@ -23,7 +23,7 @@
           <v-card-actions>
 
             {{ $t('home.loginToRegister', $store.state.locale ) }} 
-            <v-btn outline nuxt to="/login" class="ml-2 text-lowercase" color="primary">
+            <v-btn outline nuxt to="/login" class="ml-2 text-lowercase" color="accent">
               {{ $t('home.loginPage', $store.state.locale ) }}
             </v-btn>
 
