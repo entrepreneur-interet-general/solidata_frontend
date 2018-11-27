@@ -31,7 +31,7 @@
 						:is_preview="false"
 						:coll="coll"
 						:parentFieldslist="parentFieldsList"
-						:item_doc="emptyNewItem"
+						:item_doc="$store.state[coll].current_new"
 						:is_switch="true"
 						>
 					</ViewEditDoc>
@@ -100,6 +100,7 @@ export default {
 
 			],
 
+			/*
 			emptyNewItem : {
 				"infos"			: { 
 					"title"			: "your new project ", 
@@ -152,6 +153,7 @@ export default {
 				// 	] 
 				// }
 			},
+			*/
 
 
 			// for form component

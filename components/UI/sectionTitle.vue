@@ -15,7 +15,7 @@
 						flat
 						small
 						class="ml-0 py-0"
-						
+						:to='to_link'
 						>
 						<v-icon 
 							small 
@@ -52,7 +52,7 @@
 					slot="activator"
 					dark
 					icon
-					:to='to_link'
+					:to="'/dashboard'"
 					>
 					<v-icon>clear</v-icon>
 				</v-btn>

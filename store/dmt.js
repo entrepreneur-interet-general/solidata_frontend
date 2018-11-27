@@ -8,12 +8,64 @@ export const state = () => ({
 
 	parameters 		:  {
 		page 		: 1,
-		per_page   	: 5 // choices=[2, 5, 10, 20, 30, 40, 50, 100],
+		per_page   	: 5, // choices=[2, 5, 10, 20, 30, 40, 50, 100],
+		cardSizes	: "xs12 sm6 md4 l3"
 	},
 
 	query_current 	: null,
 	current 		: {},
-	current_new 	: {},
+	current_new 	: {
+		"infos"			: { 
+			"title"			: "your new datamodel template", 
+			"description"	: null, 
+			"licence"		: "CC BY"
+		},
+		"public_auth"	: { 
+			"open_level_edit": "collective", 
+			// "open_level_show": "open_data" 
+		}, 
+		// "specs": { 
+		// 	"doc_type": "dmf" 
+		// }, 
+		// "log": { 
+		// 	"created_at": "2018-11-20T14:20:47.661000+00:00", 
+		// 	"created_by": "5b55fee90a828659a93e9fc6" 
+		// }, 
+		// "translations": [
+		// ], 
+		// "data_raw": { 
+		// 	"f_code": "", 
+		// 	"f_object": "", 
+		// 	"f_type": "text", 
+		// 	"f_comments": null, 
+		// 	"f_is_required": false 
+		// }, 
+		// "modif_log": [
+		// ], 
+		// "datasets": { 
+		// 	"tag_list": [] 
+		// }, 
+		// "_id": "5bf4183f0a8286180b53183c", 
+		// "team": [ 
+		// 	{ 
+		// 		"oid_usr": "5b55fee90a828659a93e9fc6", 
+		// 		"edit_auth": "owner", 
+		// 		"added_at": "2018-11-20T14:20:47.661000+00:00", 
+		// 		"added_by": "5b55fee90a828659a93e9fc6" 
+		// 	} 
+		// ], 
+		// "uses": { 
+		// 	"by_usr": [ 
+		// 		{ 
+		// 			"used_by": "5b55fee90a828659a93e9fc6", 
+		// 			"used_at": [ "2018-11-20T14:20:47.661000+00:00" ] 
+		// 		} 
+		// 	], 
+		// 	"by_dmt": [
+
+		// 	] 
+		// }
+	},
 
 	list_query 		: null,
 	list 			: [],
@@ -43,6 +95,12 @@ export const mutations = {
 		store.current 		= data.data
 	},
 
+	// set a temporary new 
+	set_current_new (store, data) {
+		console.log("\n... store/dmt : set_current_new...")
+		console.log("\n... store/dmt - data : ", data )
+		store.current_new[data.parentField][data.subField] = data.item_data
+	},
 }
 
 export const actions = {

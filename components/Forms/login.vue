@@ -9,10 +9,12 @@
 
 		<v-card-text>
 
+
 			<v-form 
 				@submit.prevent="submitLogin" 
 				id="login-form"
 				>
+
 				<v-alert 
 					v-if="alert" 
 					:type="alert.type" 
@@ -73,42 +75,51 @@
 			</v-form>
 
 
-			<v-spacer></v-spacer>
-			<div class="text-xs-right">
-				<nuxt-link class="text-lowercase"
-				to="/forgotpwd"
-				>
-					{{ $t('home.forgotPwd', $store.state.locale ) }}
-				</nuxt-link>
-			</div>
-			
-
 		</v-card-text>
 
 
 		<v-card-actions>
 
-			<v-spacer></v-spacer>
+			<v-layout row wrap>
+				
+				<v-flex xs12 md-6 offset-md6>
 
-			<v-btn 
-				color="accent"
-				type="submit" 
-				form="login-form"
-				:loading="loading" 
-				:disabled="loading"
-			>
-				{{ $t('home.loginPage', $store.state.locale ) }}
-			</v-btn>
+					<v-btn 
+						block
+						color="accent"
+						type="submit" 
+						form="login-form"
+						:loading="loading" 
+						:disabled="loading"
+					>
+						{{ $t('home.loginPage', $store.state.locale ) }}
+					</v-btn>
 
-			<!-- DEBUGGING : button to request anonymous login -->
-			<!-- <v-btn 
-				color="primary"
-				@click.stop="submitLoginAnonymous" 
-				:loading="loading" 
-				:disabled="loading"
-			>
-				load anonymous token
-			</v-btn> -->
+				</v-flex>
+
+				<v-flex xs12 md-6 offset-md6 pt-2>
+
+					<div class="text-xs-center">
+						<nuxt-link class="text-lowercase"
+						to="/forgotpwd"
+						>
+							{{ $t('home.forgotPwd', $store.state.locale ) }}
+						</nuxt-link>
+					</div>
+
+					<!-- DEBUGGING : button to request anonymous login -->
+					<!-- <v-btn 
+						color="primary"
+						@click.stop="submitLoginAnonymous" 
+						:loading="loading" 
+						:disabled="loading"
+					>
+						load anonymous token
+					</v-btn> -->
+
+				</v-flex>
+
+			</v-layout row wrap>
 
 		</v-card-actions>
 

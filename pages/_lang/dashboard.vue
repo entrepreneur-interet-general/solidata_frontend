@@ -15,6 +15,7 @@
 				:intro="$t('dashboard.intro', $store.state.locale)"
 				:icon="$store.state.mainIcons.dashboard.icon"
 				:isDashboard="true"
+				:to_link="'/'"
 			>
 			</SectionTitle>
 
@@ -24,6 +25,7 @@
 				:intro="$t('dashboard.introAnon', $store.state.locale)"
 				:icon="$store.state.mainIcons.dashboard.icon"
 				:isDashboard="true"
+				:to_link="'/'"
 			>
 			</SectionTitle>
 
@@ -86,6 +88,7 @@
 				<!-- ITEMS LIST -->
 				<ItemsListDI
 					:tab="tab"
+					:coll="coll(tab)"
 					:items_coll="items[tab]"
 					:defaultFlex="defaultFlex"
 					:defaultHeight="defaultHeightAdd"
@@ -174,9 +177,16 @@ export default {
 	},
 
 	methods: {
+
 		goToCreate(event, data){
 			log.console("goToCreate : ", data )
-		}
+		},
+
+		coll (tab) { 
+			// console.log( "get coll ... tab : ", tab) ;
+			return this.$store.state.mainIcons[tab].abr 
+		},
+
 	},
 
 

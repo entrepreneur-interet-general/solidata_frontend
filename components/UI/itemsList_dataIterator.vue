@@ -42,16 +42,24 @@
 
 				<!-- data iterator title -->
 				<v-toolbar
-					dense
 					dark
 					slot="header"
 					class="mb-2"
 					color="secondary"
 					flat
-				>
+					:height="$store.state.dataIteratorHeight"
+					>
+
+					<v-toolbar-side-icon disabled>
+						<v-icon small>
+							{{ $store.state.mainIcons[tab].icon }}
+						</v-icon>
+					</v-toolbar-side-icon>
+
 					<v-toolbar-title
-						class="subheading"
+						class="body-2"
 						>
+						<!-- - {{ coll }} - {{ tab }} -  -->
 						{{ $t( tab+'.name', $store.state.locale)  }}
 						- 
 						{{ $t(`global.inTeam`, $store.state.locale) }}
@@ -64,10 +72,7 @@
 				<v-flex
 					slot="item"
 					slot-scope="props"
-					xs12
-					sm6
-					md4
-					lg3
+					:class="cardSizes"
 					>
 
 					<CardPreviewDense 
@@ -107,14 +112,23 @@
 
 				<!-- data iterator title -->
 				<v-toolbar
-					dense
 					dark
 					slot="header"
 					class="mb-2"
 					color="grey lighten-1"
 					flat
-				>
-					<v-toolbar-title>
+					:height="$store.state.dataIteratorHeight"
+					>
+					<v-toolbar-side-icon disabled>
+						<v-icon small>
+							{{ $store.state.mainIcons[tab].icon }}
+						</v-icon>
+					</v-toolbar-side-icon>
+
+					<v-toolbar-title
+						class="body-2"
+						>
+
 						{{ $t( tab+'.name', $store.state.locale)  }}
 						- 
 						{{ $t(`global.notTeam`, $store.state.locale) }}
@@ -247,9 +261,10 @@ export default {
 	props : [ 
 		"items_coll", 
 		"tab", 
+		"coll",
 		"defaultHeightAdd", 
 		"defaultHeight", 
-		"defaultFlex" 
+		"defaultFlex", 
 	],
 
 	components : {
@@ -259,99 +274,108 @@ export default {
 		CardCreate
 	},
 	
-	data: () => ({
+	data () {
+		
+		return {
 
-		rowsPerPageItems: [ 4, 8, 12 ],
-		pagination: {
-			rowsPerPage: 4
-		},
+			rowsPerPageItems: [ 4, 8, 12 ],
+			pagination: {
+				rowsPerPage: 4
+			},
 
+			// cardSizes : "xs12 sm6 md4 l4",
+			cardSizes : this.$store.state[this.coll].parameters.cardSizes,
 
-		items_test: {
-			'docs_user_is_in_team' : [
-				{
-					value: false,
-					infos : {
-						title: 'Frozen Yogurt',
+			/*
+			items_test: {
+				'docs_user_is_in_team' : [
+					{
+						value: false,
+						infos : {
+							title: 'Frozen Yogurt',
+						},
+						log : {
+							created_by: 'Ice cream sandwich',
+						},
+						calories: 159,
+						fat: 6.0,
+						carbs: 24,
+						protein: 4.0,
+						sodium: 87,
+						calcium: '14%',
+						iron: '1%'
 					},
-					log : {
-						created_by: 'Ice cream sandwich',
+					{
+						value: false,
+						infos : {
+							title: 'Ice cream sandwich',
+						},
+						log : {
+							created_by: 'Ice cream sandwich',
+						},
+						calories: 237,
+						fat: 9.0,
+						carbs: 37,
+						protein: 4.3,
+						sodium: 129,
+						calcium: '8%',
+						iron: '1%'
 					},
-					calories: 159,
-					fat: 6.0,
-					carbs: 24,
-					protein: 4.0,
-					sodium: 87,
-					calcium: '14%',
-					iron: '1%'
-				},
-				{
-					value: false,
-					infos : {
-						title: 'Ice cream sandwich',
+					{
+						value: false,
+						infos : {
+							title: 'Eclair',
+						},
+						log : {
+							created_by: 'Ice cream sandwich',
+						},
+						calories: 262,
+						fat: 16.0,
+						carbs: 23,
+						protein: 6.0,
+						sodium: 337,
+						calcium: '6%',
+						iron: '7%'
 					},
-					log : {
-						created_by: 'Ice cream sandwich',
+					{
+						value: false,
+						infos : {
+							title: 'Chocolatine',
+						},
+						log : {
+							created_by: 'Ice cream sandwich',
+						},
+						calories: 262,
+						fat: 16.0,
+						carbs: 23,
+						protein: 6.0,
+						sodium: 337,
+						calcium: '6%',
+						iron: '7%'
 					},
-					calories: 237,
-					fat: 9.0,
-					carbs: 37,
-					protein: 4.3,
-					sodium: 129,
-					calcium: '8%',
-					iron: '1%'
-				},
-				{
-					value: false,
-					infos : {
-						title: 'Eclair',
-					},
-					log : {
-						created_by: 'Ice cream sandwich',
-					},
-					calories: 262,
-					fat: 16.0,
-					carbs: 23,
-					protein: 6.0,
-					sodium: 337,
-					calcium: '6%',
-					iron: '7%'
-				},
-				{
-					value: false,
-					infos : {
-						title: 'Chocolatine',
-					},
-					log : {
-						created_by: 'Ice cream sandwich',
-					},
-					calories: 262,
-					fat: 16.0,
-					carbs: 23,
-					protein: 6.0,
-					sodium: 337,
-					calcium: '6%',
-					iron: '7%'
-				},
-				{
-					value: false,
-					infos : {
-						title: 'Cupcake',
-					},
-					log : {
-						created_by: 'Ice cream sandwich',
-					},
-					calories: 305,
-					fat: 3.7,
-					carbs: 67,
-					protein: 4.3,
-					sodium: 413,
-					calcium: '3%',
-					iron: '8%'
-				}
-			]
+					{
+						value: false,
+						infos : {
+							title: 'Cupcake',
+						},
+						log : {
+							created_by: 'Ice cream sandwich',
+						},
+						calories: 305,
+						fat: 3.7,
+						carbs: 67,
+						protein: 4.3,
+						sodium: 413,
+						calcium: '3%',
+						iron: '8%'
+					}
+				]
+			}
+			*/
+
 		}
-	})
+
+	}
 
 }
 

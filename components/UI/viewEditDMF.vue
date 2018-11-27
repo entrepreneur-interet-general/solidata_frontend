@@ -90,7 +90,7 @@
 					</v-menu>
 
 
-				</v-toolbar dense>
+				</v-toolbar>
 
 			</v-flex>
 
@@ -117,7 +117,10 @@
 					:class="parentFieldsSize"
 					d-flex 
 					>
-					<v-card color="secondary" dark>
+					<v-card 
+						color="secondary" 
+						dark
+						>
 						<!-- <v-card-title primary class="title">Lorem</v-card-title> -->
 						<v-card-text>
 							{{ parentField.parentFieldName }}
@@ -208,12 +211,14 @@
 			>
 
 			<v-flex d-flex :class="flex_vars">
-
+				
+				<!-- TO DO  -->
 				<v-btn 
 					block 
 					dark 
 					large
 					color="accent"
+					@click="createItem()"
 					>
 					<v-icon left large>
 						{{ $store.state.mainIcons.create.icon }}
@@ -252,9 +257,11 @@
 					>
 					---- DEBUG component - ItemViewEdit ----
 					<hr>
+
 					-- item_doc -- <br>
 					{{ item_doc }}
 					<hr>
+
 					-- vars -- <br>
 					coll : {{ coll }} - 
 					collName : {{ collName }} - 
@@ -262,6 +269,10 @@
 					item_doc._id : {{ item_doc._id}} - 
 					canEdit : {{ canEdit }}
 					flex_vars : {{flex_vars}} - 
+					<hr>
+
+					-- current_new in $store.state.{{coll}} -- <br>
+					{{coll}}.current_new : {{ $store.state[coll].current_new }}
 				</v-alert>
 
 			</v-flex>
@@ -394,25 +405,31 @@ export default {
 			return can_update_field
 		},
 
-		// submit value for update via API backend
-		submitValue () {
+		// submit value to create item via API backend
+		createItem () {
+			
+			console.log("\n createItem... ")
 
-			console.log("\n submitValue... ")
+			var formData = this.$store.state[this.coll].current_new ; 
+			
+			this.formHasErrors = false ; 
 
-			this.formHasErrors = false
+			console.log("\n createItem - current_new (formData) : ", formData )
 
 			// Object.keys(this.form).forEach(f => {
-			// 	if (!this.form[f]) this.formHasErrors = true
+				// 	if (!this.form[f]) this.formHasErrors = true
 			// 	this.$refs[f].validate(true)
 				
 			// })
 
+			/*
 			// var formData = ObjectFormatterUpdate.prepareFormData(this.form) ;
 			var formData = [this.form] ;
-			console.log("\n submitValue / formData : ", formData)
+			
+			console.log("\n createItem / formData : ", formData)
 
 			// dispatch action from store
-			this.$store.dispatch('updateItem', {
+			this.$store.dispatch('createItem', {
 				coll	: this.coll,
 				doc_id  : this.item_id,
 				form 	: formData, //this.form,
@@ -428,6 +445,7 @@ export default {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
 				}
 			})
+		*/
 
 		}
 

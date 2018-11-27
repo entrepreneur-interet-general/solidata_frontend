@@ -44,6 +44,7 @@
 			:items_coll="items.docs"
 			:defaultFlex="defaultFlex"
 			:defaultHeight="defaultHeightAdd"
+			:coll="coll"
 			>
 		</ItemsListDI>
 
@@ -97,6 +98,7 @@
 		data () {
 			return {
 				tab 				: 'datamodel_fields',
+				coll				: "dmf",
 				defaultHeightAdd	: "240px",
 				defaultHeight		: "150px",
 				defaultFlex			: 3,

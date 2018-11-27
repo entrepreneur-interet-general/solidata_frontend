@@ -7,12 +7,14 @@
 
 			<!--  SUBFIELD NAME  -->
 			<v-flex
+				ValEdit_subField
 				v-if="!is_preview"
 				:class="subFieldsSize"
 				>
 				<v-btn 
 					class="pa-0 ma-0"
 					disabled 
+					small
 					block 
 					color="grey" 
 					style="text-transform: none !important;"
@@ -26,6 +28,7 @@
 
 			<!--  SUBFIELD VALUE + BUTTON  -->
 			<v-flex
+				ValEdit_field
 				:class="valueBlockSize"
 				class="pa-0 ma-0"
 				>
@@ -62,7 +65,7 @@
 						v-if="subField in $store.state.subFieldsWithChoices "
 						:solo="is_preview"
 						:hide-details="is_preview"
-						v-model="item_data"
+						v-model="itemData"
 						:color="fieldColor"
 						:readonly="!canEdit"
 						:label="$t( collName+'.'+subField, $store.state.locale )"
@@ -77,9 +80,10 @@
 						v-else-if=" $store.state.subFieldsWithBoolean.includes(subField) "
 						:solo="is_preview"
 						:hide-details="is_preview"
+						:class="checkBoxPadding"
 						:color="fieldColor"
 						:readonly="!canEdit"
-						v-model="item_data"
+						v-model="itemData"
 						:label="$t('global.'+subField, $store.state.locale)"
 						@change="submitValue () ; save()"
 						>
@@ -89,11 +93,12 @@
 					<!-- FILE VALUE -->
 					<FileField
 						v-else-if=" $store.state.subFieldsWithFile.includes(subField) "
-						v-model="item_data"
-						:rawInput="item_data"
+						v-model="itemData"
+						:rawInput="itemData"
 						:labelText="'global.'+subField"
 						@input="updateFile"
 						@click="snack_if_not_create()"
+						@change="submitValue ()"
 						>
 					</FileField>
 
@@ -113,17 +118,18 @@
 					<!-- TEXT AREA VALUE -->
 					<v-textarea
 						v-else-if=" $store.state.subFieldsWithTextarea.includes(subField) "
-						v-model="item_data"
+						v-model="itemData"
 						:solo="is_preview"
-						:hide-details="is_preview"
+						hide-details
 						:color="fieldColor"
 						:readonly="!canEdit"
-						:outline="!is_preview"
+						:box="!is_preview"
 						:label="$t( collName+'.'+subField, $store.state.locale )"
 						auto-grow
-						rows="4"
+						:rows="textAreaRows"
 						:clearable="!is_preview"
 						@keyup.enter="submitValue () ; save()"
+						@change="submitValue ()"
 						@click="snack_if_not_create()"
 					></v-textarea>
 
@@ -136,14 +142,15 @@
 						:ref="subField"
 						:color="fieldColor"
 						:readonly="!canEdit"
-						v-model="item_data"
-						:rules="[() => !!item_data || $t('rules.required', $store.state.locale )]"
+						v-model="itemData"
+						:rules="[() => !!itemData || $t('rules.required', $store.state.locale )]"
 						:label="$t( collName+'.'+subField, $store.state.locale )"
 						:error-messages="errorMessages"
 						:placeholder="$t('global.'+subField, $store.state.locale )"
 						required
 						@keyup.enter="submitValue () ; save()"
-						@click="snack_if_not_create()"
+						@change="submitValue ()"
+						@click="snack_if_not_create() ; save() "
 					></v-text-field>
 
 
@@ -282,9 +289,14 @@ export default {
 		FileField,
 	},
 
+	// created vs mounted
+	// cf : https://stackoverflow.com/questions/45813347/difference-between-the-created-and-mounted-events-in-vue-js
+	created () {
+		// console.log("\n- valueEdit / created ---> item_data : ", this.item_data ) ;
+	},
+
 	mounted () {
 		console.log("\n- valueEdit / mounted ---> item_data : ", this.item_data ) ;
-
 	},
 
 
@@ -292,6 +304,8 @@ export default {
 
 		return {
 			
+			itemData 		: this.item_data,
+
 			// edit_mode		: false,
 			dialog			: false,
 			snack			: false,
@@ -299,10 +313,13 @@ export default {
 			snackText		: 'edit',
 
 			fieldColor		: "accent",
+			textAreaRows 	: 3,
 
 			valueFullSize 	: "xs12 ma-0 pa-0",
 			valuePartSize 	: "xs12 md9 ma-0 pa-2",
 			subFieldsSize 	: "xs12 md3 ma-0 pa-2",
+
+			checkBoxNoPadding 	: " mt-0 pl-2",
 
 			is_req 			: ['yes','no'],
 			errorMessages	: '',
@@ -314,14 +331,17 @@ export default {
 	computed: {
 
 		valueBlockSize () {
-			// console.log('\n valueBlockSize - is_create : ', this.is_create) ;
 			return (this.is_preview) ? this.valueFullSize : this.valuePartSize ;
+		},
+
+		checkBoxPadding () {
+			return (this.is_preview) ? this.checkBoxNoPadding : "" ;
 		},
 
 		form () {
 			return {
 				"field_to_update" 	: this.parentField+'.'+this.subField ,
-				"field_value"		: this.item_data,
+				"field_value"		: this.itemData,
 			}
 		},
 
@@ -368,7 +388,7 @@ export default {
 
 		// values checks
 		contentCheck () {
-			this.errorMessages = !this.item_data 
+			this.errorMessages = !this.iteData 
 			? $t('rules.required', $store.state.locale )
 			: ''
 
@@ -405,7 +425,7 @@ export default {
 
 				// var formData = ObjectFormatterUpdate.prepareFormData(this.form) ;
 				var formData = [this.form] ;
-				console.log("\n submitValue / formData : ", formData)
+				console.log("\n submitValue - update / formData : ", formData)
 
 				// dispatch action from store
 				this.$store.dispatch('updateItem', {
@@ -429,7 +449,15 @@ export default {
 
 			// UPDATE VALUE TO STORE at current_new
 			else {
+				var valueData = {
+					"parentField" 	: this.parentField,
+					"subField" 		: this.subField,
+					"item_data" 	: this.itemData
+				} ;
 				
+				console.log("\n submitValue - create / valueData : ", valueData)
+
+				this.$store.commit(`${this.coll}/set_current_new`, valueData );
 			}
 
 

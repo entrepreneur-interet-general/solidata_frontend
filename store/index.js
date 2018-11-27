@@ -125,6 +125,7 @@ export const state = () => ({
 
 	collectionsNames		: collectionsDict,
 	mainSectionsHeight 		: "50px", 
+	dataIteratorHeight 		: "30px", 
 	mainIcons 				: mainIconsConst, 
 
 	createSize 					: "md10 offset-md1",
