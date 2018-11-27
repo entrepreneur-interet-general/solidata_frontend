@@ -45,6 +45,7 @@
 	"dialog" : {
 		"opened"		: "Dialog opened",
 		"closed"		: "Dialog closed",
+		"edit"			: "Edit and save by pressing enter",
 		"saved"			: "Data saved",
 		"canceled"		: "Canceled"
 	},
@@ -65,6 +66,7 @@
 		"edit_your"		: "Edit your ",
 		"remove"		: "Remove",
 		"delete"		: "Delete",
+		"delete_i"		: "Delete item",
 		"nofile"		: "No file selected yet",
 		"continue"		: "Continue",
 		"refresh"		: "Refresh",
@@ -90,6 +92,7 @@
 		"file" 			: "File",
 		"licence" 		: "Licence",
 		"resume" 		: "Resume",
+		"preview" 		: "preview",
 
 		"open_level_edit" : "Open level for edition",
 		"open_level_show" : "Open level for preview",
@@ -99,6 +102,8 @@
 		"f_type" 		: "Field type" ,
 		"f_comments" 	: "Field comments" ,
 		"f_is_required"	: "Field is required" ,
+
+		"src_link" 		: "source file" ,
 		
 		"team"			: "Team",
 		"inTeam"		: "you are part of the team",

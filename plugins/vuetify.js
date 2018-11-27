@@ -32,7 +32,7 @@ Vue.use(Vuetify, {
 		error		: "#FF5252", 
 		warning		: "#FFC107", 
 		info		: "#26A69A", 
-		success		: "#64DD17"
+		success		: "#00BCD4"
 		 
 		// DEFAULT
 		// primary	: '#1976D2',

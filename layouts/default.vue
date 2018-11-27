@@ -155,6 +155,7 @@
 							
 							<br> 
 							<div>dmf.current : {{ $store.state.dmf.current}}</div>
+							<div>dmf.current_new : {{ $store.state.dmf.current_new}}</div>
 					
 					</v-alert>
 				</v-flex>

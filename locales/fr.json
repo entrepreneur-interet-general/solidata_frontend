@@ -45,6 +45,7 @@
 	"dialog" : {
 		"opened"		: "Dialogue ouvert",
 		"closed"		: "Dialogue fermé",
+		"edit"			: "Editer et sauver en appuyant sur entrée",
 		"saved"			: "Donnée sauvegardée",
 		"canceled"		: "Annulé"
 	},
@@ -65,6 +66,7 @@
 		"edit_your"		: "Editer votre ",
 		"remove"		: "Effacer",
 		"delete"		: "Supprimer",
+		"delete_i"		: "Supprimer le document",
 		"nofile"		: "Pas de fichier sélectionné",
 		"continue"		: "Continuer",
 		"refresh"		: "Rafraîchir",
@@ -90,6 +92,7 @@
 		"file" 			: "Fichier",
 		"licence" 		: "Licence",
 		"resume" 		: "Résumé",
+		"preview" 		: "prévisualisation",
 
 		"open_level_edit" : "Open level pour l'édition",
 		"open_level_show" : "Open level pour la prévisualisation",
@@ -99,6 +102,8 @@
 		"f_type" 		: "Type du champ" ,
 		"f_comments" 	: "Commentaires" ,
 		"f_is_required"	: "Champ requis" ,
+
+		"src_link" 		: "fichier source" ,
 
 		"team"			: "Equipe",
 		"inTeam"		: "vous faîtes partie de l'équipe",

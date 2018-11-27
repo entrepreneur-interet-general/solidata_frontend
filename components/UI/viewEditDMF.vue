@@ -7,7 +7,7 @@
 		
 		<!-- ITEM TITLE ROW -->
 		<v-layout 
-			v-if="!is_create"
+			v-if="!is_preview || is_create || is_switch"
 			row 
 			wrap 
 			>
@@ -15,23 +15,80 @@
 			<v-flex d-flex :class="flex_vars">
 
 				<v-toolbar dark dense color="primary" xs12>
+					
+					<!-- BACK TO COLL LIST -->
+					<v-btn 
+						icon 
+						small 
+						color=""
+						:to="'/'+coll"
+						>					
+						<v-icon small>
+							{{ $store.state.mainIcons[collName]['icon'] }}
+						</v-icon>
+					</v-btn>
 
-					<v-icon>
-						{{ $store.state.mainIcons[collName]['icon'] }}
-					</v-icon>
-
-					<v-card-text class="text-uppercase">
+					<!-- ITEM TITLE -->
+					<v-card-text 
+						class="title text-uppercase"
+						>
 						<!-- {{$t(collName+'.edit', $store.state.locale )}} -->
 						{{ item_doc.infos.title }}
 					</v-card-text>
 
-					<v-btn icon small
-						:to="'/'+coll"
+					<!-- SWITCH FOR PREVIEW -->
+					<v-switch 
+						:label="$t('global.preview', $store.state.locale)"
+						v-model="is_preview"
+						color="warning"
+						:input-value="is_preview"
+						hide-details
 						>
-						<v-icon>
-							arrow_back
-						</v-icon>
-					</v-btn>
+					</v-switch>
+
+					<!-- DELETE ITEM MENU -->
+					<v-menu 
+						bottom 
+						left 
+						v-if="!is_create">
+
+						<v-btn 
+							icon 
+							small
+							slot="activator"
+							>
+							<v-icon>
+								more_vert
+							</v-icon>
+						</v-btn>
+
+						<v-list class="pa-0">
+
+							<v-list-tile
+								@click=""
+								>
+
+								<v-list-tile-title class="pa-0 ma-0">
+
+									<v-btn 
+										flat 
+										small
+										block
+										class="ma-0"
+										:to="'/'+coll+'/'+itemId+'/delete'"
+										>
+										<v-icon small left color="error">
+											delete
+										</v-icon>
+										{{ $t(`global.delete_i`, $store.state.locale) }}
+									</v-btn>
+
+								</v-list-tile-title>
+
+							</v-list-tile>
+						</v-list>
+					</v-menu>
+
 
 				</v-toolbar dense>
 
@@ -47,13 +104,15 @@
 			>
 
 			<v-flex 
+				ParentField_1
 				d-flex 
-				:class="flex_vars + ' pb-0 pt-1'" 
+				:class="flex_vars + parentPadding" 
 				v-for="parentField in parentFieldslist"
 				>
 
 				<!-- parentFieldName -->
 				<v-flex 
+					ParentField_2
 					v-if="!is_preview"
 					:class="parentFieldsSize"
 					d-flex 
@@ -69,8 +128,9 @@
 
 				<!-- subFields names and values-->
 				<v-flex 
+					SubField_1
 					d-flex 
-					:class="valueBlockSize"
+					:class="valueSwitch"
 					>
 
 					<v-layout row wrap>
@@ -78,9 +138,10 @@
 							<v-layout row wrap>
 								
 								<v-flex 
+									SubField_2
 									v-for="subField in parentField.subFields"
-									d-flex xs12
-									class="ma-0 py-0 pr-0 pl-2"
+									d-flex
+									:class="blockFullSize + valuePadding"
 									>
 
 									<v-card>
@@ -113,6 +174,76 @@
 
 
 			<!-- DEBUG  -->
+			<!-- <v-flex d-flex :class="flex_vars">
+
+				<v-alert       
+					:value="true"
+					type="error"
+					>
+					---- DEBUG component - ItemViewEdit ----
+					<hr>
+					-- item_doc -- <br>
+					{{ item_doc }}
+					<hr>
+					-- vars -- <br>
+					coll : {{ coll }} - 
+					collName : {{ collName }} - 
+					is_create : {{ is_create }} - 
+					item_doc._id : {{ item_doc._id}} - 
+					canEdit : {{ canEdit }}
+					flex_vars : {{flex_vars}} - 
+				</v-alert>
+
+			</v-flex> -->
+
+		</v-layout>
+
+
+
+		<!-- ITEM CREATE BTN ROW -->
+		<v-layout 
+			v-if="is_create"
+			row 
+			wrap 
+			>
+
+			<v-flex d-flex :class="flex_vars">
+
+				<v-btn 
+					block 
+					dark 
+					large
+					color="accent"
+					>
+					<v-icon left large>
+						{{ $store.state.mainIcons.create.icon }}
+					</v-icon>
+					<span class="subheading">
+						{{ $t(collName+`.create`, $store.state.locale) }}
+					</span>
+				</v-btn>
+
+				<!-- <CardCreate
+					v-if="$store.state.auth.isLogged"
+					:tab="collName"
+					:defaultFlex="createSize"
+					:defaultHeight="defaultHeightAdd"
+					>
+				</CardCreate> -->
+
+			</v-flex>
+
+		</v-layout>
+
+
+
+
+		<!-- DEBUG  -->
+		<v-layout 
+			v-if="is_debug"
+			row wrap
+			>
+
 			<v-flex d-flex :class="flex_vars">
 
 				<v-alert       
@@ -138,6 +269,7 @@
 		</v-layout>
 
 
+
 	</v-container>
 	
 </template>
@@ -148,6 +280,7 @@ import SectionTitle from '~/components/UI/sectionTitle.vue'
 
 // import CardInfos from '~/components/UI/parentFields/cardInfos.vue'
 import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
+import CardCreate from '~/components/UI/cardCreate.vue'
 
 
 export default {
@@ -157,13 +290,17 @@ export default {
 		"is_create",			// view | create
 		"is_preview",			// 
 		"parentFieldslist",		// 
+		"coll",
 		"item_doc", 			// complete item infos
+		"is_debug",
+		"is_switch",
 	],
 
 	components : {
 		SectionTitle,
 		// CardInfos,
 		ValueEdit,
+		CardCreate,
 	},
 	
 	mounted () {
@@ -171,25 +308,55 @@ export default {
 		this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
 	},
 
-	data: function () {
+	data () {
 
 		return {
-			coll 		: this.item_doc.specs.doc_type, 
-			collName 	: this.$store.state.collectionsNames[this.item_doc.specs.doc_type],
-			canEdit		: false ,
 
-			blockFullSize : "xs12",
-			blockPartSize : "xs10",
-			parentFieldsSize : "xs2 ma-0 pa-0",
+			// coll 		: this.item_doc.specs.doc_type, 
+			collName 	: this.$store.state.collectionsNames[this.coll],
+			// collName 	: this.$store.state.collectionsNames[this.item_doc.specs.doc_type],
+			canEdit		: false ,
+			itemId 		: this.item_doc._id, 
+
+			blockFullSize 		: "xs12",
+			blockPartSize 		: "xs10",
+			blockSwitchSize 	: "md6 offset-md3",
+
+			parentFieldsSize 	: "xs2 ma-0 pa-0",
+			parentBotPadding	: " pb-0 pt-1",
+			parentNoBotPadding	: " py-0",
+
+			valueNoPadding 		: " ma-0 pa-0",
+			valueLeftPadding 	: " ma-0 py-0 pr-0 pl-2",
+
+			createHeight  		: "",
+			createSize			: 12
 
 		}
 	},
 
 	computed : {
 
+		parentPadding () {
+			return (this.is_preview) ? this.parentNoBotPadding : this.parentBotPadding ;
+		},
+
+		valueSwitch () {
+			// return (!this.is_preview && this.is_switch) ? this.blockPartSize : this.blockSwitchSize ;
+			if(this.is_switch){
+				return (this.is_preview) ? this.blockSwitchSize : this.blockPartSize ;
+			}
+			else {
+				return this.blockFullSize
+			}
+		},
+
 		valueBlockSize () {
-			// console.log('\n valueBlockSize - is_create : ', this.is_create) ;
 			return (this.is_preview) ? this.blockFullSize : this.blockPartSize ;
+		},
+
+		valuePadding () {
+			return (this.is_preview) ? this.valueNoPadding : this.valueLeftPadding ;
 		},
 
 	},
@@ -213,10 +380,12 @@ export default {
 				//  check if user is connected
 				can_update_field = true
 			} 
+
 			else if (doc_auth_edit == 'collective') {
 				//  check if user is part of the team
 				can_update_field = true
 			} 
+
 			else if (doc_auth_edit == 'private') {
 				//  check if user is the owner
 				can_update_field = true
@@ -224,6 +393,43 @@ export default {
 
 			return can_update_field
 		},
+
+		// submit value for update via API backend
+		submitValue () {
+
+			console.log("\n submitValue... ")
+
+			this.formHasErrors = false
+
+			// Object.keys(this.form).forEach(f => {
+			// 	if (!this.form[f]) this.formHasErrors = true
+			// 	this.$refs[f].validate(true)
+				
+			// })
+
+			// var formData = ObjectFormatterUpdate.prepareFormData(this.form) ;
+			var formData = [this.form] ;
+			console.log("\n submitValue / formData : ", formData)
+
+			// dispatch action from store
+			this.$store.dispatch('updateItem', {
+				coll	: this.coll,
+				doc_id  : this.item_id,
+				form 	: formData, //this.form,
+			}).then(result => {
+				this.alert = {type: 'success', message: result.msg}
+				this.loading = false
+				// this.$router.push('/') /////////
+			}).catch(error => {
+				console.log("submit / error... : ", error ) ; 
+				this.loading = false
+				this.alert = {type: 'error', message: "login error" }
+				if (error.response && error.response.data) {
+					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+				}
+			})
+
+		}
 
 	}
 

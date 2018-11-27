@@ -23,6 +23,7 @@ const dmf_types_list 		= [
 	'adress',
 	'latitude',
 	'longitude',
+	'tag',
 	'other'
 ]
 
@@ -41,6 +42,12 @@ const licences_list 			= [
 // openlevel choices must be coherent with backend choices
 const openlevel_list 			= [
 	'open_data', 
+	'commons', 
+	'collective', 
+	'private'
+]
+const openlevel_edit_list 			= [
+	// 'open_data', 
 	'commons', 
 	'collective', 
 	'private'
@@ -120,8 +127,11 @@ export const state = () => ({
 	mainSectionsHeight 		: "50px", 
 	mainIcons 				: mainIconsConst, 
 
+	createSize 					: "md10 offset-md1",
+
 	licencesList				: licences_list,
 	openlevelList				: openlevel_list,
+	openlevelEditList			: openlevel_edit_list,
 	user_edit_authList			: user_edit_auth_list,
 	user_edit_auth_rightsList	: user_edit_auth_rights_list,
 
@@ -130,52 +140,58 @@ export const state = () => ({
 
 	// TO DO : DEPRECATE UNTIL -->
 	// cf : https://www.data.gouv.fr/fr/licences
-	licences 			: [
-		'MIT', 
-		'GNU', 
-		'OpenGL', 
-		'CCO', 
-		'PDDL', 
-		'ODC-By', 
-		'ODbL',
-		'CC BY',
-		'CC BY-SA',
-	],
-	// openlevel choices must be coherent with backend choices
-	openlevel 			: [
-		'open_data', 
-		'commons', 
-		'collective', 
-		'private'
-	],
-	user_edit_auth 			: [
-		'owner', 
-		'manager', 
-		'editor', 
-		'contributor'
-	],
-	user_edit_auth_rights	: {
-		'owner' 		: {
-			'can_edit_r_fields' : ['infos', 'public_auth','data_raw','team','mapping'],
-			'can_edit_datasets'	: ['dsi','data_raw','tag','dmt','dmf','dso','rec',],
-			'can_delete' 		: true,
-		}, 
-		'manager'		: {
-			'can_edit_r_fields' : ['infos', 'public_auth','data_raw','team','mapping'],
-			'can_edit_datasets'	: ['dsi','tag','dmt','dmf','dso','rec'],
-			'can_delete' 		: false,
-		}, 
-		'editor'		: {
-			'can_edit_r_fields' : ['infos', 'public_auth','data_raw'],
-			'can_edit_datasets'	: ['dsi','tag','dmt','dmf'],
-			'can_delete'	 	: false,
-		}, 
-		'contributor' 	: {
-			'can_edit_r_fields'	: ['data_raw'],
-			'can_edit_datasets' : ['dsi'],
-			'can_delete' 		: false,
-		}
-	},
+	// licences 			: [
+	// 	'MIT', 
+	// 	'GNU', 
+	// 	'OpenGL', 
+	// 	'CCO', 
+	// 	'PDDL', 
+	// 	'ODC-By', 
+	// 	'ODbL',
+	// 	'CC BY',
+	// 	'CC BY-SA',
+	// ],
+	// // openlevel choices must be coherent with backend choices
+	// openlevel 			: [
+	// 	'open_data', 
+	// 	'commons', 
+	// 	'collective', 
+	// 	'private'
+	// ],
+	// openlevel_edit 		: [
+	// 	// 'open_data', 
+	// 	'commons', 
+	// 	'collective', 
+	// 	'private'
+	// ],
+	// user_edit_auth 			: [
+	// 	'owner', 
+	// 	'manager', 
+	// 	'editor', 
+	// 	'contributor'
+	// ],
+	// user_edit_auth_rights	: {
+	// 	'owner' 		: {
+	// 		'can_edit_r_fields' : ['infos', 'public_auth','data_raw','team','mapping'],
+	// 		'can_edit_datasets'	: ['dsi','data_raw','tag','dmt','dmf','dso','rec',],
+	// 		'can_delete' 		: true,
+	// 	}, 
+	// 	'manager'		: {
+	// 		'can_edit_r_fields' : ['infos', 'public_auth','data_raw','team','mapping'],
+	// 		'can_edit_datasets'	: ['dsi','tag','dmt','dmf','dso','rec'],
+	// 		'can_delete' 		: false,
+	// 	}, 
+	// 	'editor'		: {
+	// 		'can_edit_r_fields' : ['infos', 'public_auth','data_raw'],
+	// 		'can_edit_datasets'	: ['dsi','tag','dmt','dmf'],
+	// 		'can_delete'	 	: false,
+	// 	}, 
+	// 	'contributor' 	: {
+	// 		'can_edit_r_fields'	: ['data_raw'],
+	// 		'can_edit_datasets' : ['dsi'],
+	// 		'can_delete' 		: false,
+	// 	}
+	// },
 	//  -->
 
 
@@ -214,7 +230,7 @@ export const state = () => ({
 	],
 
 	subFieldsWithChoices : {
-		"open_level_edit" 	: { choices : openlevel_list } ,
+		"open_level_edit" 	: { choices : openlevel_edit_list } ,
 		"open_level_show" 	: { choices : openlevel_list } ,
 		"user_edit_auth"	: { choices : user_edit_auth_list } ,
 		"licence" 			: { choices : licences_list } ,
@@ -231,6 +247,9 @@ export const state = () => ({
 		"f_comments"
 	],
 
+	subFieldsWithFile : [
+		"src_link", 
+	],
 
 	// MAIN DRAWER
 	drawerItems: [

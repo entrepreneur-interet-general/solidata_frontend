@@ -12,7 +12,8 @@ export const state = () => ({
 
 	query_current 	: null,
 	current 		: {},
-	
+	current_new 	: {},
+
 	list_query 		: null,
 	list 			: [],
 	list_counts 	: null

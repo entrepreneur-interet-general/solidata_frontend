@@ -35,28 +35,13 @@
 			:flex_vars="'xs8 offset-xs2'"
 			:is_create="false"
 			:is_preview="false"
+			:coll="coll"
 			:parentFieldslist="parentFieldsList"
 			:item_doc="$store.state.dmf.current"
+			:is_switch="true"
+			:is_debug="true"
 			>
 		</ViewEditDMF>
-
-
-		{{ meta_collection }}
-
-		<!-- <div
-			class="primary white--text pa-0" 
-			:height="$store.state.mainSectionsHeight"
-			>
-			
-			<SectionTitle
-				:title="$t('datamodel_fields.singular', $store.state.locale )"
-				:intro="''"
-				:icon="$store.state.mainIcons.datamodel_fields.icon"
-				:to_link="'/dmf'"
-				>
-			</SectionTitle>
-		
-		</div> -->
 	
 
 
@@ -70,6 +55,8 @@
 
 import SectionTitle from '~/components/UI/sectionTitle.vue'
 import ViewEditDMF from '~/components/UI/viewEditDMF.vue' 
+
+// import CardDMF from '~/components/UI/cardDMF.vue' 
 
 export default {
 	components : {
@@ -89,8 +76,9 @@ export default {
 
 	data () {
 		return {
-
-			tab : 'datamodel_fields',
+			
+			coll 	: "dmf",
+			tab 	: 'datamodel_fields',
 
 			parentFieldsList : [
 
@@ -114,6 +102,7 @@ export default {
 					subFields 	: [
 						"f_code", 
 						"f_type", 
+						"f_object",
 						"f_comments", 
 						"f_is_required", 
 					] 

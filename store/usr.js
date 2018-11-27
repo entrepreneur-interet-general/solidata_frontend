@@ -4,8 +4,10 @@ export const state = () => ({
 
 	edit_mode		: false,
 
-	current : {},
-	list 	: [
+	current 		: {},
+	current_new 	: {},
+
+	list		 	: [
 		{ title: 'Usr one', 	id:"DSQFGH" },
 		{ title: 'Usr two',		id:"azghjrue" },
 	],

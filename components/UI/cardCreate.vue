@@ -3,21 +3,23 @@
 	<v-layout
 		v-bind="{ [`xs${defaultFlex}`]: true }"
 		align-center
-		class="pb-4 pt-4"
+		class="py-4"
 		>
-
-
 
 		<v-flex text-md-center>
 
 			<v-btn 
 				large
-				:to="$store.state.mainIcons[tab]['to']+'/create'"
-				 
-				color="accent">
-				<v-icon large>{{ $store.state.mainIcons.create.icon }}</v-icon>
-				<v-spacer></v-spacer>
-				<span class="title">{{ $t(tab+'.create', $store.state.locale) }}</span>
+				:block="is_block"
+				:to="$store.state.mainIcons[tab]['to']+'/create'" 
+				color="accent"
+				>
+				<v-icon left large>
+					{{ $store.state.mainIcons.create.icon }}
+				</v-icon>
+				<span class="title">
+					{{ $t(tab+'.create', $store.state.locale) }}
+				</span>
 			</v-btn>
 
 		</v-flex>
@@ -64,7 +66,8 @@ export default {
 	props : [ 
 		"tab", 
 		"defaultHeight", 
-		"defaultFlex" 
+		"defaultFlex",
+		"is_block"
 	],
 
 	mounted () {

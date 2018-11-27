@@ -27,10 +27,8 @@
 			<!--  SUBFIELD VALUE + BUTTON  -->
 			<v-flex
 				:class="valueBlockSize"
-				class="pa-0 ma-0"
 				>
-
-				<!-- <v-btn 
+				<v-btn 
 					class="pa-0 ma-0"
 					flat 
 					block 
@@ -38,118 +36,20 @@
 					color="" 
 					style="text-transform: none !important;"
 					@click="open()"
-					> -->
-
-
-					<!-- <span> -->
-						<!-- {{ item_data }}  -->
+					>
+					<span>
+						{{ item_data }} 
 						<!-- - {{ coll }} / {{ collName }} -->
 						<!-- - is_create :{{ is_create }} -->
 						<!-- - {{ parentField }}.{{ subField }} -->
 						<!-- - canEdit : {{ canEdit }} -->
 						<!-- - {{ valueBlockSize }} -->
 
-					<!-- </span> -->
-
-					<!-- <v-icon small right v-if="canEdit" color="accent"> 
+					</span>
+					<v-icon small right v-if="canEdit" color="accent"> 
 						edit
-					</v-icon> -->
-
-
-
-					<!-- CHOICES VALUE -->
-					<v-select
-						v-if="subField in $store.state.subFieldsWithChoices "
-						:solo="is_preview"
-						:hide-details="is_preview"
-						v-model="item_data"
-						:color="fieldColor"
-						:readonly="!canEdit"
-						:label="$t( collName+'.'+subField, $store.state.locale )"
-						:items="$store.state.subFieldsWithChoices[subField]['choices']"
-						@change="submitValue () ; save()"
-						>
-					</v-select>
-
-
-					<!-- BOOLEAN VALUE -->
-					<v-checkbox
-						v-else-if=" $store.state.subFieldsWithBoolean.includes(subField) "
-						:solo="is_preview"
-						:hide-details="is_preview"
-						:color="fieldColor"
-						:readonly="!canEdit"
-						v-model="item_data"
-						:label="$t('global.'+subField, $store.state.locale)"
-						@change="submitValue () ; save()"
-						>
-					</v-checkbox>
-
-
-					<!-- FILE VALUE -->
-					<FileField
-						v-else-if=" $store.state.subFieldsWithFile.includes(subField) "
-						v-model="item_data"
-						:rawInput="item_data"
-						:labelText="'global.'+subField"
-						@input="updateFile"
-						@click="snack_if_not_create()"
-						>
-					</FileField>
-
-
-					<!-- COMBO VALUE  -->
-					<!-- <v-flex xs12>
-						<v-autocomplete
-							:items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-							label="Interests"
-							multiple
-						></v-autocomplete>
-					</v-flex> -->
-
-					<!-- FILE UPLOAD  -->
-
-
-					<!-- TEXT AREA VALUE -->
-					<v-textarea
-						v-else-if=" $store.state.subFieldsWithTextarea.includes(subField) "
-						v-model="item_data"
-						:solo="is_preview"
-						:hide-details="is_preview"
-						:color="fieldColor"
-						:readonly="!canEdit"
-						:outline="!is_preview"
-						:label="$t( collName+'.'+subField, $store.state.locale )"
-						auto-grow
-						rows="4"
-						:clearable="!is_preview"
-						@keyup.enter="submitValue () ; save()"
-						@click="snack_if_not_create()"
-					></v-textarea>
-
-
-					<!-- TEXT VALUE -->
-					<v-text-field
-						v-else
-						:solo="is_preview"
-						:hide-details="is_preview"
-						:ref="subField"
-						:color="fieldColor"
-						:readonly="!canEdit"
-						v-model="item_data"
-						:rules="[() => !!item_data || $t('rules.required', $store.state.locale )]"
-						:label="$t( collName+'.'+subField, $store.state.locale )"
-						:error-messages="errorMessages"
-						:placeholder="$t('global.'+subField, $store.state.locale )"
-						required
-						@keyup.enter="submitValue () ; save()"
-						@click="snack_if_not_create()"
-					></v-text-field>
-
-
-
-				<!-- </v-btn> -->
-
+					</v-icon>
+				</v-btn>
 			</v-flex>
 
 
@@ -179,7 +79,72 @@
 
 								<v-flex xs12>
 
+
+									<!-- CHOICES VALUE -->
+									<v-select
+										v-if="subField in $store.state.subFieldsWithChoices "
+										v-model="item_data"
+										:label="$t('global.'+subField, $store.state.locale)"
+										:items="$store.state.subFieldsWithChoices[subField]['choices']"
+										single-line
+										>
+									</v-select>
+
+
+									<!-- BOOLEAN VALUE -->
+									<v-checkbox
+										v-else-if=" $store.state.subFieldsWithBoolean.includes(subField) "
+										v-model="item_data"
+										:label="$t('global.'+subField, $store.state.locale)"
+										>
+									</v-checkbox>
+
+
+									<!-- COMBO VALUE  -->
+									<!-- <v-flex xs12>
+										<v-autocomplete
+											:items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
+											label="Interests"
+											multiple
+										></v-autocomplete>
+									</v-flex> -->
+
+									<!-- FILE UPLOAD  -->
+
+
+									<!-- TEXT AREA VALUE -->
+									<v-textarea
+										v-else-if=" $store.state.subFieldsWithTextarea.includes(subField) "
+										v-model="item_data"
+										outline
+										:label="$t('global.'+subField, $store.state.locale )"
+										auto-grow
+										color="primary"
+										rows="4"
+										clearable
+									></v-textarea>
+
+
+									<!-- TEXT VALUE -->
+									<v-text-field
+										v-else
+										:ref="subField"
+										v-model="item_data"
+										:rules="[() => !!item_data || $t('rules.required', $store.state.locale )]"
+										:label="$t( collName+'.'+subField, $store.state.locale )"
+										:error-messages="errorMessages"
+										:placeholder="$t('global.'+subField, $store.state.locale )"
+										required
+									></v-text-field>
+
+
+
 								</v-flex>
+
+
+
+
+
 
 							</v-layout>
 						</v-container>
@@ -187,9 +152,6 @@
 						<!-- <small>*indicates required field</small> -->
 
 					</v-card-text>
-
-
-
 
 
 					<!-- UPDATE | SAVE DIALOG -->
@@ -228,28 +190,13 @@
 			</v-dialog>
 
 
-
-
-
 		</v-layout>
 
-
-		<!-- SNACK -->
-		<v-snackbar 
-			v-model="snack" 
-			:timeout="3000" 
-			:color="snackColor"
-			>
-
+		<v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
 			{{$t('dialog.'+snackText, $store.state.locale )}}
-			
-			<v-btn 
-				flat 
-				@click="snack = false"
-				>
+			<v-btn flat @click="snack = false">
 				{{$t('global.close', $store.state.locale )}}
 			</v-btn>
-
 		</v-snackbar>
 
 	</div>
@@ -259,7 +206,6 @@
 
 <script>
 
-import FileField from '~/components/Forms/Fields/filefield.vue'
 // import ObjectFormatterUpdate from "~/utils/objectFormatterUpdate.js"
 
 export default {
@@ -278,10 +224,6 @@ export default {
 
 	],
 
-	components : {
-		FileField,
-	},
-
 	mounted () {
 		console.log("\n- valueEdit / mounted ---> item_data : ", this.item_data ) ;
 
@@ -295,18 +237,16 @@ export default {
 			// edit_mode		: false,
 			dialog			: false,
 			snack			: false,
-			snackColor		: 'primary',
-			snackText		: 'edit',
+			snackColor		: '',
+			snackText		: 'closed',
 
-			fieldColor		: "accent",
-
-			valueFullSize 	: "xs12 ma-0 pa-0",
+			valueFullSize 	: "xs12 ma-0 pa-2",
 			valuePartSize 	: "xs12 md9 ma-0 pa-2",
 			subFieldsSize 	: "xs12 md3 ma-0 pa-2",
 
 			is_req 			: ['yes','no'],
 			errorMessages	: '',
-			formHasErrors	: false
+			formHasErrors	:	false
 		
 		}
 	},
@@ -325,6 +265,13 @@ export default {
 			}
 		},
 
+		// value_ () {
+		// 	return {
+		// 		""+this.parentField : {
+		// 			""+this.subField : this.item_data,
+		// 	}
+		// }
+
 	},
 
 	watch: {
@@ -337,12 +284,10 @@ export default {
 
 		// dialog functions
 		save () {
-			if (!this.is_create){
-				this.dialog = false
-				this.snack = true
-				this.snackColor = 'success'
-				this.snackText = 'saved'
-			}
+			this.dialog = false
+			this.snack = true
+			this.snackColor = 'accent'
+			this.snackText = 'saved'
 		},
 		cancel () {
 			this.dialog = false
@@ -360,11 +305,6 @@ export default {
 			console.log('Dialog closed')
 		},
 
-		snack_if_not_create() {
-			if (!this.is_create){
-				this.snack = true
-			}
-		},
 
 		// values checks
 		contentCheck () {
@@ -399,40 +339,27 @@ export default {
 				
 			// })
 
+			// var formData = ObjectFormatterUpdate.prepareFormData(this.form) ;
+			var formData = [this.form] ;
+			console.log("\n submitValue / formData : ", formData)
 
-			// UPDATE VALUE TO API
-			if (!this.is_create) {
-
-				// var formData = ObjectFormatterUpdate.prepareFormData(this.form) ;
-				var formData = [this.form] ;
-				console.log("\n submitValue / formData : ", formData)
-
-				// dispatch action from store
-				this.$store.dispatch('updateItem', {
-					coll	: this.coll,
-					doc_id  : this.item_id,
-					form 	: formData, //this.form,
-				}).then(result => {
-					this.alert = {type: 'success', message: result.msg}
-					this.loading = false
-					// this.$router.push('/') /////////
-				}).catch(error => {
-					console.log("submit / error... : ", error ) ; 
-					this.loading = false
-					this.alert = {type: 'error', message: "login error" }
-					if (error.response && error.response.data) {
-						this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
-					}
-				})
-
-			}
-
-			// UPDATE VALUE TO STORE at current_new
-			else {
-				
-			}
-
-
+			// dispatch action from store
+			this.$store.dispatch('updateItem', {
+				coll	: this.coll,
+				doc_id  : this.item_id,
+				form 	: formData, //this.form,
+			}).then(result => {
+				this.alert = {type: 'success', message: result.msg}
+				this.loading = false
+				// this.$router.push('/') /////////
+			}).catch(error => {
+				console.log("submit / error... : ", error ) ; 
+				this.loading = false
+				this.alert = {type: 'error', message: "login error" }
+				if (error.response && error.response.data) {
+					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+				}
+			})
 
 		}
 

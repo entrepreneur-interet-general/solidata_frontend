@@ -394,11 +394,12 @@
 
 
 <script>
+import FileField from '~/components/Forms/Fields/filefield.vue'
+
 import TextArea from '~/components/Forms/Fields/textarea.vue'
 import TextField from '~/components/Forms/Fields/textfield.vue'
 import SelectField from '~/components/Forms/Fields/selectfield.vue'
 import ComboboxField from '~/components/Forms/Fields/comboboxfield.vue'
-import FileField from '~/components/Forms/Fields/filefield.vue'
 import CheckboxField from '~/components/Forms/Fields/checkboxfield.vue'
 
 export default {
