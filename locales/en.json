@@ -3,6 +3,7 @@
 		"home"			: "Home",
 		"dashboard"		: "Dashboard",
 		"about"			: "About",
+		"tutos"			: "Tutorials",
 		"github"		: "Github",
 		"english"		: "English version",
 		"french"		: "French version",
@@ -60,6 +61,7 @@
 		"lang"			: "Language",
 
 		"validate"		: "Validate",
+		"search"		: "Search",
 		"select"		: "Select",
 		"upload"		: "Upload a file",
 		"edit"			: "Edit",

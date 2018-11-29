@@ -212,12 +212,12 @@
 
 			<v-flex d-flex :class="flex_vars">
 				
-				<!-- TO DO  -->
 				<v-btn 
 					block 
 					dark 
 					large
 					color="accent"
+					:loading="loading" 
 					@click="createItem()"
 					>
 					<v-icon left large>
@@ -287,6 +287,9 @@
 
 
 <script>
+
+import ObjectFormatterCreate from "~/utils/ObjectFormatterCreate.js"
+
 import SectionTitle from '~/components/UI/sectionTitle.vue'
 
 // import CardInfos from '~/components/UI/parentFields/cardInfos.vue'
@@ -322,6 +325,8 @@ export default {
 	data () {
 
 		return {
+			
+			loading 	: false,
 
 			// coll 		: this.item_doc.specs.doc_type, 
 			collName 	: this.$store.state.collectionsNames[this.coll],
@@ -408,13 +413,13 @@ export default {
 		// submit value to create item via API backend
 		createItem () {
 			
-			console.log("\n createItem... ")
+			console.log("\n VE createItem... ")
 
-			var formData = this.$store.state[this.coll].current_new ; 
+			var current_new = this.$store.state[this.coll].current_new ; 
 			
-			this.formHasErrors = false ; 
+			// this.formHasErrors = false ; 
 
-			console.log("\n createItem - current_new (formData) : ", formData )
+			console.log("\n createItem - current_new : ", current_new )
 
 			// Object.keys(this.form).forEach(f => {
 				// 	if (!this.form[f]) this.formHasErrors = true
@@ -422,30 +427,40 @@ export default {
 				
 			// })
 
-			/*
-			// var formData = ObjectFormatterUpdate.prepareFormData(this.form) ;
-			var formData = [this.form] ;
-			
-			console.log("\n createItem / formData : ", formData)
+			// REFORMAT DATA
+			// var data_to_send = JSON.parse(JSON.stringify(current_new)) ;
+			var data_to_send = ObjectFormatterCreate.prepareFormData(current_new) ;
+			console.log("\n VE createItem / data_to_send : ", data_to_send)
+
+			//  PREPARE PAYLOAD
+			var payload = { collection : this.coll, data : data_to_send } ; 
+			console.log("\n VE createItem / payload : ", payload)
 
 			// dispatch action from store
-			this.$store.dispatch('createItem', {
-				coll	: this.coll,
-				doc_id  : this.item_id,
-				form 	: formData, //this.form,
-			}).then(result => {
-				this.alert = {type: 'success', message: result.msg}
+			this.$store.dispatch('createItem', payload )
+			
+			.then(result => {
+
 				this.loading = false
-				// this.$router.push('/') /////////
+				// this.alert = {type: 'success', message: result.msg}
+
+				// retrieve new item id
+				var new_item_id = response.data._id
+
+				// redirect to edit-preview page 
+				return this.$router.push(`/${this.coll}/${new_item_id}`)
+		
 			}).catch(error => {
-				console.log("submit / error... : ", error ) ; 
+
+				console.log("VE createItem / submit / error... : ", error ) ; 
+
 				this.loading = false
-				this.alert = {type: 'error', message: "login error" }
+				// this.alert = {type: 'error', message: "login error" }
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
 				}
 			})
-		*/
+		
 
 		}
 

@@ -6,8 +6,13 @@ export const state = () => ({
 
 	parameters 		:  {
 		page 		: 1,
-		per_page   	: 5, // choices=[2, 5, 10, 20, 30, 40, 50, 100],
-		cardSizes	: "xs6 sm4 md3 l2"
+		per_page   	: 0, //5, // choices=[0, 2, 5, 10, 20, 30, 40, 50, 100],
+		cardSizes	: "xs6 sm3 md2 "
+	},
+
+	rowsPerPageItems: [ 6, 12, 18, 24 ],
+	pagination: {
+		rowsPerPage: 12
 	},
 
 	query_current 	: null,

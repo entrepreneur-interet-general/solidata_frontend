@@ -29,12 +29,82 @@
 			</v-layout>
 
 
+			<!-- SEARCH CARD -->
+			<v-layout 
+				wrap
+				class="mb-3"
+				>
+	 		
+				<v-flex 
+					class="md4"
+					>
+
+					<!-- <v-toolbar 
+						dark
+						color="primary"
+						> -->
+						
+    					<!-- <v-toolbar-title>
+							{{ $t(`global.search`, $store.state.locale) + ' - ' + $t(`${tab}.name`, $store.state.locale) }}
+						</v-toolbar-title> -->
+	
+						<!-- - itemsTitlesList : {{ itemsTitlesList }} -->
+						<!-- - coll : {{ coll }} -->
+						<!-- - tab : {{ tab }} -->
+
+						<!-- TO DO  -> AUTOCOMPLETE TO COMPONENT -->
+						<v-card
+							color="white"
+							height=""
+							>
+							<v-card-text
+								class=""
+								>
+								<v-autocomplete
+									v-model="searchString"
+									:items="itemsTitlesList"
+									:label="$t(`global.search`, $store.state.locale) + ' - ' + $t(`${tab}.name`, $store.state.locale)"
+									persistent-hint
+									prepend-icon="search"
+									class="ma-0"
+									flat
+									clearable
+									hide-no-data
+									hide-details
+									>
+
+									<!-- <v-slide-x-reverse-transition
+										slot="append-outer"
+										mode="out-in"
+										>
+										<v-icon
+											:color="isEditing ? 'success' : 'info'"
+											:key="`icon-${isEditing}`"
+											@click="isEditing = !isEditing"
+											v-text="isEditing ? 'mdi-check-outline' : 'mdi-circle-edit-outline'"
+										>
+										</v-icon>
+									</v-slide-x-reverse-transition> -->
+
+								</v-autocomplete>
+							</v-card-text>
+						</v-card>
+
+					<!-- </v-toolbar> -->
+				</v-flex>
+
+			
+			</v-layout>
+
+
 			<!-- PREVIEW CARDS IS IN TEAM -->
 			<v-data-iterator
-				v-if="items_coll['docs_user_is_in_team'] != null"
-				:items="items_coll['docs_user_is_in_team']" 
+				v-if="itemsIn != null"
+				:items="itemsList('inTeam')" 
+
 				:rows-per-page-items="rowsPerPageItems"
 				:pagination.sync="pagination"
+
 				content-tag="v-layout"
 				row
 				wrap
@@ -101,8 +171,8 @@
 
 			<!-- PREVIEW CARDS NOT IN TEAM -->
 			<v-data-iterator
-				v-if="items_coll['docs_user_not_in_team'] != null"
-				:items="items_coll['docs_user_not_in_team']" 
+				v-if="itemsNot != null"
+				:items="itemsList('notTeam')" 
 				:rows-per-page-items="rowsPerPageItems"
 				:pagination.sync="pagination"
 				content-tag="v-layout"
@@ -141,10 +211,7 @@
 				<v-flex
 					slot="item"
 					slot-scope="props"
-					xs12
-					sm6
-					md4
-					lg3
+					:class="cardSizes"
 					>
 
 					<CardPreviewDense 
@@ -169,12 +236,8 @@
 
 			</v-data-iterator>
 
+
 		</v-container>
-
-
-
-
-
 
 
 
@@ -264,6 +327,7 @@ export default {
 		"coll",
 		"defaultHeightAdd", 
 		"defaultHeight", 
+		
 		"defaultFlex", 
 	],
 
@@ -277,14 +341,28 @@ export default {
 	data () {
 		
 		return {
+			
+			// ITEMS 
+			itemsIn 	: this.items_coll['docs_user_is_in_team'],
+			itemsNot 	: this.items_coll['docs_user_not_in_team'],
 
-			rowsPerPageItems: [ 4, 8, 12 ],
-			pagination: {
-				rowsPerPage: 4
-			},
-
+			// CARDS SIZES
 			// cardSizes : "xs12 sm6 md4 l4",
 			cardSizes : this.$store.state[this.coll].parameters.cardSizes,
+
+			// SEARCH BAR
+			isEditing	: false,
+			searchString: null,
+		
+			// PAGINATION DATA ITERATOR
+			// rowsPerPageItems: [ 4, 8, 12 ],
+			// pagination: {
+			// 	rowsPerPage: 4
+			// },
+			rowsPerPageItems	: this.$store.state[this.coll].rowsPerPageItems,
+			pagination			: this.$store.state[this.coll].pagination
+
+			// itemsTitlesList : [ "A", "B", "C"  ],
 
 			/*
 			items_test: {
@@ -375,7 +453,102 @@ export default {
 
 		}
 
-	}
+	},
+
+	computed : {
+
+			itemsTitlesList () {
+				// get all docs' titles to fill autoplete
+
+				var titlesList  = [];
+				// const itemsIn 	= this.items_coll['docs_user_is_in_team'] ;
+				// const itemsNot 	= this.items_coll['docs_user_not_in_team'] ;
+
+				if( this.itemsIn != null ){
+					for (var doc in this.itemsIn) {
+						titlesList.push(this.itemsIn[doc].infos.title) ; 
+					}
+				};
+				if( this.itemsNot != null ){
+					for (var doc in this.itemsNot) {
+						titlesList.push(this.itemsNot[doc].infos.title) ; 
+					}
+				};
+
+				return titlesList
+
+			},
+
+			// itemsInList () {
+
+			// 	var itemsInList = this.itemsIn ;
+			// 	var searchStr 	= this.searchString ;
+
+			// 	if (this.searchString != null ){
+			// 		itemsInList = itemsInList.filter( function(searchStr, item) { 
+
+			// 			console.log("-- itemsInList / item : ", item) ; 
+			// 			return ( item.infos.title.includes(searchStr) )
+					
+			// 		})
+			// 	};
+
+			// 	return itemsInList
+			// },
+
+			// itemsNotList () {
+				
+			// 	var itemsNotList = this.itemsNot ;
+
+			// 	if (this.searchString != null ){
+			// 		itemsNotList = itemsNotList.filter( function(item) { return ( item.infos.title.includes(this.searchString) )} )
+			// 	};
+
+			// 	return itemsNotList
+			// }
+
+	},
+
+	methods : {
+
+			itemsList (in_out) {
+				
+				console.log("-- itemsInList / in_out : ", in_out) ; 
+				var searchStr 	= this.searchString ;
+
+				var items_list = (in_out === "inTeam") ? this.itemsIn : this.itemsNot ;
+
+				// if ( in_out == "inTeam") {
+				// 	items_list = this.itemsIn
+				// }
+				// else {	
+				// 	items_list = this.itemsNot  
+				// };
+
+
+				if (this.searchString != null ){
+					
+					// console.log("-- itemsInList / searchStr : ", searchStr) ; 
+					// console.log("-- itemsInList / itemsList : ", itemsList) ; 
+					// for (var d in itemsList){
+					// 	console.log("itemsList[d] : ", itemsList[d] )
+					// }
+
+					items_list = items_list.filter( function(item) { 
+
+						console.log("-- itemsInList / item : ", item) ; 
+						return ( item.infos.title.includes(searchStr) )
+					
+					})
+
+
+				};
+
+				console.log("-- itemsInList / items_list : ", items_list) ; 
+				return items_list
+			},
+
+	},
 
 }
 

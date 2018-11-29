@@ -91,16 +91,21 @@
 
 
 					<!-- FILE VALUE -->
-					<FileField
-						v-else-if=" $store.state.subFieldsWithFile.includes(subField) "
-						v-model="itemData"
-						:rawInput="itemData"
-						:labelText="'global.'+subField"
-						@input="updateFile"
-						@click="snack_if_not_create()"
-						@change="submitValue ()"
+					<template
+						v-else-if=" $store.state.subFieldsWithFile.includes(subField)"
 						>
-					</FileField>
+						
+						<FileField
+							v-model="itemData"
+							:rawInput="itemData"
+							:labelText="'global.'+subField"
+							@input="updateFile"
+							@click="snack_if_not_create()"
+							@change="submitValue ()"
+							>
+						</FileField>
+
+					</template>
 
 
 					<!-- COMBO VALUE  -->
@@ -150,7 +155,7 @@
 						required
 						@keyup.enter="submitValue () ; save()"
 						@change="submitValue ()"
-						@click="snack_if_not_create() ; save() "
+						@click="snack_if_not_create() "
 					></v-text-field>
 
 

@@ -55,7 +55,7 @@ const openlevel_edit_list 			= [
 const user_edit_auth_list 			= [
 	'owner', 
 	'manager', 
-	'editor', 
+	// 'editor', 
 	'contributor'
 ]
 const user_edit_auth_rights_list	= {
@@ -69,11 +69,11 @@ const user_edit_auth_rights_list	= {
 		'can_edit_datasets'	: ['dsi','tag','dmt','dmf','dso','rec'],
 		'can_delete' 		: false,
 	}, 
-	'editor'		: {
-		'can_edit_r_fields' : ['infos', 'public_auth','data_raw'],
-		'can_edit_datasets'	: ['dsi','tag','dmt','dmf'],
-		'can_delete'	 	: false,
-	}, 
+	// 'editor'		: {
+	// 	'can_edit_r_fields' : ['infos', 'public_auth','data_raw'],
+	// 	'can_edit_datasets'	: ['dsi','tag','dmt','dmf'],
+	// 	'can_delete'	 	: false,
+	// }, 
 	'contributor' 	: {
 		'can_edit_r_fields'	: ['data_raw'],
 		'can_edit_datasets' : ['dsi'],
@@ -458,7 +458,7 @@ export const actions = {
 
 		
 		console.log("... createItem / payload.data : ", payload.data ) ; 
-		console.log("... createItem / payload.data.title : ", payload.data.title ) ; 
+		// console.log("... createItem / payload.data.title : ", payload.data.title ) ; 
 		
 		var cleanPayload = ObjectCleaner.returnCleanObject( payload.data );
 		console.log("... createItem / cleanPayload : ", cleanPayload ) ; 

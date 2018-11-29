@@ -3,6 +3,7 @@
 		"home"			: "Accueil",
 		"dashboard"		: "Vue d'ensemble",
 		"about"			: "Ã propos",
+		"tutos"			: "Tutoriels",
 		"github"		: "Github",
 		"english"		: "Version Anglaise",
 		"french"		: "Version Française",
@@ -60,6 +61,7 @@
 		"lang"			: "Langage",
 
 		"validate"		: "Valider",
+		"search"		: "Chercher",
 		"select"		: "Sélectionner",
 		"upload"		: "Charger un fichier",
 		"edit"			: "Editer",

@@ -154,6 +154,8 @@
 							<div>prj.alert : {{ $store.state.prj.alert.message}}</div>
 							
 							<br> 
+							<!-- <div v-if="$store.state.dmf.list != [] ">dmf.list.length : {{ $store.state.dmf.list.docs_user_is_in_team.length }}</div> -->
+							<div>dmf.list : {{ $store.state.dmf.list }}</div>
 							<div>dmf.current : {{ $store.state.dmf.current}}</div>
 							<div>dmf.current_new : {{ $store.state.dmf.current_new}}</div>
 					
