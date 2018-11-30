@@ -2,31 +2,23 @@
 
 	<div>
 
-		<v-jumbotron 
-			class="pa-0" 
-			color="primary" 
-			dark 
-			:height="$store.state.mainSectionsHeight"
-			:to_link="'/dashboard'"
+
+		<SectionTitle
+			v-if="$store.state.auth.isLogged"
+			:title="$t(`${tab}.name`, $store.state.locale)"
+			:intro="$t(`${tab}.intro`, $store.state.locale)"
+			:icon="$store.state.mainIcons[tab].icon"
 			>
-		
-			<SectionTitle
-				v-if="$store.state.auth.isLogged"
-				:title="$t(`${tab}.name`, $store.state.locale)"
-				:intro="$t(`${tab}.intro`, $store.state.locale)"
-				:icon="$store.state.mainIcons[tab].icon"
-				>
-			</SectionTitle>
+		</SectionTitle>
 
-			<SectionTitle
-				v-else
-				:title="$t(`${tab}.name`, $store.state.locale)"
-				:intro="$t(`${tab}.introAnon`, $store.state.locale)"
-				:icon="$store.state.mainIcons[tab].icon"
-				>
-			</SectionTitle>
+		<SectionTitle
+			v-else
+			:title="$t(`${tab}.name`, $store.state.locale)"
+			:intro="$t(`${tab}.introAnon`, $store.state.locale)"
+			:icon="$store.state.mainIcons[tab].icon"
+			>
+		</SectionTitle>
 
-		</v-jumbotron>
 	
 
 		<!-- ITEMS LIST -->

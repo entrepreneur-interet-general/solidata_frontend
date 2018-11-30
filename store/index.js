@@ -472,16 +472,17 @@ export const actions = {
 		
 		console.log("\n... createItem..." ) ; 
 
+		// HEADERS
 		const config = { "headers" : { 'Authorization': rootState.auth.access_token }} ;
 		console.log("... createItem / config : ", config ) ; 
 
-		
+		// DATA TO SEND
 		console.log("... createItem / payload.data : ", payload.data ) ; 
 		// console.log("... createItem / payload.data.title : ", payload.data.title ) ; 
-		
 		var cleanPayload = ObjectCleaner.returnCleanObject( payload.data );
 		console.log("... createItem / cleanPayload : ", cleanPayload ) ; 
 
+		// CREATE 
 
 		return this.$axios.$post(`${payload.collection}/create/`, cleanPayload, config)
 			.then(response => {

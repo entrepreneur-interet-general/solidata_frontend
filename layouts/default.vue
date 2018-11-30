@@ -132,43 +132,50 @@
 						:value="true"
 						type="error"
 						>
-							<h3> ==> DEBUGGING DEFAULT LAYOUT</h3>
+						<h3> ==> DEBUGGING DEFAULT LAYOUT</h3>
 
-							<v-divider class="my-3"></v-divider>
-							
-							<div>isAnonymous : {{ $store.state.auth.isAnonymous}}</div>
-							<div>isLogged : {{ $store.state.auth.isLogged}}</div>
-							<div>locale : {{ $store.state.locale }} </div>
-							<div>subFieldsWithChoices : {{ $store.state.subFieldsWithChoices}}</div>
-							<div>subFieldsWithBoolean : {{ $store.state.subFieldsWithBoolean}}</div>
-							
-							<br> 
-							<div>user_infos : {{ $store.state.auth.user_infos}}</div>
-							<div>user_id : {{ $store.state.auth.user_id}}</div>
-							
-							<br> 
-							<div>access_token : {{ $store.state.auth.access_token}}</div>
-							<div>refresh_token : {{ $store.state.auth.refresh_token}}</div>
-							
-							<br> 
-							<div>prj.alert : {{ $store.state.prj.alert.message}}</div>
-							
-							<br> 
-							<!-- <div v-if="$store.state.dmf.list != [] ">dmf.list.length : {{ $store.state.dmf.list.docs_user_is_in_team.length }}</div> -->
-							<div>dmf.list : {{ $store.state.dmf.list }}</div>
-							<div>dmf.current : {{ $store.state.dmf.current}}</div>
-							<div>dmf.current_new : {{ $store.state.dmf.current_new}}</div>
-					
-												<br> 
-							<!-- <div v-if="$store.state.dmf.list != [] ">dmf.list.length : {{ $store.state.dmf.list.docs_user_is_in_team.length }}</div> -->
-							<div>tag.list : {{ $store.state.tag.list }}</div>
-							<div>tag.current : {{ $store.state.tag.current}}</div>
-							<div>tag.current_new : {{ $store.state.tag.current_new}}</div>
+						<v-divider class="my-3"></v-divider>
+						
+						<div>isAnonymous : {{ $store.state.auth.isAnonymous}}</div>
+						<div>isLogged : {{ $store.state.auth.isLogged}}</div>
+						<div>locale : {{ $store.state.locale }} </div>
+						<div>subFieldsWithChoices : {{ $store.state.subFieldsWithChoices}}</div>
+						<div>subFieldsWithBoolean : {{ $store.state.subFieldsWithBoolean}}</div>
+						
+						<br> 
+						<div>user_infos : {{ $store.state.auth.user_infos}}</div>
+						<div>user_id : {{ $store.state.auth.user_id}}</div>
+						
+						<br> 
+						<div>access_token : {{ $store.state.auth.access_token}}</div>
+						<div>refresh_token : {{ $store.state.auth.refresh_token}}</div>
+						
+						<br> 
+						<div>prj.alert : {{ $store.state.prj.alert.message}}</div>
+						
+						<br> 
+						<div>dmf.list : {{ $store.state.dmf.list }}</div>
+						<div>dmf.current : {{ $store.state.dmf.current}}</div>
+						<div>dmf.current_new : {{ $store.state.dmf.current_new}}</div>
+				
+						<br> 
+						<div>tag.list : {{ $store.state.tag.list }}</div>
+						<div>tag.current : {{ $store.state.tag.current}}</div>
+						<div>tag.current_new : {{ $store.state.tag.current_new}}</div>
+
+						<br> 
+						<div>dsi.list : {{ $store.state.dsi.list }}</div>
+						<div>dsi.current : {{ $store.state.dsi.current}}</div>
+						<div>dsi.current_new : {{ $store.state.dsi.current_new}}</div>
+						<!-- <div>dsi.current_file.name : {{ ($store.state.dsi.current_file) ? $store.state.dsi.current_file.name : "no file yet" }}</div> -->
+						<div>dsi.current_filename : {{ $store.state.dsi.current_filename }}</div>
 
 					</v-alert>
 				</v-flex>
 			</v-layout>
 		</v-container>
+
+
 
 		<SecondaryDrawer 
 			@toggleRight="change_right"

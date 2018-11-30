@@ -99,36 +99,47 @@
 						v-else-if="$store.state.subFieldsWithFile.includes(subField)"
 						>
 						
-						<!-- FILE UPLOAD  -->
-						<FileField
-							v-if="is_file"
-							v-model="itemData"
-							:rawInput="itemData"
-							:labelText="'global.'+subField"
-							@input="updateFile"
-							@click="snack_if_not_create()"
-							@change="submitValue ()"
-							>
-						</FileField>
+						<div>
+							
+							<!-- DEBUGGING -->
+							<!-- <p 
+								v-if="is_file"
+								>
+								- itemData 	: {{ itemData }} <br>
+								- filename 	: {{ filename }} <br>
+							</p> -->
 
-						<!-- TEXT VALUE -->
-						<v-text-field
-							v-else
-							:solo="is_preview"
-							:hide-details="is_preview"
-							:ref="subField"
-							:color="fieldColor"
-							:readonly="!canEdit"
-							v-model="itemData"
-							:rules="[() => !!itemData || $t('rules.required', $store.state.locale )]"
-							:label="$t( collName+'.'+subField, $store.state.locale )"
-							:error-messages="errorMessages"
-							:placeholder="$t('global.'+subField, $store.state.locale )"
-							required
-							@keyup.enter="submitValue () ; save()"
-							@change="submitValue ()"
-							@click="snack_if_not_create() "
-						></v-text-field>
+							<!-- FILE UPLOAD  -->
+							<FileField
+								v-if="is_file"
+								v-model="itemData"
+								:rawInput="itemData"
+								:labelText="'global.'+subField"
+								@click="snack_if_not_create()"
+								@input="updateFile"
+								>
+							</FileField>
+
+							<!-- TEXT VALUE -->
+							<v-text-field
+								v-else
+								:solo="is_preview"
+								:hide-details="is_preview"
+								:ref="subField"
+								:color="fieldColor"
+								:readonly="!canEdit"
+								v-model="itemData"
+								:rules="[() => !!itemData || $t('rules.required', $store.state.locale )]"
+								:label="$t( collName+'.'+subField, $store.state.locale )"
+								:error-messages="errorMessages"
+								:placeholder="$t('global.'+subField, $store.state.locale )"
+								required
+								@keyup.enter="submitValue () ; save()"
+								@change="submitValue ()"
+								@click="snack_if_not_create() "
+							></v-text-field>
+
+						</div>
 
 					</template>
 
@@ -329,8 +340,9 @@ export default {
 		// console.log("\n- valueEdit / created ---> item_data : ", this.item_data ) ;
 	},
 
-	mounted () {
-		console.log("\n- valueEdit / mounted ---> item_data : ", this.item_data ) ;
+	created () {
+		console.log("- valueEdit / mounted ---> item_data : ", this.item_data ) ;
+		this.itemData = this.item_data ;
 	},
 
 
@@ -338,11 +350,10 @@ export default {
 
 		return {
 			
-			itemData 		: this.item_data,
+			itemData 		: null,
 
 			// edit_mode	: false,
 
-			// choose_file		: this.is_file,
 			file			: '',
 			filename		: '',
 
@@ -443,12 +454,25 @@ export default {
 			})
 		},
 		
-		// FILE-API SWITCH
-		updateFile(str) {
-			this.valuesToSend.file = str.fileName ;
-			this.valuesToSend.filename = str.file ;
+
+		// FILE INFOS UPDATE 
+		updateFile(val) {
+
+			console.log("\n updateFile / val.file : ", val.file)
+			console.log("updateFile / val.fileName : ", val.fileName)
+
+			this.itemData	= val.fileName ;
+
+			this.file 		= val.file ;
+			this.filename 	= val.fileName ;
+
+			this.$store.commit(`${this.coll}/set_current_file`, val.file );
+
+			this.submitValue () ;
+
 		},
 
+		// FILE-API SWITCH
 		srcTypeSwitch(event) {
 
 			if( this.subField == "src_type" ) {
@@ -473,9 +497,8 @@ export default {
 			}
 		},
 
-		// update value for update of current_new in 
-		 
-		// submit value for update via API backend
+
+		// submit value for update : via API backend | via $store.set_current_new
 		submitValue () {
 
 			console.log("\n submitValue... ")
@@ -489,12 +512,13 @@ export default {
 			// })
 
 
+
 			// UPDATE VALUE TO API
 			if (!this.is_create) {
 
 				// var formData = ObjectFormatterUpdate.prepareFormData(this.form) ;
 				var formData = [this.form] ;
-				console.log("\n submitValue - update / formData : ", formData)
+				console.log("submitValue - update / formData : ", formData)
 
 				// dispatch action from store
 				this.$store.dispatch('updateItem', {
@@ -518,15 +542,16 @@ export default {
 
 			// UPDATE VALUE TO STORE at current_new
 			else {
+
 				var valueData = {
 					"parentField" 	: this.parentField,
 					"subField" 		: this.subField,
-					"item_data" 	: this.itemData
+					"item_data" 	: this.itemData , 
 				} ;
 				
-				console.log("\n submitValue - create / valueData : ", valueData)
-
+				console.log("submitValue - create / valueData : ", valueData)
 				this.$store.commit(`${this.coll}/set_current_new`, valueData );
+
 			}
 
 

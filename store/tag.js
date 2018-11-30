@@ -23,7 +23,7 @@ export const state = () => ({
 			"description"	: null 
 		},
 		"public_auth"	: { 
-			"open_level_edit": "collective", 
+			"open_level_edit": "private", 
 			// "open_level_show": "open_data" 
 		}, 
 		// "specs": { 

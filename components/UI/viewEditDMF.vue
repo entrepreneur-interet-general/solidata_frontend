@@ -7,7 +7,7 @@
 		
 		<!-- ITEM TITLE ROW -->
 		<v-layout 
-			v-if="!is_preview || is_create || is_switch"
+			v-if="!isPreview || is_create || is_switch"
 			row 
 			wrap 
 			>
@@ -39,9 +39,9 @@
 					<!-- SWITCH FOR PREVIEW -->
 					<v-switch 
 						:label="$t('global.preview', $store.state.locale)"
-						v-model="is_preview"
+						v-model="isPreview"
 						color="warning"
-						:input-value="is_preview"
+						:input-value="isPreview"
 						hide-details
 						>
 					</v-switch>
@@ -113,7 +113,7 @@
 				<!-- parentFieldName -->
 				<v-flex 
 					ParentField_2
-					v-if="!is_preview"
+					v-if="!isPreview"
 					:class="parentFieldsSize"
 					d-flex 
 					>
@@ -155,7 +155,7 @@
 											:parentField="parentField.parentFieldName"
 											:subField="subField"
 											:is_create="is_create"
-											:is_preview="is_preview"
+											:is_preview="isPreview"
 											:item_id="item_doc._id"
 											:item_data="item_doc[parentField.parentFieldName][subField]"
 											:item_auth="item_doc.public_auth"
@@ -194,16 +194,18 @@
 					block 
 					dark 
 					large
-					color="accent"
+					class="mt-4 accent"
 					:loading="loading" 
 					@click="createItem()"
 					>
 					<v-icon left large>
 						{{ $store.state.mainIcons.create.icon }}
 					</v-icon>
+
 					<span class="subheading">
 						{{ $t(collName+`.create`, $store.state.locale) }}
 					</span>
+
 				</v-btn>
 
 				<!-- <CardCreate
@@ -309,6 +311,7 @@ export default {
 		return {
 			
 			loading 	: false,
+			isPreview 	: this.is_preview,
 
 			// coll 		: this.item_doc.specs.doc_type, 
 			collName 	: this.$store.state.collectionsNames[this.coll],
@@ -338,13 +341,13 @@ export default {
 	computed : {
 
 		parentPadding () {
-			return (this.is_preview) ? this.parentNoBotPadding : this.parentBotPadding ;
+			return (this.isPreview) ? this.parentNoBotPadding : this.parentBotPadding ;
 		},
 
 		valueSwitch () {
 			// return (!this.is_preview && this.is_switch) ? this.blockPartSize : this.blockSwitchSize ;
 			if(this.is_switch){
-				return (this.is_preview) ? this.blockSwitchSize : this.blockPartSize ;
+				return (this.isPreview) ? this.blockSwitchSize : this.blockPartSize ;
 			}
 			else {
 				return this.blockFullSize

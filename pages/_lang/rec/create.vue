@@ -2,22 +2,16 @@
 
 	<div>
 
-		<v-jumbotron 
-			class="pa-0" 
-			color="primary" 
-			dark 
-			:height="$store.state.mainSectionsHeight"
-			>
-		
-			<SectionTitle
-				:title="$t(itemType+'.name', $store.state.locale)"
-				:intro="$t(itemType+'.create', $store.state.locale)"
-				:icon="$store.state.mainIcons.datamodels.icon"
-				:to_link="'/rec'"
-				>
-			</SectionTitle>
 
-		</v-jumbotron>
+		
+		<SectionTitle
+			:title="$t(itemType+'.name', $store.state.locale)"
+			:intro="$t(itemType+'.create', $store.state.locale)"
+			:icon="$store.state.mainIcons.datamodels.icon"
+			:to_link="'/rec'"
+			>
+		</SectionTitle>
+
 
 		<!-- CREATE EDIT DOC -->
 		<v-container class="pt-3">

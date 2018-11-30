@@ -1,35 +1,27 @@
 <template>
 
 	<div>
-
-		<v-jumbotron 
-			class="pa-0" 
-			color="primary" 
-			dark 
-			:height="$store.state.mainSectionsHeight"
-			>
 			
-			<SectionTitle
-				v-if="$store.state.auth.isLogged"
-				:title="$t('dashboard.name', $store.state.locale)"
-				:intro="$t('dashboard.intro', $store.state.locale)"
-				:icon="$store.state.mainIcons.dashboard.icon"
-				:isDashboard="true"
-				:to_link="'/'"
-			>
-			</SectionTitle>
+		<SectionTitle
+			v-if="$store.state.auth.isLogged"
+			:title="$t('dashboard.name', $store.state.locale)"
+			:intro="$t('dashboard.intro', $store.state.locale)"
+			:icon="$store.state.mainIcons.dashboard.icon"
+			:isDashboard="true"
+			:to_link="'/'"
+		>
+		</SectionTitle>
 
-			<SectionTitle
-				v-else
-				:title="$t('dashboard.name', $store.state.locale)"
-				:intro="$t('dashboard.introAnon', $store.state.locale)"
-				:icon="$store.state.mainIcons.dashboard.icon"
-				:isDashboard="true"
-				:to_link="'/'"
-			>
-			</SectionTitle>
+		<SectionTitle
+			v-else
+			:title="$t('dashboard.name', $store.state.locale)"
+			:intro="$t('dashboard.introAnon', $store.state.locale)"
+			:icon="$store.state.mainIcons.dashboard.icon"
+			:isDashboard="true"
+			:to_link="'/'"
+		>
+		</SectionTitle>
 
-		</v-jumbotron>
 	
 
 

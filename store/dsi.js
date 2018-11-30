@@ -18,8 +18,13 @@ export const state = () => ({
 	},
 
 	query_current 	: null,
+
+	current_file		: '',
+	current_filename	: 'no filename',
+
 	current 		: {},
 	current_new 	: {
+
 		"infos"			: { 
 			"title"			: "your new dataset input", 
 			"description"	: null,
@@ -105,9 +110,29 @@ export const mutations = {
 	// set a temporary new 
 	set_current_new (store, data) {
 		console.log("\n... store/dsi : set_current_new...")
-		console.log("\n... store/dsi - data : ", data )
+		console.log("... store/dsi - data : ", data )
+
 		store.current_new[data.parentField][data.subField] = data.item_data
+
 	},
+
+	// set a temporary new 
+	set_current_file (store, file_data) {
+		console.log("\n... store/dsi : set_current_file...")
+		console.log("... store/dsi - file_data : ", file_data )
+
+		store.current_file = file_data.file 
+		store.current_filename = file_data.name
+
+	},
+
+	reset_current_file(store) {
+		console.log("\n... store/dsi : reset_current_file...")
+
+		store.current_file = ''
+		store.current_filename = 'no filename'
+	},
+
 	
 }
 

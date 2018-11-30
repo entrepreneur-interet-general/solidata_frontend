@@ -26,7 +26,7 @@ export const state = () => ({
 			"licence"		: "CC BY"
 		},
 		"public_auth"	: { 
-			"open_level_edit": "collective", 
+			"open_level_edit": "private", 
 			// "open_level_show": "open_data" 
 		}, 
 		// "specs": { 

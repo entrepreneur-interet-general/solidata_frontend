@@ -2,8 +2,8 @@
 <template>
 
 	<v-toolbar 
-			class="secondary justify-center"
-			dark
+			class=" justify-center"
+			
 			app 
 			:fixed="$store.state.fixedNav" 
 			:clipped-left="$store.state.clipped"
@@ -31,7 +31,7 @@
 				icon
 				flat 
 				nuxt 
-				dark 
+				 
 				to="/" 
 				class="ma-0"
 				>
@@ -102,7 +102,7 @@
 						color="primary"
 						class="px-0 ma-0"
 						>
-						<v-icon dark>
+						<v-icon>
 							fas fa-sign-in-alt
 						</v-icon>
 						<!-- {{ $t('home.loginPage', $store.state.locale ) }} -->
@@ -132,7 +132,7 @@
 
 							<v-btn 
 								slot="activator"
-								dark
+								
 								flat
 								>
 								<span>{{ $store.state.locale }}</span>

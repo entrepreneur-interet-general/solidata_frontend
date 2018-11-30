@@ -1,23 +1,17 @@
 <template>
 
-	<v-jumbotron 
-		class="pa-0" 
-		color="primary" 
-		dark 
-		:height="$store.state.mainSectionsHeight"
-		>
+
 	
-		<SectionTitle
-			:title="$store.state.prj.current.infos.title"
-			:intro="$store.state.prj.current.infos.description"
-			:icon="$store.state.mainIcons.projects.icon"
-		>
-		</SectionTitle>
+	<SectionTitle
+		:title="$store.state.prj.current.infos.title"
+		:intro="$store.state.prj.current.infos.description"
+		:icon="$store.state.mainIcons.projects.icon"
+	>
+	</SectionTitle>
 
 
 
 
-	</v-jumbotron>
 	
 </template>
 

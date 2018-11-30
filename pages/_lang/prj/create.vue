@@ -2,22 +2,16 @@
 
 	<div>
 
-		<v-jumbotron 
-			class="pa-0" 
-			color="primary" 
-			dark 
-			:height="$store.state.mainSectionsHeight"
-			>
-		
-			<SectionTitle
-				:title="$t(tab+'.name', $store.state.locale)"
-				:intro="$t(tab+'.create', $store.state.locale)"
-				:icon="$store.state.mainIcons[tab]['icon']"
-				:to_link="'/'+coll"
-				>
-			</SectionTitle>
 
-		</v-jumbotron>
+		
+		<SectionTitle
+			:title="$t(tab+'.name', $store.state.locale)"
+			:intro="$t(tab+'.create', $store.state.locale)"
+			:icon="$store.state.mainIcons[tab]['icon']"
+			:to_link="'/'+coll"
+			>
+		</SectionTitle>
+
 
 
 		<!-- CREATE EDIT PRJ -->

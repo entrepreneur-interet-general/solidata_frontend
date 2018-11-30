@@ -427,6 +427,7 @@ export default {
 				description 		: '',
 				licence 			: '',
 				tags				: [ ] , 
+				
 				file				: '',
 				filename			: '',
 

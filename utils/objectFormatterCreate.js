@@ -7,10 +7,10 @@ const ObjectFormatterCreate = {
 		var FormDataMarshalled = {} ;
 
 		for (var parentField in formData) {
-			console.log("\nprepareFormData / parentField : ", parentField)
+			console.log("prepareFormData / parentField : ", parentField)
 			
 			for (var subField in formData[parentField]) {
-				console.log("\nprepareFormData / subField : ", subField)
+				console.log("prepareFormData / subField : ", subField)
 				// var raw_field = {
 				// "field_to_update" 	: subField,
 				// "field_value" 		: formData[subField]
