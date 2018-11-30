@@ -126,6 +126,25 @@ const mainIconsConst = {
 	delete				: { icon : "far fa-trash-alt" },
 	cancel				: { icon : "cancel" },
 	export				: { icon : "get_app" },
+
+	// parentField icons 
+	parentFieldIcons : {
+		infos				: { icon : "info" },
+		public_auth			: { icon : "lock_open" },
+		specs				: { icon : "details" },
+		log					: { icon : "history" },
+		modif_log			: { icon : "history" },
+		uses				: { icon : "star_rate" },
+		datasets			: { icon : "fas fa-puzzle-piece" },
+		translations		: { icon : "translate" },
+		team				: { icon : "fas fa-users" },
+		mapping				: { icon : "link" },
+		data_raw			: { icon : "fas fa-database" },
+		profile				: { icon : "far fa-user" },
+		professionnal_infos	: { icon : "far fa-building" },
+		auth				: { icon : "lock "}
+	}
+
 		
 }		
 

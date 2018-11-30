@@ -123,7 +123,7 @@
 
 
 		<!-- DEBUGGING / DISPLAY STORE CONTENTS -->
-		<v-divider class="mt-5"></v-divider>
+		<!-- <v-divider class="mt-5"></v-divider>
 
 		<v-container grid-list-xl>
 			<v-layout row wrap>
@@ -167,13 +167,12 @@
 						<div>dsi.list : {{ $store.state.dsi.list }}</div>
 						<div>dsi.current : {{ $store.state.dsi.current}}</div>
 						<div>dsi.current_new : {{ $store.state.dsi.current_new}}</div>
-						<!-- <div>dsi.current_file.name : {{ ($store.state.dsi.current_file) ? $store.state.dsi.current_file.name : "no file yet" }}</div> -->
 						<div>dsi.current_filename : {{ $store.state.dsi.current_filename }}</div>
 
 					</v-alert>
 				</v-flex>
 			</v-layout>
-		</v-container>
+		</v-container> -->
 
 
 

@@ -175,7 +175,7 @@ export default {
 		},
 
 		coll (tab) { 
-			// console.log( "get coll ... tab : ", tab) ;
+			console.log( "get coll ... tab : ", tab) ;
 			return this.$store.state.mainIcons[tab].abr 
 		},
 

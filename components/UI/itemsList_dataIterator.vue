@@ -338,6 +338,10 @@ export default {
 		CardCreate
 	},
 	
+	created () {
+		console.log("\n itemList_dataIterator / col : ", this.coll )
+	},
+
 	data () {
 		
 		return {

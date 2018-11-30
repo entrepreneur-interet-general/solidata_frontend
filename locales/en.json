@@ -36,6 +36,25 @@
 		"required"		: "This field is required"
 	},
 	
+
+	"parentFields" : {
+		"infos"			: "Infos",
+		"public_auth"	: "Public auth",
+		"specs"			: "Specifications",
+		"log"			: "Log",
+		"modif_log"		: "Mofifications",
+		"uses"			: "Uses",
+		"datasets"		: "Datasets",
+		"translations"	: "Translations",
+		"team"			: "Team",
+		"mapping"		: "Mapping",
+		"data_raw"		: "Data raw",
+		"profile"		: "Profile",
+		"professionnal_infos"	: "Professional infos",
+		"auth"			: "Authorizations"
+	},
+
+
 	"openlevel" : {
 		"opendata" 		: "opendata",
 		"commons" 		: "commons",

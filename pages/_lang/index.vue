@@ -2,9 +2,9 @@
 
 	<v-jumbotron 
 		class="pa-0" 
-		color="primary" 
+		gradient="to top right, #116565, #22C9C9"
 		dark 
-		height="800px"
+		height="100%"
 		>
 
 		<v-container fill-height>

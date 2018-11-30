@@ -122,8 +122,16 @@
 						dark
 						>
 						<v-card-text>
-							{{ parentField.parentFieldName }}
-							<!-- <br> - is_file :  {{ is_file }} -->
+
+							<v-icon small>
+								{{ $store.state.mainIcons.parentFieldIcons[parentField.parentFieldName].icon }}
+							</v-icon>
+							<v-spacer></v-spacer>
+							<span>
+								{{ $t(`parentFields.`+parentField.parentFieldName, $store.state.locale) }}
+								<!-- <br> - is_file :  {{ is_file }} -->
+							</span>
+
 						</v-card-text>
 					</v-card>
 				</v-flex>
