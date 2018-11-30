@@ -31,17 +31,17 @@
 		
 
 
-		<ViewEditDMF
+		<ViewEditBasicDoc
 			:flex_vars="'xs8 offset-xs2'"
 			:is_create="false"
 			:is_preview="false"
 			:coll="coll"
 			:parentFieldslist="parentFieldsList"
-			:item_doc="$store.state.dmf.current"
+			:item_doc="$store.state[coll].current"
 			:is_switch="true"
 			:is_debug="true"
 			>
-		</ViewEditDMF>
+		</ViewEditBasicDoc>
 	
 
 
@@ -54,7 +54,7 @@
 <script>
 
 import SectionTitle from '~/components/UI/sectionTitle.vue'
-import ViewEditDMF from '~/components/UI/viewEditDMF.vue' 
+import ViewEditBasicDoc from '~/components/UI/viewEditDMF.vue' 
 
 // import CardDMF from '~/components/UI/cardDMF.vue' 
 
@@ -62,7 +62,7 @@ export default {
 	components : {
 
 		SectionTitle,
-		ViewEditDMF, 
+		ViewEditBasicDoc, 
 
 	},
 

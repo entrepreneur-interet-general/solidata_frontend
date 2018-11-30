@@ -32,6 +32,7 @@ export const state = () => ({
 		"specs": { 
 			// "doc_type": "dmf" 
 			"src_link"	: null,
+			"src_type"	: "xls",
 		}, 
 		// "log": { 
 		// 	"created_at": "2018-11-20T14:20:47.661000+00:00", 

@@ -121,9 +121,9 @@
 						color="secondary" 
 						dark
 						>
-						<!-- <v-card-title primary class="title">Lorem</v-card-title> -->
 						<v-card-text>
 							{{ parentField.parentFieldName }}
+							<!-- <br> - is_file :  {{ is_file }} -->
 						</v-card-text>
 					</v-card>
 				</v-flex>
@@ -160,6 +160,8 @@
 											:item_data="item_doc[parentField.parentFieldName][subField]"
 											:item_auth="item_doc.public_auth"
 											:canEdit="canEdit"
+											:is_file="is_file"
+											@input="updateIsFile"
 											>
 										</ValueEdit>
 
@@ -174,30 +176,6 @@
 
 			</v-flex>
 
-
-
-			<!-- DEBUG  -->
-			<!-- <v-flex d-flex :class="flex_vars">
-
-				<v-alert       
-					:value="true"
-					type="error"
-					>
-					---- DEBUG component - ItemViewEdit ----
-					<hr>
-					-- item_doc -- <br>
-					{{ item_doc }}
-					<hr>
-					-- vars -- <br>
-					coll : {{ coll }} - 
-					collName : {{ collName }} - 
-					is_create : {{ is_create }} - 
-					item_doc._id : {{ item_doc._id}} - 
-					canEdit : {{ canEdit }}
-					flex_vars : {{flex_vars}} - 
-				</v-alert>
-
-			</v-flex> -->
 
 		</v-layout>
 
@@ -263,6 +241,7 @@
 					<hr>
 
 					-- vars -- <br>
+					is_file : {{ is_file }} - 
 					coll : {{ coll }} - 
 					collName : {{ collName }} - 
 					is_create : {{ is_create }} - 
@@ -320,6 +299,9 @@ export default {
 	mounted () {
 		console.log("\n- itemViewEdit / mounted ---> item_doc : ", this.item_doc ) ;
 		this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
+
+		// this.is_file = ( this.coll == "dsi" ) ? true : false ; 
+		this.is_file = this.preloadIsFile() ; 
 	},
 
 	data () {
@@ -333,6 +315,8 @@ export default {
 			// collName 	: this.$store.state.collectionsNames[this.item_doc.specs.doc_type],
 			canEdit		: false ,
 			itemId 		: this.item_doc._id, 
+
+			is_file 			: null,
 
 			blockFullSize 		: "xs12",
 			blockPartSize 		: "xs10",
@@ -379,7 +363,27 @@ export default {
 
 	methods: {
 		
-		//  TO DO  --> FACTORIZE checkUserAuth for an item --> utils
+		preloadIsFile () {
+			var isFile = false ;
+			if ( this.coll == "dsi"){
+				if(this.item_doc.specs.src_type != "API") {
+					isFile = true
+				}
+			}
+			return isFile
+		},
+
+		updateIsFile(val) {
+			
+			if( val.subField == "src_type"){
+
+				console.log("\n updateIsFile / val : ", val)
+				this.is_file = val.is_file ;
+
+			}
+		},
+
+		//  TO DO  --> FACTORIZE checkUserAuth for an item --> /utils
 		checkUserAuth (field_name) {
 
 			console.log("\ncheckUserAuth ...\n", this.item_doc.public_auth ) ;

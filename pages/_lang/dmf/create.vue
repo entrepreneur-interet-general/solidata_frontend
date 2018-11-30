@@ -25,7 +25,7 @@
 			<v-layout align-center justify-center row fill-height>
 				<v-flex xs12>
 
-					<ViewEditDoc
+					<ViewEditBasicDoc
 						:flex_vars="$store.state.createSize"
 						:is_create="true"
 						:is_preview="false"
@@ -35,7 +35,7 @@
 						:is_switch="true"
 						:is_debug="true"
 						>
-					</ViewEditDoc>
+					</ViewEditBasicDoc>
 				
 				</v-flex>
 			</v-layout>
@@ -58,14 +58,14 @@
 
 <script>
 import SectionTitle from '~/components/UI/sectionTitle.vue'
-import ViewEditDoc from '~/components/UI/viewEditDMF.vue' 
+import ViewEditBasicDoc from '~/components/UI/viewEditDMF.vue' 
 
 // import CreateItem from '~/components/Forms/createItem.vue'
 
 export default {
 	components : {
 		SectionTitle,
-		ViewEditDoc,
+		ViewEditBasicDoc,
 		// CreateItem,
 
 	},

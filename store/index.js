@@ -13,7 +13,7 @@ const collectionsDict = {
 	tag : "tags" ,
 }
 
-const dmf_types_list 		= [
+const dmf_types_list = [
 	'text',
 	'email',
 	'float',
@@ -27,7 +27,18 @@ const dmf_types_list 		= [
 	'other'
 ]
 
-const licences_list 			= [
+const src_types_list = [
+	'xls',
+	'csv',
+	'API',
+]
+const src_fileTypes_list = [
+	'xls',
+	'csv',
+	// 'API',
+]
+
+const licences_list = [
 	'MIT', 
 	'GNU', 
 	'OpenGL', 
@@ -84,8 +95,9 @@ const user_edit_auth_rights_list	= {
 const mainIconsConst = {
 
 	home				: { icon : "fas fa-home",				 to:"/" },
-	// dashboard	 : { icon : "fas fa-th-list",				to:"/dashboard",	abr:"dsh"},
-	dashboard	 		: { icon : "fas fa-eye",				to:"/dashboard",	abr:"dsh"},
+	// dashboard	 	: { icon : "fas fa-th-list",				to:"/dashboard",	abr:"dsh"},
+	// dashboard	 		: { icon : "fas fa-eye",				to:"/dashboard",	abr:"dsh"},
+	dashboard	 		: { icon : "dashboard",					to:"/dashboard",	abr:"dsh"},
 	
 	projects			: { icon : "fas fa-project-diagram",	to:"/prj",			abr:"prj" },
 	datamodels			: { icon : "fas fa-table",				to:"/dmt",			abr:"dmt" },
@@ -119,7 +131,11 @@ const mainIconsConst = {
 
 export const state = () => ({
 	
-	auth 				: null, 
+	//  APP TITLE
+	title	: 'Solidata - beta',
+
+	// USER AUTH
+	auth 	: null, 
 	
 	// current_collection : 'prj',
 
@@ -133,13 +149,16 @@ export const state = () => ({
 	licencesList				: licences_list,
 	openlevelList				: openlevel_list,
 	openlevelEditList			: openlevel_edit_list,
+
+	src_fileTypesList			: src_fileTypes_list,
+
 	user_edit_authList			: user_edit_auth_list,
 	user_edit_auth_rightsList	: user_edit_auth_rights_list,
 
 
 
 
-	// TO DO : DEPRECATE UNTIL -->
+	// DEPRECATED UNTIL -->
 	// cf : https://www.data.gouv.fr/fr/licences
 	// licences 			: [
 	// 	'MIT', 
@@ -236,6 +255,7 @@ export const state = () => ({
 		"user_edit_auth"	: { choices : user_edit_auth_list } ,
 		"licence" 			: { choices : licences_list } ,
 		"f_type" 			: { choices : dmf_types_list } ,
+		"src_type"			: { choices : src_types_list },
 	},
 
 	subFieldsWithBoolean : [
@@ -360,16 +380,16 @@ export const state = () => ({
 	],
 
 	// FOR DRAWERS CONTROLS
-	miniVariant: false,
-	drawer: false,
-	clipped: true,
-	fixedNav: true,
-	right: true,
-	rightDrawer: false,
-	title: 'Solidata - beta',
+	miniVariant	: false,
+	drawer		: false,
+	clipped		: true,
+	fixedNav	: true,
+	right		: true,
+	rightDrawer	: false,
 
 
 	// LOCALES MULTILANGUAGE
+	locale			: 'fr',
 	locales 		: [	
 		'en', 
 		'fr',
@@ -384,7 +404,6 @@ export const state = () => ({
 		// { text: 'turkish', code : 'tr' }
 		// { text: 'german', code : 'ge' }
 	],
-	locale			: 'fr',
 
 })
 

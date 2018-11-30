@@ -105,6 +105,7 @@
 		"f_comments" 	: "Field comments" ,
 		"f_is_required"	: "Field is required" ,
 
+		"src_type" 		: "source tyoe" ,
 		"src_link" 		: "source file" ,
 		
 		"team"			: "Team",
@@ -282,7 +283,9 @@
 		"f_type" 		: "Field type" ,
 		"f_comments" 	: "Field comments" ,
 		"f_is_required"	: "Field is required" ,
-		"resume" 		: "Resume"
+		"resume" 		: "Resume",
+		"src_type" 		: "Source type", 
+		"src_link" 		: "Value" 
 	},
 	
 	"recipes" : {

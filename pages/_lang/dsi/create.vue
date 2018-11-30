@@ -104,6 +104,7 @@ export default {
 				{ 
 					parentFieldName : "specs",
 					subFields 	: [
+						"src_type",
 						"src_link",
 					] 
 				},

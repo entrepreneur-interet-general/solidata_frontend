@@ -75,11 +75,19 @@
 
 				<!-- STATIC PAGES -->
 
-				<v-btn flat nuxt to="/tutos">
+				<v-btn 
+					disabled
+					flat 
+					nuxt 
+					to="/tutos">
 					{{ $t(`links.tutos`, $store.state.locale )}}
 				</v-btn>
 
-				<v-btn flat nuxt to="/about">
+				<v-btn 
+					disabled
+					flat 
+					nuxt 
+					to="/about">
 					{{ $t(`links.about`, $store.state.locale )}}
 				</v-btn>
 

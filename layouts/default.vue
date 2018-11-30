@@ -159,6 +159,12 @@
 							<div>dmf.current : {{ $store.state.dmf.current}}</div>
 							<div>dmf.current_new : {{ $store.state.dmf.current_new}}</div>
 					
+												<br> 
+							<!-- <div v-if="$store.state.dmf.list != [] ">dmf.list.length : {{ $store.state.dmf.list.docs_user_is_in_team.length }}</div> -->
+							<div>tag.list : {{ $store.state.tag.list }}</div>
+							<div>tag.current : {{ $store.state.tag.current}}</div>
+							<div>tag.current_new : {{ $store.state.tag.current_new}}</div>
+
 					</v-alert>
 				</v-flex>
 			</v-layout>

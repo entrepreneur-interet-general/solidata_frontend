@@ -40,7 +40,7 @@ export const state = () => ({
 			"f_object": "", 
 			// "f_type": "tag", 
 			"f_comments": null, 
-			"f_is_required": false 
+			// "f_is_required": false 
 		}, 
 		// "modif_log": [
 		// ], 

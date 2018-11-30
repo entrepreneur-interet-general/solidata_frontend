@@ -105,6 +105,7 @@
 		"f_comments" 	: "Commentaires" ,
 		"f_is_required"	: "Champ requis" ,
 
+		"src_type" 		: "type de source" ,
 		"src_link" 		: "fichier source" ,
 
 		"team"			: "Equipe",
@@ -281,7 +282,9 @@
 		"f_type" 		: "Type du champ" ,
 		"f_comments" 	: "Commentaires sur le champ" ,
 		"f_is_required"	: "Champ requis" ,
-		"resume"		: "Résumé"
+		"resume"		: "Résumé",
+		"src_type" 		: "Type de source", 
+		"src_link" 		: "Valeur" 
 	},
 	
 	"recipes" : {

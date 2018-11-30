@@ -20,7 +20,8 @@
 					style="text-transform: none !important;"
 					>
 					<span>
-						{{ subField }}
+						{{ subField }} 
+						<!-- <br> - {{ is_file }} -->
 					</span>
 				</v-btn>
 			</v-flex>
@@ -70,7 +71,7 @@
 						:readonly="!canEdit"
 						:label="$t( collName+'.'+subField, $store.state.locale )"
 						:items="$store.state.subFieldsWithChoices[subField]['choices']"
-						@change="submitValue () ; save()"
+						@change="srcTypeSwitch() ; submitValue () ; save()"
 						>
 					</v-select>
 
@@ -90,12 +91,17 @@
 					</v-checkbox>
 
 
-					<!-- FILE VALUE -->
+
+
+
+					<!-- SRC UPLOAD (SRC_LINK) -->
 					<template
-						v-else-if=" $store.state.subFieldsWithFile.includes(subField)"
+						v-else-if="$store.state.subFieldsWithFile.includes(subField)"
 						>
 						
+						<!-- FILE UPLOAD  -->
 						<FileField
+							v-if="is_file"
 							v-model="itemData"
 							:rawInput="itemData"
 							:labelText="'global.'+subField"
@@ -105,7 +111,29 @@
 							>
 						</FileField>
 
+						<!-- TEXT VALUE -->
+						<v-text-field
+							v-else
+							:solo="is_preview"
+							:hide-details="is_preview"
+							:ref="subField"
+							:color="fieldColor"
+							:readonly="!canEdit"
+							v-model="itemData"
+							:rules="[() => !!itemData || $t('rules.required', $store.state.locale )]"
+							:label="$t( collName+'.'+subField, $store.state.locale )"
+							:error-messages="errorMessages"
+							:placeholder="$t('global.'+subField, $store.state.locale )"
+							required
+							@keyup.enter="submitValue () ; save()"
+							@change="submitValue ()"
+							@click="snack_if_not_create() "
+						></v-text-field>
+
 					</template>
+
+
+
 
 
 					<!-- COMBO VALUE  -->
@@ -117,7 +145,6 @@
 						></v-autocomplete>
 					</v-flex> -->
 
-					<!-- FILE UPLOAD  -->
 
 
 					<!-- TEXT AREA VALUE -->
@@ -286,7 +313,9 @@ export default {
 		"subField",
 		"item_id",
 		"item_data",
-		"canEdit"
+		"canEdit",
+
+		"is_file"
 
 	],
 
@@ -311,7 +340,12 @@ export default {
 			
 			itemData 		: this.item_data,
 
-			// edit_mode		: false,
+			// edit_mode	: false,
+
+			// choose_file		: this.is_file,
+			file			: '',
+			filename		: '',
+
 			dialog			: false,
 			snack			: false,
 			snackColor		: 'primary',
@@ -409,6 +443,36 @@ export default {
 			})
 		},
 		
+		// FILE-API SWITCH
+		updateFile(str) {
+			this.valuesToSend.file = str.fileName ;
+			this.valuesToSend.filename = str.file ;
+		},
+
+		srcTypeSwitch(event) {
+
+			if( this.subField == "src_type" ) {
+
+				console.log("\n srcTypeSwitch... ")
+				var isFile = true ; 
+
+				console.log("srcTypeSwitch / this.isFile : ", this.isFile )
+				console.log("srcTypeSwitch / this.itemData : ", this.itemData)
+
+				if (this.itemData == "API") {
+					isFile = false ;
+				}
+
+				console.log("srcTypeSwitch / isFile : ", isFile )
+
+				// send data back to parent component
+				this.$emit('input', {
+					subField : this.subField,
+					is_file  : isFile,
+				})
+			}
+		},
+
 		// update value for update of current_new in 
 		 
 		// submit value for update via API backend
