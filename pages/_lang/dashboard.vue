@@ -28,10 +28,13 @@
 		<v-tabs
 			centered
 			color=""
-			icons-and-text
+			:fixed-tabs="!isMobile"
 			>
+			<!-- icons-and-text -->
 
-			<v-tabs-slider color="primary">
+			<v-tabs-slider 
+				color="primary"
+				>
 			</v-tabs-slider>
 
 
@@ -40,11 +43,22 @@
 				v-for="(tab,i) in tabsList"
 				:key="i"
 				:href="'#'+tab"
+				class="text-capitalize subheading"
 				>
-				{{ $t( tab+'.name', $store.state.locale)  }}
-				<v-icon small>
+
+				<span
+					v-if="!isMobile"
+					>
+					{{ $t( tab+'.name', $store.state.locale)  }}
+				</span>
+
+				<v-icon 
+					v-else
+					small
+					>
 					{{ tabs[tab]['icon'] }}
 				</v-icon>
+
 			</v-tab>
 
 
@@ -58,7 +72,7 @@
 
 				<SectionTitle
 					:title="$t(`${tab}.name`, $store.state.locale)"
-					:intro="$t(`${tab}.name`, $store.state.locale)"
+					:intro="$t(`${tab}.intro`, $store.state.locale)"
 					:icon="$store.state.mainIcons[tab].icon"
 					:isDashboard="true"
 					:to_link="'/'+coll(tab)"
@@ -159,16 +173,28 @@ export default {
 
 	},
 
+
 	mounted () {
 		console.log("dashboard / mounted ---> items... ", this.items ) ;
+		this.onResize() ; 
+		window.addEventListener('resize', this.onResize, { passive: true })
+	},
+
+	beforeDestroy () {
+		if (typeof window !== 'undefined') {
+			window.removeEventListener('resize', this.onResize, { passive: true })
+		}
 	},
 
 	data () {
 		return {
-			defaultHeightAdd  : "240px",
-			defaultHeight     : "150px",
-			defaultFlex       : 3,
-			tabsList          : [
+
+			isMobile			: false,
+
+			defaultHeightAdd  	: "240px",
+			defaultHeight		: "150px",
+			defaultFlex			: 3,
+			tabsList			: [
 				"projects", 
 				"datamodels", 
 				"datamodel_fields",
@@ -180,6 +206,10 @@ export default {
 
 	methods: {
 
+		onResize () {
+			this.isMobile = window.innerWidth < 800
+		},
+	
 		goToCreate(event, data){
 			log.console("goToCreate : ", data )
 		},

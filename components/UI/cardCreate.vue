@@ -8,7 +8,7 @@
 
 	<v-layout
 		align-center
-		class="py-2 "
+		class="pb-5 pt-3"
 		>
 
 		<v-flex 

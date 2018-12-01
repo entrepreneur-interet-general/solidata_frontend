@@ -3,7 +3,7 @@
 
 	<v-toolbar 
 			class=" justify-center"
-			
+			flat
 			app 
 			:fixed="$store.state.fixedNav" 
 			:clipped-left="$store.state.clipped"

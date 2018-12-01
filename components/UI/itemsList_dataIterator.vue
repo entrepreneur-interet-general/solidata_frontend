@@ -8,12 +8,13 @@
 
 		<v-container 
 			fluid grid-list-md
+			pt-1
 			>
 
 
 			<!-- CREATE CARD IF LOGGED GUEST -->
 			<v-layout 
-				class="mb-4"
+				class=""
 				row 
 				wrap
 				>
@@ -33,7 +34,7 @@
 			<!-- SEARCH CARD -->
 			<v-layout 
 				wrap
-				class="mb-3"
+				class="mb-1 pt-0"
 				>
 	 		
 				<v-flex 
@@ -114,26 +115,26 @@
 
 				<!-- data iterator title -->
 				<v-toolbar
-					dark
+					dense
 					slot="header"
-					class="mb-2"
-					color="secondary"
+					class="mb-0 pb-0"
+					color="transparent"
 					flat
-					:height="$store.state.dataIteratorHeight"
 					>
+					<!-- :height="$store.state.dataIteratorHeight" -->
 
-					<v-toolbar-side-icon disabled>
+					<!-- <v-toolbar-side-icon disabled>
 						<v-icon small>
 							{{ $store.state.mainIcons[tab].icon }}
 						</v-icon>
-					</v-toolbar-side-icon>
+					</v-toolbar-side-icon> -->
 
 					<v-toolbar-title
-						class="body-2"
+						class="body-2 grey--text"
 						>
 						<!-- - {{ coll }} - {{ tab }} -  -->
-						{{ $t( tab+'.name', $store.state.locale)  }}
-						- 
+						<!-- {{ $t( tab+'.name', $store.state.locale)  }}
+						-  -->
 						{{ $t(`global.inTeam`, $store.state.locale) }}
 					</v-toolbar-title>
 
@@ -184,25 +185,26 @@
 
 				<!-- data iterator title -->
 				<v-toolbar
-					dark
+					
 					slot="header"
-					class="mb-2"
-					color="grey lighten-1"
+					class="mb-0 pb-0"
+					color="transparent"
 					flat
-					:height="$store.state.dataIteratorHeight"
 					>
-					<v-toolbar-side-icon disabled>
+					<!-- :height="$store.state.dataIteratorHeight" -->
+
+					<!-- <v-toolbar-side-icon disabled>
 						<v-icon small>
 							{{ $store.state.mainIcons[tab].icon }}
 						</v-icon>
-					</v-toolbar-side-icon>
+					</v-toolbar-side-icon> -->
 
 					<v-toolbar-title
-						class="body-2"
+						class="body-2 grey--text"
 						>
 
-						{{ $t( tab+'.name', $store.state.locale)  }}
-						- 
+						<!-- {{ $t( tab+'.name', $store.state.locale)  }}
+						-  -->
 						{{ $t(`global.notTeam`, $store.state.locale) }}
 					</v-toolbar-title>
 

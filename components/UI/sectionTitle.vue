@@ -1,47 +1,54 @@
 <template>
 
-	<v-jumbotron 
+	<!-- <v-jumbotron 
 		class="pb-0" 
 		color="" 
 
-		:height="$store.state.mainSectionsHeight"
-		>
+		> -->
+		<!-- :height="$store.state.mainSectionsHeight" -->
 
 	<v-container 
 		fluid 
 		fill-height
+		class="pt-3 pb-0"
 		>
 		
 		<v-layout row align-center spacer>
 			<v-flex>
 				<!-- typos : cf : https://vuetifyjs.com/en/style/typography#font-sizes -->
-				<div class="title pl-5 pb-0 mt-4">
+				<div 
+					class="pl-3 "
+					>
 					
 					<v-btn 
 						icon
 						flat
-						small
+						
 						color="white"
-						class="ml-0 py-0"
+						class="display-1 mb-3"
 						:to='to_link'
 						>
 						<v-icon 
-							small 
+							 
 							color="primary"
-							class="pa-0 ma-0"
+							class=""
 							
 							>
 							{{ icon }}
 						</v-icon> 
 					</v-btn>
 
-					<span>
+					<span
+						class="display-1"
+						>
 						{{ title }}
 					</span>
 					
-					<span> - </span>
+					<!-- <span> - </span> -->
 
-					<span class="subheading">
+					<span 
+						class="subheading pl-3"
+						>
 						{{ intro }}
 					</span>
 
@@ -72,7 +79,7 @@
 
 	</v-container>
 
-	</v-jumbotron>
+	<!-- </v-jumbotron> -->
 
 </template>
 
