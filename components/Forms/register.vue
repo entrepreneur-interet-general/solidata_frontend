@@ -65,6 +65,7 @@
 			<v-spacer></v-spacer>
 			<v-btn 
 				color="accent"
+				block
 				type="submit" 
 				form="register-form"
 				:loading="loading" 
@@ -72,6 +73,8 @@
 				>
 				{{ $t('home.registerPage', $store.state.locale ) }}
 			</v-btn>
+			<v-spacer></v-spacer>
+
 		</v-card-actions>
 	</div>
 

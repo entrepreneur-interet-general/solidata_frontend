@@ -23,6 +23,7 @@
 					:tab="tab"
 					:defaultFlex="defaultFlex"
 					:defaultHeight="defaultHeightAdd"
+					:is_block="true"
 					>
 				</CardCreate>
 			
@@ -36,7 +37,7 @@
 				>
 	 		
 				<v-flex 
-					class="md4"
+					xs12 sm10 offset-sm1 md6 offset-md3
 					>
 
 					<!-- <v-toolbar 
@@ -52,13 +53,13 @@
 						<!-- - coll : {{ coll }} -->
 						<!-- - tab : {{ tab }} -->
 
-						<!-- TO DO  -> AUTOCOMPLETE TO COMPONENT -->
+						<!-- AUTOCOMPLETE COMPONENT -->
 						<v-card
 							color="white"
 							height=""
 							>
 							<v-card-text
-								class=""
+								class="py-1 "
 								>
 								<v-autocomplete
 									v-model="searchString"
@@ -68,6 +69,7 @@
 									prepend-icon="search"
 									class="ma-0"
 									flat
+									solo
 									clearable
 									hide-no-data
 									hide-details

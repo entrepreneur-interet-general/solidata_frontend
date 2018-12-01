@@ -1,15 +1,23 @@
 <template>
 
-	<v-layout
+	<!-- <v-layout
 		v-bind="{ [`xs${defaultFlex}`]: true }"
 		align-center
-		class="py-4"
+		class="pt-2"
+		> -->
+
+	<v-layout
+		align-center
+		class="py-2 "
 		>
 
-		<v-flex text-md-center>
+		<v-flex 
+			xs12 sm10 offset-sm1 md6 offset-md3
+			text-md-center
+			>
 
 			<v-btn 
-				large
+				
 				:block="is_block"
 				:to="$store.state.mainIcons[tab]['to']+'/create'" 
 				color="accent"

@@ -5,7 +5,7 @@
     <v-layout align-center justify-center>
       <v-flex xs10 sm8 md6>
 
-        <v-card class="elevation-12 pa-3 mt-5">
+        <v-card class="elevation-12 pa-3 my-5">
 
 
           <CardTitle 
@@ -18,7 +18,7 @@
           </RegisterForm>
 
 
-          <v-divider class="my-3"></v-divider>
+          <!-- <v-divider class="my-3"></v-divider>
           
           <v-card-actions>
 
@@ -27,7 +27,7 @@
               {{ $t('home.loginPage', $store.state.locale ) }}
             </v-btn>
 
-          </v-card-actions>
+          </v-card-actions> -->
 
 
         </v-card>

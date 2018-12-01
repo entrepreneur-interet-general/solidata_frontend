@@ -1,7 +1,7 @@
 <template>
 
 	<v-jumbotron 
-		class="pa-0" 
+		class="pb-0" 
 		color="" 
 
 		:height="$store.state.mainSectionsHeight"
@@ -15,7 +15,7 @@
 		<v-layout row align-center spacer>
 			<v-flex>
 				<!-- typos : cf : https://vuetifyjs.com/en/style/typography#font-sizes -->
-				<div class="title pl-5 pb-0 mt-0">
+				<div class="title pl-5 pb-0 mt-4">
 					
 					<v-btn 
 						icon

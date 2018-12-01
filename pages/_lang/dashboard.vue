@@ -2,7 +2,7 @@
 
 	<div>
 			
-		<SectionTitle
+		<!-- <SectionTitle
 			v-if="$store.state.auth.isLogged"
 			:title="$t('dashboard.name', $store.state.locale)"
 			:intro="$t('dashboard.intro', $store.state.locale)"
@@ -20,7 +20,7 @@
 			:isDashboard="true"
 			:to_link="'/'"
 		>
-		</SectionTitle>
+		</SectionTitle> -->
 
 	
 
@@ -30,7 +30,9 @@
 			color=""
 			icons-and-text
 			>
-			<v-tabs-slider color="primary"></v-tabs-slider>
+
+			<v-tabs-slider color="primary">
+			</v-tabs-slider>
 
 
 			<!-- TABS HEAD -->
@@ -54,6 +56,14 @@
 				:key="i"
 				>
 
+				<SectionTitle
+					:title="$t(`${tab}.name`, $store.state.locale)"
+					:intro="$t(`${tab}.name`, $store.state.locale)"
+					:icon="$store.state.mainIcons[tab].icon"
+					:isDashboard="true"
+					:to_link="'/'+coll(tab)"
+				>
+				</SectionTitle>
 
 				<!-- TAB ITEMS SUBTITLE -->
 				<!-- <v-container 

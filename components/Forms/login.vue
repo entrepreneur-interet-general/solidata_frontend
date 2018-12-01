@@ -82,7 +82,31 @@
 
 			<v-layout row wrap>
 				
-				<v-flex xs12 md-6 offset-md6>
+
+				<v-flex 
+					class="xs4 offset-xs1" 
+					>
+
+					<v-btn 
+						outline 
+						nuxt 
+						block
+						to="/register" 
+						class="ml-2 " 
+						color="accent"
+						>
+						{{ $t('home.registerPage', $store.state.locale ) }}
+					</v-btn>
+
+					<div class="text-xs-center pt-2 caption">
+						{{ $t('home.registerToLogin', $store.state.locale ) }} 
+					</div>
+
+				</v-flex>
+
+
+				<v-flex 
+					class="xs4 offset-xs2" >
 
 					<v-btn 
 						block
@@ -91,18 +115,19 @@
 						form="login-form"
 						:loading="loading" 
 						:disabled="loading"
-					>
+						>
 						{{ $t('home.loginPage', $store.state.locale ) }}
 					</v-btn>
 
-				</v-flex>
+				<!-- </v-flex>
 
-				<v-flex xs12 md-6 offset-md6 pt-2>
-
-					<div class="text-xs-center">
-						<nuxt-link class="text-lowercase"
-						to="/forgotpwd"
-						>
+				<v-flex xs12 md-6 offset-md6 pt-2> -->
+					
+					<div class="text-xs-center pt-2 caption">
+						<nuxt-link 
+							class="text-lowercase"
+							to="/forgotpwd"
+							>
 							{{ $t('home.forgotPwd', $store.state.locale ) }}
 						</nuxt-link>
 					</div>
