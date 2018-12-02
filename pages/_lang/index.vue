@@ -12,25 +12,70 @@
 			<v-layout justify-center align-center>
 				<v-flex text-xs-center>
 
-					<h4 class="display-3">{{ $t('home.subtitle', $store.state.locale) }}</h4>
-					<span class="subheading">{{ $t('home.tagline', $store.state.locale) }}</span>
+					<h4 class="display-3 pb-2">
+						{{ $t('home.subtitle', $store.state.locale) }}
+					</h4>
+
+					<span class="title font-weight-thin">
+						{{ $t('home.tagline', $store.state.locale) }}
+					</span>
 
 					<!-- <span class="subheading">Lorem ipsum dolor sit amet, pri veniam forensibus id. Vis maluisset molestiae id, ad semper lobortis cum. At impetus detraxit incorrupte usu, repudiare assueverit ex eum, ne nam essent vocent admodum.</span> -->
-
 					<!-- <v-divider class="my-3"></v-divider> -->
-
 					<!-- <div class="title mb-3">Check out our newest features!</div> -->
-
 					<!-- <v-btn
 						class="mx-0"
 						color="primary"
 						large
-					>
+						>
 						See more
 					</v-btn> -->
 
+					<v-layout row wrap my-5 pt-4>
+
+						<v-flex xs6 px-2 v-if="!$store.state.auth.isLogged">
+							<v-btn flat  class="white primary--text" large block nuxt to="/login">
+								<v-icon left>{{ $store.state.mainIcons.login.icon }}</v-icon>
+								{{ $t('home.startbtn', $store.state.locale ) }}
+							</v-btn>
+						</v-flex>
+
+						<v-flex xs6 px-2 v-if="!$store.state.auth.isLogged">
+							<v-btn flat  class="white primary--text" large block nuxt to="/tutorials">
+								<v-icon left>{{ $store.state.mainIcons.video.icon }}</v-icon>
+								{{ $t('home.videobtn', $store.state.locale ) }}
+							</v-btn>
+						</v-flex>
+
+
+
+						<v-flex xs6 px-2 v-if="$store.state.auth.isLogged">
+							<v-btn flat  class="white primary--text" large block nuxt to="/dashboard">
+								<v-icon left>{{ $store.state.mainIcons.dashboard.icon }}</v-icon>
+								{{ $t('links.dashboard', $store.state.locale ) }}
+							</v-btn>
+						</v-flex>
+
+						<v-flex xs6 px-2 v-if="$store.state.auth.isLogged">
+							<v-btn flat  class="white primary--text" large block nuxt to="/prj">
+								<v-icon left>{{ $store.state.mainIcons.projects.icon }}</v-icon>
+								{{ $t('links.myprojects', $store.state.locale ) }}
+							</v-btn>
+						</v-flex>
+
+						<v-flex xs12 px-2 v-if="$store.state.auth.isLogged">
+							<v-btn flat outline class="white" large block nuxt to="/prj/create">
+								<v-icon left>{{ $store.state.mainIcons.create.icon }}</v-icon>
+								{{ $t('projects.create', $store.state.locale ) }}
+							</v-btn>
+						</v-flex>
+
+
+					</v-layout>
+
+
+					<!-- 
 					<div class="ma-5" v-if="!$store.state.auth.isLogged">
-						<v-spacer></v-spacer>
 						<v-btn color="secondary" large nuxt to="/login">
 							<v-icon left>{{ $store.state.mainIcons.login.icon }}</v-icon>
 							{{ $t('home.startbtn', $store.state.locale ) }}
@@ -39,31 +84,12 @@
 							<v-icon left>{{ $store.state.mainIcons.video.icon }}</v-icon>
 							{{ $t('home.videobtn', $store.state.locale ) }}
 						</v-btn>
-					</div>
+					</div> 
+					-->
 
 
-					<div class="ma-5" v-else>
-						<v-spacer></v-spacer>
-						<v-btn color="secondary" large nuxt to="/dashboard">
-							<v-icon left>{{ $store.state.mainIcons.dashboard.icon }}</v-icon>
-							{{ $t('links.dashboard', $store.state.locale ) }}
-						</v-btn>
 
-						<v-btn color="secondary" large nuxt to="/prj">
-							<v-icon left>{{ $store.state.mainIcons.projects.icon }}</v-icon>
-							{{ $t('links.myprojects', $store.state.locale ) }}
-						</v-btn>
 
-						<v-spacer></v-spacer>
-						<br>
-						<v-spacer></v-spacer>
-
-						<v-btn color="accent" large nuxt to="/prj/create">
-							<v-icon left>{{ $store.state.mainIcons.create.icon }}</v-icon>
-							{{ $t('projects.create', $store.state.locale ) }}
-						</v-btn>
-
-					</div>
 
 				</v-flex>
 
