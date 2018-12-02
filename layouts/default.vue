@@ -123,57 +123,92 @@
 
 
 		<!-- DEBUGGING / DISPLAY STORE CONTENTS -->
-		<!-- <v-divider class="mt-5"></v-divider>
+		<div 
+			v-if="$store.state.is_debug"
+			>
+			<v-divider class="mt-5"></v-divider>
 
-		<v-container grid-list-xl>
-			<v-layout row wrap>
-				<v-flex class="xs-10 offset-xs-1">
-					<v-alert       
-						:value="true"
-						type="error"
-						>
-						<h3> ==> DEBUGGING DEFAULT LAYOUT</h3>
+			<v-content>
+			<v-container>
+				<v-layout class="xs-10 offset-xs-1 ">
+					<v-flex >
+						<v-alert
+								
+							:value="true"
+							type="error"
+							class="black--text"
+							>
+							<h3> ==> DEBUGGING - $STORE.STATE - DEFAULT LAYOUT</h3>
 
-						<v-divider class="my-3"></v-divider>
-						
-						<div>isAnonymous : {{ $store.state.auth.isAnonymous}}</div>
-						<div>isLogged : {{ $store.state.auth.isLogged}}</div>
-						<div>locale : {{ $store.state.locale }} </div>
-						<div>subFieldsWithChoices : {{ $store.state.subFieldsWithChoices}}</div>
-						<div>subFieldsWithBoolean : {{ $store.state.subFieldsWithBoolean}}</div>
-						
-						<br> 
-						<div>user_infos : {{ $store.state.auth.user_infos}}</div>
-						<div>user_id : {{ $store.state.auth.user_id}}</div>
-						
-						<br> 
-						<div>access_token : {{ $store.state.auth.access_token}}</div>
-						<div>refresh_token : {{ $store.state.auth.refresh_token}}</div>
-						
-						<br> 
-						<div>prj.alert : {{ $store.state.prj.alert.message}}</div>
-						
-						<br> 
-						<div>dmf.list : {{ $store.state.dmf.list }}</div>
-						<div>dmf.current : {{ $store.state.dmf.current}}</div>
-						<div>dmf.current_new : {{ $store.state.dmf.current_new}}</div>
-				
-						<br> 
-						<div>tag.list : {{ $store.state.tag.list }}</div>
-						<div>tag.current : {{ $store.state.tag.current}}</div>
-						<div>tag.current_new : {{ $store.state.tag.current_new}}</div>
+							<v-divider class="my-3"></v-divider>
+							
+							<!-- AUTH  -->
+							<div>auth.isAnonymous :<code>{{ $store.state.auth.isAnonymous }}</code></div>
+							<div>auth.isLogged :<code>{{ $store.state.auth.isLogged}}</code></div>
+							<div>locale :<code>{{ $store.state.locale }}</code></div>
+							<!-- <div>subFieldsWithChoices : <br> 
+								<code>{{ $store.state.subFieldsWithChoices | json }}</code>
+							</div>
+							<div>subFieldsWithBoolean : <br>
+								<code>{{ $store.state.subFieldsWithBoolean }}</code>
+							</div> -->
+							
+							<!-- AUTH / USER -->
+							<v-divider class="my-3"></v-divider>
+							<div>auth.user_infos : <br>
+								<code>{{ $store.state.auth.user_infos | json }}</code>
+							</div>
+							<div>auth.user_id :<code>{{ $store.state.auth.user_id}}</code></div>
+							
+							<v-divider class="my-3"></v-divider>
+							<div>access_token : <br>
+								<code>{{ $store.state.auth.access_token}}</code>
+							</div>
+							<div>refresh_token : <br>
+								<code>{{ $store.state.auth.refresh_token}}</code>
+							</div>
+							
+							<!-- PRJ -->
+							<v-divider class="my-3"></v-divider>
+							<div>prj.alert :<code>{{ $store.state.prj.alert.message}}</code></div>
+							
+							<!-- DMF -->
+							<v-divider class="my-3"></v-divider>
+							<div>dmf.list : <br><code>{{ $store.state.dmf.list }}</code></div>
+							<div>dmf.current : <br>
+								<code>{{ $store.state.dmf.current | json }}</code>
+							</div>
+							<div>dmf.current_new : <br> 
+								<code>{{ $store.state.dmf.current_new | json }}</code>
+							</div>
 
-						<br> 
-						<div>dsi.list : {{ $store.state.dsi.list }}</div>
-						<div>dsi.current : {{ $store.state.dsi.current}}</div>
-						<div>dsi.current_new : {{ $store.state.dsi.current_new}}</div>
-						<div>dsi.current_filename : {{ $store.state.dsi.current_filename }}</div>
+							<!-- TAG -->
+							<v-divider class="my-3"></v-divider>
+							<div>tag.list :  <br><code>{{ $store.state.tag.list }}</code></div>
+							<div>tag.current : <br> 
+								<code>{{ $store.state.tag.current | json }} </code>
+							</div>
+							<div>tag.current_new : <br> 
+								<code>{{ $store.state.tag.current_new | json }}</code>
+							</div>
 
-					</v-alert>
-				</v-flex>
-			</v-layout>
-		</v-container> -->
-
+							<!-- DSI  -->
+							<v-divider class="my-3"></v-divider>
+							<div>dsi.current_filename :<code>{{ $store.state.dsi.current_filename }}</code></div>
+							<div>dsi.list :  <br><code>{{ $store.state.dsi.list }}</code></div>
+							<div>dsi.current : <br>
+								<code>{{ $store.state.dsi.current | json }}</code>
+							</div>
+							<div>dsi.current_new : <br>
+								<code>{{ $store.state.dsi.current_new | json }}</code>
+							</div>
+						</v-alert>
+					</v-flex>
+				</v-layout>
+			</v-container> 
+			</v-content>
+		
+		</div>
 
 
 		<SecondaryDrawer 

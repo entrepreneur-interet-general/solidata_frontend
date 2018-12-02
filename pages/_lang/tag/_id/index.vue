@@ -32,7 +32,6 @@
 			:parentFieldslist="parentFieldsList"
 			:item_doc="$store.state[coll].current"
 			:is_switch="true"
-			:is_debug="true"
 			>
 		</ViewEditBasicDoc>
 	

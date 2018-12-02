@@ -26,7 +26,6 @@
 						:parentFieldslist="parentFieldsList"
 						:item_doc="$store.state[coll].current_new"
 						:is_switch="true"
-						:is_debug="true"
 						>
 					</ViewEditDoc>
 				

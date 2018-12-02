@@ -26,7 +26,6 @@
 						:parentFieldslist="parentFieldsList"
 						:item_doc="emptyNewItem"
 						:is_switch="true"
-						:is_debug="true"
 						>
 					</ViewEditDoc>
 				

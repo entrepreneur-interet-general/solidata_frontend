@@ -20,8 +20,10 @@
 					raise
 					large
 					block
+					
+					outline
 					@click="onPickFile"
-					class="accent"
+					color="accent"
 					>
 					<v-icon left>{{$store.state.mainIcons.upload.icon}}</v-icon>
 					{{ $t( 'global.upload', $store.state.locale) }}
@@ -48,8 +50,9 @@
 					raise
 					large
 					block
+					outline
 					@click="removeFile"
-					class="error"
+					color="error"
 					>
 					<v-icon left>{{$store.state.mainIcons.cancel.icon}}</v-icon>
 					{{ $t( 'global.remove', $store.state.locale) }}

@@ -24,7 +24,6 @@
 
 				<v-btn
 					v-for="icon in icons"
-					:key="icon"
 					class="mx-3"
 					:href="icon.href"
 					dark

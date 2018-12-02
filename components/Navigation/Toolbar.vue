@@ -18,7 +18,7 @@
 			<!-- <v-btn
 				icon
 				@click.stop="$emit('toggleMiniVariant')"
-			>
+				>
 				<v-icon 
 					v-html="$store.state.miniVariant ? 'chevron_right' : 'chevron_left'"
 					></v-icon>
@@ -46,25 +46,33 @@
 				class="text-uppercase"
 				v-text="$store.state.title"
 				>
-			<!-- <v-toolbar-title> -->
 			</v-toolbar-title>
 
 			<!-- <v-btn
 				icon
 				@click.stop="$emit('toggleClipped')"
-			>
+				>
 				<v-icon >web</v-icon>
 			</v-btn> -->
 			
 			<!-- <v-btn
 				icon
 				@click.stop="$emit('toggleFixed')"
-			>
+				>
 				<v-icon >remove</v-icon>
 			</v-btn>  -->
 		 
 
-
+			<!-- SWITCH FOR DEBUG -->
+			<v-spacer></v-spacer>
+			<v-switch 
+				label="debug"
+				v-model="$store.state.is_debug"
+				color="error"
+				:input-value="$store.state.is_debug"
+				hide-details
+				>
+			</v-switch>
 
 
 			<!--  RIGHT SIZE OF THE TOOLBAR -->
@@ -171,6 +179,7 @@
 						:nudge-width="200"
 						offset-x
 						>
+						
 						<v-btn
 							color=""
 							slot="activator"
@@ -179,10 +188,10 @@
 							>
 							<span>{{ $t('global.hi', $store.state.locale ) }}, {{ $store.state.auth.user_infos.name }}</span>
 							<v-icon right>{{ $store.state.mainIcons.profile.icon }}</v-icon>
-
 						</v-btn>
 
 						<v-card>
+
 							<v-list>
 								<v-list-tile avatar>
 

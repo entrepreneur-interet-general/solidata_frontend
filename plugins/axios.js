@@ -22,7 +22,7 @@ export default function ({ $axios, redirect, store }) {
 		console.log('> > > plugin axios / response.data : ', 		response.data )
 		console.log('> > > plugin axios / response.headers : ', 	response.headers )
 		// console.log('> > > plugin axios / response.config : ', 		response.config )
-		console.log("\n")
+		// console.log("\n")
 		// config.headers['Content-Type'] = 'application/json';
 		// config.headers['Access-Control-Allow-Origin'] = "*";
 	})

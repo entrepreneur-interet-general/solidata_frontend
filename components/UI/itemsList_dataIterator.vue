@@ -38,7 +38,7 @@
 				>
 	 		
 				<v-flex 
-					xs12 sm10 offset-sm1 md6 offset-md3
+					xs12 sm10 offset-sm1 md8 offset-md2
 					>
 
 					<!-- <v-toolbar 

@@ -167,7 +167,7 @@
 											:item_id="item_doc._id"
 											:item_data="item_doc[parentField.parentFieldName][subField]"
 											:item_auth="item_doc.public_auth"
-											:canEdit="canEdit"
+											:canEdit="checkUserAuth(parentField.parentFieldName+'.'+subField)"
 											:is_file="is_file"
 											@input="updateIsFile"
 											>
@@ -233,7 +233,7 @@
 
 		<!-- DEBUG  -->
 		<v-layout 
-			v-if="is_debug"
+			v-if="$store.state.is_debug"
 			row wrap
 			>
 
@@ -242,26 +242,27 @@
 				<v-alert       
 					:value="true"
 					type="error"
+					class="text-xs-left"
 					>
 					---- DEBUG component - ItemViewEdit ----
 					<hr>
 
 					-- item_doc -- <br>
-					{{ item_doc }}
+					<code>{{ item_doc }}</code>
 					<hr>
 
 					-- vars -- <br>
-					is_file : {{ is_file }} - 
-					coll : {{ coll }} - 
-					collName : {{ collName }} - 
-					is_create : {{ is_create }} - 
-					item_doc._id : {{ item_doc._id}} - 
-					canEdit : {{ canEdit }}
-					flex_vars : {{flex_vars}} - 
+					is_file : <code>{{ is_file }}</code> - 
+					coll : <code>{{ coll }}</code> - 
+					collName : <code>{{ collName }}</code> - 
+					is_create : <code>{{ is_create }}</code> - 
+					item_doc._id : <code>{{ item_doc._id}}</code> - 
+					<!-- canEdit : <code>{{ canEdit }}</code> -->
+					flex_vars : <code>{{flex_vars}}</code> - 
 					<hr>
 
 					-- current_new in $store.state.{{coll}} -- <br>
-					{{coll}}.current_new : {{ $store.state[coll].current_new }}
+					{{coll}}.current_new : <br><code>{{ $store.state[coll].current_new }}</code>
 				</v-alert>
 
 			</v-flex>
@@ -278,6 +279,7 @@
 <script>
 
 import ObjectFormatterCreate from "~/utils/ObjectFormatterCreate.js"
+import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
 
 import SectionTitle from '~/components/UI/sectionTitle.vue'
 
@@ -295,7 +297,7 @@ export default {
 		"parentFieldslist",		// 
 		"coll",
 		"item_doc", 			// complete item infos
-		"is_debug",
+		// "is_debug",
 		"is_switch",
 	],
 
@@ -308,7 +310,8 @@ export default {
 	
 	mounted () {
 		console.log("\n- itemViewEdit / mounted ---> item_doc : ", this.item_doc ) ;
-		this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
+		// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
+		// this.canEdit = this.checkUserAuth(this.parentFieldslist)
 
 		// this.is_file = ( this.coll == "dsi" ) ? true : false ; 
 		this.is_file = this.preloadIsFile() ; 
@@ -324,7 +327,7 @@ export default {
 			// coll 		: this.item_doc.specs.doc_type, 
 			collName 	: this.$store.state.collectionsNames[this.coll],
 			// collName 	: this.$store.state.collectionsNames[this.item_doc.specs.doc_type],
-			canEdit		: false ,
+			// canEdit		: false ,
 			itemId 		: this.item_doc._id, 
 
 			is_file 			: null,
@@ -394,33 +397,58 @@ export default {
 			}
 		},
 
-		//  TO DO  --> FACTORIZE checkUserAuth for an item --> /utils
+		//  checkUserAuth for an item --> /utils
 		checkUserAuth (field_name) {
 
-			console.log("\ncheckUserAuth ...\n", this.item_doc.public_auth ) ;
+			console.log("\ncheckUserAuth / field_name : ", field_name ) ;
+			// console.log("checkUserAuth ...\n", this.item_doc.public_auth ) ;
 
 			var can_update_field 	= false  ;
-			var doc_auth_edit 		= this.item_doc.public_auth.open_level_edit ; 
-			var doc_auth_team 		= this.item_doc.team ; 
-
-			if (doc_auth_edit == 'open_data' ){
-				can_update_field = true
+			
+			if (this.is_create) {
+				can_update_field 	= true  ;
 			}
 
-			else if (doc_auth_edit == 'commons') {
-				//  check if user is connected
-				can_update_field = true
-			} 
+			else {
+				var isLogged 			= this.$store.state.auth.isLogged ;
+				var user_id 			= this.$store.state.auth.user_id ;
 
-			else if (doc_auth_edit == 'collective') {
-				//  check if user is part of the team
-				can_update_field = true
-			} 
+				can_update_field = checkDocUserAuth(this.item_doc, field_name, isLogged, user_id)
+			}
 
-			else if (doc_auth_edit == 'private') {
-				//  check if user is the owner
-				can_update_field = true
-			} 
+			// var doc_auth_edit 		= this.item_doc.public_auth.open_level_edit ; 
+
+			// if (doc_auth_edit == 'open_data' ){
+			// 	can_update_field = true
+			// }
+
+			// else if (doc_auth_edit == 'commons') {
+			// 	//  check if user is connected
+			// 	if ( this.$store.state.auth.isLogged ){
+			// 		can_update_field = true
+			// 	}
+			// } 
+
+			// else if (doc_auth_edit == 'collective') {
+			// 	//  check if user is part of the team
+			// 	var doc_creator 		= this.item_doc.log.created_by ; 
+			// 	var doc_auth_team 		= this.item_doc.team ; 
+			// 	doc_auth_team = doc_auth_team.filter(function(d) { return d.oid_usr == doc_creator ; });
+
+			// 	console.log("checkUserAuth ... doc_auth_team", doc_auth_team ) ;
+			// 	if ( this.$store.state.auth.user_id == doc_creator || doc_auth_team.lenght == 1 ){
+			// 		can_update_field = true
+			// 	}
+			// } 
+
+			// else if (doc_auth_edit == 'private') {
+			// 	//  check if user is the owner
+			// 	var doc_creator 		= this.item_doc.log.created_by ; 
+			// 	console.log("checkUserAuth ...", this.item_doc.public_auth ) ;
+			// 	if ( this.$store.state.auth.user_id == doc_creator ){
+			// 		can_update_field = true
+			// 	}
+			// } 
 
 			return can_update_field
 		},

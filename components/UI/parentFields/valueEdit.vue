@@ -68,7 +68,7 @@
 						:hide-details="is_preview"
 						v-model="itemData"
 						:color="fieldColor"
-						:readonly="!canEdit"
+						:disabled="!canEdit"
 						:label="$t( collName+'.'+subField, $store.state.locale )"
 						:items="$store.state.subFieldsWithChoices[subField]['choices']"
 						@change="srcTypeSwitch() ; submitValue () ; save()"
@@ -83,7 +83,7 @@
 						:hide-details="is_preview"
 						:class="checkBoxPadding"
 						:color="fieldColor"
-						:readonly="!canEdit"
+						:disabled="!canEdit"
 						v-model="itemData"
 						:label="$t('global.'+subField, $store.state.locale)"
 						@change="submitValue () ; save()"
@@ -165,7 +165,7 @@
 						:solo="is_preview"
 						hide-details
 						:color="fieldColor"
-						:readonly="!canEdit"
+						:disabled="!canEdit"
 						:box="!is_preview"
 						:label="$t( collName+'.'+subField, $store.state.locale )"
 						auto-grow
@@ -184,7 +184,7 @@
 						:hide-details="is_preview"
 						:ref="subField"
 						:color="fieldColor"
-						:readonly="!canEdit"
+						:disabled="!canEdit"
 						v-model="itemData"
 						:rules="[() => !!itemData || $t('rules.required', $store.state.locale )]"
 						:label="$t( collName+'.'+subField, $store.state.locale )"
@@ -207,6 +207,7 @@
 
 			<!--  UPDATE DIALOG  -->
 			<v-dialog 
+				v-if="canEdit"
 				v-model="dialog" 
 				persistent 
 				max-width="500px"
@@ -431,7 +432,7 @@ export default {
 		},
 
 		snack_if_not_create() {
-			if (!this.is_create){
+			if (!this.is_create && this.canEdit){
 				this.snack = true
 			}
 		},

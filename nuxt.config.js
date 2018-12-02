@@ -43,6 +43,7 @@ module.exports = {
 		'~/plugins/vuetify.js',
 		'~/plugins/i18n.js',
 		'~/plugins/axios',
+		'~plugins/json_filter.js',
 		// '~/api/init.js', 
 		// '~plugins/auth.js',
 		// '~plugins/uploadBtn.js',

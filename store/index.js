@@ -152,6 +152,7 @@ export const state = () => ({
 	
 	//  APP TITLE
 	title	: 'Solidata - beta',
+	is_debug : true ,
 
 	// USER AUTH
 	auth 	: null, 

@@ -304,10 +304,11 @@ export const actions = {
 
 	newAccessToken ({commit, state}) {
 		console.log("\n...store/auth : newAccessToken...");
+		console.log("...store/auth : newAccessToken / state.refresh_token :", state.refresh_token);
 		const config = { "headers" : { 'Authorization': state.refresh_token }} ;
 		return this.$axios.$get('auth/tokens/new_access_token', config)
 			.then(response => {
-				console.log("\n...store/auth/newAccessToken : response : ", response);
+				console.log("...store/auth/newAccessToken : response : ", response);
 				commit('set_access_token',	response.tokens) ;
 				commit('set_isLogged',    true);
 				commit('set_user',        response.data) ;
@@ -324,7 +325,7 @@ export const actions = {
 		const config = { "headers" : { 'Authorization': state.refresh_token }} ;
 		return this.$axios.$post('auth/tokens/new_access_token', data)
 			.then(response => {
-				console.log("\n...store/auth/refreshAccessToken : response : ", response);
+				console.log("...store/auth/refreshAccessToken : response : ", response);
 				commit('set_access_token', response.tokens) ;
 				return response
 			})
