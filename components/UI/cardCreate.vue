@@ -8,7 +8,7 @@
 
 	<v-layout
 		align-center
-		class="pb-5 pt-3"
+		class="pb-3 pt-4"
 		>
 
 		<v-flex 
@@ -17,7 +17,7 @@
 			>
 
 			<v-btn 
-				
+				outline
 				:block="is_block"
 				:to="$store.state.mainIcons[tab]['to']+'/create'" 
 				color="accent"
@@ -25,7 +25,7 @@
 				<v-icon left large>
 					{{ $store.state.mainIcons.create.icon }}
 				</v-icon>
-				<span class="title">
+				<span class="title" >
 					{{ $t(tab+'.create', $store.state.locale) }}
 				</span>
 			</v-btn>

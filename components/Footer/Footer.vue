@@ -16,25 +16,35 @@
 			flat
 			tile
 			>
-			<v-card-title class="primary justify-center">
-
+			<v-card-title 
+				class="primary justify-center py-2"
+				
+				>
 				<!-- <strong class="subheading">Get connected with us on social networks!</strong>
-
 				<v-spacer></v-spacer> -->
-
 				<v-btn
 					v-for="icon in icons"
 					class="mx-3"
 					:href="icon.href"
 					dark
+					small
 					icon
+					round
+					outline
 					>
-					<v-icon size="24px">{{ icon.icon }}</v-icon>
+					<v-icon small >
+						{{ icon.icon }}
+					</v-icon>
+					<!-- <span class="text-lowercase">
+						{{ icon.title }}
+					</span> -->
 				</v-btn>
 			</v-card-title>
 
 			<v-card-actions class="grey darken-3 justify-center">
-				&copy;2018 — <strong>Solidata</strong>
+				<span v-html="$store.state.title"></span> &nbsp; 
+				&nbsp; <span v-html="$store.state.version"></span> &nbsp;-
+				(<span v-html="$store.state.year"></span>) 
 			</v-card-actions>
 
 		</v-card>
@@ -45,9 +55,24 @@
  export default {
     data: () => ({
       icons: [
-        {label : "frontend", href : "https://github.com/entrepreneur-interet-general/solidata_frontend", icon : 'fab fa-vuejs'} , 
-        {label : "", href : "http://twitter.com/jparis_py", icon : 'fab fa-twitter'} , 
-        {label : "backend", href : "https://github.com/entrepreneur-interet-general/solidata_backend", icon : 'fab fa-python'} , 
+		{ 	
+			label : "frontend", 
+			href : "https://github.com/entrepreneur-interet-general/solidata_frontend", 
+			icon : 'fab fa-vuejs',
+			title : "frontend"
+		} , 
+        { 
+			label : "", 
+			href : "http://twitter.com/jparis_py", 
+			icon : 'fab fa-twitter',
+			title : "twitter"
+		} , 
+        { 
+			label : "backend", 
+			href : "https://github.com/entrepreneur-interet-general/solidata_backend", 
+			icon : 'fab fa-python',
+			title : "backend"
+		} , 
         // {label : "", href : "/", icon : 'fab fa-facebook'} , 
         // {label : "", href : "/", icon : 'fab fa-google-plus'} , 
         // {label : "", href : "/", icon : 'fab fa-linkedin'} , 

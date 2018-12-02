@@ -94,7 +94,7 @@ const user_edit_auth_rights_list	= {
 
 const mainIconsConst = {
 
-	home				: { icon : "fas fa-home",				 to:"/" },
+	home				: { icon : "home",				 to:"/" },
 	// dashboard	 	: { icon : "fas fa-th-list",				to:"/dashboard",	abr:"dsh"},
 	// dashboard	 		: { icon : "fas fa-eye",				to:"/dashboard",	abr:"dsh"},
 	dashboard	 		: { icon : "dashboard",					to:"/dashboard",	abr:"dsh"},
@@ -109,7 +109,7 @@ const mainIconsConst = {
 	
 	settings			: { icon : "settings",					to:"/usr/settings", abr:"dsh" },
 
-	profile	 			: { icon : "fas fa-user-circle",		to:"/usr",			abr:"usr" },
+	profile	 			: { icon : "far fa-user-circle",		to:"/usr",			abr:"usr" },
 	password			: { icon : "fas fa-unlock",			 	to:"/usr/password", abr:"pwd" },
 	login				: { icon : "fas fa-sign-in-alt",		to:"/login" },
 	register			: { icon : "fas fa-user-plus",			to:"/register" },
@@ -151,8 +151,11 @@ const mainIconsConst = {
 export const state = () => ({
 	
 	//  APP TITLE
-	title	: 'Solidata - beta',
-	is_debug : true ,
+	title	 : '<span>SOLI</span><i><strong>DATA</strong></i>',
+	version	 : '<span>v.0.1</span>',
+	year	 : '2018',
+
+	is_debug : false ,
 
 	// USER AUTH
 	auth 	: null, 
