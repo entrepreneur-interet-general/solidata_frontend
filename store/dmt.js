@@ -18,6 +18,10 @@ export const state = () => ({
 	},
 
 	query_current 	: null,
+
+	current_file		: '',
+	current_filename	: 'no filename',
+	
 	current 		: {},
 	current_new 	: {
 		"infos"			: { 

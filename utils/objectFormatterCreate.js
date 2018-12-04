@@ -2,15 +2,16 @@ const ObjectFormatterCreate = {
 
 	prepareFormData (formData) {
 			
-		console.log("\nprepareFormData / formData : ", formData)
+		console.log("\nObjectFormatterCreate / formData : ", formData)
 
 		var FormDataMarshalled = {} ;
 
 		for (var parentField in formData) {
-			console.log("prepareFormData / parentField : ", parentField)
+			
+			console.log("ObjectFormatterCreate / parentField : ", parentField)
 			
 			for (var subField in formData[parentField]) {
-				console.log("prepareFormData / subField : ", subField)
+				console.log("ObjectFormatterCreate / subField : ", subField)
 				// var raw_field = {
 				// "field_to_update" 	: subField,
 				// "field_value" 		: formData[subField]
@@ -19,7 +20,7 @@ const ObjectFormatterCreate = {
 			}
 		} ;
 
-		console.log("\nprepareFormData / FormDataMarshalled : ", FormDataMarshalled)
+		console.log("ObjectFormatterCreate / FormDataMarshalled : ", FormDataMarshalled)
 		return FormDataMarshalled
 	},
 }

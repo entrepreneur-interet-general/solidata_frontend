@@ -10,7 +10,7 @@
 	<v-container 
 		fluid 
 		fill-height
-		class="pt-3 pb-0"
+		class="pt-4 mt-2 pb-0"
 		>
 		
 		<v-layout row align-center spacer>

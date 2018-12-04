@@ -37,17 +37,22 @@ const src_fileTypes_list = [
 	'csv',
 	// 'API',
 ]
+const src_csvSeparators_list = [
+	';',
+	',',
+	'|',
+]
 
 const licences_list = [
-	'MIT', 
-	'GNU', 
-	'OpenGL', 
-	'CCO', 
-	'PDDL', 
-	'ODC-By', 
-	'ODbL',
 	'CC BY',
 	'CC BY-SA',
+	'CCO', 
+	'GNU', 
+	'MIT', 
+	'ODbL',
+	'ODC-By', 
+	'OpenGL', 
+	'PDDL', 
 ]
 
 // openlevel choices must be coherent with backend choices
@@ -174,6 +179,7 @@ export const state = () => ({
 	openlevelEditList			: openlevel_edit_list,
 
 	src_fileTypesList			: src_fileTypes_list,
+	src_csvSeparatorsList		: src_csvSeparators_list,
 
 	user_edit_authList			: user_edit_auth_list,
 	user_edit_auth_rightsList	: user_edit_auth_rights_list,
@@ -279,6 +285,7 @@ export const state = () => ({
 		"licence" 			: { choices : licences_list } ,
 		"f_type" 			: { choices : dmf_types_list } ,
 		"src_type"			: { choices : src_types_list },
+		"src_sep"			: { choices : src_csvSeparators_list },
 	},
 
 	subFieldsWithBoolean : [
@@ -493,7 +500,7 @@ export const actions = {
 
 	createItem ({commit, state, rootState}, payload ) {
 		
-		console.log("\n... createItem..." ) ; 
+		console.log("\n... createItem... for payload.collection : ", payload.collection ) ; 
 
 		// HEADERS
 		const config = { "headers" : { 'Authorization': rootState.auth.access_token }} ;
@@ -505,7 +512,35 @@ export const actions = {
 		var cleanPayload = ObjectCleaner.returnCleanObject( payload.data );
 		console.log("... createItem / cleanPayload : ", cleanPayload ) ; 
 
-		// CREATE 
+
+		// CREATE ITEM
+		var coll_file = rootState[payload.collection].current_file ;
+		console.log("... createItem / coll_file : ", coll_file ) ; 
+
+
+		// is contains file change data to formData
+		// if ( payload.data.src_type != 'API' && coll_file != '' ) {
+		if ( coll_file != undefined && coll_file != '' ) {
+			
+			console.log("... createItem / payload.data.file  : ",  payload.data.file  ) ; 
+			
+			// payload to formData
+			var formData = new FormData();
+			for ( var key in cleanPayload ) {
+				formData.append(key, cleanPayload[key]);
+			};
+
+			// append file to formData
+			formData.append('form_file', coll_file );
+			console.log("... createItem / formData  : ",  formData  ) ; 
+			
+			// append stuff to config headers
+			config.headers['Content-Type'] =  'multipart/form-data' ;
+
+			// overwrite cleanPayload
+			cleanPayload = formData ; 
+			console.log("... createItem / cleanPayload : ", cleanPayload ) ; 
+		}
 
 		return this.$axios.$post(`${payload.collection}/create/`, cleanPayload, config)
 			.then(response => {

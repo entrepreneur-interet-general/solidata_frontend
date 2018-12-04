@@ -124,6 +124,7 @@
 
 		"src_type" 		: "type de source" ,
 		"src_link" 		: "fichier source" ,
+		"src_sep" 		: "Séparateurr",
 
 		"team"			: "Equipe",
 		"inTeam"		: "vous faîtes partie de l'équipe",
@@ -301,7 +302,8 @@
 		"f_is_required"	: "Champ requis" ,
 		"resume"		: "Résumé",
 		"src_type" 		: "Type de source", 
-		"src_link" 		: "Valeur" 
+		"src_link" 		: "Valeur", 
+		"src_sep" 		: "Séparateurr" 
 	},
 	
 	"recipes" : {

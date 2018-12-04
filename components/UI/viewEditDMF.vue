@@ -33,7 +33,7 @@
 						class="title text-uppercase"
 						>
 						<!-- {{$t(collName+'.edit', $store.state.locale )}} -->
-						{{ item_doc.infos.title }}
+						{{ itemDoc.infos.title }}
 					</v-card-text>
 
 					<!-- SWITCH FOR PREVIEW -->
@@ -130,6 +130,7 @@
 							<span>
 								{{ $t(`parentFields.`+parentField.parentFieldName, $store.state.locale) }}
 								<!-- <br> - is_file :  {{ is_file }} -->
+								<!-- <br> - loading :  {{ loading }} -->
 							</span>
 
 						</v-card-text>
@@ -164,11 +165,13 @@
 											:subField="subField"
 											:is_create="is_create"
 											:is_preview="isPreview"
-											:item_id="item_doc._id"
-											:item_data="item_doc[parentField.parentFieldName][subField]"
-											:item_auth="item_doc.public_auth"
+											:item_id="itemId"
+											:item_data="itemDoc[parentField.parentFieldName][subField]"
+											:item_auth="itemDoc.public_auth"
 											:canEdit="checkUserAuth(parentField.parentFieldName+'.'+subField)"
 											:is_file="is_file"
+											:filetype="filetype"
+											:loading="loading"
 											@input="updateIsFile"
 											>
 										</ValueEdit>
@@ -196,22 +199,30 @@
 			wrap 
 			>
 
-			<v-flex d-flex :class="flex_vars">
+			<v-flex 
+				d-flex 
+				:class="flex_vars"
+				>
 				
 				<v-btn 
 					block 
 					dark 
 					large
-					class="mt-4 accent"
+					flat
+
+					class=" mt-5 accent"
+					color=""
 					:loading="loading" 
 					@click="createItem()"
 					>
+
 					<v-icon left large>
 						{{ $store.state.mainIcons.create.icon }}
 					</v-icon>
 
 					<span class="subheading">
 						{{ $t(collName+`.create`, $store.state.locale) }}
+						<!-- - {{ flex_vars }} -->
 					</span>
 
 				</v-btn>
@@ -247,8 +258,8 @@
 					---- DEBUG component - ItemViewEdit ----
 					<hr>
 
-					-- item_doc -- <br>
-					<code>{{ item_doc }}</code>
+					-- itemDoc -- <br>
+					<code>{{ itemDoc }}</code>
 					<hr>
 
 					-- vars -- <br>
@@ -256,13 +267,23 @@
 					coll : <code>{{ coll }}</code> - 
 					collName : <code>{{ collName }}</code> - 
 					is_create : <code>{{ is_create }}</code> - 
-					item_doc._id : <code>{{ item_doc._id}}</code> - 
+					filetype : <code>{{ filetype }}</code> - 
+					itemId : <code>{{ itemId}}</code> - 
 					<!-- canEdit : <code>{{ canEdit }}</code> -->
 					flex_vars : <code>{{flex_vars}}</code> - 
 					<hr>
 
 					-- current_new in $store.state.{{coll}} -- <br>
 					{{coll}}.current_new : <br><code>{{ $store.state[coll].current_new }}</code>
+
+					<div v-if="is_file">
+						{{coll}}.csv_sep : <br><code>{{ $store.state[coll].csv_sep }}</code><br>
+						{{coll}}.current_filename : <br><code>{{ $store.state[coll].current_filename }}</code>
+					</div>
+					<div v-if="is_file && $store.state[coll].current_file != '' ">
+						{{coll}}.current_file : <br><code>{{ $store.state[coll].current_file.name }}</code>
+					</div>				
+					
 				</v-alert>
 
 			</v-flex>
@@ -308,19 +329,22 @@ export default {
 		CardCreate,
 	},
 	
-	mounted () {
-		console.log("\n- itemViewEdit / mounted ---> item_doc : ", this.item_doc ) ;
+	created () {
+		console.log("\n- itemViewEdit / created ---> item_doc : ", this.item_doc ) ;
+		this.itemDoc = this.item_doc ;
 		// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
 		// this.canEdit = this.checkUserAuth(this.parentFieldslist)
 
 		// this.is_file = ( this.coll == "dsi" ) ? true : false ; 
 		this.is_file = this.preloadIsFile() ; 
+		this.filetype = this.preloadFileType() ; 
 	},
 
 	data () {
 
 		return {
 			
+			alert		: null,
 			loading 	: false,
 			isPreview 	: this.is_preview,
 
@@ -329,8 +353,10 @@ export default {
 			// collName 	: this.$store.state.collectionsNames[this.item_doc.specs.doc_type],
 			// canEdit		: false ,
 			itemId 		: this.item_doc._id, 
+			itemDoc		: this.item_doc,
 
 			is_file 			: null,
+			filetype 			: null,
 
 			blockFullSize 		: "xs12",
 			blockPartSize 		: "xs10",
@@ -387,20 +413,37 @@ export default {
 			return isFile
 		},
 
+		preloadFileType () {
+			var filetype ;
+			if ( this.coll == "dsi"){
+				filetype = this.item_doc.specs.src_type
+			}
+			return filetype
+		},
+
 		updateIsFile(val) {
 			
-			if( val.subField == "src_type"){
-
-				console.log("\n updateIsFile / val : ", val)
+			// if( val.subField == "src_type"){
+			if( val.subField == "switchFileType"){
+				console.log("\n updateIsFile - src_type / val : ", val)
 				this.is_file = val.is_file ;
-
+				this.filetype = val.filetype ;
 			}
+
+			if( val.subField == "fileExt"){
+				console.log("\n updateIsFile - fileExt / val : ", val)
+				this.itemDoc.specs.src_type = val.fileExt ;
+				this.filetype = val.fileExt ;
+			}
+			
+			console.log("updateIsFile / this.filetype : ", this.filetype)
+
 		},
 
 		//  checkUserAuth for an item --> /utils
 		checkUserAuth (field_name) {
 
-			console.log("\ncheckUserAuth / field_name : ", field_name ) ;
+			console.log("checkUserAuth / field_name : ", field_name ) ;
 			// console.log("checkUserAuth ...\n", this.item_doc.public_auth ) ;
 
 			var can_update_field 	= false  ;
@@ -454,15 +497,18 @@ export default {
 		},
 
 		// submit value to create item via API backend
-		createItem () {
+		createItem ( ) {
 			
 			console.log("\n VE createItem... ")
+
+			this.alert    = null
+			this.loading  = true
 
 			var current_new = this.$store.state[this.coll].current_new ; 
 			
 			// this.formHasErrors = false ; 
 
-			console.log("\n createItem - current_new : ", current_new )
+			console.log("VE createItem - current_new : ", current_new )
 
 			// Object.keys(this.form).forEach(f => {
 				// 	if (!this.form[f]) this.formHasErrors = true
@@ -473,11 +519,20 @@ export default {
 			// REFORMAT DATA
 			// var data_to_send = JSON.parse(JSON.stringify(current_new)) ;
 			var data_to_send = ObjectFormatterCreate.prepareFormData(current_new) ;
-			console.log("\n VE createItem / data_to_send : ", data_to_send)
+
+			// add file's data if needed
+			if( this.is_file == true ){
+				console.log("VE createItem / adding file  to data_to_send")
+				// data_to_send['file'] 		= this.$store.state[this.coll].current_file ;
+				data_to_send['csv_sep'] 	= this.$store.state[this.coll].csv_sep ;
+			// 	data_to_send['filename'] 	= this.$store.state[this.coll].current_filename ;
+			}
+
+			console.log("VE createItem / data_to_send : ", data_to_send)
 
 			//  PREPARE PAYLOAD
 			var payload = { collection : this.coll, data : data_to_send } ; 
-			console.log("\n VE createItem / payload : ", payload)
+			console.log("VE createItem / payload : ", payload)
 
 			// dispatch action from store
 			this.$store.dispatch('createItem', payload )
@@ -485,7 +540,7 @@ export default {
 			.then(result => {
 
 				this.loading = false
-				// this.alert = {type: 'success', message: result.msg}
+				this.alert = {type: 'success', message: result.msg}
 
 				// retrieve new item id
 				var new_item_id = response.data._id
@@ -493,7 +548,8 @@ export default {
 				// redirect to edit-preview page 
 				return this.$router.push(`/${this.coll}/${new_item_id}`)
 		
-			}).catch(error => {
+			})
+			.catch(error => {
 
 				console.log("VE createItem / submit / error... : ", error ) ; 
 
@@ -502,6 +558,7 @@ export default {
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
 				}
+
 			})
 		
 

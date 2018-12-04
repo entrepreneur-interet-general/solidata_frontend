@@ -34,12 +34,12 @@
 		</v-container>
 
 
-		<CreateItem
+		<!-- <CreateItem
 			:itemType="itemType"
 			:itemAbr="itemAbr"
 			:itemSteps="itemSteps"
 			>
-		</CreateItem>
+		</CreateItem> -->
 
 
 
@@ -53,13 +53,13 @@
 import SectionTitle from '~/components/UI/sectionTitle.vue'
 import ViewEditDoc from '~/components/UI/viewEditDMF.vue' 
 
-import CreateItem from '~/components/Forms/createItem.vue'
+// import CreateItem from '~/components/Forms/createItem.vue'
 
 export default {
 	components : {
 		SectionTitle,
 		ViewEditDoc,
-		CreateItem
+		// CreateItem
 	},
 
 	// TO DO : middleware to check if logged and authenticated
@@ -97,6 +97,7 @@ export default {
 					subFields 	: [
 						"src_type",
 						"src_link",
+						// "src_sep",
 					] 
 				},
 
@@ -169,9 +170,9 @@ export default {
 			*/
 
 			// for form component
-			itemType 	: "datasets",
-			itemAbr 	: "dsi",
-			itemSteps 	: [  "title", "file", "description", "licence" ],
+			// itemType 	: "datasets",
+			// itemAbr 	: "dsi",
+			// itemSteps 	: [  "title", "file", "description", "licence" ],
 
 		}
 	},

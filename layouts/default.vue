@@ -195,6 +195,7 @@
 								<!-- DSI  -->
 								<v-divider class="my-3"></v-divider>
 								<div>dsi.current_filename :<code>{{ $store.state.dsi.current_filename }}</code></div>
+								<div>dsi.csv_sep :<code>{{ $store.state.dsi.csv_sep }}</code></div>
 								<div>dsi.list :  <br><code>{{ $store.state.dsi.list }}</code></div>
 								<div>dsi.current : <br>
 									<code>{{ $store.state.dsi.current | json }}</code>

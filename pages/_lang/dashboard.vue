@@ -27,7 +27,8 @@
 
 		<v-tabs
 			centered
-			color=""
+			color="transparent"
+			
 			:fixed-tabs="!isMobile"
 			>
 			<!-- icons-and-text -->

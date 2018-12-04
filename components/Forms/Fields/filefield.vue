@@ -21,6 +21,8 @@
 					large
 					block
 					
+					:disabled="loading"
+
 					outline
 					@click="onPickFile"
 					color="accent"
@@ -53,6 +55,7 @@
 					outline
 					@click="removeFile"
 					color="error"
+					:disabled="loading"
 					>
 					<v-icon left>{{$store.state.mainIcons.cancel.icon}}</v-icon>
 					{{ $t( 'global.remove', $store.state.locale) }}
@@ -60,7 +63,7 @@
 			</v-flex>	
 
 			<v-flex 
-				class="pt-0 xs12"
+				class="pt-0 xs12 caption"
 				>	
 				{{ $t( labelText, $store.state.locale) }} : {{ fileName }}
 			</v-flex>	
@@ -86,6 +89,7 @@
 	export default {
 		
 		props : [ 
+			"loading",
 			"rawInput", 
 			"labelText"
 		],
@@ -97,8 +101,11 @@
 				tab			: 'datasets',
 
 				raw_input 	: this.rawInput,
-				fileName 	: '',
+
 				file		: null,
+				fileName 	: '',
+				fileExt		: null,
+
 				rules: {
 					required: v => !!v || this.$t('rules.required', this.$store.state.locale)
 				}
@@ -133,22 +140,28 @@
 				fileReader.readAsDataURL(files[0])
 				this.file = files[0]
 
+				var fileExt = filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
+				console.log("onFilePicked / fileExt : ", fileExt )
+				this.fileExt = fileExt
+
 				// send data back to parent component
 				this.$emit('input', {
+					file		: files[0],
 					fileName 	: filename,
-					file		: files[0]
+					fileExt 	: fileExt,
 				})
 			},
 
 			removeFile() {
-				this.fileName 	= ''
 				this.file 		= ''
+				this.fileName 	= ''
 
 				this.$store.commit(`${this.coll}/reset_current_file` );
 
 				this.$emit('input', {
 					fileName 	: '',
-					file		: ''
+					file		: '',
+					fileExt		: this.fileExt
 				})
 			},
 

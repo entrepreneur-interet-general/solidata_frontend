@@ -21,7 +21,9 @@
 					>
 					<span>
 						{{ subField }} 
+						<!-- <br> - {{ filetype }} -->
 						<!-- <br> - {{ is_file }} -->
+						<!-- <br> - {{ loading }} -->
 					</span>
 				</v-btn>
 			</v-flex>
@@ -62,16 +64,30 @@
 
 
 					<!-- CHOICES VALUE -->
+
 					<v-select
-						v-if="subField in $store.state.subFieldsWithChoices "
+						v-if="subField === 'src_type' "
+						:solo="is_preview"
+						:hide-details="is_preview"
+						v-model="fileExt"
+						:color="fieldColor"
+						:disabled="!canEdit || loading "
+						:label="$t( collName+'.'+subField, $store.state.locale )"
+						:items="$store.state.subFieldsWithChoices[subField]['choices']"
+						@change="srcTypeSwitch() ; submitValue () ; save()"
+						>
+					</v-select>
+
+					<v-select
+						v-else-if="subField in $store.state.subFieldsWithChoices && subField != 'src_type'"
 						:solo="is_preview"
 						:hide-details="is_preview"
 						v-model="itemData"
 						:color="fieldColor"
-						:disabled="!canEdit"
+						:disabled="!canEdit || loading "
 						:label="$t( collName+'.'+subField, $store.state.locale )"
 						:items="$store.state.subFieldsWithChoices[subField]['choices']"
-						@change="srcTypeSwitch() ; submitValue () ; save()"
+						@change="submitValue () ; save()"
 						>
 					</v-select>
 
@@ -83,7 +99,7 @@
 						:hide-details="is_preview"
 						:class="checkBoxPadding"
 						:color="fieldColor"
-						:disabled="!canEdit"
+						:disabled="!canEdit || loading"
 						v-model="itemData"
 						:label="$t('global.'+subField, $store.state.locale)"
 						@change="submitValue () ; save()"
@@ -109,25 +125,41 @@
 								- filename 	: {{ filename }} <br>
 							</p> -->
 
+
 							<!-- FILE UPLOAD  -->
 							<FileField
 								v-if="is_file"
 								v-model="itemData"
 								:rawInput="itemData"
 								:labelText="'global.'+subField"
+								:loading="loading"
 								@click="snack_if_not_create()"
 								@input="updateFile"
 								>
 							</FileField>
 
+							<!-- SEPARATOR CHOICES -->
+							<v-select
+								v-if="is_file && filetype == 'csv' "
+								:solo="is_preview"
+								:hide-details="is_preview"
+								v-model="csv_separator"
+								:color="fieldColor"
+								:disabled="!canEdit || loading"
+								:label="$t( collName+'.'+'src_sep', $store.state.locale )"
+								:items="$store.state.subFieldsWithChoices['src_sep']['choices']"
+								@change="updateSeparator() ; save()"
+								>
+							</v-select>
+
 							<!-- TEXT VALUE -->
 							<v-text-field
-								v-else
+								v-if="!is_file"
 								:solo="is_preview"
 								:hide-details="is_preview"
 								:ref="subField"
 								:color="fieldColor"
-								:readonly="!canEdit"
+								:readonly="!canEdit || loading"
 								v-model="itemData"
 								:rules="[() => !!itemData || $t('rules.required', $store.state.locale )]"
 								:label="$t( collName+'.'+subField, $store.state.locale )"
@@ -165,7 +197,7 @@
 						:solo="is_preview"
 						hide-details
 						:color="fieldColor"
-						:disabled="!canEdit"
+						:disabled="!canEdit || loading"
 						:box="!is_preview"
 						:label="$t( collName+'.'+subField, $store.state.locale )"
 						auto-grow
@@ -184,7 +216,7 @@
 						:hide-details="is_preview"
 						:ref="subField"
 						:color="fieldColor"
-						:disabled="!canEdit"
+						:disabled="!canEdit || loading"
 						v-model="itemData"
 						:rules="[() => !!itemData || $t('rules.required', $store.state.locale )]"
 						:label="$t( collName+'.'+subField, $store.state.locale )"
@@ -327,7 +359,10 @@ export default {
 		"item_data",
 		"canEdit",
 
-		"is_file"
+		"loading",
+
+		"is_file",
+		"filetype"
 
 	],
 
@@ -337,15 +372,18 @@ export default {
 
 	// created vs mounted
 	// cf : https://stackoverflow.com/questions/45813347/difference-between-the-created-and-mounted-events-in-vue-js
-	created () {
-		// console.log("\n- valueEdit / created ---> item_data : ", this.item_data ) ;
-	},
 
 	created () {
-		console.log("- valueEdit / mounted ---> item_data : ", this.item_data ) ;
+		console.log("- valueEdit / created ---> subField / item_data : ", this.subField + ' / ' + this.item_data ) ;
 		this.itemData = this.item_data ;
+		this.fileExt = this.filetype ;
 	},
-
+	mounted () {
+		if (this.subfield == 'src_type'){
+			console.log("- valueEdit / mounted ---> this.filetype : ", this.filetype ) ;
+			this.fileExt = this.filetype ;
+		}
+	},
 
 	data: function () {
 
@@ -357,6 +395,8 @@ export default {
 
 			file			: '',
 			filename		: '',
+			fileExt			: '',
+			csv_separator	: ',',
 
 			dialog			: false,
 			snack			: false,
@@ -367,8 +407,8 @@ export default {
 			textAreaRows 	: 3,
 
 			valueFullSize 	: "xs12 ma-0 pa-0",
-			valuePartSize 	: "xs12 md9 ma-0 pa-2",
-			subFieldsSize 	: "xs12 md3 ma-0 pa-2",
+			valuePartSize 	: "xs12 sm9 ma-0 pa-2",
+			subFieldsSize 	: "xs12 sm3 ma-0 pa-2",
 
 			checkBoxNoPadding 	: " mt-0 pl-2",
 
@@ -379,6 +419,8 @@ export default {
 		}
 	},
 
+
+	  
 	computed: {
 
 		valueBlockSize () {
@@ -392,19 +434,30 @@ export default {
 		form () {
 			return {
 				"field_to_update" 	: this.parentField+'.'+this.subField ,
-				"field_value"		: this.itemData,
+				"field_value"		: (this.subField == "src_type") ? this.fileExt : this.itemData ,
 			}
+		},
+
+		valueSrcType () {
+			return (this.subField == 'src_type') ? this.filetype : this.itemData ;
 		},
 
 	},
 
 	watch: {
+
+		filetype(newVal, oldVal) { // watch it
+			console.log('WATCH - filetype - changed: ', newVal, ' | was: ', oldVal)
+			this.fileExt = newVal ;
+		},
+
 		name () {
 			this.errorMessages = ''
 		}
 	},
 
 	methods: {
+
 
 		// dialog functions
 		save () {
@@ -456,16 +509,28 @@ export default {
 		},
 		
 
-		// FILE INFOS UPDATE 
+		// FILE INFOS UPDATE - coming from child
 		updateFile(val) {
 
 			console.log("\n updateFile / val.file : ", val.file)
 			console.log("updateFile / val.fileName : ", val.fileName)
+			console.log("updateFile / val.fileExt : ", val.fileExt )
+
 
 			this.itemData	= val.fileName ;
 
 			this.file 		= val.file ;
 			this.filename 	= val.fileName ;
+			this.fileExt 	= val.fileExt ;
+			this.csv_sep 	= this.csv_separator ;
+
+			// send data back to parent component 
+			this.$emit('input', {
+				subField : "fileExt",
+				fileExt : val.fileExt,
+			})
+
+
 
 			this.$store.commit(`${this.coll}/set_current_file`, val.file );
 
@@ -481,23 +546,28 @@ export default {
 				console.log("\n srcTypeSwitch... ")
 				var isFile = true ; 
 
-				console.log("srcTypeSwitch / this.isFile : ", this.isFile )
-				console.log("srcTypeSwitch / this.itemData : ", this.itemData)
+				console.log("srcTypeSwitch / this.fileExt : ", this.fileExt)
 
-				if (this.itemData == "API") {
-					isFile = false ;
+
+				if (this.fileExt == "API") {
+						isFile = false ;
 				}
 
 				console.log("srcTypeSwitch / isFile : ", isFile )
 
-				// send data back to parent component
+				// send data back to parent component viewEditDMF
 				this.$emit('input', {
-					subField : this.subField,
+					subField : 'switchFileType',
 					is_file  : isFile,
+					filetype  : this.fileExt,
 				})
 			}
 		},
 
+		updateSeparator(){
+			console.log("\nupdateSeparator / this.csv_separator : ", this.csv_separator)
+			this.$store.commit(`${this.coll}/set_current_separator`, this.csv_separator );
+		},
 
 		// submit value for update : via API backend | via $store.set_current_new
 		submitValue () {
@@ -517,15 +587,15 @@ export default {
 			// UPDATE VALUE TO API
 			if (!this.is_create) {
 
-				// var formData = ObjectFormatterUpdate.prepareFormData(this.form) ;
-				var formData = [this.form] ;
-				console.log("submitValue - update / formData : ", formData)
+				// var pseudoFormData = ObjectFormatterUpdate.prepareFormData(this.form) ;
+				var pseudoFormData = [this.form] ;
+				console.log("submitValue - update / formData : ", pseudoFormData)
 
 				// dispatch action from store
 				this.$store.dispatch('updateItem', {
 					coll	: this.coll,
 					doc_id  : this.item_id,
-					form 	: formData, //this.form,
+					form 	: pseudoFormData, //this.form,
 				}).then(result => {
 					this.alert = {type: 'success', message: result.msg}
 					this.loading = false
@@ -547,7 +617,7 @@ export default {
 				var valueData = {
 					"parentField" 	: this.parentField,
 					"subField" 		: this.subField,
-					"item_data" 	: this.itemData , 
+					"item_data" 	: (this.subField == "src_type") ? this.fileExt : this.itemData , 
 				} ;
 				
 				console.log("submitValue - create / valueData : ", valueData)

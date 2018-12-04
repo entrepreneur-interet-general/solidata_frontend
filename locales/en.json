@@ -126,7 +126,8 @@
 
 		"src_type" 		: "source tyoe" ,
 		"src_link" 		: "source file" ,
-		
+		"src_sep" 		: "Separator",
+
 		"team"			: "Team",
 		"inTeam"		: "you are part of the team",
 		"notTeam"		: "you are not part of the team",
@@ -304,7 +305,8 @@
 		"f_is_required"	: "Field is required" ,
 		"resume" 		: "Resume",
 		"src_type" 		: "Source type", 
-		"src_link" 		: "Value" 
+		"src_link" 		: "Value", 
+		"src_sep" 		: "Separator" 
 	},
 	
 	"recipes" : {

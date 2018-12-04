@@ -2,7 +2,7 @@
 
 	<v-container fluid fill-height>
 		<v-layout align-center justify-center>
-			<v-flex xs10 sm8 >
+			<v-flex xs10 sm8 md6 >
 				<v-card class="elevation-12 pa-3 my-5">
 
 

@@ -79,7 +79,7 @@ export default {
 	],
 
 	mounted () {
-		console.log("\n- cardCreate / mounted ---> tab... ", this.tab ) ;
+		console.log("- cardCreate / mounted ---> tab... ", this.tab ) ;
 	},
 
 	data () {

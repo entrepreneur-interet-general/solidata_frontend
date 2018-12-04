@@ -2,7 +2,7 @@
 <template>
 
 	<v-toolbar 
-		class=" justify-center"
+		class=" justify-center white elevation-1"
 		flat
 		app 
 		:fixed="$store.state.fixedNav" 

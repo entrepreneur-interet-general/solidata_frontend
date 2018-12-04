@@ -21,6 +21,7 @@ export const state = () => ({
 
 	current_file		: '',
 	current_filename	: 'no filename',
+	csv_sep				: ',',
 
 	current 		: {},
 	current_new 	: {
@@ -116,21 +117,32 @@ export const mutations = {
 
 	},
 
-	// set a temporary new 
+	// set a temporary new file
 	set_current_file (store, file_data) {
 		console.log("\n... store/dsi : set_current_file...")
 		console.log("... store/dsi - file_data : ", file_data )
 
-		store.current_file = file_data.file 
-		store.current_filename = file_data.name
+		store.current_file 				= file_data 
+		store.current_filename 			= file_data.name
+		// store.csv_sep 					= file_data.csv_sep
 
 	},
 
+	// set a temporary new file
+	set_current_separator (store, csv_separator) {
+		console.log("\n... store/dsi : set_current_separator...")
+		console.log("... store/dsi - csv_separator : ", csv_separator )
+
+		store.csv_sep 					= csv_separator
+
+	},
+		
 	reset_current_file(store) {
 		console.log("\n... store/dsi : reset_current_file...")
 
-		store.current_file = ''
-		store.current_filename = 'no filename'
+		store.current_file 				= ''
+		store.current_filename 			= 'no filename'
+		// store.current_new.infos.title 	= 'new dataset'
 	},
 
 	
