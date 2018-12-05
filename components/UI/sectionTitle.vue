@@ -11,7 +11,7 @@
 		fluid 
 		flat
 		dense
-		class="pt-3 pb-3"
+		:class="sectionTopPadding"
 		:color="sectionColor"
 		:dark="is_dark"
 		>
@@ -64,7 +64,7 @@
 			:tab="tab"
 			:color="''"
 			:btn_class="'primary'"
-			:block="is_block"
+			:is_block="true"
 			:outline="false"
 			:large="true"
 			:flat="true"
@@ -112,7 +112,10 @@ export default {
 
 	data () {
 		return {
-			// sectionColor : this.color
+
+			sectionTopPadding_dft 	: "pt-5 pb-3",
+			sectionTopPadding_color : "pt-2 pb-2"
+
 		}
 	},
 	computed : {
@@ -125,9 +128,15 @@ export default {
 			return (this.color)? this.color : 'transparent' ;
 		},
 
+		sectionTopPadding () {
+			return (this.color)? this.sectionTopPadding_color : this.sectionTopPadding_dft ;
+		},
+
 		icon_color () {
 			return (this.color)? "white" : 'primary' ;
 		},
+
+
 	},
 }
 </script>

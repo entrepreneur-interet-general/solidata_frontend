@@ -1,253 +1,135 @@
 <template>
 
 	<v-container 
-		grid-list-xl 
-		text-xs-center
-		pt-2
+		grid-list-sm 
+		py-5
+		height="800px"
 		>
 		
-		<!-- ITEM TITLE ROW -->
-		<v-layout 
-			v-if="!isPreview || is_create || is_switch"
-			row 
-			wrap 
-			pb-3
-			>
+		<!-- DSI INFOS -->
+		<v-layout row wrap>
 
-			<v-flex d-flex :class="flex_vars">
-
-				<v-toolbar 
-					dense 
-					color="transparent" 
-					xs12
-					>
-					
-					<!-- BACK TO COLL LIST -->
-					<v-btn 
-						icon 
-						small 
-						color=""
-						:to="'/'+coll"
-						>					
-						<v-icon small>
-							{{ $store.state.mainIcons[collName]['icon'] }}
-						</v-icon>
-					</v-btn>
-
-					<!-- ITEM TITLE -->
-					<v-card-text 
-						class="title text-uppercase"
-						>
-						<!-- {{$t(collName+'.edit', $store.state.locale )}} -->
-						{{ itemDoc.infos.title }}
+			<v-flex xs10>
+				<v-card dark color="accent">
+					<v-card-text class="px-0">
+						infos - {{ item_doc.infos }}
+						<br>- {{ itemId }}
+						<!-- <br>- {{ item_headers }} -->
 					</v-card-text>
+				</v-card>
+			</v-flex>
 
-					<!-- SWITCH FOR PREVIEW -->
-					<v-switch 
-						:label="$t('global.preview', $store.state.locale)"
-						v-model="isPreview"
-						color="primary"
-						:input-value="isPreview"
-						hide-details
-						>
-					</v-switch>
+			<v-flex xs2>
+				<v-card dark color="accent">
+					<v-card-text class="px-0">
+						delete or reset calls
+					</v-card-text>
+				</v-card>
+			</v-flex>
 
-					<!-- DELETE ITEM MENU -->
-					<v-menu 
-						bottom 
-						left 
-						v-if="!is_create">
+		</v-layout>
 
-						<v-btn 
-							icon 
-							small
-							slot="activator"
+
+
+		<!-- DSI TEAM AND PUBLIC_AUTH -->
+		<v-layout row wrap>
+
+			<!-- DSI PUBLIC_AUTH -->
+			<v-flex xs6>
+				<v-card dark color="primary">
+					<v-card-text class="px-0">
+						public_auth - {{ item_doc.public_auth }}
+					</v-card-text>
+				</v-card>
+			</v-flex>
+
+			<!-- DSI TEAM -->
+			<v-flex xs6>
+				<v-card dark color="primary">
+					<v-card-text class="px-0">
+						team - {{ item_doc.team }}
+					</v-card-text>
+				</v-card>
+			</v-flex>
+
+		</v-layout>
+
+
+		<!-- DSI SPECS + LOG + USES -->
+		<v-layout row wrap>
+			
+			<!-- LOG -->
+			<v-flex xs4>
+				<v-card dark color="secondary">
+					<v-card-text class="px-0">
+						log - {{ item_doc.log }}
+					</v-card-text>
+				</v-card>
+			</v-flex>
+
+			<!-- SPECS -->
+			<v-flex xs4>
+				<v-card dark color="secondary">
+					<v-card-text class="px-0">
+						specs - {{ item_doc.specs }}
+					</v-card-text>
+				</v-card>
+			</v-flex>
+
+			<!-- USES -->
+			<v-flex xs4>
+				<v-card dark color="secondary">
+					<v-card-text class="px-0">
+						uses - {{ item_doc.uses }}
+					</v-card-text>
+				</v-card>
+			</v-flex>
+
+		</v-layout>
+
+		<!-- DSI - DSR -->
+		<v-layout row wrap>
+			<v-flex xs12>
+				<v-card dark color="grey">
+					<v-card-text class="px-0">
+						dsr - {{ item_doc.datasets.dsr_list }}
+					</v-card-text>
+				</v-card>
+			</v-flex>
+		</v-layout>
+
+		
+
+		<!-- DSI DATA -->
+		<v-layout row wrap>
+			
+			<v-flex xs12>
+				<v-card color="">
+					<v-card-text class="pa-0">
+
+
+						<v-data-table
+							:headers="item_headers"
+							:items="item_data"
+							class="elevation-1"
 							>
-							<v-icon>
-								more_vert
-							</v-icon>
-						</v-btn>
-
-						<v-list class="pa-0">
-
-							<v-list-tile
-								@click=""
-								>
-
-								<v-list-tile-title class="pa-0 ma-0">
-
-									<v-btn 
-										flat 
-										small
-										block
-										class="ma-0"
-										:to="'/'+coll+'/'+itemId+'/delete'"
-										>
-										<v-icon small left color="error">
-											delete
-										</v-icon>
-										{{ $t(`global.delete_i`, $store.state.locale) }}
-									</v-btn>
-
-								</v-list-tile-title>
-
-							</v-list-tile>
-						</v-list>
-					</v-menu>
+							<template slot="items" slot-scope="props">
+								<td 
+									v-for="i in item_headers"
+									:key="item_headers.indexOf(i)">
+									{{ props.item[i.value] | truncate(30, '...') }}
+								</td>
+							</template>
+						</v-data-table>
 
 
-				</v-toolbar>
-
+					</v-card-text>
+				</v-card>
 			</v-flex>
 
 		</v-layout>
 
 
-
-		<!-- ITEM VALUES ROW -->
-		<v-layout 
-			row wrap
-
-			>
-
-			<v-flex 
-				v-for="parentField in parentFieldslist"
-				:key="parentFieldslist.indexOf(parentField)"
-				ParentField_1
-				d-flex 
-				:class="flex_vars + parentPadding" 
-				>
-
-				<!-- parentFieldName -->
-				<v-flex 
-					ParentField_2
-					v-if="!isPreview"
-					:class="parentFieldsSize"
-					d-flex 
-					>
-					<v-card 
-						color="grey" 
-						dark
-						>
-						<v-card-text>
-
-							<v-icon small>
-								{{ $store.state.mainIcons.parentFieldIcons[parentField.parentFieldName].icon }}
-							</v-icon>
-							<v-spacer></v-spacer>
-							<span>
-								{{ $t(`parentFields.`+parentField.parentFieldName, $store.state.locale) }}
-								<!-- <br> - is_file :  {{ is_file }} -->
-								<!-- <br> - loading :  {{ loading }} -->
-							</span>
-
-						</v-card-text>
-					</v-card>
-				</v-flex>
-
-
-				<!-- subFields names and values-->
-				<v-flex 
-					SubField_1
-					d-flex 
-					:class="valueSwitch"
-					>
-
-					<v-layout row wrap>
-						<v-flex d-flex>
-							<v-layout row wrap>
-								
-								<v-flex 
-									SubField_2
-									v-for="subField in parentField.subFields"
-									:key="parentField.subFields.indexOf(subField)"
-									d-flex
-									:class="blockFullSize + valuePadding"
-									>
-
-									<v-card>
-
-										<ValueEdit
-											:coll="coll"
-											:collName="collName"
-											:parentField="parentField.parentFieldName"
-											:subField="subField"
-											:is_create="is_create"
-											:is_preview="isPreview"
-											:item_id="itemId"
-											:item_data="itemDoc[parentField.parentFieldName][subField]"
-											:item_auth="itemDoc.public_auth"
-											:canEdit="checkUserAuth(parentField.parentFieldName+'.'+subField)"
-											:is_file="is_file"
-											:filetype="filetype"
-											:is_loading="loading"
-											@input="updateIsFile"
-											>
-										</ValueEdit>
-
-									</v-card>
-
-								</v-flex>
-
-							</v-layout>
-						</v-flex>
-					</v-layout>
-				</v-flex>
-
-			</v-flex>
-
-
-		</v-layout>
-
-
-
-		<!-- ITEM CREATE BTN ROW -->
-		<v-layout 
-			v-if="is_create"
-			row 
-			wrap 
-			pb-5 pt-3
-			>
-
-			<v-flex 
-				d-flex 
-				:class="flex_vars"
-				>
-				
-				<v-btn 
-					block 
-					dark 
-					large
-					flat
-
-					class=" accent"
-					color=""
-					:loading="loading" 
-					@click="createItem()"
-					>
-
-					<v-icon left large>
-						{{ $store.state.mainIcons.create.icon }}
-					</v-icon>
-
-					<span class="subheading">
-						{{ $t(collName+`.create`, $store.state.locale) }}
-						<!-- - {{ flex_vars }} -->
-					</span>
-
-				</v-btn>
-
-				<!-- <CardCreate
-					v-if="$store.state.auth.isLogged"
-					:tab="collName"
-					:defaultFlex="createSize"
-					:defaultHeight="defaultHeightAdd"
-					>
-				</CardCreate> -->
-
-			</v-flex>
-
-		</v-layout>
 
 
 
@@ -312,11 +194,11 @@
 import ObjectFormatterCreate from "~/utils/ObjectFormatterCreate.js"
 import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
 
-import SectionTitle from '~/components/UI/sectionTitle.vue'
+// import SectionTitle from '~/components/UI/sectionTitle.vue'
 
 // import CardInfos from '~/components/UI/parentFields/cardInfos.vue'
 import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
-import CardCreate from '~/components/UI/cardCreate.vue'
+// import CardCreate from '~/components/UI/cardCreate.vue'
 
 
 export default {
@@ -333,10 +215,10 @@ export default {
 	],
 
 	components : {
-		SectionTitle,
+		// SectionTitle,
 		// CardInfos,
 		ValueEdit,
-		CardCreate,
+		// CardCreate,
 	},
 	
 	created () {
@@ -346,8 +228,8 @@ export default {
 		// this.canEdit = this.checkUserAuth(this.parentFieldslist)
 
 		// this.is_file = ( this.coll == "dsi" ) ? true : false ; 
-		this.is_file = this.preloadIsFile() ; 
-		this.filetype = this.preloadFileType() ; 
+		// this.is_file = this.preloadIsFile() ; 
+		// this.filetype = this.preloadFileType() ; 
 	},
 
 	data () {
@@ -358,12 +240,12 @@ export default {
 			loading 	: false,
 			isPreview 	: this.is_preview,
 
-			// coll 		: this.item_doc.specs.doc_type, 
 			collName 	: this.$store.state.collectionsNames[this.coll],
-			// collName 	: this.$store.state.collectionsNames[this.item_doc.specs.doc_type],
-			// canEdit		: false ,
-			itemId 		: this.item_doc._id, 
-			itemDoc		: this.item_doc,
+
+			itemId 			: this.item_doc._id, 
+			itemDoc			: this.item_doc,
+			item_data 		: this.item_doc.data_raw.f_data, 
+			// item_headers 	: this.item_doc.data_raw.f_col_headers, 
 
 			is_file 			: null,
 			filetype 			: null,
@@ -390,6 +272,24 @@ export default {
 		parentPadding () {
 			return (this.isPreview) ? this.parentNoBotPadding : this.parentBotPadding ;
 		},
+
+		item_headers () {
+			var headers 	= [] ;
+			const raw_headers = this.item_doc.data_raw.f_col_headers ;
+			console.log("item_headers / raw_headers : ", raw_headers)
+
+			for (let header in raw_headers ) {
+				console.log("item_headers / header : ", header)
+				var header_ = {
+					value 	: raw_headers[header].f_coll_header_val,
+					text	: raw_headers[header].f_coll_header_text,
+				};
+				headers.push(header_)
+			}
+			return headers
+		},
+
+
 
 		valueSwitch () {
 			// return (!this.is_preview && this.is_switch) ? this.blockPartSize : this.blockSwitchSize ;

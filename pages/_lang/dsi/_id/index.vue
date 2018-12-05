@@ -3,15 +3,28 @@
 	<div>
 
 		<SectionTitle
-			:title="$store.state.dsi.current.infos.title"
-			:intro="$store.state.dsi.current.infos.description"
-			:icon="$store.state.mainIcons.datasets.icon"
+			v-if="$store.state.auth.isLogged"
+			:title="$t(`${tab}.name`, $store.state.locale)"
+			:intro="$t(`${tab}.edit`, $store.state.locale)"
+			:icon="$store.state.mainIcons[tab]['icon']"
+			:to_link="'/dashboard'"
+			:color="''"
+			:tab="tab"
+			>
+		</SectionTitle>
+
+		<SectionTitle
+			v-else
+			:title="$t(`${tab}.name`, $store.state.locale)"
+			:intro="$t(`${tab}.introAnon`, $store.state.locale)"
+			:icon="$store.state.mainIcons[tab].icon"
+			:color="''"
 			:tab="tab"
 			>
 		</SectionTitle>
 
 
-		<ViewEditBasicDoc
+		<!-- <ViewEditBasicDoc
 			:flex_vars="'xs8 offset-xs2'"
 			:is_create="false"
 			:is_preview="false"
@@ -20,7 +33,18 @@
 			:item_doc="$store.state[coll].current"
 			:is_switch="true"
 			>
-		</ViewEditBasicDoc>
+		</ViewEditBasicDoc> -->
+
+		<ViewEditDSI
+			:flex_vars="'xs8 offset-xs2'"
+			:is_create="false"
+			:is_preview="false"
+			:coll="coll"
+			:parentFieldslist="parentFieldsList"
+			:item_doc="$store.state[coll].current"
+			:is_switch="true"
+			>
+		</ViewEditDSI>
 
 	</div>
 
@@ -31,12 +55,14 @@
 <script>
 import SectionTitle from '~/components/UI/sectionTitle.vue'
 import ViewEditBasicDoc from '~/components/UI/viewEditDMF.vue' 
+import ViewEditDSI from '~/components/UI/viewEditDSI.vue' 
 
 export default {
 	components : {
 
 		SectionTitle,
 		ViewEditBasicDoc, 
+		ViewEditDSI, 
 
 	},
 
