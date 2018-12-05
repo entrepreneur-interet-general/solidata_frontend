@@ -97,7 +97,7 @@ export default {
 					subFields 	: [
 						"src_type",
 						"src_link",
-						// "src_sep",
+						"src_parser",
 					] 
 				},
 

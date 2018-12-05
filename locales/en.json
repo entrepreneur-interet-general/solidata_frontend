@@ -127,6 +127,7 @@
 		"src_type" 		: "source tyoe" ,
 		"src_link" 		: "source file" ,
 		"src_sep" 		: "Separator",
+		"src_parser" 	: "Source parser",
 
 		"team"			: "Team",
 		"inTeam"		: "you are part of the team",
@@ -306,7 +307,8 @@
 		"resume" 		: "Resume",
 		"src_type" 		: "Source type", 
 		"src_link" 		: "Value", 
-		"src_sep" 		: "Separator" 
+		"src_sep" 		: "Separator", 
+		"src_parser" 	: "Source parser"
 	},
 	
 	"recipes" : {

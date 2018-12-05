@@ -208,6 +208,24 @@
 						@click="snack_if_not_create()"
 					></v-textarea>
 
+					<!-- TEXT VALUE -->
+					<v-text-field
+						v-else-if="subField == 'src_parser'"
+						:solo="is_preview"
+						:hide-details="is_preview"
+						:ref="subField"
+						:color="fieldColor"
+						:disabled="!canEdit || loading || is_file"
+						v-model="itemData"
+						:rules="[() => !!itemData && !is_file || $t('rules.required', $store.state.locale )]"
+						:label="$t( collName+'.'+subField, $store.state.locale )"
+						:error-messages="errorMessages"
+						:placeholder="$t('global.'+subField, $store.state.locale )"
+						required
+						@keyup.enter="submitValue () ; save()"
+						@change="submitValue ()"
+						@click="snack_if_not_create() "
+					></v-text-field>
 
 					<!-- TEXT VALUE -->
 					<v-text-field

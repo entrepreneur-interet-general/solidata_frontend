@@ -36,9 +36,10 @@ export const state = () => ({
 			"open_level_show": "commons" 
 		}, 
 		"specs": { 
-			// "doc_type": "dmf" 
-			"src_link"	: null,
-			"src_type"	: "xls",
+			// "doc_type"	: "dsi" 
+			"src_link"		: null,
+			"src_type"		: "xls",
+			"src_parser"	: "/path/of/your/list/of/records",
 		}, 
 		// "log": { 
 		// 	"created_at": "2018-11-20T14:20:47.661000+00:00", 
