@@ -8,12 +8,12 @@
 
 		<v-container 
 			fluid grid-list-md
-			pt-1
+			pt-5
 			>
 
 
 			<!-- CREATE CARD IF LOGGED GUEST -->
-			<v-layout 
+			<!-- <v-layout 
 				class=""
 				row 
 				wrap
@@ -28,7 +28,7 @@
 					>
 				</CardCreate>
 			
-			</v-layout>
+			</v-layout> -->
 
 
 			<!-- SEARCH CARD -->
@@ -226,6 +226,8 @@
 					</CardPreviewDense>
 
 				</v-flex>
+
+
 
 				<!-- <v-toolbar
 					slot="footer"

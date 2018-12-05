@@ -9,6 +9,7 @@
 			:intro="$t(itemType+'.create', $store.state.locale)"
 			:icon="$store.state.mainIcons.datamodels.icon"
 			:to_link="'/rec'"
+			:tab="tab"
 			>
 		</SectionTitle>
 

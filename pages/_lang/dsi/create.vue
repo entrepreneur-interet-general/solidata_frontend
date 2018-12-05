@@ -7,6 +7,7 @@
 			:intro="$t(tab+'.create', $store.state.locale)"
 			:icon="$store.state.mainIcons[tab]['icon']"
 			:to_link="'/'+coll"
+			:tab="tab"
 			>
 		</SectionTitle>
 
@@ -21,7 +22,7 @@
 					<ViewEditDoc
 						:flex_vars="$store.state.createSize"
 						:is_create="true"
-						:is_preview="false"
+						:is_preview="true"
 						:coll="coll"
 						:parentFieldslist="parentFieldsList"
 						:item_doc="$store.state[coll].current_new"

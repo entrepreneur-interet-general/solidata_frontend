@@ -7,95 +7,127 @@
 		> -->
 		<!-- :height="$store.state.mainSectionsHeight" -->
 
-	<v-container 
+	<v-toolbar 
 		fluid 
-		fill-height
-		class="pt-4 mt-2 pb-0"
+		flat
+		dense
+		class="pt-3 pb-3"
+		:color="sectionColor"
+		:dark="is_dark"
 		>
-		
-		<v-layout row align-center spacer>
-			<v-flex>
-				<!-- typos : cf : https://vuetifyjs.com/en/style/typography#font-sizes -->
-				<div 
-					class="pl-3 "
-					>
 					
-					<v-btn 
-						icon
-						flat
-						
-						color="white"
-						class="display-1 mb-3"
-						:to='to_link'
-						>
-						<v-icon 
-							 
-							color="primary"
-							class=""
-							
-							>
-							{{ icon }}
-						</v-icon> 
-					</v-btn>
-
-					<span
-						class="display-1"
-						>
-						{{ title }}
-					</span>
-					
-					<!-- <span> - </span> -->
-
-					<span 
-						class="subheading pl-3"
-						>
-						{{ intro }}
-					</span>
-
-				</div>
-
-			</v-flex>
-		</v-layout>
-
-		<template
-			v-if="!isDashboard"
-			>
+		<v-toolbar-side-icon 
+			icon
+			flat
 			
-			<v-spacer></v-spacer>
+			color="white"
+			class="display-1"
+			:to='to_link'
+			>
+			<v-icon 
+					
+				:color="icon_color"
+				class=""
+				
+				>
+				{{ icon }}
+			</v-icon> 
 
-			<v-menu center right>
-				<v-btn
-					nuxt
-					slot="activator"
-					icon
-					:to="'/dashboard'"
-					>
-					<v-icon>
-						clear
-					</v-icon>
-				</v-btn>
-			</v-menu>
-		</template>
+		</v-toolbar-side-icon>
 
-	</v-container>
+		<v-toolbar-title
+			class=""
+			>
 
-	<!-- </v-jumbotron> -->
+			<span 
+				class="display-1 font-weight-thin"
+				>
+				{{ title }}
+			</span>
+
+			&nbsp;
+
+			<span 
+				class="subheading"
+				>
+				{{ intro }}
+			</span>
+
+		</v-toolbar-title>
+				
+
+		<!-- CREATE BTN -->
+		<v-spacer v-if="show_create"></v-spacer>
+		<BtnCreate
+			v-if="show_create"
+			:is_icon="false"
+			:tab="tab"
+			:color="''"
+			:btn_class="'primary'"
+			:block="is_block"
+			:outline="false"
+			:large="true"
+			:flat="true"
+			>
+		</BtnCreate>
+
+		<v-spacer v-if="!isDashboard"></v-spacer>
+
+		<v-btn
+			v-if="!isDashboard"
+			icon
+			nuxt
+			:to="'/dashboard'"
+			>
+			<v-icon>
+				clear
+			</v-icon>
+		</v-btn>
+
+
+	</v-toolbar>
+
 
 </template>
 
 
 <script>
+import BtnCreate from '~/components/UI/btnCreate.vue'
+
 export default {
 	props : [ 
 		"title",
 		"icon",
 		"intro",
 		"isDashboard",
-		"to_link"
+		"to_link",
+		"color",
+		"tab",
+		"show_create"
 	],
+
+	components : {
+		BtnCreate,
+	},
+
 	data () {
 		return {
+			// sectionColor : this.color
 		}
+	},
+	computed : {
+
+		is_dark () {
+			return (this.color)? true : false ;
+		},
+
+		sectionColor () {
+			return (this.color)? this.color : 'transparent' ;
+		},
+
+		icon_color () {
+			return (this.color)? "white" : 'primary' ;
+		},
 	},
 }
 </script>

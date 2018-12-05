@@ -11,6 +11,7 @@
 			:title="$store.state.dmt.current.infos.title"
 			:intro="$store.state.dmt.current.infos.description"
 			:icon="$store.state.mainIcons.datamodels.icon"
+			:tab="tab"
 		>
 		</SectionTitle>
 

@@ -16,7 +16,7 @@
 			text-md-center
 			>
 
-			<v-btn 
+			<!-- <v-btn 
 				outline
 				:block="is_block"
 				:to="$store.state.mainIcons[tab]['to']+'/create'" 
@@ -28,7 +28,15 @@
 				<span class="title" >
 					{{ $t(tab+'.create', $store.state.locale) }}
 				</span>
-			</v-btn>
+			</v-btn> -->
+
+			<BtnCreate
+				:tab="tab"
+				:block="is_block"
+				:outline="false"
+				>
+
+			</BtnCreate>
 
 		</v-flex>
 
@@ -70,6 +78,8 @@
 </template>
 
 <script>
+import BtnCreate from '~/components/UI/btnCreate.vue'
+
 export default {
 	props : [ 
 		"tab", 
@@ -77,6 +87,10 @@ export default {
 		"defaultFlex",
 		"is_block"
 	],
+
+	components : {
+		BtnCreate,
+	},
 
 	mounted () {
 		console.log("- cardCreate / mounted ---> tab... ", this.tab ) ;

@@ -8,6 +8,8 @@
 			:title="$t(`${tab}.name`, $store.state.locale)"
 			:intro="$t(`${tab}.intro`, $store.state.locale)"
 			:icon="$store.state.mainIcons[tab].icon"
+			:tab="tab"
+			:show_create="true"
 			>
 		</SectionTitle>
 
@@ -16,6 +18,7 @@
 			:title="$t(`${tab}.name`, $store.state.locale)"
 			:intro="$t(`${tab}.introAnon`, $store.state.locale)"
 			:icon="$store.state.mainIcons[tab].icon"
+			:tab="tab"
 			>
 		</SectionTitle>
 

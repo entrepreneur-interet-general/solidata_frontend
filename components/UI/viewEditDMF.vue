@@ -3,6 +3,7 @@
 	<v-container 
 		grid-list-xl 
 		text-xs-center
+		pt-2
 		>
 		
 		<!-- ITEM TITLE ROW -->
@@ -10,11 +11,16 @@
 			v-if="!isPreview || is_create || is_switch"
 			row 
 			wrap 
+			pb-3
 			>
 
 			<v-flex d-flex :class="flex_vars">
 
-				<v-toolbar dark dense color="primary" xs12>
+				<v-toolbar 
+					dense 
+					color="transparent" 
+					xs12
+					>
 					
 					<!-- BACK TO COLL LIST -->
 					<v-btn 
@@ -40,7 +46,7 @@
 					<v-switch 
 						:label="$t('global.preview', $store.state.locale)"
 						v-model="isPreview"
-						color="warning"
+						color="primary"
 						:input-value="isPreview"
 						hide-details
 						>
@@ -101,13 +107,15 @@
 		<!-- ITEM VALUES ROW -->
 		<v-layout 
 			row wrap
+
 			>
 
 			<v-flex 
+				v-for="parentField in parentFieldslist"
+				:key="parentField"
 				ParentField_1
 				d-flex 
 				:class="flex_vars + parentPadding" 
-				v-for="parentField in parentFieldslist"
 				>
 
 				<!-- parentFieldName -->
@@ -118,7 +126,7 @@
 					d-flex 
 					>
 					<v-card 
-						color="secondary" 
+						color="grey" 
 						dark
 						>
 						<v-card-text>
@@ -152,6 +160,7 @@
 								<v-flex 
 									SubField_2
 									v-for="subField in parentField.subFields"
+									:key="subField"
 									d-flex
 									:class="blockFullSize + valuePadding"
 									>
@@ -171,7 +180,7 @@
 											:canEdit="checkUserAuth(parentField.parentFieldName+'.'+subField)"
 											:is_file="is_file"
 											:filetype="filetype"
-											:loading="loading"
+											:is_loading="loading"
 											@input="updateIsFile"
 											>
 										</ValueEdit>
@@ -197,6 +206,7 @@
 			v-if="is_create"
 			row 
 			wrap 
+			pb-5 pt-3
 			>
 
 			<v-flex 
@@ -210,7 +220,7 @@
 					large
 					flat
 
-					class=" mt-5 accent"
+					class=" accent"
 					color=""
 					:loading="loading" 
 					@click="createItem()"

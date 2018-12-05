@@ -29,7 +29,7 @@ export const state = () => ({
 		"infos"			: { 
 			"title"			: "your new dataset input", 
 			"description"	: null,
-			"licence"		: null
+			"licence"		: "CC BY-SA"
 		},
 		"public_auth"	: { 
 			"open_level_edit": "private", 
@@ -106,15 +106,22 @@ export const mutations = {
 
 	set_current (store, data) {
 		console.log("\n... store/dsi : set_current...")
-		store.current 		= data.data
+		console.log("... store/dsi - data : ", data )
+		console.log("... store/dsi - data['data'] : ", data["data"] )
+		store.current 		= data["data"]
 	},
 
 	// set a temporary new 
-	set_current_new (store, data) {
+	set_current_new (store, data ) {
 		console.log("\n... store/dsi : set_current_new...")
 		console.log("... store/dsi - data : ", data )
 
-		store.current_new[data.parentField][data.subField] = data.item_data
+		if (data.update_current == false ) {
+			store.current_new[data.parentField][data.subField] = data.item_data
+		}
+		else {
+			store.current[data.parentField][data.subField] = data.item_data
+		}
 
 	},
 
@@ -150,6 +157,11 @@ export const mutations = {
 }
 
 export const actions = {
+
+	dispatch_current (store, data) {
+		console.log("\n... store/dsi : dispatch_current...")
+		store.commit(`set_current`, data);
+	},
 
 	// getList ({commit, state, rootState}) {
 	// 	console.log("\n... store/dsi : getList...");

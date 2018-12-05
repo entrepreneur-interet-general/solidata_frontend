@@ -77,6 +77,8 @@
 					:icon="$store.state.mainIcons[tab].icon"
 					:isDashboard="true"
 					:to_link="'/'+coll(tab)"
+					:tab="tab"
+					:show_create="true"
 				>
 				</SectionTitle>
 

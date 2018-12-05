@@ -6,6 +6,7 @@
 		:title="$store.state.prj.current.infos.title"
 		:intro="$store.state.prj.current.infos.description"
 		:icon="$store.state.mainIcons.projects.icon"
+		:tab="tab"
 	>
 	</SectionTitle>
 
@@ -35,6 +36,8 @@ export default {
 
 	data () {
 		return {
+			coll 	: "prj",
+			tab 	: 'projects',
 		}
 	},
 

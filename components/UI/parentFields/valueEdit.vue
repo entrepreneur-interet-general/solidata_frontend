@@ -377,7 +377,7 @@ export default {
 		"item_data",
 		"canEdit",
 
-		"loading",
+		"is_loading",
 
 		"is_file",
 		"filetype"
@@ -410,6 +410,8 @@ export default {
 			itemData 		: null,
 
 			// edit_mode	: false,
+
+			loading			: this.is_loading,
 
 			file			: '',
 			filename		: '',
@@ -601,6 +603,16 @@ export default {
 			// })
 
 
+			this.loading = true
+
+
+			var valueData = {
+				"parentField" 	: this.parentField,
+				"subField" 		: this.subField,
+				"item_data" 	: (this.subField == "src_type") ? this.fileExt : this.itemData , 
+				"update_current" : false
+			} ;
+
 
 			// UPDATE VALUE TO API
 			if (!this.is_create) {
@@ -617,6 +629,12 @@ export default {
 				}).then(result => {
 					this.alert = {type: 'success', message: result.msg}
 					this.loading = false
+
+					// update current in store
+					valueData.update_current = true 
+					console.log("submitValue - create / valueData : ", valueData)
+					this.$store.commit(`${this.coll}/set_current_new`, valueData );
+
 					// this.$router.push('/') /////////
 				}).catch(error => {
 					console.log("submit / error... : ", error ) ; 
@@ -632,14 +650,10 @@ export default {
 			// UPDATE VALUE TO STORE at current_new
 			else {
 
-				var valueData = {
-					"parentField" 	: this.parentField,
-					"subField" 		: this.subField,
-					"item_data" 	: (this.subField == "src_type") ? this.fileExt : this.itemData , 
-				} ;
-				
 				console.log("submitValue - create / valueData : ", valueData)
 				this.$store.commit(`${this.coll}/set_current_new`, valueData );
+
+				this.loading = false
 
 			}
 

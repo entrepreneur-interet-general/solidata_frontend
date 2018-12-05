@@ -37,6 +37,7 @@ export default function ({ context, store, redirect, route, params, $axios}) {
 		.then(response => {
 			console.log("... getItem : response : ", response.data);
 			store.commit(`${current_collection}/set_current`, response.data);
+			// store.dispatch(`${current_collection}/dispatch_current`, response.data);
 			return response
 		})
 		.catch(error => {

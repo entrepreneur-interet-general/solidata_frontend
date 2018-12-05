@@ -5,6 +5,7 @@
 		:title="$store.state.rec.current.infos.title"
 		:intro="$store.state.rec.current.infos.description"
 		:icon="$store.state.mainIcons.recipes.icon"
+		:tab="tab"
 		>
 	</SectionTitle>
 
@@ -34,6 +35,8 @@ export default {
 
 	data () {
 		return {
+			coll 	: "rec",
+			tab 	: 'recipes',
 		}
 	},
 
