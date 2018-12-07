@@ -215,7 +215,7 @@ export default {
 			}).then(result => {
 				this.alert = {type: 'success', message: result.msg}
 				this.loading = false
-				this.$router.push('/') /////////
+				this.$router.push('/dashboard') /////////
 			}).catch(error => {
 				console.log("submit / error... : ", error ) ; 
 				this.loading = false

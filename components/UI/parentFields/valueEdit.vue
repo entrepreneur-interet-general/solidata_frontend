@@ -4,11 +4,10 @@
 
 		<v-layout row justify-center class="pa-0 ma-0">
 
-
 			<!--  SUBFIELD NAME  -->
 			<v-flex
 				ValEdit_subField
-				v-if="!is_preview"
+				v-if="!is_preview && !no_subField"
 				:class="subFieldsSize"
 				>
 				<v-btn 
@@ -35,17 +34,6 @@
 				:class="valueBlockSize"
 				class="pa-0 ma-0"
 				>
-
-				<!-- <v-btn 
-					class="pa-0 ma-0"
-					flat 
-					block 
-					:disabled="!canEdit"
-					color="" 
-					style="text-transform: none !important;"
-					@click="open()"
-					> -->
-
 
 					<!-- <span> -->
 						<!-- {{ item_data }}  -->
@@ -208,7 +196,7 @@
 						@click="snack_if_not_create()"
 					></v-textarea>
 
-					<!-- TEXT VALUE -->
+					<!-- TEXT VALUE / SRC_PARSER -->
 					<v-text-field
 						v-else-if="subField == 'src_parser'"
 						:solo="is_preview"
@@ -227,7 +215,7 @@
 						@click="snack_if_not_create() "
 					></v-text-field>
 
-					<!-- TEXT VALUE -->
+					<!-- TEXT VALUE / ...other -->
 					<v-text-field
 						v-else
 						:solo="is_preview"
@@ -380,7 +368,9 @@ export default {
 		"is_loading",
 
 		"is_file",
-		"filetype"
+		"filetype",
+
+		"no_subField"
 
 	],
 
@@ -444,7 +434,7 @@ export default {
 	computed: {
 
 		valueBlockSize () {
-			return (this.is_preview) ? this.valueFullSize : this.valuePartSize ;
+			return (this.is_preview || this.no_subField) ? this.valueFullSize : this.valuePartSize ;
 		},
 
 		checkBoxPadding () {

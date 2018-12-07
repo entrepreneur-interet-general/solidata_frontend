@@ -38,7 +38,7 @@
 		<ViewEditDSI
 			:flex_vars="'xs8 offset-xs2'"
 			:is_create="false"
-			:is_preview="false"
+			:is_preview="true"
 			:coll="coll"
 			:parentFieldslist="parentFieldsList"
 			:item_doc="$store.state[coll].current"

@@ -2,61 +2,179 @@
 
 	<v-container 
 		grid-list-sm 
-		py-5
-		height="800px"
+		pt-3 pb-5
 		>
 		
+
+		<!-- DSI TOOLBAR -->
+		<template v-if="!no_toolbar">
+			<v-layout 
+				v-if="!isPreview || is_create || is_switch"
+				row 
+				wrap 
+				pb-3
+				>
+
+				<v-flex xs12>
+
+					<ItemToolbar
+						:coll="coll" 
+						:collName="collName" 
+						:itemDoc="item_doc"
+						:is_create="is_create" 
+						:isPreview="isPreview"
+						@input="switchPreview"
+						:is_reset="true"
+						>
+					</ItemToolbar>
+
+				</v-flex>
+
+			</v-layout>
+		</template>
+
+
+
 		<!-- DSI INFOS -->
-		<v-layout row wrap>
+		<v-layout row wrap v-show="!isPreview">
 
-			<v-flex xs10>
-				<v-card dark color="accent">
-					<v-card-text class="px-0">
-						infos - {{ item_doc.infos }}
-						<br>- {{ itemId }}
-						<!-- <br>- {{ item_headers }} -->
-					</v-card-text>
-				</v-card>
+			<!-- DSI TITLE -->
+			<v-flex xs4>
+				<!-- infos - {{ item_doc.infos }}
+				<br>- {{ itemId }} -->
+				<!-- <br>- {{ item_headers }} -->
+				<ValueEdit
+					:coll="coll"
+					:collName="collName"
+					:parentField="'infos'"
+					:subField="'title'"
+					:is_create="is_create"
+					:is_preview="isPreview"
+					:item_id="itemId"
+					:item_data="itemDoc['infos']['title']"
+					:item_auth="itemDoc.public_auth"
+					:canEdit="checkUserAuth('infos.title')"
+					:is_file="is_file"
+					:filetype="filetype"
+					:is_loading="loading"
+					:no_subField="no_subField"
+					@input="updateIsFile"
+					>
+				</ValueEdit>
 			</v-flex>
 
-			<v-flex xs2>
-				<v-card dark color="accent">
-					<v-card-text class="px-0">
-						delete or reset calls
-					</v-card-text>
-				</v-card>
-			</v-flex>
-
-		</v-layout>
-
-
-
-		<!-- DSI TEAM AND PUBLIC_AUTH -->
-		<v-layout row wrap>
-
-			<!-- DSI PUBLIC_AUTH -->
-			<v-flex xs6>
-				<v-card dark color="primary">
-					<v-card-text class="px-0">
-						public_auth - {{ item_doc.public_auth }}
-					</v-card-text>
-				</v-card>
+			<!-- DSI DESCRIPTION -->
+			<v-flex x4>
+				<ValueEdit
+					:coll="coll"
+					:collName="collName"
+					:parentField="'infos'"
+					:subField="'description'"
+					:is_create="is_create"
+					:is_preview="isPreview"
+					:item_id="itemId"
+					:item_data="itemDoc['infos']['description']"
+					:item_auth="itemDoc.public_auth"
+					:canEdit="checkUserAuth('infos.description')"
+					:is_file="is_file"
+					:filetype="filetype"
+					:is_loading="loading"
+					:no_subField="no_subField"
+					@input="updateIsFile"
+					>
+				</ValueEdit>
 			</v-flex>
 
 			<!-- DSI TEAM -->
-			<v-flex xs6>
-				<v-card dark color="primary">
+			<v-flex xs4>
+				<v-card  color="primary">
 					<v-card-text class="px-0">
 						team - {{ item_doc.team }}
 					</v-card-text>
 				</v-card>
 			</v-flex>
 
+
+		</v-layout>
+
+
+
+		<!-- DSI TEAM AND PUBLIC_AUTH -->
+		<v-layout row wrap  v-show="!isPreview">
+
+
+			<!-- DSI LICENCE -->
+			<v-flex xs4>
+				<ValueEdit
+					:coll="coll"
+					:collName="collName"
+					:parentField="'infos'"
+					:subField="'licence'"
+					:is_create="is_create"
+					:is_preview="isPreview"
+					:item_id="itemId"
+					:item_data="itemDoc['infos']['licence']"
+					:item_auth="itemDoc.public_auth"
+					:canEdit="checkUserAuth('infos.licence')"
+					:is_file="is_file"
+					:filetype="filetype"
+					:is_loading="loading"
+					:no_subField="no_subField"
+					@input="updateIsFile"
+					>
+				</ValueEdit>
+			</v-flex>
+
+			<!-- DSI PUBLIC_AUTH -->
+			<v-flex xs4>
+				<ValueEdit
+					:coll="coll"
+					:collName="collName"
+					:parentField="'public_auth'"
+					:subField="'open_level_show'"
+					:is_create="is_create"
+					:is_preview="isPreview"
+					:item_id="itemId"
+					:item_data="itemDoc['public_auth']['open_level_show']"
+					:item_auth="itemDoc.public_auth"
+					:canEdit="checkUserAuth('public_auth.open_level_show')"
+					:is_file="is_file"
+					:filetype="filetype"
+					:is_loading="loading"
+					:no_subField="no_subField"
+					@input="updateIsFile"
+					>
+				</ValueEdit>
+			</v-flex>
+
+			<!-- DSI PUBLIC_AUTH -->
+			<v-flex xs4>
+				<ValueEdit
+					:coll="coll"
+					:collName="collName"
+					:parentField="'public_auth'"
+					:subField="'open_level_edit'"
+					:is_create="is_create"
+					:is_preview="isPreview"
+					:item_id="itemId"
+					:item_data="itemDoc['public_auth']['open_level_edit']"
+					:item_auth="itemDoc.public_auth"
+					:canEdit="checkUserAuth('public_auth.open_level_edit')"
+					:is_file="is_file"
+					:filetype="filetype"
+					:is_loading="loading"
+					:no_subField="no_subField"
+					@input="updateIsFile"
+					>
+				</ValueEdit>
+			</v-flex>
+
+
 		</v-layout>
 
 
 		<!-- DSI SPECS + LOG + USES -->
-		<v-layout row wrap>
+		<v-layout row wrap  v-show="!isPreview">
 			
 			<!-- LOG -->
 			<v-flex xs4>
@@ -88,7 +206,7 @@
 		</v-layout>
 
 		<!-- DSI - DSR -->
-		<v-layout row wrap>
+		<!-- <v-layout row wrap>
 			<v-flex xs12>
 				<v-card dark color="grey">
 					<v-card-text class="px-0">
@@ -96,9 +214,9 @@
 					</v-card-text>
 				</v-card>
 			</v-flex>
-		</v-layout>
+		</v-layout> -->
 
-		
+		<br>
 
 		<!-- DSI DATA -->
 		<v-layout row wrap>
@@ -107,18 +225,109 @@
 				<v-card color="">
 					<v-card-text class="pa-0">
 
+						<!-- DATA TOOLBAR -->
+						<v-toolbar flat color="white">
+							
+							<v-toolbar-title>
+								item data
+							</v-toolbar-title>
+							
+							<v-spacer></v-spacer>
 
+							<v-dialog v-model="dialog" max-width="600px">
+
+								<v-btn 
+									slot="activator" 
+									color="primary" 
+									dark 
+									outline
+									class="mt-3"
+									
+									>
+									{{ $t( 'global.item_new', $store.state.locale)  }}
+								</v-btn>
+
+								<v-card>
+
+									<v-card-title>
+										<span class="headline">
+											{{ $t( 'global.'+formTitle, $store.state.locale)  }}
+										</span>
+									</v-card-title>
+
+									<v-divider></v-divider>
+
+									<v-card-text>
+										<v-container grid-list-md>
+										<v-layout wrap>
+
+											<v-flex 
+												xs12
+												v-for="header in itemHeaders"
+												:key="itemHeaders.indexOf(header)"
+												>
+												<v-textarea 
+													v-model="editedItem[header.value]" 
+													:label="header.text"
+													auto-grow
+													:disabled="true"
+													:rows="1"
+												>
+												</v-textarea>
+											</v-flex>
+
+										</v-layout>
+										</v-container>
+									</v-card-text>
+
+									<v-card-actions>
+										<v-spacer></v-spacer>
+										<v-btn color="blue darken-1" flat @click="close">
+											{{ $t( 'global.cancel', $store.state.locale)  }}
+										</v-btn>
+										<v-btn color="blue darken-1" flat @click="save">
+											{{ $t( 'global.save', $store.state.locale)  }}
+										</v-btn>
+									</v-card-actions>
+								</v-card>
+							</v-dialog>
+
+						</v-toolbar>
+
+
+						<!-- DATA -->
 						<v-data-table
-							:headers="item_headers"
+							:headers="itemHeaders_Actions"
 							:items="item_data"
+							:pagination.sync="pagination"
+							:total-items="total_items"
+							:loading="loading"
 							class="elevation-1"
 							>
 							<template slot="items" slot-scope="props">
-								<td 
-									v-for="i in item_headers"
-									:key="item_headers.indexOf(i)">
-									{{ props.item[i.value] | truncate(30, '...') }}
+
+								<td class="justify-center layout px-0">
+									<v-icon
+										small
+										class="mr-2"
+										@click="editItem(props.item)"
+										>
+										{{ $store.state.mainIcons.edit.icon }}
+									</v-icon>
+									<v-icon
+										small
+										@click="deleteItem(props.item)"
+										>
+										{{ $store.state.mainIcons.delete.icon }}
+									</v-icon>
 								</td>
+
+								<td 
+									v-for="header in itemHeaders"
+									:key="itemHeaders.indexOf(header)">
+									{{ props.item[header.value] | truncate(30, ' ...') }}
+								</td>
+
 							</template>
 						</v-data-table>
 
@@ -195,6 +404,7 @@ import ObjectFormatterCreate from "~/utils/ObjectFormatterCreate.js"
 import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
 
 // import SectionTitle from '~/components/UI/sectionTitle.vue'
+import ItemToolbar from '~/components/UI/itemToolbar.vue'
 
 // import CardInfos from '~/components/UI/parentFields/cardInfos.vue'
 import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
@@ -212,15 +422,22 @@ export default {
 		"item_doc", 			// complete item infos
 		// "is_debug",
 		"is_switch",
+		"no_toolbar"
 	],
 
 	components : {
 		// SectionTitle,
+		ItemToolbar,
 		// CardInfos,
 		ValueEdit,
 		// CardCreate,
 	},
-	
+
+	meta : {
+		collection 	: 'dsi',
+		level 		: 'get_f_data',
+	},
+
 	created () {
 		console.log("\n- itemViewEdit / created ---> item_doc : ", this.item_doc ) ;
 		this.itemDoc = this.item_doc ;
@@ -237,9 +454,10 @@ export default {
 		return {
 			
 			alert		: null,
-			loading 	: false,
 			isPreview 	: this.is_preview,
+			no_subField : true,
 
+			
 			collName 	: this.$store.state.collectionsNames[this.coll],
 
 			itemId 			: this.item_doc._id, 
@@ -249,6 +467,18 @@ export default {
 
 			is_file 			: null,
 			filetype 			: null,
+
+			// data table : loading, pagination 
+			loading 		: false,
+			pagination 		: {},
+			total_items		: 0,
+
+			// data table - edit/create item
+			dialog			: false,
+			editedIndex		: -1,
+			// editedItem		: {},
+			// defaultItem		: this.fill_defaultItem(),
+
 
 			blockFullSize 		: "xs12",
 			blockPartSize 		: "xs10",
@@ -269,28 +499,24 @@ export default {
 
 	computed : {
 
+		formTitle () {
+			return this.editedIndex === -1 ? 'item_new' : 'item_edit' ;
+		},
+
+		itemHeaders() {
+			return this.item_headers() ;
+		},
+		itemHeaders_Actions() {
+			return this.item_headers(true) ;
+		},
+
 		parentPadding () {
 			return (this.isPreview) ? this.parentNoBotPadding : this.parentBotPadding ;
 		},
 
-		item_headers () {
-			var headers 	= [] ;
-			const raw_headers = this.item_doc.data_raw.f_col_headers ;
-			console.log("item_headers / raw_headers : ", raw_headers)
-
-			for (let header in raw_headers ) {
-				console.log("item_headers / header : ", header)
-				var header_ = {
-					value 	: raw_headers[header].f_coll_header_val,
-					text	: raw_headers[header].f_coll_header_text,
-				};
-				headers.push(header_)
-			}
-			return headers
-		},
 
 
-
+		// SWITCH
 		valueSwitch () {
 			// return (!this.is_preview && this.is_switch) ? this.blockPartSize : this.blockSwitchSize ;
 			if(this.is_switch){
@@ -301,6 +527,7 @@ export default {
 			}
 		},
 
+		// BLOCK SIZE 
 		valueBlockSize () {
 			return (this.is_preview) ? this.blockFullSize : this.blockPartSize ;
 		},
@@ -311,8 +538,186 @@ export default {
 
 	},
 
+
+	// mounted () {
+	// 	this.getDataFromApi()
+	// 	.then(data => {
+	// 		this.desserts = data.items
+	// 		this.totalDesserts = data.total
+	// 	})
+	// },
+	
+
+	watch: {
+		
+		dialog (val) {
+			val || this.close()
+		},
+	  
+		// TO DO !!!!
+		pagination: {
+			handler () {
+
+				console.log("\n VDSI pagination handler ... ")
+
+				this.get_FData_fromApi()
+				.then(data => {
+					this.item_data 		= data.data_raw.f_data,
+					this.total_items 	= data.data_raw.f_data_count
+				})
+				
+			},
+			deep: true
+		}
+	},
+
 	methods: {
 		
+		// TOOLBAR SWITCH
+		switchPreview() {
+			this.isPreview = !this.isPreview ;
+		},
+
+		// TO DO --> AXIOS CALL
+		get_FData_fromApi () {
+
+			console.log("\n VDSI get_FData_fromApi ... ")
+
+			this.loading = true
+
+
+			//// AXIOS CALL OR DISPATCH 
+
+
+			return new Promise((resolve, reject) => {
+
+				const { page, rowsPerPage } = this.pagination
+
+				// 
+				let 	item_doc_temp = this.getData()
+
+
+				const 	total = item_doc_temp.data_raw.f_data_count
+
+				//   if (this.pagination.sortBy) {
+				// 	items = items.sort((a, b) => {
+				// 	  const sortA = a[sortBy]
+				// 	  const sortB = b[sortBy]
+
+				// 	  if (descending) {
+				// 		if (sortA < sortB) return 1
+				// 		if (sortA > sortB) return -1
+				// 		return 0
+				// 	  } else {
+				// 		if (sortA < sortB) return -1
+				// 		if (sortA > sortB) return 1
+				// 		return 0
+				// 	  }
+				// 	})
+				//   }
+
+				if (rowsPerPage > 0) {
+					items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage)
+				}
+
+				setTimeout(() => {
+					this.loading = false
+					resolve({
+						items,
+						total
+					})
+				}, 1000)
+
+			})
+		},
+
+
+		// HEADERS COLUMNS
+		item_headers (is_actions) {
+
+			var headers 	= [] ;
+			var top_head 	= { text: 'Actions', value: 'name', sortable: false }
+
+			const raw_headers = this.item_doc.data_raw.f_col_headers ;
+			console.log("item_headers / raw_headers : ", raw_headers)
+
+			for (let header in raw_headers ) {
+				// console.log("item_headers / header : ", header)
+				var header_ = {
+					value 	: raw_headers[header].f_coll_header_val,
+					text	: raw_headers[header].f_coll_header_text,
+				};
+				headers.push(header_)
+			}
+
+			if(is_actions){
+				headers.unshift(top_head)
+			}
+
+			return headers
+		},
+
+
+
+		//  ITEM FOR EDITION / CREATION
+		editedItem()  {
+
+			return {
+				name: '',
+				calories: 0,
+				fat: 0,
+				carbs: 0,
+				protein: 0
+			}
+		},
+
+		defaultItem()  {
+
+			var emptyItem = {};
+			const headers = this.item_headers() ;
+			console.log("\nfill_defaultItem / headers : ", headers)
+
+			for (header in headers){
+				emptyItem[header.value] = 'empty' ;
+			}
+
+			console.log("fill_defaultItem / emptyItem : ", emptyItem)
+			return emptyItem
+		},
+
+
+		// EDIT ITEM
+		editItem (item) {
+			this.editedIndex = this.item_data.indexOf(item)
+			this.editedItem = Object.assign({}, item)
+			this.dialog = true
+		},
+		deleteItem (item) {
+			const index = this.item_data.indexOf(item)
+			confirm('Are you sure you want to delete this item?') && this.item_data.splice(index, 1)
+		},
+
+		close () {
+			this.dialog = false
+			setTimeout(() => {
+				this.editedItem = Object.assign({}, this.defaultItem)
+				this.editedIndex = -1
+			}, 300)
+		},
+
+		save () {
+			if (this.editedIndex > -1) {
+				Object.assign(this.item_data[this.editedIndex], this.editedItem)
+			} else {
+				this.item_data.push(this.editedItem)
+			}
+			this.close()
+		},
+
+
+
+
+		// PREALOADS / UPDATES
 		preloadIsFile () {
 			var isFile = false ;
 			if ( this.coll == "dsi"){
@@ -350,10 +755,12 @@ export default {
 
 		},
 
-		//  checkUserAuth for an item --> /utils
+
+
+		//  USER AUTH  - checkUserAuth for an item --> /utils
 		checkUserAuth (field_name) {
 
-			console.log("checkUserAuth / field_name : ", field_name ) ;
+			console.log("\ncheckUserAuth / field_name : ", field_name ) ;
 			// console.log("checkUserAuth ...\n", this.item_doc.public_auth ) ;
 
 			var can_update_field 	= false  ;
@@ -366,7 +773,7 @@ export default {
 				var isLogged 			= this.$store.state.auth.isLogged ;
 				var user_id 			= this.$store.state.auth.user_id ;
 
-				can_update_field = checkDocUserAuth(this.item_doc, field_name, isLogged, user_id)
+				can_update_field 		= checkDocUserAuth(this.item_doc, field_name, isLogged, user_id)
 			}
 
 			// var doc_auth_edit 		= this.item_doc.public_auth.open_level_edit ; 
@@ -402,6 +809,8 @@ export default {
 			// 		can_update_field = true
 			// 	}
 			// } 
+
+			console.log("checkUserAuth / can_update_field : ", can_update_field ) ;
 
 			return can_update_field
 		},

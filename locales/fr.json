@@ -86,6 +86,7 @@
 		"remove"		: "Effacer",
 		"delete"		: "Supprimer",
 		"delete_i"		: "Supprimer le document",
+		"reset"			: "Réinitialiser les données",
 		"nofile"		: "Pas de fichier sélectionné",
 		"continue"		: "Continuer",
 		"refresh"		: "Rafraîchir",
@@ -94,6 +95,10 @@
 		"save"			: "Sauver",
 		"next" 			: "Suivant",
 		"back" 			: "Précédent",
+
+		"item_edit"		: "Editer item",
+		"item_new"		: "Nouvel item",
+		"item_del"		: "Supprimer item",
 
 		"list"			: "liste",
 		"create"		: "créer",

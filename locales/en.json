@@ -88,6 +88,7 @@
 		"remove"		: "Remove",
 		"delete"		: "Delete",
 		"delete_i"		: "Delete item",
+		"reset"			: "Reset data",
 		"nofile"		: "No file selected yet",
 		"continue"		: "Continue",
 		"refresh"		: "Refresh",
@@ -96,6 +97,10 @@
 		"save"			: "Save",
 		"next" 			: "Next",
 		"back" 			: "Previous",
+
+		"item_edit"		: "Edit item",
+		"item_new"		: "New item",
+		"item_del"		: "Delete item",
 
 		"list"			: "list",
 		"create"		: "create",

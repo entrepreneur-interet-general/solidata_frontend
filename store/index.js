@@ -126,9 +126,10 @@ const mainIconsConst = {
 	list				: { icon : "list" },
 	favorites			: { icon : "favorite" },
 	create				: { icon : "add" },
-	edit				: { icon : "fas fa-pen" },
+	edit				: { icon : "edit" },
 	upload				: { icon : "fas fa-file-upload" },
-	delete				: { icon : "far fa-trash-alt" },
+	reset				: { icon : "fas fa-redo" },
+	delete				: { icon : "delete" },
 	cancel				: { icon : "cancel" },
 	export				: { icon : "get_app" },
 
@@ -142,7 +143,7 @@ const mainIconsConst = {
 		uses				: { icon : "star_rate" },
 		datasets			: { icon : "fas fa-puzzle-piece" },
 		translations		: { icon : "translate" },
-		team				: { icon : "fas fa-users" },
+		team				: { icon : "supervisor_account" },
 		mapping				: { icon : "link" },
 		data_raw			: { icon : "fas fa-database" },
 		profile				: { icon : "far fa-user" },
@@ -564,6 +565,10 @@ export const actions = {
 
 	},
 
+	// getOneItem({commit, state, rootState}, collection ) {
+
+	// },
+
 
 	getListItems ({commit, state, rootState}, collection ) {
 		console.log("\n... getListItems : collection : ", collection);
@@ -609,7 +614,7 @@ export const actions = {
 		return this.$axios.$put(`${collection}/edit/${doc_id}`, fields, config )
 			.then(response => {
 				console.log(`... updateItem : response : `, response);
-				commit(`${collection}/set_list`, response);
+				// commit(`${collection}/set_list`, response);
 				return response
 			})
 			.catch(error => {
@@ -618,5 +623,33 @@ export const actions = {
 			})
 
 	},
+
+	deleteItem ({commit, state, rootState}, input ) {
+		console.log("\n... deleteItem : input : ", input);
+		
+		var collection 	= input.coll ;
+		var doc_id 		= input.doc_id ; 
+
+		const config = { 
+			headers : { 'Authorization' : rootState.auth.access_token },
+			// params	: parameters
+		} ;
+
+		console.log("... deleteItem : config : ", config );
+
+		return this.$axios.$delete(`${collection}/edit/${doc_id}`, config )
+			.then(response => {
+				console.log(`... deleteItem : response : `, response);
+				// commit(`${collection}/set_list`, response);
+				// return response
+				return this.$router.push(`/${this.coll}`)
+			})
+			.catch(error => {
+				console.log("... deleteItem / error : ", error ) ; 
+				return error
+			})
+
+	},
+
 
 }

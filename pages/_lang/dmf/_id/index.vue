@@ -9,8 +9,8 @@
 			:title="$t(`${tab}.name`, $store.state.locale)"
 			:intro="$t(`${tab}.edit`, $store.state.locale)"
 			:icon="$store.state.mainIcons[tab]['icon']"
-			:to_link="'/dashboard'"
-			:color="'primary'"
+			:to_link="'/'+coll"
+			:color="''"
 			:tab="tab"
 			>
 		</SectionTitle>
@@ -20,7 +20,8 @@
 			:title="$t(`${tab}.name`, $store.state.locale)"
 			:intro="$t(`${tab}.introAnon`, $store.state.locale)"
 			:icon="$store.state.mainIcons[tab].icon"
-			:color="'primary'"
+			:to_link="'/'+coll"
+			:color="''"
 			:tab="tab"
 			>
 		</SectionTitle>

@@ -8,7 +8,7 @@
 	<v-footer
 		dark
 		height="auto"
-		class=""
+		class="mt-5"
 		>
 
 		<v-card
@@ -24,6 +24,7 @@
 				<v-spacer></v-spacer> -->
 				<v-btn
 					v-for="icon in icons"
+					:key="icons.indexOf(icon)"
 					class="mx-3"
 					:href="icon.href"
 					dark

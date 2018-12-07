@@ -113,7 +113,7 @@ export default {
 	data () {
 		return {
 
-			sectionTopPadding_dft 	: "pt-5 pb-3",
+			sectionTopPadding_dft 	: "pt-4 pb-3",
 			sectionTopPadding_color : "pt-2 pb-2"
 
 		}

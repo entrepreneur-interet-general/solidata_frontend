@@ -3,7 +3,7 @@
 	<v-container 
 		grid-list-xl 
 		text-xs-center
-		pt-2
+		pt-3
 		>
 		
 		<!-- ITEM TITLE ROW -->
@@ -16,87 +16,15 @@
 
 			<v-flex d-flex :class="flex_vars">
 
-				<v-toolbar 
-					dense 
-					color="transparent" 
-					xs12
+				<ItemToolbar
+					:coll="coll" 
+					:collName="collName" 
+					:itemDoc="item_doc"
+					:is_create="is_create" 
+					:isPreview="isPreview"
+					@input="switchPreview"
 					>
-					
-					<!-- BACK TO COLL LIST -->
-					<v-btn 
-						icon 
-						small 
-						color=""
-						:to="'/'+coll"
-						>					
-						<v-icon small>
-							{{ $store.state.mainIcons[collName]['icon'] }}
-						</v-icon>
-					</v-btn>
-
-					<!-- ITEM TITLE -->
-					<v-card-text 
-						class="title text-uppercase"
-						>
-						<!-- {{$t(collName+'.edit', $store.state.locale )}} -->
-						{{ itemDoc.infos.title }}
-					</v-card-text>
-
-					<!-- SWITCH FOR PREVIEW -->
-					<v-switch 
-						:label="$t('global.preview', $store.state.locale)"
-						v-model="isPreview"
-						color="primary"
-						:input-value="isPreview"
-						hide-details
-						>
-					</v-switch>
-
-					<!-- DELETE ITEM MENU -->
-					<v-menu 
-						bottom 
-						left 
-						v-if="!is_create">
-
-						<v-btn 
-							icon 
-							small
-							slot="activator"
-							>
-							<v-icon>
-								more_vert
-							</v-icon>
-						</v-btn>
-
-						<v-list class="pa-0">
-
-							<v-list-tile
-								@click=""
-								>
-
-								<v-list-tile-title class="pa-0 ma-0">
-
-									<v-btn 
-										flat 
-										small
-										block
-										class="ma-0"
-										:to="'/'+coll+'/'+itemId+'/delete'"
-										>
-										<v-icon small left color="error">
-											delete
-										</v-icon>
-										{{ $t(`global.delete_i`, $store.state.locale) }}
-									</v-btn>
-
-								</v-list-tile-title>
-
-							</v-list-tile>
-						</v-list>
-					</v-menu>
-
-
-				</v-toolbar>
+				</ItemToolbar>
 
 			</v-flex>
 
@@ -312,7 +240,8 @@
 import ObjectFormatterCreate from "~/utils/ObjectFormatterCreate.js"
 import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
 
-import SectionTitle from '~/components/UI/sectionTitle.vue'
+// import SectionTitle from '~/components/UI/sectionTitle.vue'
+import ItemToolbar from '~/components/UI/itemToolbar.vue'
 
 // import CardInfos from '~/components/UI/parentFields/cardInfos.vue'
 import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
@@ -333,7 +262,8 @@ export default {
 	],
 
 	components : {
-		SectionTitle,
+		// SectionTitle,
+		ItemToolbar,
 		// CardInfos,
 		ValueEdit,
 		CardCreate,
@@ -413,6 +343,10 @@ export default {
 
 	methods: {
 		
+		switchPreview() {
+			this.isPreview = !this.isPreview ;
+		},
+
 		preloadIsFile () {
 			var isFile = false ;
 			if ( this.coll == "dsi"){
