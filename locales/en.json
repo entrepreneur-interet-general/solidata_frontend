@@ -98,6 +98,8 @@
 		"next" 			: "Next",
 		"back" 			: "Previous",
 
+		"see_this"		: "See",
+
 		"item_edit"		: "Edit item",
 		"item_new"		: "New item",
 		"item_del"		: "Delete item",

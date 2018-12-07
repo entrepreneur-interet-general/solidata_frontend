@@ -12,25 +12,6 @@
 			>
 
 
-			<!-- CREATE CARD IF LOGGED GUEST -->
-			<!-- <v-layout 
-				class=""
-				row 
-				wrap
-				>
-
-				<CardCreate
-					v-if="$store.state.auth.isLogged"
-					:tab="tab"
-					:defaultFlex="defaultFlex"
-					:defaultHeight="defaultHeightAdd"
-					:is_block="true"
-					>
-				</CardCreate>
-			
-			</v-layout> -->
-
-
 			<!-- SEARCH CARD -->
 			<v-layout 
 				wrap
@@ -121,13 +102,6 @@
 					color="transparent"
 					flat
 					>
-					<!-- :height="$store.state.dataIteratorHeight" -->
-
-					<!-- <v-toolbar-side-icon disabled>
-						<v-icon small>
-							{{ $store.state.mainIcons[tab].icon }}
-						</v-icon>
-					</v-toolbar-side-icon> -->
 
 					<v-toolbar-title
 						class="body-2 grey--text"
@@ -146,6 +120,7 @@
 					slot="item"
 					slot-scope="props"
 					:class="cardSizes"
+					mb-2
 					>
 
 					<CardPreviewDense 
@@ -157,17 +132,6 @@
 
 				</v-flex>
 
-				<!-- footer -->
-				<!-- <v-toolbar
-					slot="footer"
-					class="mt-2"
-					color="secondary"
-					dark
-					dense
-					flat
-				>
-					<v-toolbar-title class="subheading">This is a footer</v-toolbar-title>
-				</v-toolbar> -->
 
 			</v-data-iterator>
 
@@ -219,6 +183,7 @@
 					>
 
 					<CardPreviewDense 
+						:coll="coll"
 						:tab="tab"
 						:item="props.item"
 						:inTeam="'yes'"
@@ -229,88 +194,12 @@
 
 
 
-				<!-- <v-toolbar
-					slot="footer"
-					class="mt-2"
-					color="secondary"
-					dark
-					dense
-					flat
-				>
-					<v-toolbar-title class="subheading">This is a footer</v-toolbar-title>
-				</v-toolbar> -->
-
 			</v-data-iterator>
 
 
 		</v-container>
 
 
-
-
-
-
-		<!-- <v-card>
-			
-			<v-container
-				fluid
-				grid-list-md
-				>
-				
-				<v-layout row wrap>
-
-					<CardCreate
-						v-if="$store.state.auth.isLogged"
-						:tab="tab"
-						:defaultFlex="defaultFlex"
-						:defaultHeight="defaultHeightAdd"
-						>
-					</CardCreate>
-				
-				</v-layout>
-
-
-				<div class="mb-3">
-					<span class="title">
-						{{ tab }} - {{ $t(`global.inTeam`, $store.state.locale) }}
-					</span>
-				</div>
-
-				<v-layout row wrap>
-
-					<CardPreviewDEnse 
-						:tab="tab"
-						:item="item"
-						:inTeam="'yes'"
-						>
-					</CardPreviewDense>
-					
-
-				</v-layout>
-				
-				<div class="mb-3 pt-5">
-					<span class="title">
-						{{ tab }} - {{ $t(`global.notTeam`, $store.state.locale) }}
-					</span>
-				</div>
-				<v-layout row wrap>
-					
-					<CardPreview 
-						v-for="(card,i) in items_coll['docs_user_not_in_team']"
-						:key="i"
-						:index="i"
-						:tab="tab"
-						:item="card"
-						:inTeam="'no'"
-						:defaultFlex="defaultFlex"
-						:defaultHeight="defaultHeight"
-						>
-					</CardPreview>
-
-
-				</v-layout>
-			</v-container>
-		</v-card> -->
 
 	</div>
 
@@ -322,7 +211,7 @@
 // import SectionTitle from '~/components/UI/sectionTitle.vue'
 // import CardPreview from '~/components/UI/cardPreview.vue'
 import CardPreviewDense from '~/components/UI/cardPreview_dense.vue'
-import CardCreate from '~/components/UI/cardCreate.vue'
+// import CardCreate from '~/components/UI/cardCreate.vue'
 // import CardCreateDense from '~/components/UI/cardCreate_dense.vue'
 
 export default {
@@ -341,7 +230,7 @@ export default {
 		// SectionTitle,
 		// CardPreview,
 		CardPreviewDense,
-		CardCreate
+		// CardCreate
 	},
 	
 	created () {
@@ -365,101 +254,9 @@ export default {
 			searchString: null,
 		
 			// PAGINATION DATA ITERATOR
-			// rowsPerPageItems: [ 4, 8, 12 ],
-			// pagination: {
-			// 	rowsPerPage: 4
-			// },
 			rowsPerPageItems	: this.$store.state[this.coll].rowsPerPageItems,
 			pagination			: this.$store.state[this.coll].pagination
 
-			// itemsTitlesList : [ "A", "B", "C"  ],
-
-			/*
-			items_test: {
-				'docs_user_is_in_team' : [
-					{
-						value: false,
-						infos : {
-							title: 'Frozen Yogurt',
-						},
-						log : {
-							created_by: 'Ice cream sandwich',
-						},
-						calories: 159,
-						fat: 6.0,
-						carbs: 24,
-						protein: 4.0,
-						sodium: 87,
-						calcium: '14%',
-						iron: '1%'
-					},
-					{
-						value: false,
-						infos : {
-							title: 'Ice cream sandwich',
-						},
-						log : {
-							created_by: 'Ice cream sandwich',
-						},
-						calories: 237,
-						fat: 9.0,
-						carbs: 37,
-						protein: 4.3,
-						sodium: 129,
-						calcium: '8%',
-						iron: '1%'
-					},
-					{
-						value: false,
-						infos : {
-							title: 'Eclair',
-						},
-						log : {
-							created_by: 'Ice cream sandwich',
-						},
-						calories: 262,
-						fat: 16.0,
-						carbs: 23,
-						protein: 6.0,
-						sodium: 337,
-						calcium: '6%',
-						iron: '7%'
-					},
-					{
-						value: false,
-						infos : {
-							title: 'Chocolatine',
-						},
-						log : {
-							created_by: 'Ice cream sandwich',
-						},
-						calories: 262,
-						fat: 16.0,
-						carbs: 23,
-						protein: 6.0,
-						sodium: 337,
-						calcium: '6%',
-						iron: '7%'
-					},
-					{
-						value: false,
-						infos : {
-							title: 'Cupcake',
-						},
-						log : {
-							created_by: 'Ice cream sandwich',
-						},
-						calories: 305,
-						fat: 3.7,
-						carbs: 67,
-						protein: 4.3,
-						sodium: 413,
-						calcium: '3%',
-						iron: '8%'
-					}
-				]
-			}
-			*/
 
 		}
 
@@ -489,34 +286,6 @@ export default {
 
 			},
 
-			// itemsInList () {
-
-			// 	var itemsInList = this.itemsIn ;
-			// 	var searchStr 	= this.searchString ;
-
-			// 	if (this.searchString != null ){
-			// 		itemsInList = itemsInList.filter( function(searchStr, item) { 
-
-			// 			console.log("-- itemsInList / item : ", item) ; 
-			// 			return ( item.infos.title.includes(searchStr) )
-					
-			// 		})
-			// 	};
-
-			// 	return itemsInList
-			// },
-
-			// itemsNotList () {
-				
-			// 	var itemsNotList = this.itemsNot ;
-
-			// 	if (this.searchString != null ){
-			// 		itemsNotList = itemsNotList.filter( function(item) { return ( item.infos.title.includes(this.searchString) )} )
-			// 	};
-
-			// 	return itemsNotList
-			// }
-
 	},
 
 	methods : {
@@ -527,14 +296,6 @@ export default {
 				var searchStr 	= this.searchString ;
 
 				var items_list = (in_out === "inTeam") ? this.itemsIn : this.itemsNot ;
-
-				// if ( in_out == "inTeam") {
-				// 	items_list = this.itemsIn
-				// }
-				// else {	
-				// 	items_list = this.itemsNot  
-				// };
-
 
 				if (this.searchString != null ){
 					

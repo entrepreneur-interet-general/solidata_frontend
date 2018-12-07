@@ -33,7 +33,7 @@
 		<v-switch 
 			:label="$t('global.preview', $store.state.locale)"
 			v-model="is_preview"
-			color="accent"
+			color="white"
 			:input-value="is_preview"
 			hide-details
 			@change="switchPreview()"

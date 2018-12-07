@@ -18,7 +18,7 @@
 
 				<ItemToolbar
 					:coll="coll" 
-					:collName="collName" 
+					:collName="tab" 
 					:itemDoc="item_doc"
 					:is_create="is_create" 
 					:isPreview="isPreview"
@@ -97,7 +97,7 @@
 
 										<ValueEdit
 											:coll="coll"
-											:collName="collName"
+											:collName="tab"
 											:parentField="parentField.parentFieldName"
 											:subField="subField"
 											:is_create="is_create"
@@ -142,8 +142,9 @@
 				:class="flex_vars"
 				>
 				
+				<!--
 				<v-btn 
-					block 
+					 
 					dark 
 					large
 					flat
@@ -159,19 +160,26 @@
 					</v-icon>
 
 					<span class="subheading">
-						{{ $t(collName+`.create`, $store.state.locale) }}
-						<!-- - {{ flex_vars }} -->
+						{{ $t(tab+`.create`, $store.state.locale) }}
 					</span>
 
-				</v-btn>
+				</v-btn> -->
 
-				<!-- <CardCreate
-					v-if="$store.state.auth.isLogged"
-					:tab="collName"
-					:defaultFlex="createSize"
-					:defaultHeight="defaultHeightAdd"
+				<!-- CREATE BTN -->
+				<BtnCreate
+					:is_icon="false"
+					:tab="tab"
+					:color="'white'"
+					:btn_class="'accent'"
+					:is_block="false"
+					:outline="false"
+					:large="true"
+					:flat="true"
+					:is_calling="true"
+					@input="createItem()"
 					>
-				</CardCreate> -->
+				</BtnCreate>
+
 
 			</v-flex>
 
@@ -203,7 +211,7 @@
 					-- vars -- <br>
 					is_file : <code>{{ is_file }}</code> - 
 					coll : <code>{{ coll }}</code> - 
-					collName : <code>{{ collName }}</code> - 
+					tab : <code>{{ tab }}</code> - 
 					is_create : <code>{{ is_create }}</code> - 
 					filetype : <code>{{ filetype }}</code> - 
 					itemId : <code>{{ itemId}}</code> - 
@@ -245,7 +253,8 @@ import ItemToolbar from '~/components/UI/itemToolbar.vue'
 
 // import CardInfos from '~/components/UI/parentFields/cardInfos.vue'
 import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
-import CardCreate from '~/components/UI/cardCreate.vue'
+// import CardCreate from '~/components/UI/cardCreate.vue'
+import BtnCreate from '~/components/UI/btnCreate.vue'
 
 
 export default {
@@ -266,7 +275,8 @@ export default {
 		ItemToolbar,
 		// CardInfos,
 		ValueEdit,
-		CardCreate,
+		// CardCreate,
+		BtnCreate,
 	},
 	
 	created () {
@@ -289,8 +299,8 @@ export default {
 			isPreview 	: this.is_preview,
 
 			// coll 		: this.item_doc.specs.doc_type, 
-			collName 	: this.$store.state.collectionsNames[this.coll],
-			// collName 	: this.$store.state.collectionsNames[this.item_doc.specs.doc_type],
+			tab 		: this.$store.state.collectionsNames[this.coll],
+			// tab 	: this.$store.state.collectionsNames[this.item_doc.specs.doc_type],
 			// canEdit		: false ,
 			itemId 		: this.item_doc._id, 
 			itemDoc		: this.item_doc,

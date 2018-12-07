@@ -565,9 +565,37 @@ export const actions = {
 
 	},
 
-	// getOneItem({commit, state, rootState}, collection ) {
+	getOneItem({commit, state, rootState}, input ) {
 
-	// },
+		console.log("\n... getOneItem : input : ", input) ; 
+		var collection 	= input.coll ;
+		var doc_id 		= input.doc_id ; 
+
+		// get pagination + query arguments
+		const parameters = rootState[`${collection}`].parameters
+		console.log("... getOneItem : parameters : ", parameters);
+		
+
+
+		const config = { 
+			headers : { 'Authorization' : rootState.auth.access_token },
+			params	: parameters
+		} ;
+		console.log("... getOneItem : config : ", config );
+
+
+		return this.$axios.$get(`${collection}/edit/${doc_id}`, config )
+			.then(response => {
+				console.log(`... getOneItem : response : `, response);
+				commit(`${current_collection}/set_current`, response.data);
+				return response
+			})
+			.catch(error => {
+				console.log("... getOneItem / error : ", error ) ; 
+				return error
+			})
+
+	},
 
 
 	getListItems ({commit, state, rootState}, collection ) {
@@ -608,7 +636,6 @@ export const actions = {
 			headers : { 'Authorization' : rootState.auth.access_token },
 			// params	: parameters
 		} ;
-
 		console.log("... updateItem : config : ", config );
 
 		return this.$axios.$put(`${collection}/edit/${doc_id}`, fields, config )

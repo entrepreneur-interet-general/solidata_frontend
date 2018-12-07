@@ -17,6 +17,11 @@ export const state = () => ({
 		rowsPerPage: 6
 	},
 
+	parameters_f_data 	:  {
+		page 		: 1,
+		per_page   	: 0,
+	},
+
 	query_current 	: null,
 
 	current_file		: '',

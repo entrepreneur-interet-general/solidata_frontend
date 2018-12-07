@@ -96,6 +96,8 @@
 		"next" 			: "Suivant",
 		"back" 			: "Précédent",
 
+		"see_this"		: "Voir",
+
 		"item_edit"		: "Editer item",
 		"item_new"		: "Nouvel item",
 		"item_del"		: "Supprimer item",

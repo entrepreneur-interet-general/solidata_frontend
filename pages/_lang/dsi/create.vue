@@ -22,7 +22,7 @@
 					<ViewEditDoc
 						:flex_vars="$store.state.createSize"
 						:is_create="true"
-						:is_preview="true"
+						:is_preview="false"
 						:coll="coll"
 						:parentFieldslist="parentFieldsList"
 						:item_doc="$store.state[coll].current_new"

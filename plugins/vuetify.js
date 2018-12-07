@@ -26,8 +26,8 @@ Vue.use(Vuetify, {
 			//"#8E24AA", main purple
 			//"#9c27b0", light purple
 			//"#cf6c37", coral
-		primary		: "#20B7B7", // "#209A82", // jpy green
-		secondary	: "#22C9C9", //"#29c7a7", // jpy light green
+		primary		: "#20B7B7", // "#209A82", jpy green
+		secondary	: "#90e4e4", //"#22C9C9", "#29c7a7", jpy light green
 		accent		: "#cf6c37", 
 		error		: "#FF5252", 
 		warning		: "#FFC107", 

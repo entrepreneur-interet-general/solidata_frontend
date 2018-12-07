@@ -8,7 +8,7 @@
 	<v-footer
 		dark
 		height="auto"
-		class="mt-5"
+		class=""
 		>
 
 		<v-card

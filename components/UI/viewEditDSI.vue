@@ -3,6 +3,8 @@
 	<v-container 
 		grid-list-sm 
 		pt-3 pb-5
+		fluid
+		px-5
 		>
 		
 
@@ -12,7 +14,7 @@
 				v-if="!isPreview || is_create || is_switch"
 				row 
 				wrap 
-				pb-3
+				pb-1
 				>
 
 				<v-flex xs12>
@@ -226,7 +228,7 @@
 					<v-card-text class="pa-0">
 
 						<!-- DATA TOOLBAR -->
-						<v-toolbar flat color="white">
+						<v-toolbar class="elevation-1" color="white">
 							
 							<v-toolbar-title>
 								item data
@@ -240,8 +242,9 @@
 									slot="activator" 
 									color="primary" 
 									dark 
+									block
 									outline
-									class="mt-3"
+									class=""
 									
 									>
 									{{ $t( 'global.item_new', $store.state.locale)  }}
@@ -556,15 +559,20 @@ export default {
 	  
 		// TO DO !!!!
 		pagination: {
+
 			handler () {
 
 				console.log("\n VDSI pagination handler ... ")
 
+				// change pagination params in store[coll]
+
+				// call dispatch from main store
 				this.get_FData_fromApi()
-				.then(data => {
-					this.item_data 		= data.data_raw.f_data,
-					this.total_items 	= data.data_raw.f_data_count
-				})
+				// .then(data => {
+				// 	this.item_data 		= data.data_raw.f_data,
+				// 	this.total_items 	= data.data_raw.f_data_count
+				// })
+
 				
 			},
 			deep: true
@@ -583,52 +591,14 @@ export default {
 
 			console.log("\n VDSI get_FData_fromApi ... ")
 
-			this.loading = true
+			// this.loading = true
 
 
 			//// AXIOS CALL OR DISPATCH 
 
 
-			return new Promise((resolve, reject) => {
 
-				const { page, rowsPerPage } = this.pagination
-
-				// 
-				let 	item_doc_temp = this.getData()
-
-
-				const 	total = item_doc_temp.data_raw.f_data_count
-
-				//   if (this.pagination.sortBy) {
-				// 	items = items.sort((a, b) => {
-				// 	  const sortA = a[sortBy]
-				// 	  const sortB = b[sortBy]
-
-				// 	  if (descending) {
-				// 		if (sortA < sortB) return 1
-				// 		if (sortA > sortB) return -1
-				// 		return 0
-				// 	  } else {
-				// 		if (sortA < sortB) return -1
-				// 		if (sortA > sortB) return 1
-				// 		return 0
-				// 	  }
-				// 	})
-				//   }
-
-				if (rowsPerPage > 0) {
-					items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-				}
-
-				setTimeout(() => {
-					this.loading = false
-					resolve({
-						items,
-						total
-					})
-				}, 1000)
-
-			})
+			
 		},
 
 
