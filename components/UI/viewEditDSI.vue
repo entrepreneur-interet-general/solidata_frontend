@@ -474,7 +474,7 @@ export default {
 			// data table : loading, pagination 
 			loading 		: false,
 			pagination 		: {},
-			total_items		: 0,
+			total_items		: 0, // per page must be in [0, 2, 5, 10, 20, 25, 50, 100]
 
 			// data table - edit/create item
 			dialog			: false,
@@ -575,6 +575,7 @@ export default {
 					per_page 	: this.pagination.rowsPerPage,
 					total_items : this.pagination.totalItems,
 					sort_by 	: this.pagination.sortBy,
+					descending 	: this.pagination.descending,
 				}
 				console.log("...VDSI pagination - pagination_params : ", pagination_params)
 

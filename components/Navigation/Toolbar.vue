@@ -47,11 +47,20 @@
 
 		<!-- <v-spacer></v-spacer> -->
 
+		<a 
+			href="/"
+			class="ml-2 mr-0 hidden-xs-only"
+			>
+			<img src="@/assets/images/logo_solidata_6d.png" height="35px">
+				<div class="fill-height bottom-gradient"></div>
+			</img> 
+		</a>
+
 		<v-toolbar-title >
 			<a
 				href="/"
 				style="text-decoration: none"
-				class="font-weight-thin black--text"
+				class="font-weight-thin black--text ml-0"
 				v-html="$store.state.title"
 			></a>
 		</v-toolbar-title>
@@ -270,6 +279,7 @@ export default {
 				menu: false,
 				message: false,
 				hints: true
+
 
 				// clipped: true,
 				// drawer: false,

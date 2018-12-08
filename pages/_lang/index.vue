@@ -24,6 +24,21 @@
 		background-color: transparent ;
 	}
 
+
+
+  .bottom-gradient {
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 72px);
+  }
+
+  .repeating-gradient {
+    background-image: repeating-linear-gradient(-45deg,
+                        rgba(255,0,0,.25),
+                        rgba(255,0,0,.25) 5px,
+                        rgba(0,0,255,.25) 5px,
+                        rgba(0,0,255,.25) 10px
+                      );
+  }
+
 </style>
 
 <template>
@@ -34,6 +49,7 @@
 		dark
 		height="100%"
 		>
+
 
 		<v-container fill-height>
 
@@ -46,6 +62,16 @@
 				<v-flex 
 					text-xs-center
 					>
+
+					<img 
+						class="mb-4"
+						src="@/assets/images/logo_solidata_6d.png" 
+						height="90px"
+						>
+						<div class="fill-height bottom-gradient"></div>
+					</img> 
+
+					
 
 					<h4 class="display-3 font-weight-thin pb-2 white--text">
 						{{ $t('home.subtitle', $store.state.locale) }}
@@ -62,42 +88,125 @@
 							<v-layout row wrap>
 
 
-							<v-flex xs6 px-2 v-if="!$store.state.auth.isLogged">
-								<v-btn flat  class="white grey--text" large block nuxt to="/login">
-									<v-icon left>{{ $store.state.mainIcons.login.icon }}</v-icon>
-									{{ $t('home.startbtn', $store.state.locale ) }}
-								</v-btn>
-							</v-flex>
+								<v-flex xs6 px-2 
+									v-if="!$store.state.auth.isLogged"
+									v-for="btn in btns_not_connected"
+									>
+									<v-btn 
+										round 
+										flat 
+										:outline="is_outline" 
+										:class="is_white" 
+										:dark="is_outline"
+										large 
+										block 
+										nuxt 
+										:to="btn.to"
+										>
+										<v-icon left>{{ $store.state.mainIcons[btn.icon].icon }}</v-icon>
+										{{ $t(btn.text, $store.state.locale ) }}
+									</v-btn>
+								</v-flex>
 
-							<v-flex xs6 px-2 v-if="!$store.state.auth.isLogged">
-								<v-btn flat  class="white grey--text" large block nuxt to="/tutorials">
-									<v-icon left>{{ $store.state.mainIcons.video.icon }}</v-icon>
-									{{ $t('home.videobtn', $store.state.locale ) }}
-								</v-btn>
-							</v-flex>
+								<!-- <v-flex xs6 px-2 v-if="!$store.state.auth.isLogged">
+									<v-btn 
+										round 
+										flat 
+										:outline="is_outline" 
+										:class="is_white" 
+										:dark="is_outline"
+										large 
+										block 
+										nuxt 
+										to="/login"
+										>
+										<v-icon left>{{ $store.state.mainIcons.login.icon }}</v-icon>
+										{{ $t('home.startbtn', $store.state.locale ) }}
+									</v-btn>
+								</v-flex>
+
+								<v-flex xs6 px-2 v-if="!$store.state.auth.isLogged">
+									<v-btn 
+										round 
+										flat 
+										:outline="is_outline" 
+										:class="is_white" 
+										:dark="is_outline"
+										large 
+										block 
+										nuxt 
+										to="/tutorials"
+										>
+										<v-icon left>{{ $store.state.mainIcons.video.icon }}</v-icon>
+										{{ $t('home.videobtn', $store.state.locale ) }}
+									</v-btn>
+								</v-flex> -->
 
 
 
-							<v-flex xs6 px-2 v-if="$store.state.auth.isLogged">
-								<v-btn flat  class="white grey--text" large block nuxt to="/dashboard">
-									<v-icon left>{{ $store.state.mainIcons.dashboard.icon }}</v-icon>
-									{{ $t('links.dashboard', $store.state.locale ) }}
-								</v-btn>
-							</v-flex>
+									
+								<v-flex xs6 px-2 
+									v-if="$store.state.auth.isLogged"
+									v-for="btn in btns_connected"
+									>
+									<v-btn 
+										round 
+										flat 
+										:outline="is_outline" 
+										:class="is_white" 
+										:dark="is_outline"
+										large 
+										block 
+										nuxt 
+										:to="btn.to"
+										>
+										<v-icon left>{{ $store.state.mainIcons[btn.icon].icon }}</v-icon>
+										{{ $t(btn.text, $store.state.locale ) }}
+									</v-btn>
+								</v-flex>
 
-							<v-flex xs6 px-2 v-if="$store.state.auth.isLogged">
-								<v-btn flat  class="white grey--text" large block nuxt to="/prj">
-									<v-icon left>{{ $store.state.mainIcons.projects.icon }}</v-icon>
-									{{ $t('links.myprojects', $store.state.locale ) }}
-								</v-btn>
-							</v-flex>
+								<!-- <v-flex xs6 px-2 v-if="$store.state.auth.isLogged">
+									<v-btn 
+										round 
+										flat 
+										:outline="is_outline" 
+										:class="is_white" 
+										:dark="is_outline"
+										large 
+										block 
+										nuxt 
+										to="/dashboard"
+										>
+										<v-icon left>{{ $store.state.mainIcons.dashboard.icon }}</v-icon>
+										{{ $t('links.dashboard', $store.state.locale ) }}
+									</v-btn>
+								</v-flex> -->
 
-							<!-- <v-flex xs12 px-2 v-if="$store.state.auth.isLogged">
-								<v-btn flat outline class="white" large block nuxt to="/prj/create">
-									<v-icon left>{{ $store.state.mainIcons.create.icon }}</v-icon>
-									{{ $t('projects.create', $store.state.locale ) }}
-								</v-btn>
-							</v-flex> -->
+								<!-- <v-flex xs6 px-2 v-if="$store.state.auth.isLogged">
+									<v-btn 
+										round 
+										flat 
+										:outline="is_outline" 
+										:class="is_white" 
+										:dark="is_outline"
+										large 
+										block 
+										nuxt 
+										to="/prj"
+										>
+										<v-icon left>{{ $store.state.mainIcons.projects.icon }}</v-icon>
+										{{ $t('links.myprojects', $store.state.locale ) }}
+									</v-btn>
+								</v-flex> -->
+
+								<!-- <v-flex xs12 px-2 v-if="$store.state.auth.isLogged">
+									<v-btn flat outline class="white" large block nuxt to="/prj/create">
+										<v-icon left>{{ $store.state.mainIcons.create.icon }}</v-icon>
+										{{ $t('projects.create', $store.state.locale ) }}
+									</v-btn>
+								</v-flex> -->
+								
+
 
 
 
@@ -167,7 +276,19 @@ export default {
 			is_particles 	: true,
 			is_flat_background : false,
 
+			is_outline 		: true,
+
 			gradient_jumbo 	: 'to top right, #116565, #22C9C9',
+
+			btns_connected : [
+				{ icon :"dashboard", to:"/dashboard", text:"links.dashboard" },
+				{ icon :"projects", to:"/prj", text:"links.myprojects" },
+			],
+
+			btns_not_connected : [
+				{ icon :"login", to:"/login", text:"home.startbtn" },
+				{ icon :"video", to:"/tutorials", text:"home.videobtn" },
+			]
 
 		}
 	},
@@ -179,8 +300,10 @@ export default {
 
 		is_above_part () { return (this.is_particles)? "content-above-particles" : "" },
 
-		color_class () { return (this.is_flat_background)? "flat_background" : "transp_background" }
+		color_class () { return (this.is_flat_background)? "flat_background" : "transp_background" },
 
+		is_white () { return (this.is_outline)? "" : "white primary--text" },
+		
 	}
 
 
