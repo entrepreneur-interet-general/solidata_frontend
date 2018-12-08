@@ -1,50 +1,76 @@
+<style scoped>
+
+	/* cf : https://stackoverflow.com/questions/25970787/use-a-div-as-a-background-for-another-element */
+
+	.content-above-particles {
+		z-index: 2;
+		position: relative;
+	}
+
+	.particles-js {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 1;
+	}
+
+	.flat_background{
+		background-color: #90e4e4 ;
+	}
+
+	.transp_background{
+		background-color: transparent ;
+	}
+
+</style>
+
 <template>
 
 	<v-jumbotron 
 		class="pa-0" 
-		gradient="to top right, #116565, #22C9C9"
-		dark 
+		:gradient="gradient_jumbo"
+		dark
 		height="100%"
 		>
 
 		<v-container fill-height>
 
-			<v-layout justify-center align-center>
-				<v-flex text-xs-center>
+			<v-layout 
+				:class="is_above_part"
+				justify-center 
+				align-center
+				>
 
-					<h4 class="display-3 pb-2">
+				<v-flex 
+					text-xs-center
+					>
+
+					<h4 class="display-3 font-weight-thin pb-2 white--text">
 						{{ $t('home.subtitle', $store.state.locale) }}
 					</h4>
 
-					<span class="title font-weight-thin">
+					<span class="title font-weight-light white--text">
 						{{ $t('home.tagline', $store.state.locale) }}
 					</span>
 
-					<!-- <span class="subheading">Lorem ipsum dolor sit amet, pri veniam forensibus id. Vis maluisset molestiae id, ad semper lobortis cum. At impetus detraxit incorrupte usu, repudiare assueverit ex eum, ne nam essent vocent admodum.</span> -->
-					<!-- <v-divider class="my-3"></v-divider> -->
-					<!-- <div class="title mb-3">Check out our newest features!</div> -->
-					<!-- <v-btn
-						class="mx-0"
-						color="primary"
-						large
-						>
-						See more
-					</v-btn> -->
 
 					<v-layout row wrap my-5 pt-4>
 
 						<v-flex xs12 sm10 offset-sm1 md8 offset-md2 >
 							<v-layout row wrap>
 
+
 							<v-flex xs6 px-2 v-if="!$store.state.auth.isLogged">
-								<v-btn flat  class="white primary--text" large block nuxt to="/login">
+								<v-btn flat  class="white grey--text" large block nuxt to="/login">
 									<v-icon left>{{ $store.state.mainIcons.login.icon }}</v-icon>
 									{{ $t('home.startbtn', $store.state.locale ) }}
 								</v-btn>
 							</v-flex>
 
 							<v-flex xs6 px-2 v-if="!$store.state.auth.isLogged">
-								<v-btn flat  class="white primary--text" large block nuxt to="/tutorials">
+								<v-btn flat  class="white grey--text" large block nuxt to="/tutorials">
 									<v-icon left>{{ $store.state.mainIcons.video.icon }}</v-icon>
 									{{ $t('home.videobtn', $store.state.locale ) }}
 								</v-btn>
@@ -53,98 +79,71 @@
 
 
 							<v-flex xs6 px-2 v-if="$store.state.auth.isLogged">
-								<v-btn flat  class="white primary--text" large block nuxt to="/dashboard">
+								<v-btn flat  class="white grey--text" large block nuxt to="/dashboard">
 									<v-icon left>{{ $store.state.mainIcons.dashboard.icon }}</v-icon>
 									{{ $t('links.dashboard', $store.state.locale ) }}
 								</v-btn>
 							</v-flex>
 
 							<v-flex xs6 px-2 v-if="$store.state.auth.isLogged">
-								<v-btn flat  class="white primary--text" large block nuxt to="/prj">
+								<v-btn flat  class="white grey--text" large block nuxt to="/prj">
 									<v-icon left>{{ $store.state.mainIcons.projects.icon }}</v-icon>
 									{{ $t('links.myprojects', $store.state.locale ) }}
 								</v-btn>
 							</v-flex>
 
-							<v-flex xs12 px-2 v-if="$store.state.auth.isLogged">
+							<!-- <v-flex xs12 px-2 v-if="$store.state.auth.isLogged">
 								<v-btn flat outline class="white" large block nuxt to="/prj/create">
 									<v-icon left>{{ $store.state.mainIcons.create.icon }}</v-icon>
 									{{ $t('projects.create', $store.state.locale ) }}
 								</v-btn>
-							</v-flex>
+							</v-flex> -->
+
+
 
 							</v-layout>
+
 						</v-flex>
 
 					</v-layout>
 
-
-					<!-- 
-					<div class="ma-5" v-if="!$store.state.auth.isLogged">
-						<v-btn color="secondary" large nuxt to="/login">
-							<v-icon left>{{ $store.state.mainIcons.login.icon }}</v-icon>
-							{{ $t('home.startbtn', $store.state.locale ) }}
-						</v-btn>
-						<v-btn color="secondary" large nuxt to="/tutorials">
-							<v-icon left>{{ $store.state.mainIcons.video.icon }}</v-icon>
-							{{ $t('home.videobtn', $store.state.locale ) }}
-						</v-btn>
-					</div> 
-					-->
-
-
-
-
-
 				</v-flex>
-
-				<!--
-				<v-flex xs12 sm10 md10>
-
-					<!- - <div class="text-xs-center">
-						<img src="/v.png" alt="Vuetify.js" class="mb-5" />
-					</div> - ->
-
-					<v-card>
-						<v-card-title class="headline">Welcome to the Vuetify + Nuxt.js template </v-card-title>
-						<v-card-title class="headline"> {{ $t('home.title', $store.state.locale) }} </v-card-title>
-
-						<v-card-text>
-							<p v-if="user">Hello, {{user.name}}</p>
-							<p v-else>The user is not authenticated!</p>
-						</v-card-text>
-
-						<!- - <v-card-text> -->
-							
-							<!-- cf i18n snippet : https://stackoverflow.com/questions/49233698/vue-vuex-vue-i18n-change-language-button-event -->
-							<!-- <p>{{ $t('home.introduction', $store.state.locale ) }} </p> - ->
-							
-							<!- - <div class="text-xs-right">
-								<em><small>&mdash; John Leider</small></em>
-							</div> - ->
-
-						<!- - </v-card-text> - ->
-
-
-						<v-card-actions v-if="!$store.state.auth.isLogged">
-							<v-spacer></v-spacer>
-							<v-btn color="primary" flat nuxt to="/login">{{ $t('home.loginPage', $store.state.locale ) }}</v-btn>
-							<v-btn color="primary" flat nuxt to="/register">{{ $t('home.registerPage', $store.state.locale ) }}</v-btn>
-						</v-card-actions>
-
-						<v-card-actions v-else>
-							<v-spacer></v-spacer>
-							<v-btn color="primary" flat nuxt to="/logout">{{ $t('home.logoutPage', $store.state.locale ) }}</v-btn>
-						</v-card-actions>
-
-					</v-card>
-
-				</v-flex>
-				-->
 
 			</v-layout>
 
 		</v-container>
+
+		<!-- cf : https://vue-particles.netlify.com/?ref=madewithvuejs.com  -->
+		<template
+			v-if="is_particles"
+			>
+			<vue-particles
+
+				:class="'particles-js '+ color_class"
+
+				color="#ffffff"
+				:particleOpacity="0.6"
+				:particlesNumber="100"
+				shapeType="circle"
+				:particleSize="4"
+
+				linesColor="#ffffff"
+				:linesWidth="1"
+				:lineLinked="true"
+				:lineOpacity="0.3"
+				:linesDistance="170"
+
+				:moveSpeed="2"
+
+				:hoverEffect="false"
+				hoverMode=""
+				:clickEffect="false"
+				clickMode=""
+
+				>
+			</vue-particles>
+		
+		</template>
 
 	</v-jumbotron>
 
@@ -152,11 +151,38 @@
 
 
 <script>
+
+// import particlesJS from 'particles.js'
+
 export default {
+
+	created() {
+		// console.log('callback - particles.js config loaded');
+		// particlesJS.load('particles-js', '~/assets/particles.json', function() {});
+	},
+
+	data() {
+		return {
+
+			is_particles 	: true,
+			is_flat_background : false,
+
+			gradient_jumbo 	: 'to top right, #116565, #22C9C9',
+
+		}
+	},
+
 	// middleware : ["checkTokens"],
 	computed: {
 		// user () { return (this.$store.state.auth || {}).user || null }
-		user () { return (this.$store.state.auth.user_infos) }
+		user () { return (this.$store.state.auth.user_infos) },
+
+		is_above_part () { return (this.is_particles)? "content-above-particles" : "" },
+
+		color_class () { return (this.is_flat_background)? "flat_background" : "transp_background" }
+
 	}
+
+
 }
 </script>

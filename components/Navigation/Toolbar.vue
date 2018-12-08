@@ -124,48 +124,6 @@
 					<!-- {{ $t('home.loginPage', $store.state.locale ) }} -->
 				</v-btn>
 
-				<!-- <v-btn 
-					nuxt to="/register"
-					flat
-					class="px-0 ma-0"
-					>
-					<v-icon dark > 
-						fas fa-user-plus
-					</v-icon>
-					<!- - {{ $t('home.registerPage', $store.state.locale ) }} - ->
-				</v-btn> -->
-
-
-
-
-				<!-- LOCALES  -->
-				<!-- <div class="ml-3"> -->
-
-					<v-menu 
-						transition="slide-y-transition"
-						:nudge-width="100" 
-						>
-
-						<v-btn 
-							slot="activator"
-							
-							flat
-							>
-							<span>{{ $store.state.locale }}</span>
-							<v-icon >arrow_drop_down</v-icon>
-						</v-btn>
-
-						<v-list>
-							<v-list-tile
-								v-for="(item,i) in $store.state.dropdown_lang "
-								:key="i" 
-								@click="change_lang(item.code)" 
-								>
-								<v-list-tile-title v-text="item.text"></v-list-tile-title>
-							</v-list-tile>
-						</v-list>
-					</v-menu>
-
 				<!-- </div>  -->
 				
 				<!-- <v-overflow-btn
@@ -185,6 +143,7 @@
 					v-model="menu"
 					:close-on-content-click="false"
 					:nudge-width="200"
+					offset-y
 					offset-x
 					>
 					
@@ -219,90 +178,69 @@
 
 						<v-list>
 
-							<!-- <v-list-tile>
-								<v-list-tile-action>
-									<v-switch v-model="message" color="purple"></v-switch>
-								</v-list-tile-action>
-								<v-list-tile-title>Enable messages</v-list-tile-title>
+							<v-list-tile>
+								<v-btn 
+									color=""
+									flat fab small
+									nuxt to="/usr/settings">
+									<v-icon>{{ $store.state.mainIcons.settings.icon }}</v-icon>
+								</v-btn>
+								<v-list-tile-title>{{ $t('global.settings', $store.state.locale ) }}</v-list-tile-title>
 							</v-list-tile>
 
-							<v-list-tile>
-								<v-list-tile-action>
-									<v-switch v-model="hints" color="purple"></v-switch>
-								</v-list-tile-action>
-								<v-list-tile-title>Enable hints</v-list-tile-title>
-							</v-list-tile> -->
+							<!-- <v-divider></v-divider> -->
 
 							<v-list-tile>
-								<v-menu :nudge-width="100" >
-									<!-- <span  slot="activator">
-										<span>{{ $store.state.locale }}</span>
-										<v-icon >arrow_drop_down</v-icon>
-									</span> -->
-									<v-btn 
-										color=""
-										slot="activator"
-										flat fab small
-										>
-										<v-icon>{{ $store.state.mainIcons.language.icon }}</v-icon>
-									</v-btn>
-									<v-list>
-										<v-list-tile
-											v-for="(item,i) in $store.state.dropdown_lang "
-											:key="i" 
-											@click="change_lang(item.code)" 
-										>
-											<v-list-tile-title v-text="item.text"></v-list-tile-title>
-										</v-list-tile>
-									</v-list>
-								</v-menu>
-								<v-list-tile-title>
-									{{ $t('global.lang', $store.state.locale ) }} : {{ $store.state.locale }}
-								</v-list-tile-title>
-							</v-list-tile>
-
-							<v-list-tile>
-									<v-btn 
-										color=""
-										flat fab small
-										nuxt to="/usr/settings">
-										<v-icon>{{ $store.state.mainIcons.settings.icon }}</v-icon>
-									</v-btn>
-									<v-list-tile-title>{{ $t('global.settings', $store.state.locale ) }}</v-list-tile-title>
-							</v-list-tile>
-
-							<v-divider></v-divider>
-
-							<v-list-tile>
-									<v-btn 
-										color=""
-										flat fab small
-										nuxt to="/logout">
-										<v-icon>{{ $store.state.mainIcons.logout.icon }}</v-icon>
-									</v-btn>
-									<v-list-tile-title>{{ $t('home.logoutPage', $store.state.locale ) }}</v-list-tile-title>
+								<v-btn 
+									color=""
+									flat fab small
+									nuxt to="/logout">
+									<v-icon>{{ $store.state.mainIcons.logout.icon }}</v-icon>
+								</v-btn>
+								<v-list-tile-title>{{ $t('home.logoutPage', $store.state.locale ) }}</v-list-tile-title>
 							</v-list-tile>
 
 						</v-list>
 
-						<v-divider></v-divider>
-
+						<!-- <v-divider></v-divider>
 						<v-card-actions>
 							<v-spacer></v-spacer>
 							<v-btn flat @click="menu = false">
 								{{ $t('global.cancel', $store.state.locale ) }}
 							</v-btn>
-							<!-- <v-btn color="primary" flat @click="menu = false">{{ $t('global.save', $store.state.locale ) }}</v-btn> -->
-						</v-card-actions>
-
+						</v-card-actions> -->
 
 					</v-card>
 
 				</v-menu>
 
-
 			</template>
 
+			<!-- LOCALES  -->
+			<v-menu 
+				transition="slide-y-transition"
+				offset-y
+				>
+
+				<v-btn 
+					slot="activator"
+					
+					flat
+					>
+					<span>{{ $store.state.locale }}</span>
+					<v-icon >arrow_drop_down</v-icon>
+				</v-btn>
+
+				<v-list>
+					<v-list-tile
+						v-for="(item,i) in $store.state.dropdown_lang "
+						:key="i" 
+						@click="change_lang(item.code)" 
+						>
+						<v-list-tile-title v-text="item.text"></v-list-tile-title>
+					</v-list-tile>
+				</v-list>
+			</v-menu>
 
 		</v-toolbar-items>
 

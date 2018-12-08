@@ -27,6 +27,7 @@
     "js-cookie": "^2.2.0",
     "npm": "^6.4.0",
     "nuxt": "^1.4.1",
+    "particles.js": "^2.0.0",
     "vue-i18n": "^7.8.0",
     "vuetify": "^1.1.8",
     "vuetify-upload-button": "^1.1.0"
@@ -43,6 +44,7 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2"
+    "stylus-loader": "^3.0.2",
+    "vue-particles": "^1.0.9"
   }
 }

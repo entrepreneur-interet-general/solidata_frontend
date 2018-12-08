@@ -70,6 +70,8 @@
 			bottom 
 			left 
 			full-width
+			:nudge-bottom="10"
+			offset-y
 			>
 
 			<v-btn 

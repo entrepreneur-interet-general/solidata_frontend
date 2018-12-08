@@ -44,6 +44,7 @@ module.exports = {
 		'~/plugins/i18n.js',
 		'~/plugins/axios',
 		'~plugins/text_filters.js',
+		{ src:'@/plugins/vueParticles.js', ssr:false},
 		// '~/api/init.js', 
 		// '~plugins/auth.js',
 		// '~plugins/uploadBtn.js',
