@@ -152,9 +152,9 @@ export default {
 	meta : {
 		collection 	: [
 			'prj',
+			'dsi',
 			'dmt',
 			'dmf',
-			'dsi',
 			'tag',
 		],
 		level 		: 'get_list',
@@ -167,9 +167,9 @@ export default {
 		items () { 
 			return { 
 				projects			: this.$store.state.prj.list,
+				datasets			: this.$store.state.dsi.list,
 				datamodels			: this.$store.state.dmt.list,
 				datamodel_fields	: this.$store.state.dmf.list,
-				datasets			: this.$store.state.dsi.list,
 				tags				: this.$store.state.tag.list,
 			} 
 		},
@@ -199,9 +199,9 @@ export default {
 			defaultFlex			: 3,
 			tabsList			: [
 				"projects", 
+				"datasets", 
 				"datamodels", 
 				"datamodel_fields",
-				"datasets", 
 				"tags"
 			],
 		}

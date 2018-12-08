@@ -9,7 +9,7 @@ export const state = () => ({
 	parameters 		:  {
 		page 		: 1,
 		per_page   	: 0, //5, // choices=[0, 2, 5, 10, 20, 30, 40, 50, 100],
-		cardSizes	: "xs12 sm6 md4"
+		cardSizes	: "xs12 sm4 md3"
 	},
 
 	rowsPerPageItems: [ 3, 6, 9, 12 ],

@@ -574,6 +574,7 @@ export default {
 					page		: this.pagination.page,
 					per_page 	: this.pagination.rowsPerPage,
 					total_items : this.pagination.totalItems,
+					sort_by 	: this.pagination.sortBy,
 				}
 				console.log("...VDSI pagination - pagination_params : ", pagination_params)
 
@@ -608,11 +609,19 @@ export default {
 			this.$store.dispatch('getOneItem', call_input )
 
 			.then( result => {
+				
 				console.log("VDSI get_FData_fromApi / result: ", result ) ; 
+				
 				this.itemDoc 		= result.data 
 				this.total_items 	= result.data.data_raw.f_data_count
+
+				this.pagination.page 		= result.query.page_args.page
+				this.pagination.rowsPerPage = result.query.page_args.per_page
+				this.pagination.sortBy 		= result.query.query_args.sort_by
+
 				this.loading 		= false
 				this.alert   		= {type: 'success', message: result.msg}
+
 			})
 
 			.catch( error => {

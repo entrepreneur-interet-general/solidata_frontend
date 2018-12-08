@@ -124,6 +124,7 @@
 					>
 
 					<CardPreviewDense 
+						:coll="coll"
 						:tab="tab"
 						:item="props.item"
 						:inTeam="'yes'"

@@ -5,9 +5,16 @@
 		height="100%"
 		>
 
-		<v-card flat height="81%">
+		<v-card 
+			flat 
+			:height="h_percent"
+			>
 
-			<v-layout row spacer py-4>
+			<v-layout 
+				row 
+				spacer 
+				:class="padding_y"
+				>
 
 				<v-flex sm3 md2 hidden-xs-only text-xs-center ml-3>
 					<v-avatar size="30" color="grey">
@@ -19,11 +26,15 @@
 
 				<v-flex sm9 md10 px-3>
 
-					<h4 class="headline my-0">
+					<h4 
+						:class="'my-0 '+is_main_coll"
+						>
 						{{ item.infos.title }}
 					</h4>
-					<div>
-						{{ item.infos.description }}
+
+					<div
+						v-if="!not_main_colls.includes(coll)">
+						{{ item.infos.description }} 
 					</div>
 
 
@@ -129,10 +140,10 @@
 		</v-layout> -->
 
 		<v-footer
-			height="20%"
+			height="auto"
 			>
 			<v-card
-				class="flex pa-0"
+				class="flex pa-0 mt-0"
 				flat
 				>
 				<v-card-text class="secondary py-2 text-xs-center white--text text-lowercase ">
@@ -161,6 +172,9 @@ export default {
 	],
 	data () {
 		return {
+
+			not_main_colls : ['dmf', 'tag'],
+
 			parent_fields: [
 				{
 					action: 'infos',
@@ -183,5 +197,20 @@ export default {
 			]
 		}
 	},
+
+	computed : {
+
+		is_main_coll () { 
+			return (this.not_main_colls.includes(this.coll)) ? "subheading" : "title" 
+		},
+		
+		padding_y () { 
+			return (this.not_main_colls.includes(this.coll)) ? "py-2" : "py-4" 
+		},
+
+		h_percent () { 
+			return (this.not_main_colls.includes(this.coll)) ? "57%" : "81%" 
+		},
+	}
 }
 </script>
