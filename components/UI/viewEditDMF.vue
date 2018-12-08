@@ -465,9 +465,8 @@ export default {
 			console.log("VE createItem - current_new : ", current_new )
 
 			// Object.keys(this.form).forEach(f => {
-				// 	if (!this.form[f]) this.formHasErrors = true
+			// 		if (!this.form[f]) this.formHasErrors = true
 			// 	this.$refs[f].validate(true)
-				
 			// })
 
 			// REFORMAT DATA

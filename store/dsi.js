@@ -17,10 +17,15 @@ export const state = () => ({
 		rowsPerPage: 6
 	},
 
+
+
 	parameters_f_data 	:  {
 		page 		: 1,
-		per_page   	: 0,
+		per_page   	: 5,
+		total_items	: 0,
 	},
+
+
 
 	query_current 	: null,
 
@@ -97,6 +102,12 @@ export const getters = {
 }
 
 export const mutations = {
+
+	set_f_data_params (store, f_data_params) {
+		console.log("\n... store/dsi : set_f_data_params...")
+		console.log("... store/dsi - f_data_params : ", f_data_params )
+		store.parameters_f_data  = f_data_params
+	},
 
 	set_list (store, data) {
 		

@@ -26,12 +26,13 @@ export default function ({ context, store, redirect, route, params, $axios}) {
 	console.log('- - - current_collection : ', current_collection ) ;
 	console.log('- - - current_level : ', current_level ) ;
 
-
+	// SET UP CONFIG
 	var config = { 
 		headers : { 'Authorization' : store.state.auth.access_token },
 	}
 	console.log("- - - getItem : config : ", config );
-	
+
+	// API CALL
 	const current_item = $axios.get(`${current_collection}/infos/get_one/${item_id}` , config )
 	
 		.then(response => {
@@ -40,6 +41,7 @@ export default function ({ context, store, redirect, route, params, $axios}) {
 			// store.dispatch(`${current_collection}/dispatch_current`, response.data);
 			return response
 		})
+		
 		.catch(error => {
 			console.log(error.response)
 			return error

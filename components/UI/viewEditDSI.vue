@@ -465,7 +465,7 @@ export default {
 
 			itemId 			: this.item_doc._id, 
 			itemDoc			: this.item_doc,
-			item_data 		: this.item_doc.data_raw.f_data, 
+			// item_data 		: this.item_doc.data_raw.f_data, 
 			// item_headers 	: this.item_doc.data_raw.f_col_headers, 
 
 			is_file 			: null,
@@ -504,6 +504,10 @@ export default {
 
 		formTitle () {
 			return this.editedIndex === -1 ? 'item_new' : 'item_edit' ;
+		},
+
+		item_data () {
+			return this.itemDoc.data_raw.f_data
 		},
 
 		itemHeaders() {
@@ -556,23 +560,25 @@ export default {
 		dialog (val) {
 			val || this.close()
 		},
-	  
+	
 		// TO DO !!!!
 		pagination: {
 
 			handler () {
 
-				console.log("\n VDSI pagination handler ... ")
+				console.log("\n...VDSI pagination handler ... ")
+				console.log("...VDSI pagination - this.pagination : ", this.pagination)
 
 				// change pagination params in store[coll]
+				var pagination_params 	= {
+					page		: this.pagination.page,
+					per_page 	: this.pagination.rowsPerPage,
+					total_items : this.pagination.totalItems,
+				}
+				console.log("...VDSI pagination - pagination_params : ", pagination_params)
 
-				// call dispatch from main store
-				this.get_FData_fromApi()
-				// .then(data => {
-				// 	this.item_data 		= data.data_raw.f_data,
-				// 	this.total_items 	= data.data_raw.f_data_count
-				// })
-
+				// call method for dispatch from main store
+				this.get_FData_fromApi(pagination_params)
 				
 			},
 			deep: true
@@ -586,19 +592,38 @@ export default {
 			this.isPreview = !this.isPreview ;
 		},
 
-		// TO DO --> AXIOS CALL
-		get_FData_fromApi () {
+		// AXIOS CALL
+		get_FData_fromApi (pag_params) {
 
-			console.log("\n VDSI get_FData_fromApi ... ")
+			console.log("\n...VDSI get_FData_fromApi ... ")
 
-			// this.loading = true
+			this.loading = true
 
+			// AXIOS CALL OR DISPATCH 
+			var call_input = {
+				collection 		: this.coll,
+				doc_id			: this.itemId,
+				f_data_params 	: pag_params,
+			}
+			this.$store.dispatch('getOneItem', call_input )
 
-			//// AXIOS CALL OR DISPATCH 
+			.then( result => {
+				console.log("VDSI get_FData_fromApi / result: ", result ) ; 
+				this.itemDoc 		= result.data 
+				this.total_items 	= result.data.data_raw.f_data_count
+				this.loading 		= false
+				this.alert   		= {type: 'success', message: result.msg}
+			})
 
+			.catch( error => {
+				console.log("VDSI get_FData_fromApi / submit - error... : ", error ) ; 
+				this.loading = false
+				// this.alert = {type: 'error', message: "login error" }
+				if (error.response && error.response.data) {
+					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+				}
+			})
 
-
-			
 		},
 
 

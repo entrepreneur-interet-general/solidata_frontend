@@ -543,6 +543,7 @@ export const actions = {
 			console.log("... createItem / cleanPayload : ", cleanPayload ) ; 
 		}
 
+		// API CALL
 		return this.$axios.$post(`${payload.collection}/create/`, cleanPayload, config)
 			.then(response => {
 
@@ -568,28 +569,35 @@ export const actions = {
 	getOneItem({commit, state, rootState}, input ) {
 
 		console.log("\n... getOneItem : input : ", input) ; 
-		var collection 	= input.coll ;
+		var collection 	= input.collection ;
 		var doc_id 		= input.doc_id ; 
-
-		// get pagination + query arguments
-		const parameters = rootState[`${collection}`].parameters
-		console.log("... getOneItem : parameters : ", parameters);
-		
+		var f_data_params = {} ;
+		// var f_data_params 	= input.f_data_params ; 
 
 
-		const config = { 
+		// get f_data_params if coll in dsi, dso, dsr
+		if( collection === 'dsi' ){
+			console.log("... getOneItem : collection : ", collection );
+			f_data_params = input.f_data_params ; 
+		}
+
+		// SET UP CONFIG
+		var config = { 
 			headers : { 'Authorization' : rootState.auth.access_token },
-			params	: parameters
+			params	: f_data_params
 		} ;
 		console.log("... getOneItem : config : ", config );
 
 
-		return this.$axios.$get(`${collection}/edit/${doc_id}`, config )
+		// API CALL
+		return this.$axios.$get(`${collection}/infos/get_one/${doc_id}`, config )
+
 			.then(response => {
 				console.log(`... getOneItem : response : `, response);
-				commit(`${current_collection}/set_current`, response.data);
+				// commit(`${collection}/set_current`, response.data);
 				return response
 			})
+
 			.catch(error => {
 				console.log("... getOneItem / error : ", error ) ; 
 				return error
@@ -605,11 +613,11 @@ export const actions = {
 		const parameters = rootState[`${collection}`].parameters
 		console.log("... getListItems : parameters : ", parameters);
 		
+		// SET UP CONFIG
 		const config = { 
 			headers : { 'Authorization' : rootState.auth.access_token },
 			params	: parameters
 		} ;
-
 		console.log("... getListItems : config : ", config );
 
 		return this.$axios.$get(`${collection}/infos/list`, config )
@@ -622,7 +630,6 @@ export const actions = {
 				console.log("... getListItems / error : ", error ) ; 
 				return error
 			})
-
 	},
 
 	updateItem ({commit, state, rootState}, input ) {
@@ -632,12 +639,14 @@ export const actions = {
 		var doc_id 		= input.doc_id ; 
 		var fields 		= input.form ; 
 
+		// SET UP CONFIG
 		const config = { 
 			headers : { 'Authorization' : rootState.auth.access_token },
 			// params	: parameters
 		} ;
 		console.log("... updateItem : config : ", config );
 
+		// API CALL
 		return this.$axios.$put(`${collection}/edit/${doc_id}`, fields, config )
 			.then(response => {
 				console.log(`... updateItem : response : `, response);
