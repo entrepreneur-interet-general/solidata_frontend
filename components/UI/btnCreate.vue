@@ -1,6 +1,6 @@
 <template>
 
-	<div>
+	<v-layout class="justify-center">
 		
 		<!-- BTN AS LINK -->
 		<v-btn 
@@ -9,21 +9,21 @@
 			:icon="isIcon || isMobile"
 			:round="!isIcon && !isMobile"
 			:outline="outline"
-			:block="is_block"
+			:block="is_block && !isMobile"
 			:to="to_link" 
 			:color="color"
 			:class="btn_class"
 			:large="large"
 			>
+				<!-- :left="!isIcon && !isMobile"  -->
 			<v-icon 
-				:left="!isIcon && !isMobile" 
 				:large="large"
 				>
 				{{ $store.state.mainIcons.create.icon }}
 			</v-icon>
 			<span 
 				v-if="!isIcon && !isMobile"
-				class="title text-lowercase font-weight-light" >
+				class="subheading text-lowercase font-weight-medium" >
 				{{ $t(tab+'.create', $store.state.locale) }}
 			</span>
 		</v-btn>
@@ -35,26 +35,26 @@
 			:icon="isIcon || isMobile"
 			:round="!isIcon && !isMobile"
 			:outline="outline"
-			:block="is_block"
+			:block="is_block && !isMobile"
 			@click="callCreate()" 
 			:color="color"
 			:class="btn_class"
 			:large="large"
 			>
+				<!-- :left="!isIcon && !isMobile"  -->
 			<v-icon 
-				:left="!isIcon && !isMobile" 
 				:large="large"
 				>
 				{{ $store.state.mainIcons.create.icon }}
 			</v-icon>
 			<span 
 				v-if="!isIcon && !isMobile"
-				class="title text-lowercase font-weight-light" >
+				class="subheading text-lowercase font-weight-medium" >
 				{{ $t(tab+'.create', $store.state.locale) }}
 			</span>
 		</v-btn>
 
-	</div>
+	</v-layout>
 
 </template>
 
@@ -106,10 +106,7 @@ export default {
 	methods : {
 
 		onResize () {
-			this.isMobile = window.innerWidth < 800
-			if (this.isMobile) {
-
-			}
+			this.isMobile = window.innerWidth < 950
 		},
 
 		callCreate() {

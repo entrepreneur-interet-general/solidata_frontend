@@ -51,7 +51,7 @@
 			href="/"
 			class="ml-2 mr-0 hidden-xs-only"
 			>
-			<img src="@/assets/images/logo_solidata_6d.png" height="35px">
+			<img src="@/assets/images/logo_solidata_7c.png" height="45px">
 				<div class="fill-height bottom-gradient"></div>
 			</img> 
 		</a>

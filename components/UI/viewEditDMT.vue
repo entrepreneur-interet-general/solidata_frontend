@@ -7,8 +7,10 @@
 		px-5
 		>
 		
+
 		<!-- DSI TOOLBAR -->
 		<template v-if="!no_toolbar">
+
 			<v-layout 
 				v-if="!isPreview || is_create || is_switch"
 				row 
@@ -25,15 +27,15 @@
 						:is_create="is_create" 
 						:isPreview="isPreview"
 						@input="switchPreview"
-						:is_reset="true"
+						:is_reset="false"
 						>
 					</ItemToolbar>
 
 				</v-flex>
 
 			</v-layout>
-		</template>
 
+		</template>
 
 
 		<!-- COMPONENT FOR COMMON DOCS INFOS -->
@@ -56,180 +58,49 @@
 
 		<br>
 
-		<!-- DSI DATA -->
+		<!-- DMF LIBRARY -->
+		<template v-if="!no_toolbar && !is_create">
+
+			<v-layout 
+				v-show="!isPreview"
+				row 
+				wrap 
+				pb-1
+				>
+
+				<!-- DMF LIST -->
+				<v-flex xs12>
+					
+					<ItemsListDI
+						:tab="'datamodel_fields'"
+						:coll="'dmf'"
+						:items_coll="$store.state.dmf.list"
+						>
+					</ItemsListDI>
+
+				</v-flex>
+
+			</v-layout>
+
+		</template>
+			
+		<br>
+
+
+
+
+
+
+		<!-- TO DO - DMT DATA -->
 		<v-layout row wrap>
 			
 			<v-flex xs12>
-				<v-card color="">
-					<v-card-text class="pa-0">
-
-						<!-- DATA TOOLBAR -->
-						<v-toolbar class="elevation-1" color="white">
-							
-							<v-toolbar-title>
-								item data
-							</v-toolbar-title>
-							
-							<v-spacer></v-spacer>
-
-							<v-dialog v-model="dialog" max-width="600px">
-
-								<v-btn 
-									slot="activator" 
-									color="primary" 
-									dark 
-									block
-									outline
-									class=""
-									
-									>
-									{{ $t( 'global.item_new', $store.state.locale)  }}
-								</v-btn>
-
-								<v-card>
-
-									<v-card-title>
-										<span class="headline">
-											{{ $t( 'global.'+formTitle, $store.state.locale)  }}
-										</span>
-									</v-card-title>
-
-									<v-divider></v-divider>
-
-									<v-card-text>
-										<v-container grid-list-md>
-										<v-layout wrap>
-
-											<v-flex 
-												xs12
-												v-for="header in itemHeaders"
-												:key="itemHeaders.indexOf(header)"
-												>
-												<v-textarea 
-													v-model="editedItem[header.value]" 
-													:label="header.text"
-													auto-grow
-													:disabled="true"
-													:rows="1"
-												>
-												</v-textarea>
-											</v-flex>
-
-										</v-layout>
-										</v-container>
-									</v-card-text>
-
-									<v-card-actions>
-										<v-spacer></v-spacer>
-										<v-btn color="blue darken-1" flat @click="close">
-											{{ $t( 'global.cancel', $store.state.locale)  }}
-										</v-btn>
-										<v-btn color="blue darken-1" flat @click="save">
-											{{ $t( 'global.save', $store.state.locale)  }}
-										</v-btn>
-									</v-card-actions>
-								</v-card>
-							</v-dialog>
-
-						</v-toolbar>
-
-
-						<!-- DATA -->
-						<v-data-table
-							:headers="itemHeaders_Actions"
-							:items="item_data"
-							:pagination.sync="pagination"
-							:total-items="total_items"
-							:loading="loading"
-							class="elevation-1"
-							>
-							<template slot="items" slot-scope="props">
-
-								<td class="justify-center layout px-0">
-									<v-icon
-										small
-										class="mr-2"
-										@click="editItem(props.item)"
-										>
-										{{ $store.state.mainIcons.edit.icon }}
-									</v-icon>
-									<v-icon
-										small
-										@click="deleteItem(props.item)"
-										>
-										{{ $store.state.mainIcons.delete.icon }}
-									</v-icon>
-								</td>
-
-								<td 
-									v-for="header in itemHeaders"
-									:key="itemHeaders.indexOf(header)">
-									{{ props.item[header.value] | truncate(30, ' ...') }}
-								</td>
-
-							</template>
-						</v-data-table>
-
-
-					</v-card-text>
-				</v-card>
-			</v-flex>
-
-		</v-layout>
-
-
-
-
-
-
-		<!-- DEBUG  -->
-		<v-layout 
-			v-if="$store.state.is_debug"
-			row wrap
-			>
-
-			<v-flex d-flex :class="flex_vars">
-
-				<v-alert       
-					:value="true"
-					type="error"
-					class="text-xs-left"
-					>
-					---- DEBUG component - ItemViewEdit ----
-					<hr>
-
-					-- itemDoc -- <br>
-					<code>{{ itemDoc }}</code>
-					<hr>
-
-					-- vars -- <br>
-					is_file : <code>{{ is_file }}</code> - 
-					coll : <code>{{ coll }}</code> - 
-					collName : <code>{{ collName }}</code> - 
-					is_create : <code>{{ is_create }}</code> - 
-					filetype : <code>{{ filetype }}</code> - 
-					itemId : <code>{{ itemId}}</code> - 
-					<!-- canEdit : <code>{{ canEdit }}</code> -->
-					flex_vars : <code>{{flex_vars}}</code> - 
-					<hr>
-
-					-- current_new in $store.state.{{coll}} -- <br>
-					{{coll}}.current_new : <br><code>{{ $store.state[coll].current_new }}</code>
-
-					<div v-if="is_file">
-						{{coll}}.csv_sep : <br><code>{{ $store.state[coll].csv_sep }}</code><br>
-						{{coll}}.current_filename : <br><code>{{ $store.state[coll].current_filename }}</code>
-					</div>
-					<div v-if="is_file && $store.state[coll].current_file != '' ">
-						{{coll}}.current_file : <br><code>{{ $store.state[coll].current_file.name }}</code>
-					</div>				
-					
-				</v-alert>
+				
+				dmf_list - {{ itemDoc.datasets.dmf_list }}
 
 			</v-flex>
 
 		</v-layout>
-
 
 
 	</v-container>
@@ -238,6 +109,8 @@
 
 
 <script>
+
+import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
 
 import ObjectFormatterCreate from "~/utils/ObjectFormatterCreate.js"
 import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
@@ -249,7 +122,7 @@ import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
 
 // import CardInfos from '~/components/UI/parentFields/cardInfos.vue'
 // import CardCreate from '~/components/UI/cardCreate.vue'
-// import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
+import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
 
 
 export default {
@@ -271,15 +144,19 @@ export default {
 		ItemToolbar,
 		ItemDocInfos,
 		ItemDocUses,
+		ItemsListDI,
 		// CardInfos,
-		// ValueEdit,
+		ValueEdit,
 		// CardCreate,
 	},
 
-	// meta : {
-	// 	collection 	: 'dsi',
-	// 	level 		: 'get_f_data',
-	// },
+	middleware : ["getListItems"],
+	meta : {
+		collection 	: [
+			'dmf',
+		],
+		level : 'get_list',
+	},
 
 	created () {
 		console.log("\n- itemViewEdit / created ---> item_doc : ", this.item_doc ) ;
@@ -287,15 +164,18 @@ export default {
 		// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
 		// this.canEdit = this.checkUserAuth(this.parentFieldslist)
 
-		this.is_file = ( this.coll == "dsi" ) ? true : false ; 
-		this.is_file = this.preloadIsFile() ; 
-		this.filetype = this.preloadFileType() ; 
+		// this.is_file = ( this.coll == "dsi" ) ? true : false ; 
+		// this.is_file = this.preloadIsFile() ; 
+		// this.filetype = this.preloadFileType() ; 
 	},
 
 	data () {
 
 		return {
 			
+			coll 		: "dmt",
+			tab			: "datamodels",
+
 			alert		: null,
 			isPreview 	: this.is_preview,
 			no_subField : true,
@@ -341,6 +221,8 @@ export default {
 	},
 
 	computed : {
+
+
 
 		formTitle () {
 			return this.editedIndex === -1 ? 'item_new' : 'item_edit' ;
@@ -428,7 +310,7 @@ export default {
 	},
 
 	methods: {
-		
+
 		// TOOLBAR SWITCH
 		switchPreview() {
 			this.isPreview = !this.isPreview ;

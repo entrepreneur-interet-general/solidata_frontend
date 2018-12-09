@@ -40,7 +40,6 @@
 			:is_create="false"
 			:is_preview="true"
 			:coll="coll"
-			:parentFieldslist="parentFieldsList"
 			:item_doc="$store.state[coll].current"
 			:is_switch="true"
 			>
@@ -54,14 +53,16 @@
 
 <script>
 import SectionTitle from '~/components/UI/sectionTitle.vue'
-import ViewEditBasicDoc from '~/components/UI/viewEditDMF.vue' 
+
+// import ViewEditBasicDoc from '~/components/UI/viewEditDMF.vue' 
 import ViewEditDSI from '~/components/UI/viewEditDSI.vue' 
 
 export default {
 	components : {
 
 		SectionTitle,
-		ViewEditBasicDoc, 
+
+		// ViewEditBasicDoc, 
 		ViewEditDSI, 
 
 	},
@@ -79,34 +80,34 @@ export default {
 			coll 	: "dsi",
 			tab 	: 'datasets',
 
-			parentFieldsList : [
+			// parentFieldsList : [
 
-				{ 
-					parentFieldName : "infos",
-					subFields 	: [
-						"title", 
-						"description",
-						"licence"
-					] 
-				},
+			// 	{ 
+			// 		parentFieldName : "infos",
+			// 		subFields 	: [
+			// 			"title", 
+			// 			"description",
+			// 			"licence"
+			// 		] 
+			// 	},
 
-				{ 
-					parentFieldName : "public_auth",
-					subFields 	: [
-						"open_level_show",
-						"open_level_edit", 
-					] 
-				},
+			// 	{ 
+			// 		parentFieldName : "public_auth",
+			// 		subFields 	: [
+			// 			"open_level_show",
+			// 			"open_level_edit", 
+			// 		] 
+			// 	},
 
-				{ 
-					parentFieldName : "specs",
-					subFields 	: [
-						"src_type",
-						"src_link",
-						"src_parser",
-					] 
-				},
-			]
+			// 	{ 
+			// 		parentFieldName : "specs",
+			// 		subFields 	: [
+			// 			"src_type",
+			// 			"src_link",
+			// 			"src_parser",
+			// 		] 
+			// 	},
+			// ]
 
 		}
 	},

@@ -1,34 +1,10 @@
 <template>
 
 	<div>
-			
-		<!-- <SectionTitle
-			v-if="$store.state.auth.isLogged"
-			:title="$t('dashboard.name', $store.state.locale)"
-			:intro="$t('dashboard.intro', $store.state.locale)"
-			:icon="$store.state.mainIcons.dashboard.icon"
-			:isDashboard="true"
-			:to_link="'/'"
-		>
-		</SectionTitle>
-
-		<SectionTitle
-			v-else
-			:title="$t('dashboard.name', $store.state.locale)"
-			:intro="$t('dashboard.introAnon', $store.state.locale)"
-			:icon="$store.state.mainIcons.dashboard.icon"
-			:isDashboard="true"
-			:to_link="'/'"
-		>
-		</SectionTitle> -->
-
-	
-
 
 		<v-tabs
 			centered
 			color="transparent"
-			
 			:fixed-tabs="!isMobile"
 			>
 			<!-- icons-and-text -->
@@ -37,7 +13,6 @@
 				color="primary"
 				>
 			</v-tabs-slider>
-
 
 			<!-- TABS HEAD -->
 			<v-tab 
@@ -109,10 +84,9 @@
 					:tab="tab"
 					:coll="coll(tab)"
 					:items_coll="items[tab]"
-					:defaultFlex="defaultFlex"
-					:defaultHeight="defaultHeightAdd"
 					>
 				</ItemsListDI>
+				
 
 				
 

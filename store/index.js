@@ -130,6 +130,7 @@ const mainIconsConst = {
 	upload				: { icon : "fas fa-file-upload" },
 	reset				: { icon : "fas fa-redo" },
 	delete				: { icon : "delete" },
+	warning				: { icon : "fas fa-exclamation-circle" },
 	cancel				: { icon : "cancel" },
 	export				: { icon : "get_app" },
 
@@ -483,7 +484,7 @@ export const mutations = {
 export const actions = {
 	
 	nuxtServerInit ({ commit }, { req }) {
-		console.log("nuxtServerInit...")
+		console.log("\n $ nuxtServerInit...")
 	//	 let accessToken	 = null ;
 	//	 let refreshToken	= null ;
 	//	 if (req.headers.cookie) {
@@ -501,29 +502,29 @@ export const actions = {
 
 	createItem ({commit, state, rootState}, payload ) {
 		
-		console.log("\n... createItem... for payload.collection : ", payload.collection ) ; 
+		console.log("\n... $ createItem... for payload.collection : ", payload.collection ) ; 
 
 		// HEADERS
 		const config = { "headers" : { 'Authorization': rootState.auth.access_token }} ;
-		console.log("... createItem / config : ", config ) ; 
+		console.log("... $ createItem / config : ", config ) ; 
 
 		// DATA TO SEND
-		console.log("... createItem / payload.data : ", payload.data ) ; 
+		console.log("... $ createItem / payload.data : ", payload.data ) ; 
 		// console.log("... createItem / payload.data.title : ", payload.data.title ) ; 
 		var cleanPayload = ObjectCleaner.returnCleanObject( payload.data );
-		console.log("... createItem / cleanPayload : ", cleanPayload ) ; 
+		console.log("... $ createItem / cleanPayload : ", cleanPayload ) ; 
 
 
 		// CREATE ITEM
 		var coll_file = rootState[payload.collection].current_file ;
-		console.log("... createItem / coll_file : ", coll_file ) ; 
+		console.log("... $ createItem / coll_file : ", coll_file ) ; 
 
 
 		// is contains file change data to formData
 		// if ( payload.data.src_type != 'API' && coll_file != '' ) {
 		if ( coll_file != undefined && coll_file != '' ) {
 			
-			console.log("... createItem / payload.data.file  : ",  payload.data.file  ) ; 
+			console.log("... $ createItem / payload.data.file  : ",  payload.data.file  ) ; 
 			
 			// payload to formData
 			var formData = new FormData();
@@ -533,21 +534,21 @@ export const actions = {
 
 			// append file to formData
 			formData.append('form_file', coll_file );
-			console.log("... createItem / formData  : ",  formData  ) ; 
+			console.log("... $ createItem / formData  : ",  formData  ) ; 
 			
 			// append stuff to config headers
 			config.headers['Content-Type'] =  'multipart/form-data' ;
 
 			// overwrite cleanPayload
 			cleanPayload = formData ; 
-			console.log("... createItem / cleanPayload : ", cleanPayload ) ; 
+			console.log("... $ createItem / cleanPayload : ", cleanPayload ) ; 
 		}
 
 		// API CALL
 		return this.$axios.$post(`${payload.collection}/create/`, cleanPayload, config)
 			.then(response => {
 
-				console.log("... createItem / response : ", response ) ; 
+				console.log("... $ createItem / response : ", response ) ; 
 
 				// set up corresponding store 
 				commit( `${payload.collection}/set_current`, response.data, { root: true } )
@@ -560,7 +561,7 @@ export const actions = {
 
 			})
 			.catch(error => {
-				console.log("... createItem / error : ", error ) ; 
+				console.log("... $ createItem / error : ", error ) ; 
 				return error
 			})
 
@@ -568,7 +569,7 @@ export const actions = {
 
 	getOneItem({commit, state, rootState}, input ) {
 
-		console.log("\n... getOneItem : input : ", input) ; 
+		console.log("\n... $ getOneItem : input : ", input) ; 
 		var collection 	= input.collection ;
 		var doc_id 		= input.doc_id ; 
 		var f_data_params = {} ;
@@ -577,7 +578,7 @@ export const actions = {
 
 		// get f_data_params if coll in dsi, dso, dsr
 		if( collection === 'dsi' ){
-			console.log("... getOneItem : collection : ", collection );
+			console.log("... $ getOneItem : collection : ", collection );
 			f_data_params = input.f_data_params ; 
 		}
 
@@ -586,20 +587,20 @@ export const actions = {
 			headers : { 'Authorization' : rootState.auth.access_token },
 			params	: f_data_params
 		} ;
-		console.log("... getOneItem : config : ", config );
+		console.log("... $ getOneItem : config : ", config );
 
 
 		// API CALL
 		return this.$axios.$get(`${collection}/infos/get_one/${doc_id}`, config )
 
 			.then(response => {
-				console.log(`... getOneItem : response : `, response);
+				console.log(`... $ getOneItem : response : `, response);
 				// commit(`${collection}/set_current`, response.data);
 				return response
 			})
 
 			.catch(error => {
-				console.log("... getOneItem / error : ", error ) ; 
+				console.log("... $ getOneItem / error : ", error ) ; 
 				return error
 			})
 
@@ -607,33 +608,33 @@ export const actions = {
 
 
 	getListItems ({commit, state, rootState}, collection ) {
-		console.log("\n... getListItems : collection : ", collection);
+		console.log("\n... $ getListItems : collection : ", collection);
 		
 		// const parameters = this.$store.getters[`${collection}/get_params`]
 		const parameters = rootState[`${collection}`].parameters
-		console.log("... getListItems : parameters : ", parameters);
+		console.log("... $ getListItems : parameters : ", parameters);
 		
 		// SET UP CONFIG
 		const config = { 
 			headers : { 'Authorization' : rootState.auth.access_token },
 			params	: parameters
 		} ;
-		console.log("... getListItems : config : ", config );
+		console.log("... $ getListItems : config : ", config );
 
 		return this.$axios.$get(`${collection}/infos/list`, config )
 			.then(response => {
-				console.log(`... getListItems : response : `, response);
+				console.log(`... $ getListItems : response : `, response);
 				commit(`${collection}/set_list`, response);
 				return response
 			})
 			.catch(error => {
-				console.log("... getListItems / error : ", error ) ; 
+				console.log("... $ getListItems / error : ", error ) ; 
 				return error
 			})
 	},
 
 	updateItem ({commit, state, rootState}, input ) {
-		console.log("\n... updateItem : input : ", input);
+		console.log("\n... $ updateItem : input : ", input);
 		
 		var collection 	= input.coll ;
 		var doc_id 		= input.doc_id ; 
@@ -644,24 +645,24 @@ export const actions = {
 			headers : { 'Authorization' : rootState.auth.access_token },
 			// params	: parameters
 		} ;
-		console.log("... updateItem : config : ", config );
+		console.log("... $ updateItem : config : ", config );
 
 		// API CALL
 		return this.$axios.$put(`${collection}/edit/${doc_id}`, fields, config )
 			.then(response => {
-				console.log(`... updateItem : response : `, response);
+				console.log(`... $ updateItem : response : `, response);
 				// commit(`${collection}/set_list`, response);
 				return response
 			})
 			.catch(error => {
-				console.log("... updateItem / error : ", error ) ; 
+				console.log("... $ updateItem / error : ", error ) ; 
 				return error
 			})
 
 	},
 
 	deleteItem ({commit, state, rootState}, input ) {
-		console.log("\n... deleteItem : input : ", input);
+		console.log("\n... $ deleteItem : input : ", input);
 		
 		var collection 	= input.coll ;
 		var doc_id 		= input.doc_id ; 
@@ -671,17 +672,18 @@ export const actions = {
 			// params	: parameters
 		} ;
 
-		console.log("... deleteItem : config : ", config );
+		console.log("... $ deleteItem : config : ", config );
 
+		
 		return this.$axios.$delete(`${collection}/edit/${doc_id}`, config )
 			.then(response => {
-				console.log(`... deleteItem : response : `, response);
+				console.log(`... $ deleteItem : response : `, response);
 				// commit(`${collection}/set_list`, response);
-				// return response
-				return this.$router.push(`/${this.coll}`)
+				return response
+				// return this.$router.push(`/${this.coll}`)
 			})
 			.catch(error => {
-				console.log("... deleteItem / error : ", error ) ; 
+				console.log("... $ deleteItem / error : ", error ) ; 
 				return error
 			})
 

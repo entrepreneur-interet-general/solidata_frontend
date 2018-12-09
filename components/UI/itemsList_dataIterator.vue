@@ -1,6 +1,6 @@
 <template>
 
-	<div>
+	<v-card color="grey lighten-3 elevation-0 mt-2 mx-5 px-3">
 
 		<!-- <div> items_coll : {{ items_coll }}</div> -->
 		<!-- <br> -->
@@ -8,76 +8,75 @@
 
 		<v-container 
 			fluid grid-list-md
-			pt-5
+			pt-4
 			>
-
 
 			<!-- SEARCH CARD -->
 			<v-layout 
+				row
 				wrap
 				class="mb-1 pt-0"
+				align-center
 				>
 	 		
 				<v-flex 
-					xs12 sm10 offset-sm1 md8 offset-md2
+					xs10 sm8 md6 lg6
 					>
-
-					<!-- <v-toolbar 
-						dark
-						color="primary"
-						> -->
-						
-    					<!-- <v-toolbar-title>
-							{{ $t(`global.search`, $store.state.locale) + ' - ' + $t(`${tab}.name`, $store.state.locale) }}
-						</v-toolbar-title> -->
 	
-						<!-- - itemsTitlesList : {{ itemsTitlesList }} -->
-						<!-- - coll : {{ coll }} -->
-						<!-- - tab : {{ tab }} -->
+					<!-- - itemsTitlesList : {{ itemsTitlesList }} -->
+					<!-- - coll : {{ coll }} -->
+					<!-- - tab : {{ tab }} -->
 
-						<!-- AUTOCOMPLETE COMPONENT -->
-						<v-card
-							color="white"
-							height=""
+					<!-- AUTOCOMPLETE COMPONENT -->
+					<v-card
+						class="elevation-0"
+						color="white"
+						height=""
+						>
+
+						<v-card-text
+							class="py-1 "
 							>
-							<v-card-text
-								class="py-1 "
+
+							<v-autocomplete
+								v-model="searchString"
+								:items="itemsTitlesList"
+								:label="$t(`global.search`, $store.state.locale) + ' - ' + $t(`${tab}.name`, $store.state.locale)"
+								persistent-hint
+								prepend-icon="search"
+								class="ma-0"
+								flat
+								solo
+								clearable
+								hide-no-data
+								hide-details
 								>
-								<v-autocomplete
-									v-model="searchString"
-									:items="itemsTitlesList"
-									:label="$t(`global.search`, $store.state.locale) + ' - ' + $t(`${tab}.name`, $store.state.locale)"
-									persistent-hint
-									prepend-icon="search"
-									class="ma-0"
-									flat
-									solo
-									clearable
-									hide-no-data
-									hide-details
-									>
 
-									<!-- <v-slide-x-reverse-transition
-										slot="append-outer"
-										mode="out-in"
-										>
-										<v-icon
-											:color="isEditing ? 'success' : 'info'"
-											:key="`icon-${isEditing}`"
-											@click="isEditing = !isEditing"
-											v-text="isEditing ? 'mdi-check-outline' : 'mdi-circle-edit-outline'"
-										>
-										</v-icon>
-									</v-slide-x-reverse-transition> -->
+							</v-autocomplete>
+						</v-card-text>
+					</v-card>
 
-								</v-autocomplete>
-							</v-card-text>
-						</v-card>
-
-					<!-- </v-toolbar> -->
 				</v-flex>
 
-			
+				<v-flex
+					xs2  sm4  md4 offset-md2  lg3 offset-lg3
+					text-xs-center
+					>
+
+					<BtnCreate
+						:is_icon="false"
+						:tab="tab"
+						:color="''"
+						:btn_class="'primary'"
+						:is_block="true"
+						:outline="false"
+						:large="true"
+						:flat="true"
+						>
+					</BtnCreate>
+
+				</v-flex>
+
 			</v-layout>
 
 
@@ -116,11 +115,18 @@
 
 
 				<!-- data iterator cards -->
+				<!-- <v-hover>
+					<v-card
+					slot-scope="{ hover }"
+					class="mx-auto"
+					:class="`elevation-${hover ? 12 : 2}`"
+					width="344"
+					> -->
 				<v-flex
 					slot="item"
 					slot-scope="props"
 					:class="cardSizes"
-					mb-2
+					mb-4
 					>
 
 					<CardPreviewDense 
@@ -200,14 +206,14 @@
 
 		</v-container>
 
-
-
-	</div>
+	</v-card>
 
 </template>
 
 
 <script>
+
+import BtnCreate from '~/components/UI/btnCreate.vue'
 
 // import SectionTitle from '~/components/UI/sectionTitle.vue'
 // import CardPreview from '~/components/UI/cardPreview.vue'
@@ -218,19 +224,22 @@ import CardPreviewDense from '~/components/UI/cardPreview_dense.vue'
 export default {
 
 	props : [ 
+
 		"items_coll", 
 		"tab", 
 		"coll",
-		"defaultHeightAdd", 
-		"defaultHeight", 
+
+		// "defaultHeightAdd", 
+		// "defaultHeight", 
 		
-		"defaultFlex", 
+		// "defaultFlex", 
 	],
 
 	components : {
 		// SectionTitle,
 		// CardPreview,
 		CardPreviewDense,
+		BtnCreate,
 		// CardCreate
 	},
 	

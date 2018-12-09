@@ -65,8 +65,8 @@
 
 					<img 
 						class="mb-4"
-						src="@/assets/images/logo_solidata_6d.png" 
-						height="90px"
+						src="@/assets/images/logo_solidata_7c.png" 
+						height="110px"
 						>
 						<div class="fill-height bottom-gradient"></div>
 					</img> 
@@ -91,6 +91,7 @@
 								<v-flex xs6 px-2 
 									v-if="!$store.state.auth.isLogged"
 									v-for="btn in btns_not_connected"
+									:key="btn.text"
 									>
 									<v-btn 
 										round 
@@ -148,6 +149,7 @@
 								<v-flex xs6 px-2 
 									v-if="$store.state.auth.isLogged"
 									v-for="btn in btns_connected"
+									:key="btn.text"
 									>
 									<v-btn 
 										round 

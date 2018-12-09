@@ -64,7 +64,8 @@
 			
 			<v-spacer></v-spacer>
 			<v-btn 
-				color="accent"
+				flat
+				class="accent"
 				block
 				type="submit" 
 				form="register-form"

@@ -109,8 +109,9 @@
 					class="xs4 offset-xs2" >
 
 					<v-btn 
+						flat
 						block
-						color="accent"
+						class="accent"
 						type="submit" 
 						form="login-form"
 						:loading="loading" 

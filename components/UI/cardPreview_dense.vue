@@ -1,20 +1,30 @@
 <template>
 
+	<!-- <v-hover> -->
 	<v-card
 		:to="$store.state.mainIcons[tab]['to'] + '/' + item._id"
-		height="100%"
+		:height="height_card"
+		class="elevation-2"
+		mb-3
 		>
 
-		<v-card 
+		<v-card-media 
+			:height="height_card_content"
 			flat 
-			:height="h_percent"
 			>
+			<!-- :height="h_percent" -->
+			<!--  -->
+
+
 
 			<v-layout 
+				:class="padding_y"
 				row 
 				spacer 
-				:class="padding_y"
+				mb-0
 				>
+
+
 
 				<v-flex sm3 md2 hidden-xs-only text-xs-center ml-3>
 					<v-avatar size="30" color="grey">
@@ -23,6 +33,8 @@
 						</v-icon>
 					</v-avatar>
 				</v-flex>
+
+
 
 				<v-flex sm9 md10 px-3>
 
@@ -33,13 +45,14 @@
 					</h4>
 
 					<div
-						v-if="!not_main_colls.includes(coll)">
+						v-if="!not_main_colls.includes(coll)"
+						class="pt-2 caption"
+						>
 						{{ item.infos.description }} 
 					</div>
 
 
 					<!-- <v-divider></v-divider> -->
-
 
 					<!-- <v-list no-line dense> -->
 
@@ -124,36 +137,26 @@
 				
 				</v-flex>
 
-
 			</v-layout>
-		</v-card>
 
-		<!-- <v-layout row wrap align-center ma-0>
-			<v-flex xs12 class="secondary" px-1>
-				<v-card-text 
-					class="white--text py-0 text-lowercase px-0 text-xs-center"
-					>
-					{{ $t(`global.see_this`, $store.state.locale) }}
-					{{ $t( tab+'.singular', $store.state.locale)  }}
-				</v-card-text>
-			</v-flex>
-		</v-layout> -->
+		</v-card-media>
 
-		<v-footer
-			height="auto"
+
+		<v-card-text 
+			class="secondary py-1 white--text text-lowercase caption"
+			:height="height_footer"
 			>
-			<v-card
-				class="flex pa-0 mt-0"
-				flat
-				>
-				<v-card-text class="secondary py-2 text-xs-center white--text text-lowercase ">
-					{{ $t(`global.see_this`, $store.state.locale) }}
-					{{ $t( tab+'.singular', $store.state.locale)  }}
-				</v-card-text>
-			</v-card>
-		</v-footer>
+			<div class="text-xs-center">
+				{{ $t(`global.see_this`, $store.state.locale) }}
+				{{ $t( tab+'.singular', $store.state.locale)  }}
+			</div>
+		</v-card-text>
+
 
 	</v-card>
+
+	<!-- </v-hover> -->
+
 
 
 </template>
@@ -174,6 +177,7 @@ export default {
 		return {
 
 			not_main_colls : ['dmf', 'tag'],
+			height_footer : "20px",
 
 			parent_fields: [
 				{
@@ -201,7 +205,7 @@ export default {
 	computed : {
 
 		is_main_coll () { 
-			return (this.not_main_colls.includes(this.coll)) ? "subheading" : "title" 
+			return (this.not_main_colls.includes(this.coll)) ? "body-2" : "subheading" 
 		},
 		
 		padding_y () { 
@@ -211,6 +215,14 @@ export default {
 		h_percent () { 
 			return (this.not_main_colls.includes(this.coll)) ? "57%" : "81%" 
 		},
+
+		height_card () { 
+			return (this.not_main_colls.includes(this.coll)) ? "75px" : "150px" 
+		},
+		height_card_content () { 
+			return (this.not_main_colls.includes(this.coll)) ? "55px" : "130px" 
+		},
+
 	}
 }
 </script>

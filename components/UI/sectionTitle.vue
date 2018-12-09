@@ -57,7 +57,7 @@
 				
 
 		<!-- CREATE BTN -->
-		<v-spacer v-if="show_create"></v-spacer>
+		<!-- <v-spacer v-if="show_create"></v-spacer>
 		<BtnCreate
 			v-if="show_create"
 			:is_icon="false"
@@ -69,7 +69,7 @@
 			:large="true"
 			:flat="true"
 			>
-		</BtnCreate>
+		</BtnCreate> -->
 
 		<v-spacer v-if="!isDashboard"></v-spacer>
 
@@ -92,7 +92,7 @@
 
 
 <script>
-import BtnCreate from '~/components/UI/btnCreate.vue'
+// import BtnCreate from '~/components/UI/btnCreate.vue'
 
 export default {
 	props : [ 
@@ -107,7 +107,7 @@ export default {
 	],
 
 	components : {
-		BtnCreate,
+		// BtnCreate,
 	},
 
 	data () {

@@ -11,7 +11,7 @@
 				:class="subFieldsSize"
 				>
 				<v-btn 
-					class="pa-0 ma-0"
+					class="pa-0 ma-0 caption"
 					disabled 
 					small
 					block 

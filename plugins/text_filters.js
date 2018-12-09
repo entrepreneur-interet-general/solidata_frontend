@@ -11,6 +11,12 @@ Vue.filter('json', function(value) {
 // Vue.filter('capitalize', val => "... from plugins/json_filter.js ..." )
 
 
+Vue.filter('date_str', function(date_raw) { 
+	console.log("date_str filter / date_raw : ", date_raw) ; 
+	var clean_date = new Date(date_raw).toDateString() ;
+	console.log("date_str filter / clean_date : ", clean_date) ; 
+	return clean_date
+} )
 
 Vue.filter('truncate', function(value, length, suffix, sep=" ") { 
 
