@@ -4,11 +4,12 @@
 		grid-list-xl 
 		text-xs-center
 		pt-3
+		pa-0
 		>
 		
 		<!-- ITEM TITLE ROW -->
 		<v-layout 
-			v-if="!isPreview || is_create || is_switch"
+			v-if="!noToolbar"
 			row 
 			wrap 
 			pb-3
@@ -100,6 +101,7 @@
 											:collName="tab"
 											:parentField="parentField.parentFieldName"
 											:subField="subField"
+											:only_subfields="only_subfields"
 											:is_create="is_create"
 											:is_preview="isPreview"
 											:item_id="itemId"
@@ -131,7 +133,7 @@
 
 		<!-- ITEM CREATE BTN ROW -->
 		<v-layout 
-			v-if="is_create"
+			v-if="is_create && !only_subfields"
 			row 
 			wrap 
 			pb-5 pt-3
@@ -268,6 +270,8 @@ export default {
 		"item_doc", 			// complete item infos
 		// "is_debug",
 		"is_switch",
+		"no_toolbar",
+		"only_subfields",
 	],
 
 	components : {
@@ -297,6 +301,7 @@ export default {
 			alert		: null,
 			loading 	: false,
 			isPreview 	: this.is_preview,
+			noToolbar	: this.no_toolbar,
 
 			// coll 		: this.item_doc.specs.doc_type, 
 			tab 		: this.$store.state.collectionsNames[this.coll],

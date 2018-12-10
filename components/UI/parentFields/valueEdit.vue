@@ -7,8 +7,8 @@
 			<!--  SUBFIELD NAME  -->
 			<v-flex
 				ValEdit_subField
-				v-if="!is_preview && !no_subField"
-				:class="subFieldsSize"
+				v-if="!is_preview && !no_subField || only_subfields"
+				:class="subFields_size"
 				>
 				<v-btn 
 					class="pa-0 ma-0 caption"
@@ -30,6 +30,7 @@
 
 			<!--  SUBFIELD VALUE + BUTTON  -->
 			<v-flex
+				v-if="!only_subfields"
 				ValEdit_field
 				:class="valueBlockSize"
 				class="pa-0 ma-0"
@@ -370,7 +371,8 @@ export default {
 		"is_file",
 		"filetype",
 
-		"no_subField"
+		"no_subField",
+		"only_subfields"
 
 	],
 
@@ -439,6 +441,10 @@ export default {
 
 		checkBoxPadding () {
 			return (this.is_preview) ? this.checkBoxNoPadding : "" ;
+		},
+
+		subFields_size () {
+			return (this.only_subfields) ? "xs12" : this.subFieldsSize ;
 		},
 
 		form () {

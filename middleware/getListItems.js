@@ -10,9 +10,21 @@ export default function ({ context, store, route, redirect }) {
 	var promises_list = [] ;
 	
 	collections_list.forEach ( function (coll, index, initial_array ){
+
 		console.log("- - - coll : ", coll ) ; 
-		var temp_dispatch = store.dispatch('getListItems', coll ) ;
+
+		// create parameters vars for later request in $store
+		var parameters = store.state[coll].parameters
+		var input = {
+			coll 		: coll,
+			level		: current_level,
+			q_params	: parameters,
+		} ;
+
+		var temp_dispatch = store.dispatch('getListItems', input ) ;
+
 		promises_list.push(temp_dispatch) ;
+
 	}) ;
 	
 

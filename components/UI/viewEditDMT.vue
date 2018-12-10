@@ -38,6 +38,8 @@
 		</template>
 
 
+
+
 		<!-- COMPONENT FOR COMMON DOCS INFOS -->
 
 		<ItemDocUses
@@ -57,6 +59,9 @@
 		</itemDocInfos>
 
 		<br>
+
+
+
 
 		<!-- DMF LIBRARY -->
 		<template v-if="!no_toolbar && !is_create">
@@ -80,27 +85,36 @@
 
 				</v-flex>
 
+				<br>
+
 			</v-layout>
 
 		</template>
-			
-		<br>
 
 
 
 
-
-
-		<!-- TO DO - DMT DATA -->
-		<v-layout row wrap>
+		<!-- TO DO - DMT DATA COMPONENT -->
+		<v-layout row>
 			
 			<v-flex xs12>
 				
-				dmf_list - {{ itemDoc.datasets.dmf_list }}
+				<!-- dmf_list - {{ itemDoc.datasets.dmf_list }} -->
+
+					<!-- :listDMF="itemDoc.datasets.dmf_list" -->
+				<ViewEditListDMF
+					:listDMF="[{'oid_dmf' : '5ba664030a82860745d51fdd'}]" 
+					:is_preview="isPreview"
+					>
+					<!-- @input="" -->
+				</ViewEditListDMF>
 
 			</v-flex>
 
 		</v-layout>
+
+
+
 
 
 	</v-container>
@@ -119,6 +133,7 @@ import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
 import ItemToolbar from '~/components/UI/itemToolbar.vue'
 import ItemDocUses from '~/components/UI/itemDocUses.vue'
 import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
+import ViewEditListDMF from '~/components/UI/viewEditListDMF.vue'
 
 // import CardInfos from '~/components/UI/parentFields/cardInfos.vue'
 // import CardCreate from '~/components/UI/cardCreate.vue'
@@ -146,6 +161,7 @@ export default {
 		ItemDocUses,
 		ItemsListDI,
 		// CardInfos,
+		ViewEditListDMF,
 		ValueEdit,
 		// CardCreate,
 	},
@@ -159,7 +175,7 @@ export default {
 	},
 
 	created () {
-		console.log("\n- itemViewEdit / created ---> item_doc : ", this.item_doc ) ;
+		console.log("\n- viewEditDMT / created ---> item_doc : ", this.item_doc ) ;
 		this.itemDoc = this.item_doc ;
 		// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
 		// this.canEdit = this.checkUserAuth(this.parentFieldslist)
@@ -173,7 +189,7 @@ export default {
 
 		return {
 			
-			coll 		: "dmt",
+			// coll 		: "dmt",
 			tab			: "datamodels",
 
 			alert		: null,

@@ -187,6 +187,7 @@
 					slot="item"
 					slot-scope="props"
 					:class="cardSizes"
+					mb-4
 					>
 
 					<CardPreviewDense 

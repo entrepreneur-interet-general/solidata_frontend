@@ -66,8 +66,22 @@
 						<!-- DATA TOOLBAR -->
 						<v-toolbar class="elevation-1" color="white">
 							
-							<v-toolbar-title>
-								item data
+							<!-- title dataset -->
+							<v-toolbar-title
+								class="subheading grey--text"
+								>
+								
+								{{ itemDoc.infos.title | truncate(30, '...') }}
+								
+								<!-- edit button if not in DSI -->
+									<!-- v-if="coll!='dsi'" -->
+								<v-icon  
+									right
+									:disabled="coll=='dsi'"
+									>
+									{{ $store.state.mainIcons.edit.icon }}
+								</v-icon>
+							
 							</v-toolbar-title>
 							
 							<v-spacer></v-spacer>
@@ -148,10 +162,17 @@
 								<td class="justify-center layout px-0">
 									<v-icon
 										small
-										class="mr-2"
+										class="mr-1"
 										@click="editItem(props.item)"
 										>
 										{{ $store.state.mainIcons.edit.icon }}
+									</v-icon>
+									<v-icon
+										small
+										class="mr-1"
+										@click="editItem(props.item)"
+										>
+										{{ $store.state.mainIcons.view.icon }}
 									</v-icon>
 									<v-icon
 										small

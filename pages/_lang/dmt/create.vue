@@ -58,10 +58,13 @@ import ViewEditBasicDoc from '~/components/UI/viewEditDMF.vue'
 // import CreateItem from '~/components/Forms/createItem.vue'
 
 export default {
+
 	components : {
+
 		SectionTitle,
 		ViewEditBasicDoc
 		// CreateItem,
+		
 	},
 
 	// TO DO : middleware to check if logged and authenticated

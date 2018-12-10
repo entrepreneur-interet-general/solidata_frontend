@@ -126,6 +126,7 @@ const mainIconsConst = {
 	list				: { icon : "list" },
 	favorites			: { icon : "favorite" },
 	create				: { icon : "add" },
+	view				: { icon : "far fa-eye" },
 	edit				: { icon : "edit" },
 	upload				: { icon : "fas fa-file-upload" },
 	reset				: { icon : "fas fa-redo" },
@@ -607,24 +608,34 @@ export const actions = {
 	},
 
 
-	getListItems ({commit, state, rootState}, collection ) {
-		console.log("\n... $ getListItems : collection : ", collection);
+	getListItems ({commit, state, rootState}, input ) {
+		
+		console.log("\n... $ getListItems : input : ", input);
 		
 		// const parameters = this.$store.getters[`${collection}/get_params`]
-		const parameters = rootState[`${collection}`].parameters
-		console.log("... $ getListItems : parameters : ", parameters);
+		// const parameters = rootState[`${collection}`].parameters
 		
-		// SET UP CONFIG
+		var collection 	= input.coll ;
+		var parameters 	= input.q_params ;
+		var level 		= input.level ;
+
+		console.log("... $ getListItems : parameters : ", parameters);
+
+		// SET UP CONFIG FOR API CALL
 		const config = { 
 			headers : { 'Authorization' : rootState.auth.access_token },
 			params	: parameters
 		} ;
 		console.log("... $ getListItems : config : ", config );
 
+
+		// GET DATA 
 		return this.$axios.$get(`${collection}/infos/list`, config )
 			.then(response => {
 				console.log(`... $ getListItems : response : `, response);
-				commit(`${collection}/set_list`, response);
+				if ( level != "get_datasets") {
+					commit(`${collection}/set_list`, response);
+				}
 				return response
 			})
 			.catch(error => {
