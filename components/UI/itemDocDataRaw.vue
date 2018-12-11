@@ -7,32 +7,31 @@
 
 		<!-- is_preview - {{ is_preview }} -->
 
-		<!-- DOC INFOS + PUBLIC_AUTH -->
+		<!-- DOC DATA RAW -->
 		<v-layout row wrap >
 
 			<!-- infos - {{ item_doc.infos }} -->
 
-			<!-- DOC INFOS -->
+			<!-- DOC DATA RAW -->
 			<v-flex xs7>
 				<v-layout row wrap>
 
-					<!-- DOC TITLE -->
+					<!-- DOC DATA_RAW / TEXTS -->
 					<v-flex 
 						xs12
 						>
 						<!-- <br>- {{ itemId }} -->
-						<!-- <br>- {{ item_headers }} -->
 						<ValueEdit
 							:coll="coll"
 							:collName="collName"
-							:parentField="'infos'"
-							:subField="'title'"
+							:parentField="'data_raw'"
+							:subField="'f_code'"
 							:is_create="is_create"
 							:is_preview="is_preview"
 							:item_id="itemId"
-							:item_data="itemDoc['infos']['title']"
+							:item_data="itemDoc['data_raw']['f_code']"
 							:item_auth="itemDoc.public_auth"
-							:canEdit="checkUserAuth('infos.title')"
+							:canEdit="checkUserAuth('data_raw.f_code')"
 							:is_file="is_file"
 							:filetype="filetype"
 							:is_loading="loading"
@@ -48,14 +47,14 @@
 						<ValueEdit
 							:coll="coll"
 							:collName="collName"
-							:parentField="'infos'"
-							:subField="'description'"
+							:parentField="'f_object'"
+							:subField="'f_object'"
 							:is_create="is_create"
 							:is_preview="is_preview"
 							:item_id="itemId"
-							:item_data="itemDoc['infos']['description']"
+							:item_data="itemDoc['data_raw']['f_object']"
 							:item_auth="itemDoc.public_auth"
-							:canEdit="checkUserAuth('infos.description')"
+							:canEdit="checkUserAuth('data_raw.f_object')"
 							:is_file="is_file"
 							:filetype="filetype"
 							:is_loading="loading"
@@ -64,31 +63,30 @@
 							>
 						</ValueEdit>
 					</v-flex>
-					
+
 				</v-layout>
 			</v-flex>
 
 
-			<!-- DOC PUBLIC_AUTH + LICENCE -->
+			<!-- DOC DATA RAW / CHOICES-->
 			<v-flex xs5>
-				<v-layout row wrap >
+				<v-layout row wrap>
 
-					<!-- DOC LICENCE -->
+					<!-- DOC F_TYPE -->					
 					<v-flex 
 						xs12
-						v-if="!no_licence_docs.includes(coll)"
 						>
 						<ValueEdit
 							:coll="coll"
 							:collName="collName"
-							:parentField="'infos'"
-							:subField="'licence'"
+							:parentField="'data_raw'"
+							:subField="'f_type'"
 							:is_create="is_create"
 							:is_preview="is_preview"
 							:item_id="itemId"
-							:item_data="itemDoc['infos']['licence']"
+							:item_data="itemDoc['data_raw']['f_type']"
 							:item_auth="itemDoc.public_auth"
-							:canEdit="checkUserAuth('infos.licence')"
+							:canEdit="checkUserAuth('data_raw.f_type')"
 							:is_file="is_file"
 							:filetype="filetype"
 							:is_loading="loading"
@@ -98,20 +96,21 @@
 						</ValueEdit>
 					</v-flex>
 
-					<!-- DOC PUBLIC_AUTH / open_level_show -->
-					<v-flex xs12
+					<!-- DOC F_TYPE -->					
+					<v-flex 
+						xs12
 						>
 						<ValueEdit
 							:coll="coll"
 							:collName="collName"
-							:parentField="'public_auth'"
-							:subField="'open_level_show'"
+							:parentField="'data_raw'"
+							:subField="'f_is_required'"
 							:is_create="is_create"
 							:is_preview="is_preview"
 							:item_id="itemId"
-							:item_data="itemDoc['public_auth']['open_level_show']"
+							:item_data="itemDoc['data_raw']['f_is_required']"
 							:item_auth="itemDoc.public_auth"
-							:canEdit="checkUserAuth('public_auth.open_level_show')"
+							:canEdit="checkUserAuth('data_raw.f_is_required')"
 							:is_file="is_file"
 							:filetype="filetype"
 							:is_loading="loading"
@@ -121,157 +120,11 @@
 						</ValueEdit>
 					</v-flex>
 
-					<!-- DOC PUBLIC_AUTH / open_level_edit -->
-					<v-flex xs12
-						>
-						<ValueEdit
-							:coll="coll"
-							:collName="collName"
-							:parentField="'public_auth'"
-							:subField="'open_level_edit'"
-							:is_create="is_create"
-							:is_preview="is_preview"
-							:item_id="itemId"
-							:item_data="itemDoc['public_auth']['open_level_edit']"
-							:item_auth="itemDoc.public_auth"
-							:canEdit="checkUserAuth('public_auth.open_level_edit')"
-							:is_file="is_file"
-							:filetype="filetype"
-							:is_loading="loading"
-							:no_subField="no_subField"
-							@input="updateIsFile"
-							>
-						</ValueEdit>
-					</v-flex>
-					
 				</v-layout>
 			</v-flex>
 
-		</v-layout>
-
-
-
-		<!-- DOC TEAM -->
-		<!-- <v-layout row wrap v-show="!is_preview" align-center>
-
-			<v-flex xs4>
-				<v-card  color="primary">
-					<v-card-text class="px-0">
-						team - {{ item_doc.team }}
-					</v-card-text>
-				</v-card>
-			</v-flex> 
-
-		</v-layout> -->
-
-
-
-
-		<!-- DOC SPECS -->
-		<v-layout row wrap>
-
-			<!-- specs - {{ item_doc.specs }} -->
-
-			<!-- DOC SRC_LINK -->
-			<v-flex xs12 v-if="coll=='dsi'">
-				<ValueEdit
-					:coll="coll"
-					:collName="collName"
-					:parentField="'specs'"
-					:subField="'src_link'"
-					:is_create="is_create"
-					:is_preview="is_preview"
-					:item_id="itemId"
-					:item_data="itemDoc['specs']['src_link']"
-					:item_auth="itemDoc.public_auth"
-					:canEdit="checkUserAuth('specs.src_link')"
-					:is_file="is_file"
-					:filetype="filetype"
-					:is_loading="loading"
-					:no_subField="no_subField"
-					@input="updateIsFile"
-					>
-				</ValueEdit>
-			</v-flex>
-
-			<!-- DOC SRC_TYPE -->
-			<v-flex xs4 v-if="coll=='dsi'">
-				src_type - {{ itemDoc['specs']['src_type'] }} / 
-				filetype - {{ filetype }}
-				<ValueEdit
-					:coll="coll"
-					:collName="collName"
-					:parentField="'specs'"
-					:subField="'src_type'"
-					:is_create="is_create"
-					:is_preview="is_preview"
-					:item_id="itemId"
-					:item_data="itemDoc['specs']['src_type']"
-					:item_auth="itemDoc.public_auth"
-					:canEdit="checkUserAuth('specs.src_type')"
-					:is_file="is_file"
-					:filetype="filetype"
-					:is_loading="loading"
-					:no_subField="no_subField"
-					@input="updateIsFile"
-					>
-				</ValueEdit>
-			</v-flex>
-
-			<!-- DOC SRC_SEP -->
-			<v-flex xs4 v-if="coll=='dsi'">
-				src_sep - {{ itemDoc['specs']['src_sep'] }}
-				<ValueEdit
-					:coll="coll"
-					:collName="collName"
-					:parentField="'specs'"
-					:subField="'src_sep'"
-					:is_create="is_create"
-					:is_preview="is_preview"
-					:item_id="itemId"
-					:item_data="itemDoc['specs']['src_sep']"
-					:item_auth="itemDoc.public_auth"
-					:canEdit="checkUserAuth('specs.src_sep')"
-					:is_file="is_file"
-					:filetype="filetype"
-					:is_loading="loading"
-					:no_subField="no_subField"
-					@input="updateIsFile"
-					>
-				</ValueEdit>
-			</v-flex>
-
-			<!-- DOC SRC_PARSER -->
-			<v-flex xs4 v-if="coll=='dsi'">
-				<ValueEdit
-					:coll="coll"
-					:collName="collName"
-					:parentField="'specs'"
-					:subField="'src_parser'"
-					:is_create="is_create"
-					:is_preview="is_preview"
-					:item_id="itemId"
-					:item_data="itemDoc['specs']['src_parser']"
-					:item_auth="itemDoc.public_auth"
-					:canEdit="checkUserAuth('specs.src_parser')"
-					:is_file="is_file"
-					:filetype="filetype"
-					:is_loading="loading"
-					:no_subField="no_subField"
-					@input="updateIsFile"
-					>
-				</ValueEdit>
-			</v-flex>
 
 		</v-layout>
-
-
-
-
-
-
-
-
 
 	</v-card>
 	

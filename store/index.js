@@ -135,6 +135,10 @@ const mainIconsConst = {
 	cancel				: { icon : "cancel" },
 	export				: { icon : "get_app" },
 
+	infos				: { icon : "info" },
+	data				: { icon : "data_usage" },
+	add_to_parent		: { icon : "library_add" },
+
 	// parentField icons 
 	parentFieldIcons : {
 		infos				: { icon : "info" },
@@ -142,7 +146,7 @@ const mainIconsConst = {
 		specs				: { icon : "details" },
 		log					: { icon : "history" },
 		modif_log			: { icon : "history" },
-		uses				: { icon : "star_rate" },
+		uses				: { icon : "fas fa-tachometer-alt" },
 		datasets			: { icon : "fas fa-puzzle-piece" },
 		translations		: { icon : "translate" },
 		team				: { icon : "supervisor_account" },

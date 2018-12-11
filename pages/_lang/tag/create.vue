@@ -51,7 +51,7 @@
 
 <script>
 import SectionTitle from '~/components/UI/sectionTitle.vue'
-import ViewEditDoc from '~/components/UI/viewEditDMF.vue' 
+import ViewEditDoc from '~/components/UI/viewEditDoc.vue' 
 
 import CreateItem from '~/components/Forms/createItem.vue'
 

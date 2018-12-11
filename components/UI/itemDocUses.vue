@@ -2,7 +2,8 @@
 
 	<v-card 
 		v-show="!is_preview"
-		color="grey lighten-3 elevation-0 mt-3 mx-5 pa-1"
+		class="grey lighten-3 elevation-0 mt-1 pa-4 "
+		
 		>
 
 		<!-- is_preview - {{ is_preview }} -->
@@ -11,7 +12,6 @@
 		<v-layout 
 			row 
 			wrap 
-			pt-2 pb-4 
 			align-center 
 			text-xs-center
 			>

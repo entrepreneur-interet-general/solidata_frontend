@@ -32,18 +32,18 @@
 	"parentFields" : {
 		"infos"			: "Infos",
 		"public_auth"	: "Public auth",
-		"specs"			: "Specifications",
-		"log"			: "Log",
+		"specs"			: "Spécifications",
+		"log"			: "Historique",
 		"modif_log"		: "Mofifications",
-		"uses"			: "Uses",
-		"datasets"		: "Datasets",
-		"translations"	: "Translations",
-		"team"			: "Team",
+		"uses"			: "Utilisations",
+		"datasets"		: "Jeux de données",
+		"translations"	: "Traductions",
+		"team"			: "Equipe",
 		"mapping"		: "Mapping",
-		"data_raw"		: "Data raw",
-		"profile"		: "Profile",
-		"professionnal_infos"	: "Professional infos",
-		"auth"			: "Authorizations"
+		"data_raw"		: "Donnée brute",
+		"profile"		: "Profil",
+		"professionnal_infos"	: "Informations professionnelles",
+		"auth"			: "Autorisations"
 	},
 	
 	"openlevel" : {
@@ -100,6 +100,7 @@
 
 		"see_this"		: "Voir",
 
+		"item_infos"	: "Informations",
 		"item_edit"		: "Editer item",
 		"item_new"		: "Nouvel item",
 		"item_del"		: "Supprimer item",
@@ -164,7 +165,7 @@
 
 	"home": {
 		"title"				: "Solidata FR",
-		"subtitle"			: "Nettoyer, transformer, enrichir et partager vos données",
+		"subtitle"			: "Agréger, enrichir <br> et partager vos <strong><em>données</em></strong>",
 		"tagline"			: "Définissez un modèle de données, consolidez vos données à plusieurs et exportez vos résultats",
 		
 		"startbtn"  		: "Commencer !",
@@ -265,7 +266,10 @@
 		"f_type" 		: "Type du champ" ,
 		"f_comments" 	: "Commentaires sur le champ" ,
 		"f_is_required"	: "Champ requis" ,
-		"resume"		: "Résumé"
+		"resume"		: "Résumé",
+
+		"manage_dmf"	: "Ajouter un champ de modèle de donnée"
+
 	},
 	
 	"datamodel_fields" : {

@@ -2,9 +2,8 @@
 
 	<v-container 
 		grid-list-sm 
-		pt-3 pb-5
 		fluid
-		px-5
+		pa-3
 		>
 		
 		<!-- DSI TOOLBAR -->
@@ -13,7 +12,7 @@
 				v-if="!isPreview || is_create || is_switch"
 				row 
 				wrap 
-				pb-1
+				mb-3
 				>
 
 				<v-flex xs12>
@@ -36,25 +35,40 @@
 
 
 
-		<!-- COMPONENT FOR COMMON DOCS INFOS -->
-
-		<ItemDocUses
-			:coll="coll"
-			:is_create="is_create"
-			:is_preview="isPreview"
-			:item_doc="itemDoc"
+		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
+		<v-expansion-panel
+			v-show="!isPreview"
+			v-model="panel_infos"
+			expand
+			class="elevation-0"
 			>
-		</itemDocUses>
 
-		<ItemDocInfos
-			:coll="coll"
-			:is_create="is_create"
-			:is_preview="isPreview"
-			:item_doc="itemDoc"
-			>
-		</itemDocInfos>
+			<v-expansion-panel-content>
 
-		<br>
+				<div 
+					slot="header"
+					>
+					<v-icon small class="mr-3">
+						{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
+					</v-icon>
+					<span>
+						{{ $t(`parentFields.infos`, $store.state.locale) }}
+					</span>
+				</div>
+
+				<ItemDocInfos
+					:coll="coll"
+					:is_create="is_create"
+					:is_preview="isPreview"
+					:item_doc="itemDoc"
+					>
+				</itemDocInfos>
+
+			</v-expansion-panel-content>
+		</v-expansion-panel>
+
+
+
 
 		<!-- DSI DATA -->
 		<v-layout row wrap>
@@ -77,7 +91,7 @@
 									<!-- v-if="coll!='dsi'" -->
 								<v-icon  
 									right
-									:disabled="coll=='dsi'"
+									:disabled="!isPreview"
 									>
 									{{ $store.state.mainIcons.edit.icon }}
 								</v-icon>
@@ -157,6 +171,7 @@
 							:loading="loading"
 							class="elevation-1"
 							>
+							<v-progress-linear slot="progress" color="accent" indeterminate></v-progress-linear>
 							<template slot="items" slot-scope="props">
 
 								<td class="justify-center layout px-0">
@@ -200,6 +215,37 @@
 
 
 
+		<!-- COMPONENTS FOR COMMON DOCS USES -->		
+		<v-expansion-panel
+			v-show="!isPreview"
+			v-model="panel_uses"
+			expand
+			class="elevation-0"
+			>
+
+			<v-expansion-panel-content>
+
+				<div 
+					slot="header"
+					>
+					<v-icon small class="mr-3">
+						{{ $store.state.mainIcons.parentFieldIcons.uses.icon }}
+					</v-icon>
+					<span>
+						{{ $t(`parentFields.uses`, $store.state.locale) }}
+					</span>
+				</div>
+
+				<ItemDocUses
+					:coll="coll"
+					:is_create="is_create"
+					:is_preview="isPreview"
+					:item_doc="itemDoc"
+					>
+				</itemDocUses>
+
+			</v-expansion-panel-content>
+		</v-expansion-panel>
 
 
 
@@ -321,6 +367,8 @@ export default {
 			isPreview 	: this.is_preview,
 			no_subField : true,
 
+			panel_uses	: [false],
+			panel_infos	: [false],
 			
 			collName 	: this.$store.state.collectionsNames[this.coll],
 

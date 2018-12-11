@@ -73,12 +73,16 @@
 
 					
 
-					<h4 class="display-3 font-weight-thin pb-2 white--text">
-						{{ $t('home.subtitle', $store.state.locale) }}
+					<h4 
+						class="display-3 font-weight-thin pb-2 white--text"
+						v-html="$t('home.subtitle', $store.state.locale)"
+						>
 					</h4>
 
-					<span class="title font-weight-light white--text">
-						{{ $t('home.tagline', $store.state.locale) }}
+					<span 
+						class="title font-weight-light white--text"
+						v-html="$t('home.tagline', $store.state.locale)"
+						>
 					</span>
 
 

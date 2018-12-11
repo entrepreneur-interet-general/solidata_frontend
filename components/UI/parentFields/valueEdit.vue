@@ -420,7 +420,7 @@ export default {
 
 			valueFullSize 	: "xs12 ma-0 pa-0",
 			valuePartSize 	: "xs12 sm9 ma-0 pa-2",
-			subFieldsSize 	: "xs12 sm3 ma-0 pa-2",
+			subFieldsSize 	: "xs12 sm3 ma-0 pa-0",
 
 			checkBoxNoPadding 	: " mt-0 pl-2",
 
@@ -444,7 +444,7 @@ export default {
 		},
 
 		subFields_size () {
-			return (this.only_subfields) ? "xs12" : this.subFieldsSize ;
+			return (this.only_subfields) ? this.valueFullSize : this.subFieldsSize ;
 		},
 
 		form () {

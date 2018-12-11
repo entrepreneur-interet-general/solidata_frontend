@@ -5,7 +5,7 @@
 		pa-3
 		fluid
 		>
-
+		
 		<!-- ITEM TITLE ROW -->
 		<v-layout 
 			v-if="!noToolbar"
@@ -32,117 +32,164 @@
 
 
 
-		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
-		<v-flex d-flex :class="flex_vars">
+		<!-- ITEM VALUES ROW -->
+		<v-layout 
+			row wrap
 
-			<v-expansion-panel
-				v-show="!isPreview"
-				v-model="panel_infos"
-				expand
-				class="elevation-0"
+			>
+
+			<v-flex 
+				v-for="parentField in parentFieldslist"
+				:key="parentFieldslist.indexOf(parentField)"
+				ParentField_1
+				d-flex 
+				:class="flex_vars + parentPadding" 
 				>
 
-				<v-expansion-panel-content>
-
-					<div 
-						slot="header"
+				<!-- parentFieldName -->
+				<v-flex 
+					ParentField_2
+					v-if="!isPreview"
+					:class="parentFieldsSize"
+					d-flex 
+					>
+					<v-card 
+						color="grey" 
+						flat
+						dark
 						>
-						<v-icon small class="mr-3">
-							{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
-						</v-icon>
-						<span>
-							{{ $t(`parentFields.infos`, $store.state.locale) }}
-						</span>
-					</div>
+						<v-card-text>
 
-					<ItemDocInfos
-						:coll="coll"
-						:is_create="is_create"
-						:is_preview="isPreview"
-						:item_doc="itemDoc"
-						>
-					</itemDocInfos>
+							<v-icon small>
+								{{ $store.state.mainIcons.parentFieldIcons[parentField.parentFieldName].icon }}
+							</v-icon>
+							<v-spacer></v-spacer>
+							<span>
+								{{ $t(`parentFields.`+parentField.parentFieldName, $store.state.locale) }}
+								<!-- <br> - is_file :  {{ is_file }} -->
+								<!-- <br> - loading :  {{ loading }} -->
+							</span>
 
-				</v-expansion-panel-content>
-			</v-expansion-panel>
-
-		</v-flex>
+						</v-card-text>
+					</v-card>
+				</v-flex>
 
 
+				<!-- subFields names and values-->
+				<v-flex 
+					SubField_1
+					d-flex 
+					:class="valueSwitch"
+					>
 
-		<!-- COMPONENTS FOR DOCS DATA_RAW -->		
-		<v-flex d-flex :class="flex_vars">
+					<v-layout row wrap>
+						<v-flex d-flex>
+							<v-layout row wrap>
+								
+								<v-flex 
+									SubField_2
+									v-for="subField in parentField.subFields"
+									:key="parentField.subFields.indexOf(subField)"
+									d-flex
+									:class="blockFullSize + valuePadding"
+									>
 
-			<v-expansion-panel
-				v-show="!isPreview"
-				v-model="panel_data_raw"
-				expand
-				class="elevation-0"
+									<v-card flat> 
+
+										<ValueEdit
+											:coll="coll"
+											:collName="tab"
+											:parentField="parentField.parentFieldName"
+											:subField="subField"
+											:only_subfields="only_subfields"
+											:is_create="is_create"
+											:is_preview="isPreview"
+											:item_id="itemId"
+											:item_data="itemDoc[parentField.parentFieldName][subField]"
+											:item_auth="itemDoc.public_auth"
+											:canEdit="checkUserAuth(parentField.parentFieldName+'.'+subField)"
+											:is_file="is_file"
+											:filetype="filetype"
+											:is_loading="loading"
+											@input="updateIsFile"
+											>
+										</ValueEdit>
+
+									</v-card>
+
+								</v-flex>
+
+							</v-layout>
+						</v-flex>
+					</v-layout>
+				</v-flex>
+
+			</v-flex>
+
+
+		</v-layout>
+
+
+
+		<!-- ITEM CREATE BTN ROW -->
+		<v-layout 
+			v-if="is_create && !only_subfields"
+			row 
+			wrap 
+			pb-5 pt-3
+			>
+
+			<v-flex 
+				d-flex 
+				:class="flex_vars"
 				>
 				
-				<v-expansion-panel-content>
+				<!--
+				<v-btn 
+					 
+					dark 
+					large
+					flat
 
-					<div 
-						slot="header"
-						>
-						<v-icon small class="mr-3">
-							{{ $store.state.mainIcons.parentFieldIcons.data_raw.icon }}  
-						</v-icon>
-						<span>
-							{{ $t(`parentFields.data_raw`, $store.state.locale) }}
-						</span>
-					</div>
+					class=" accent"
+					color=""
+					:loading="loading" 
+					@click="createItem()"
+					>
 
-					<ItemDocDataRaw
-						:coll="coll"
-						:is_create="is_create"
-						:is_preview="isPreview"
-						:item_doc="itemDoc"
-						>
-					</itemDocDataRaw>
+					<v-icon left large>
+						{{ $store.state.mainIcons.create.icon }}
+					</v-icon>
 
-				</v-expansion-panel-content>
-			</v-expansion-panel>
+					<span class="subheading">
+						{{ $t(tab+`.create`, $store.state.locale) }}
+					</span>
 
-		</v-flex>
+				</v-btn> -->
+
+				<!-- CREATE BTN -->
+				<BtnCreate
+					:is_icon="false"
+					:tab="tab"
+					:color="'white'"
+					:btn_class="'accent'"
+					:is_block="false"
+					:outline="false"
+					:large="true"
+					:flat="true"
+					:is_calling="true"
+					@input="createItem()"
+					>
+				</BtnCreate>
 
 
-		<!-- COMPONENTS FOR COMMON DOCS USES -->		
-		<v-flex d-flex :class="flex_vars">
+			</v-flex>
 
-			<v-expansion-panel
-				v-show="!isPreview"
-				class="elevation-0"
-				expand
-				>
+		</v-layout>
 
-				<v-expansion-panel-content>
 
-					<div 
-						slot="header"
-						>
-						<v-icon small class="mr-3">
-							{{ $store.state.mainIcons.parentFieldIcons.uses.icon }}
-						</v-icon>
-						<span>
-							{{ $t(`parentFields.uses`, $store.state.locale) }}
-						</span>
-					</div>
 
-					<ItemDocUses
-						:coll="coll"
-						:is_create="is_create"
-						:is_preview="isPreview"
-						:item_doc="itemDoc"
-						>
-					</itemDocUses>
 
-				</v-expansion-panel-content>
-			</v-expansion-panel>
-
-		</v-flex>
-
-		
 		<!-- DEBUG  -->
 		<v-layout 
 			v-if="$store.state.is_debug"
@@ -205,14 +252,11 @@ import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
 
 // import SectionTitle from '~/components/UI/sectionTitle.vue'
 import ItemToolbar from '~/components/UI/itemToolbar.vue'
-import ItemDocUses from '~/components/UI/itemDocUses.vue'
-import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
-import ItemDocDataRaw from '~/components/UI/itemDocDataRaw.vue'
 
 // import CardInfos from '~/components/UI/parentFields/cardInfos.vue'
-// import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
+import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
 // import CardCreate from '~/components/UI/cardCreate.vue'
-// import BtnCreate from '~/components/UI/btnCreate.vue'
+import BtnCreate from '~/components/UI/btnCreate.vue'
 
 
 export default {
@@ -221,30 +265,26 @@ export default {
 		"flex_vars",			// 
 		"is_create",			// view | create
 		"is_preview",			// 
-		// "parentFieldslist",		// 
+		"parentFieldslist",		// 
 		"coll",
 		"item_doc", 			// complete item infos
 		// "is_debug",
 		"is_switch",
 		"no_toolbar",
-		// "only_subfields",
+		"only_subfields",
 	],
 
 	components : {
 		// SectionTitle,
 		ItemToolbar,
-		ItemDocInfos,
-		ItemDocUses,
-		ItemDocDataRaw,
-
 		// CardInfos,
-		// ValueEdit,
-		// // CardCreate,
-		// BtnCreate,
+		ValueEdit,
+		// CardCreate,
+		BtnCreate,
 	},
 	
 	created () {
-		console.log("\n- viewEditDMF / created ---> item_doc : ", this.item_doc ) ;
+		console.log("\n- viewEditDoc / created ---> item_doc : ", this.item_doc ) ;
 		this.itemDoc = this.item_doc ;
 		// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
 		// this.canEdit = this.checkUserAuth(this.parentFieldslist)
@@ -260,10 +300,6 @@ export default {
 			
 			alert		: null,
 			loading 	: false,
-			
-			panel_infos		: [true],
-			panel_data_raw	: [true],
-
 			isPreview 	: this.is_preview,
 			noToolbar	: this.no_toolbar,
 
@@ -282,7 +318,7 @@ export default {
 			blockSwitchSize 	: "md6 offset-md3",
 
 			parentFieldsSize 	: "xs2 ma-0 pa-0",
-			parentBotPadding	: " pb-0 pt-1",
+			parentBotPadding	: " pb-0 pt-2",
 			parentNoBotPadding	: " py-0",
 
 			valueNoPadding 		: " ma-0 pa-0",

@@ -102,6 +102,7 @@
 
 		"see_this"		: "See",
 
+		"item_infos"	: "Informations",
 		"item_edit"		: "Edit item",
 		"item_new"		: "New item",
 		"item_del"		: "Delete item",
@@ -166,7 +167,7 @@
 
 	"home": {
 		"title"				: "Solidata EN",
-		"subtitle"			: "Clean, transform, enrich and share your data",
+		"subtitle"			: "Aggregate, enrich <br> and share your <strong><em>data</em></strong>",
 		"tagline"			: "Define a datamodel, consolidate your data with your team and export your results",
 		
 		"startbtn"  		: "Get started",
@@ -268,7 +269,9 @@
 		"f_type" 		: "Field type" ,
 		"f_comments" 	: "Field comments" ,
 		"f_is_required"	: "Field is required" ,
-		"resume" 		: "Resume"
+		"resume" 		: "Resume",
+
+		"manage_dmf"	: "Add a datamodel field"
 	},
 
 	"datamodel_fields" : {

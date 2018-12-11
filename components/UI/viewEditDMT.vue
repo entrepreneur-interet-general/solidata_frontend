@@ -2,9 +2,8 @@
 
 	<v-container 
 		grid-list-sm 
-		pt-3 pb-5
+		pa-3
 		fluid
-		px-5
 		>
 		
 
@@ -15,7 +14,7 @@
 				v-if="!isPreview || is_create || is_switch"
 				row 
 				wrap 
-				pb-1
+				mb-3
 				>
 
 				<v-flex xs12>
@@ -40,56 +39,88 @@
 
 
 
-		<!-- COMPONENT FOR COMMON DOCS INFOS -->
 
-		<ItemDocUses
-			:coll="coll"
-			:is_create="is_create"
-			:is_preview="isPreview"
-			:item_doc="itemDoc"
+
+
+
+		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
+		<v-expansion-panel
+			v-show="!isPreview"
+			v-model="panel_infos"
+			expand
+			class="elevation-0"
 			>
-		</itemDocUses>
 
-		<ItemDocInfos
-			:coll="coll"
-			:is_create="is_create"
-			:is_preview="isPreview"
-			:item_doc="itemDoc"
-			>
-		</itemDocInfos>
+			<v-expansion-panel-content>
 
-		<br>
+				<div 
+					class="pb-0 mb-0"
+					slot="header"
+					>
+					<v-icon small class="mr-3">
+						{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
+					</v-icon>
+					<span>
+						{{ $t(`parentFields.infos`, $store.state.locale) }}
+					</span>
+				</div>
 
+				<ItemDocInfos
+					:coll="coll"
+					:is_create="is_create"
+					:is_preview="isPreview"
+					:item_doc="itemDoc"
+					>
+				</itemDocInfos>
 
+			</v-expansion-panel-content>
+		</v-expansion-panel>
 
 
 		<!-- DMF LIBRARY -->
-		<template v-if="!no_toolbar && !is_create">
+		<!-- <v-layout 
+			v-if="!no_toolbar && !is_create && !isPreview"
+			row 
+			wrap 
+			> -->
 
-			<v-layout 
-				v-show="!isPreview"
-				row 
-				wrap 
-				pb-1
-				>
+		<v-expansion-panel
+			v-show="!isPreview"
+			v-model="panel_lib"
+			expand
+			class="elevation-0"
+			>
+			<v-expansion-panel-content >
 
-				<!-- DMF LIST -->
-				<v-flex xs12>
-					
-					<ItemsListDI
-						:tab="'datamodel_fields'"
-						:coll="'dmf'"
-						:items_coll="$store.state.dmf.list"
-						>
-					</ItemsListDI>
+				<div 
+					class="accent--text"
+					slot="header"
+					>
+					<v-icon small class="mr-3">
+						{{ $store.state.mainIcons.add_to_parent.icon }}  
+					</v-icon>
+					<span>
+						{{ $t(`datamodels.manage_dmf`, $store.state.locale) }}
+					</span>
+				</div>
 
-				</v-flex>
+				<ItemsListDI
+					:tab="'datamodel_fields'"
+					:coll="'dmf'"
+					:items_coll="$store.state.dmf.list"
+					:no_margin="true"
+					:add_to_parent="true"
+					>
+				</ItemsListDI>
 
-				<br>
+			</v-expansion-panel-content>
+		</v-expansion-panel>
 
-			</v-layout>
 
-		</template>
+			<!-- </v-flex>
+
+		</v-layout> -->
+
 
 
 
@@ -103,7 +134,10 @@
 
 					<!-- :listDMF="itemDoc.datasets.dmf_list" -->
 				<ViewEditListDMF
-					:listDMF="[{'oid_dmf' : '5ba664030a82860745d51fdd'}]" 
+					:listDMF="[
+						{'oid_dmf' : '5ba664030a82860745d51fdd'},
+						{'oid_dmf' : '5bf4183f0a8286180b53183c'}
+					]" 
 					:is_preview="isPreview"
 					>
 					<!-- @input="" -->
@@ -115,6 +149,38 @@
 
 
 
+
+		<!-- COMPONENTS FOR COMMON DOCS USES -->		
+		<v-expansion-panel
+			v-show="!isPreview"
+			v-model="panel_uses"
+			expand
+			class="elevation-0"
+			>
+
+			<v-expansion-panel-content>
+
+				<div 
+					slot="header"
+					>
+					<v-icon small class="mr-3">
+						{{ $store.state.mainIcons.parentFieldIcons.uses.icon }}
+					</v-icon>
+					<span>
+						{{ $t(`parentFields.uses`, $store.state.locale) }}
+					</span>
+				</div>
+
+				<ItemDocUses
+					:coll="coll"
+					:is_create="is_create"
+					:is_preview="isPreview"
+					:item_doc="itemDoc"
+					>
+				</itemDocUses>
+
+			</v-expansion-panel-content>
+		</v-expansion-panel>
 
 
 	</v-container>
@@ -196,7 +262,10 @@ export default {
 			isPreview 	: this.is_preview,
 			no_subField : true,
 
-			
+			panel_uses	: [false],
+			panel_infos	: [false],
+			panel_lib	: [false],
+
 			collName 	: this.$store.state.collectionsNames[this.coll],
 
 			itemId 			: this.item_doc._id, 

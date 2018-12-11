@@ -1,6 +1,8 @@
 <template>
 
-	<v-card color="grey lighten-3 elevation-0 mt-2 mx-5 px-3">
+	<v-card 
+		:class="classMainCard"
+		>
 
 		<!-- <div> items_coll : {{ items_coll }}</div> -->
 		<!-- <br> -->
@@ -230,11 +232,15 @@ export default {
 		"tab", 
 		"coll",
 
+		"no_margin",
+		"add_to_parent",
+
 		// "defaultHeightAdd", 
 		// "defaultHeight", 
 		
 		// "defaultFlex", 
 	],
+	
 
 	components : {
 		// SectionTitle,
@@ -255,6 +261,10 @@ export default {
 			// ITEMS 
 			itemsIn 	: this.items_coll['docs_user_is_in_team'],
 			itemsNot 	: this.items_coll['docs_user_not_in_team'],
+
+			// MAIN CARD SIZE 
+			with_margin 	: "grey lighten-3 elevation-0 mt-2 mx-5 px-3",
+			with_no_margin 	: "grey lighten-3 elevation-0 mt-2 mx-0 px-3",
 
 			// CARDS SIZES
 			// cardSizes : "xs12 sm6 md4 l4",
@@ -296,6 +306,12 @@ export default {
 				return titlesList
 
 			},
+
+			classMainCard () {
+				return (this.no_margin) ? this.with_no_margin : this.with_margin ;
+			},
+
+
 
 	},
 

@@ -35,15 +35,23 @@
 			>
 		</ViewEditBasicDoc> -->
 
-		<ViewEditDSI
-			:flex_vars="'xs8 offset-xs2'"
-			:is_create="false"
-			:is_preview="true"
-			:coll="coll"
-			:item_doc="$store.state[coll].current"
-			:is_switch="true"
-			>
-		</ViewEditDSI>
+		<v-layout mx-5 px-4 pb-5 pt-0>
+			<v-flex xs12 >
+				<v-card flat color="secondary">
+
+					<ViewEditDSI
+						:flex_vars="'xs12'"
+						:is_create="false"
+						:is_preview="false"
+						:coll="coll"
+						:item_doc="$store.state[coll].current"
+						:is_switch="true"
+						>
+					</ViewEditDSI>
+
+				</v-card>
+			</v-flex>
+		</v-layout>
 
 	</div>
 
