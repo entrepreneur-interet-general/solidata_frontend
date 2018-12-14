@@ -66,7 +66,7 @@
 						:tab="tab"
 						:color="''"
 						:btn_class="'primary'"
-						:is_block="true"
+						:is_block="false"
 						:outline="false"
 						:large="true"
 						:flat="true"
@@ -78,7 +78,7 @@
 			</v-layout>
 
 
-			<!-- PREVIEW CARDS IS IN TEAM -->
+			<!-- PREVIEW CARDS - IS IN TEAM -->
 			<v-data-iterator
 				v-if="itemsIn != null"
 				:items="itemsList('inTeam')" 
@@ -104,6 +104,7 @@
 						class="body-2 grey--text"
 						>
 						<!-- - {{ coll }} - {{ tab }} -  -->
+						<!-- - {{ parentDoc_id }} -  -->
 						<!-- {{ $t( tab+'.name', $store.state.locale)  }}
 						-  -->
 						{{ $t(`global.inTeam`, $store.state.locale) }}
@@ -125,6 +126,8 @@
 						:tab="tab"
 						:item="props.item"
 						:inTeam="'yes'"
+						:add_to_parent="add_to_parent"
+						:parentDoc_id="parentDoc_id"
 						>
 					</CardPreviewDense>
 
@@ -134,7 +137,7 @@
 			</v-data-iterator>
 
 
-			<!-- PREVIEW CARDS NOT IN TEAM -->
+			<!-- PREVIEW CARDS - NOT IN TEAM -->
 			<v-data-iterator
 				v-if="itemsNot != null"
 				:items="itemsList('notTeam')" 
@@ -158,6 +161,7 @@
 						class="body-2 grey--text"
 						>
 						{{ $t(`global.notTeam`, $store.state.locale) }}
+
 					</v-toolbar-title>
 
 				</v-toolbar>
@@ -183,6 +187,7 @@
 					<!-- <template slot="pageText" slot-scope="props">
 						Lignes {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
 					</template> -->
+
 
 				</v-flex>
 
@@ -224,7 +229,6 @@ export default {
 
 	],
 	
-
 	components : {
 		CardPreviewDense,
 		BtnCreate,

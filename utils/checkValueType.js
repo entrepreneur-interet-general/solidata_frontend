@@ -6,7 +6,7 @@ const CheckValueType = {
 		
 		var val_concat = value_raw ;
 		var val_type = typeof value_raw ; 
-		console.log("getValType / val_type : ", val_type ) ;
+		// console.log("getValType / val_type : ", val_type ) ;
 		
 		// join array
 		if (value_raw != null) {
@@ -15,7 +15,7 @@ const CheckValueType = {
 				val_type	= 'array'
 			};
 		}
-		console.log("getValType / val_concat : ", val_concat ) ;
+		// console.log("getValType / val_concat : ", val_concat ) ;
 
 		return { 
 			value 	: value_raw, 

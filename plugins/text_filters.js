@@ -12,18 +12,18 @@ Vue.filter('json', function(value) {
 
 
 Vue.filter('date_str', function(date_raw) { 
-	console.log("date_str filter / date_raw : ", date_raw) ; 
+	// console.log("date_str filter / date_raw : ", date_raw) ; 
 	var clean_date = new Date(date_raw).toDateString() ;
-	console.log("date_str filter / clean_date : ", clean_date) ; 
+	// console.log("date_str filter / clean_date : ", clean_date) ; 
 	return clean_date
 } )
 
 Vue.filter('truncate', function(value, length, suffix, sep=" ") { 
 
-	console.log("\ntruncate filter / value : ", value) ;
+	// console.log("\ntruncate filter / value : ", value) ;
 
 	var value_type = CheckValueType.getValType(value, sep) ; 
-	console.log("truncate filter / value_type : ", value_type ) ;
+	// console.log("truncate filter / value_type : ", value_type ) ;
 
 	var truncated = "" ; 
 
@@ -45,6 +45,6 @@ Vue.filter('truncate', function(value, length, suffix, sep=" ") {
 	}
 	
 
-	console.log("truncate filter / truncated : ", truncated ) ;
+	// console.log("truncate filter / truncated : ", truncated ) ;
 	return truncated
 } )

@@ -38,11 +38,10 @@
 			</v-tab>
 
 
-
 			<!-- TABS ITEMS CONTAINER -->
 			<v-tab-item
 				v-for="(tab,i) in tabsList"
-				:id="tab"
+				:value="tab"
 				:key="i"
 				>
 
@@ -78,7 +77,6 @@
 				</v-container> -->
 
 
-
 				<!-- ITEMS LIST -->
 				<ItemsListDI
 					:tab="tab"
@@ -88,18 +86,11 @@
 				</ItemsListDI>
 				
 
-				
-
 			</v-tab-item>
-
-
 
 		</v-tabs>
 
-
-
 	</div>
-
 
 </template>
 
@@ -108,18 +99,12 @@
 <script>
 
 import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
-// import ItemsList from '~/components/UI/itemsList.vue'
 import SectionTitle from '~/components/UI/sectionTitle.vue'
-// import CardPreview from '~/components/UI/cardPreview.vue'
-// import CardCreate from '~/components/UI/cardCreate.vue'
 
 export default {
 	components : {
-		// ItemsList,
 		ItemsListDI,
 		SectionTitle,
-		// CardPreview,
-		// CardCreate
 	},
 	
 	middleware : ["getListItems"],

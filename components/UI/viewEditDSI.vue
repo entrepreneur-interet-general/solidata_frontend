@@ -104,13 +104,16 @@
 
 								<v-btn 
 									slot="activator" 
-									color="primary" 
+									color="accent" 
 									dark 
 									block
+									round
 									outline
-									class=""
-									
+									class="text-lowercase"
 									>
+									<v-icon small class="mr-3">
+										{{ $store.state.mainIcons.add_to_parent.icon }}  
+									</v-icon>
 									{{ $t( 'global.item_new', $store.state.locale)  }}
 								</v-btn>
 

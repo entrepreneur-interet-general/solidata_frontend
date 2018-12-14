@@ -2,32 +2,41 @@
 
 	<div>
 
-		<v-card
-			:to="$store.state.mainIcons[tab]['to'] + '/' + item._id"
-			flat
-			class="pa-0"
-			>
+		<v-hover>
 
-			<v-toolbar 
+		<v-card
+			flat
+			slot-scope="{ hover }"
+			:class="`pa-0 elevation-${hover ? 5 : 0}`"
+			:style="{ cursor: 'pointer'}"
+			@click="itemClickBehaviour()"
+			>
+			<!-- :to="$store.state.mainIcons[tab]['to'] + '/' + item._id" -->
+
+
+			<!-- ITEM TITLE -->
+			<v-responsive 
 				flat 
-				color="transparent text-xs-center" 
 				dense
 				:height="height_title"
 				>
-				<v-card-text 
-					class="body-2 font-weight-bold py-1 ma-0"
-					>
-					{{ item.infos.title | truncate( 30, '...' )}}
-				</v-card-text>
+				<v-layout align-center fill-height ma-0>
+					<v-card-text 
+						:class="`px-1 py-2 ${hover ? 'primary' : 'black' }--text`"
+						>
+						<p class="body-2 text-xs-center font-weight-bold ma-0">
+							{{ item.infos.title | truncate( 30, '...' )}}
+						</p>
+					</v-card-text>
+				</v-layout>
+			</v-responsive>
 
 
-			</v-toolbar>
-
+			<!-- FLOATING BTN -->
 			<v-btn
 				fab
 				small
 				flat
-				
 				class="secondary"
 				color=""
 				bottom
@@ -39,83 +48,119 @@
 				</v-icon>
 			</v-btn>
 
+
+			<!-- DEBUG -->
+			<!-- <v-card-text >
+				- add_to_parent : <code> {{ add_to_parent }} </code> <br>
+				- parentDoc_id : <code> {{ parentDoc_id }} </code>
+			</v-card-text > -->
+
+
 			<v-divider ></v-divider>
 
-
-			<v-card-media
+			<!-- if - PRJ / DSI / dmt -->
+			<template
 				v-if="!not_main_colls.includes(coll)"
-				:height="height_main_coll_content"
 				>
-				<v-card-text mx-1>
-					<p>{{ item.infos.description | truncate(100, '...') }}</p>
-				</v-card-text>
-			</v-card-media>
+				<div>
+
+					<v-card-text 
+						class="pa-2 text-xs-center"
+						>
+						<v-icon 
+							small
+							left
+							>
+							{{$store.state.mainIcons.view.icon}}
+						</v-icon>
+						{{ item.public_auth.open_level_show }}
+					</v-card-text>
+
+					<v-divider ></v-divider>
+
+					<v-responsive
+						:height="height_main_coll_content"
+						>
+						<v-card-text mx-1>
+							<p>{{ item.infos.description | truncate(100, '...') }}</p>
+						</v-card-text>
+					</v-responsive>
+
+				</div>
+
+			</template>
 
 
-
-			<v-card-media
+			<!-- if - DMF / TAG -->
+			<template
 				v-if="not_main_colls.includes(coll) && coll!='tag'"
-				text-xs-center
-				class="mx-2 py-1"
-				absolute
 				>
+				<v-responsive
+					text-xs-center
+					class="mx-0 py-1"
+					absolute
+					>
 
-				<v-card-text mx-1 >
+					<v-card-text class="pa-0" >
 
-				<!-- <v-container pa-0 ma-0 text-xs-center align-center> -->
+						<!-- <v-container pa-0 ma-0 text-xs-center align-center> -->
 
-				<v-list dense two-line class="ma-0">
+						<v-list dense two-line class="ma-0">
 
-					<v-list-tile class="">
+							<v-list-tile class="">
 
-						<!-- <v-list-tile-action>
-							<v-icon color="indigo">mail</v-icon>
-						</v-list-tile-action> -->
+								<!-- <v-list-tile-action>
+									<v-icon color="indigo">mail</v-icon>
+								</v-list-tile-action> -->
 
-						<v-list-tile-content>
-							<v-list-tile-sub-title>
-								{{ $t(`global.f_code`, $store.state.locale) }}
-							</v-list-tile-sub-title>
-							<v-list-tile-title>
-								{{ item.data_raw.f_code}}
-							</v-list-tile-title>
-						</v-list-tile-content>
+								<v-list-tile-content>
+									<v-list-tile-sub-title>
+										{{ $t(`global.f_code`, $store.state.locale) }}
+									</v-list-tile-sub-title>
+									<v-list-tile-title>
+										{{ item.data_raw.f_code}}
+									</v-list-tile-title>
+								</v-list-tile-content>
 
-					</v-list-tile>
+							</v-list-tile>
 
-					<v-divider class=""></v-divider>
+							<v-divider class=""></v-divider>
 
-					<v-list-tile >
-						
-						<!-- <v-list-tile-action>
-							<v-icon color="indigo">mail</v-icon>
-						</v-list-tile-action> -->
+							<v-list-tile >
+								
+								<!-- <v-list-tile-action>
+									<v-icon color="indigo">mail</v-icon>
+								</v-list-tile-action> -->
 
-						<v-list-tile-content>
-							<v-list-tile-sub-title>
-								{{ $t(`global.f_type`, $store.state.locale) }}
-							</v-list-tile-sub-title>
-							<v-list-tile-title>
-								{{ item.data_raw.f_type}}
-							</v-list-tile-title>
-						</v-list-tile-content>
+								<v-list-tile-content>
+									<v-list-tile-sub-title>
+										{{ $t(`global.f_type`, $store.state.locale) }}
+									</v-list-tile-sub-title>
+									<v-list-tile-title>
+										{{ item.data_raw.f_type}}
+									</v-list-tile-title>
+								</v-list-tile-content>
 
-					</v-list-tile>
+							</v-list-tile>
 
-				</v-list>
+						</v-list>
 
-				<!-- </v-container> -->
+						<!-- </v-container> -->
 
-				</v-card-text>
+					</v-card-text>
 
-			</v-card-media>
+				</v-responsive>
+
+			</template>
 
 
 		</v-card>
 		
+
+		 <!-- FOOTER -->
 		<v-card>
 
-			<v-card-media 
+			<v-responsive 
 				class="grey lighten-1 text-lowercase caption"
 				:height="height_footer"
 				>
@@ -128,9 +173,12 @@
 					</v-layout>
 				</v-container> -->
 
-			</v-card-media>
+			</v-responsive>
 
 		</v-card>
+
+
+		</v-hover>
 
 	</div>
 
@@ -138,8 +186,11 @@
 
 
 <script>
+
 export default {
+
 	props : [ 
+
 		"coll",
 		"tab", 
 		"item", 
@@ -150,6 +201,7 @@ export default {
 		"parentDoc_id"
 
 	],
+
 	data () {
 		return {
 
@@ -187,6 +239,34 @@ export default {
         }
       }
 	
+	},
+
+	methods : {
+
+		itemClickBehaviour () {
+
+			console.log("itemClickBehaviour..." )
+
+			if ( this.add_to_parent ) {
+				console.log("itemClickBehaviour / add_to_parent..." )
+
+				// commit action update from main $store
+			}
+
+			else {
+				console.log("itemClickBehaviour / go to edit item..." )
+
+				// redirect to edit-preview page 
+				return this.$router.push(`/${this.coll}/${this.item._id}`)
+
+			}
+
+
+
+		}
+
 	}
+
+
 }
 </script>

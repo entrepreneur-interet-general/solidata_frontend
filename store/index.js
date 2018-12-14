@@ -126,7 +126,7 @@ const mainIconsConst = {
 	list				: { icon : "list" },
 	favorites			: { icon : "favorite" },
 	create				: { icon : "add" },
-	view				: { icon : "far fa-eye" },
+	view				: { icon : "remove_red_eye" },
 	edit				: { icon : "edit" },
 	upload				: { icon : "fas fa-file-upload" },
 	reset				: { icon : "fas fa-redo" },

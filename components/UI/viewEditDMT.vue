@@ -38,8 +38,6 @@
 
 
 
-
-
 		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
 		<v-expansion-panel
 			v-show="!isPreview"
@@ -74,6 +72,7 @@
 		</v-expansion-panel>
 
 
+
 		<!-- DMF LIBRARY -->
 		<v-expansion-panel
 			v-show="!isPreview"
@@ -82,6 +81,8 @@
 			class="elevation-0"
 			>
 			<v-expansion-panel-content >
+
+				<!-- - itemId : <code> {{ itemId }} </code> -->
 
 				<div 
 					class="accent--text"
@@ -111,7 +112,6 @@
 
 
 
-
 		<!-- DMT DATA COMPONENT -->
 		<v-layout row>
 			
@@ -130,13 +130,11 @@
 					:panel_open="panel_lib[0]"
 					@input="openDMF_lib"
 					>
-					<!-- @input="" -->
 				</ViewEditListDMF>
 
 			</v-flex>
 
 		</v-layout>
-
 
 
 
