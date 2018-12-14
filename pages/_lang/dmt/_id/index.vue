@@ -33,11 +33,11 @@
 						:is_create="false"
 						:is_preview="false"
 						:coll="coll"
-						:parentFieldslist="parentFieldsList"
 						:item_doc="$store.state[coll].current"
 						:is_switch="true"
 						>
 					</ViewEditDMT> 
+					<!-- :parentFieldslist="parentFieldsList" -->
 
 				</v-card>
 			</v-flex>

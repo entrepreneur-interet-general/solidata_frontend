@@ -40,9 +40,6 @@
 
 
 
-
-
-
 		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
 		<v-expansion-panel
 			v-show="!isPreview"
@@ -78,12 +75,6 @@
 
 
 		<!-- DMF LIBRARY -->
-		<!-- <v-layout 
-			v-if="!no_toolbar && !is_create && !isPreview"
-			row 
-			wrap 
-			> -->
-
 		<v-expansion-panel
 			v-show="!isPreview"
 			v-model="panel_lib"
@@ -96,7 +87,7 @@
 					class="accent--text"
 					slot="header"
 					>
-					<v-icon small class="mr-3">
+					<v-icon small color="accent" class="mr-3">
 						{{ $store.state.mainIcons.add_to_parent.icon }}  
 					</v-icon>
 					<span>
@@ -110,6 +101,7 @@
 					:items_coll="$store.state.dmf.list"
 					:no_margin="true"
 					:add_to_parent="true"
+					:parentDoc_id="itemId"
 					>
 				</ItemsListDI>
 
@@ -117,15 +109,10 @@
 		</v-expansion-panel>
 
 
-			<!-- </v-flex>
-
-		</v-layout> -->
 
 
 
-
-
-		<!-- TO DO - DMT DATA COMPONENT -->
+		<!-- DMT DATA COMPONENT -->
 		<v-layout row>
 			
 			<v-flex xs12>
@@ -134,11 +121,14 @@
 
 					<!-- :listDMF="itemDoc.datasets.dmf_list" -->
 				<ViewEditListDMF
+					:item_doc="itemDoc"
 					:listDMF="[
 						{'oid_dmf' : '5ba664030a82860745d51fdd'},
 						{'oid_dmf' : '5bf4183f0a8286180b53183c'}
 					]" 
-					:is_preview="isPreview"
+					:isPreview="isPreview"
+					:panel_open="panel_lib[0]"
+					@input="openDMF_lib"
 					>
 					<!-- @input="" -->
 				</ViewEditListDMF>
@@ -262,9 +252,9 @@ export default {
 			isPreview 	: this.is_preview,
 			no_subField : true,
 
-			panel_uses	: [false],
-			panel_infos	: [false],
+			panel_infos	: [true],
 			panel_lib	: [false],
+			panel_uses	: [false],
 
 			collName 	: this.$store.state.collectionsNames[this.coll],
 
@@ -395,6 +385,12 @@ export default {
 	},
 
 	methods: {
+
+		// DMF_lib SWITCH
+		openDMF_lib() {
+			this.isPreview = false ;
+			this.panel_lib = [true];
+		},
 
 		// TOOLBAR SWITCH
 		switchPreview() {

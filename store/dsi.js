@@ -9,12 +9,12 @@ export const state = () => ({
 	parameters 		:  {
 		page 		: 1,
 		per_page   	: 0, //5, // choices=[0, 2, 5, 10, 20, 30, 40, 50, 100],
-		cardSizes	: "xs12 sm4 md3"
+		cardSizes	: "xs12 sm6 md3"
 	},
 
-	rowsPerPageItems: [ 3, 6, 9, 12 ],
+	rowsPerPageItems: [ 4, 8, 12 ],
 	pagination: {
-		rowsPerPage: 6
+		rowsPerPage: 4
 	},
 
 

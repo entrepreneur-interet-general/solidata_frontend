@@ -19,8 +19,9 @@
 					v-if="alert" 
 					:type="alert.type" 
 					value="true"
+					ma-2
 					>
-					msg : {{alert.message}}
+					{{alert.message}}
 				</v-alert>
 				
 
@@ -130,6 +131,7 @@
 							to="/forgotpwd"
 							>
 							{{ $t('home.forgotPwd', $store.state.locale ) }}
+							<!-- <span slot="loader" class="white"></span> -->
 						</nuxt-link>
 					</div>
 

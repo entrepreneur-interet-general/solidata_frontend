@@ -170,6 +170,7 @@
 							:total-items="total_items"
 							:loading="loading"
 							class="elevation-1"
+							:rows-per-page-items="[5, 10, 25]"
 							>
 							<v-progress-linear slot="progress" color="accent" indeterminate></v-progress-linear>
 							<template slot="items" slot-scope="props">
@@ -204,6 +205,11 @@
 								</td>
 
 							</template>
+
+							<!-- <template slot="pageText" slot-scope="props">
+								Lignes {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
+							</template> -->
+
 						</v-data-table>
 
 
@@ -382,7 +388,9 @@ export default {
 
 			// data table : loading, pagination 
 			loading 		: false,
-			pagination 		: {},
+			pagination 		: {
+
+			},
 			total_items		: 0, // per page must be in [0, 2, 5, 10, 20, 25, 50, 100]
 
 			// data table - edit/create item

@@ -10,6 +10,46 @@
 				<v-card color="">
 					<v-card-text class="pa-0">
 
+						<!-- DATA TOOLBAR -->
+						<v-toolbar class="elevation-1" color="white">
+							
+							<!-- title dataset -->
+							<v-toolbar-title
+								class="subheading grey--text"
+								>
+								
+								{{ item_doc.infos.title | truncate(30, '...') }}
+								
+								<v-icon  
+									right
+									:disabled="!isPreview"
+									>
+									{{ $store.state.mainIcons.edit.icon }}
+								</v-icon>
+							
+							</v-toolbar-title>
+							
+							<v-spacer></v-spacer>
+
+							<!-- OPEN DMF LIBRARY -->
+							<v-btn 
+								:disabled="isPreview"
+								color="accent" 
+								dark 
+								round
+								:outline="!panel_open"
+								:flat="panel_open"
+								@click="openDMF_lib_parent"
+								>
+								<v-icon small class="mr-3">
+									{{ $store.state.mainIcons.add_to_parent.icon }}  
+								</v-icon>
+								{{ $t( 'global.dmf_add', $store.state.locale)  }}
+							</v-btn>
+
+
+						</v-toolbar>
+
 
 						<v-data-table
 
@@ -17,14 +57,18 @@
 							:items="list_DMF_full_pivoted"
 							class="elevation-1"
 							:loading="loading"
+							:pagination.sync="paginationDMF"
+							hide-actions
 							>
+							<!-- :rows-per-page-items="7" -->
 							
 							<v-progress-linear slot="progress" color="accent" indeterminate></v-progress-linear>
 				
 							<template slot="items" slot-scope="props">
 								<td class="">{{ props.item["_"] }}</td>
 								<td 
-									v-for=" dmf in listDMF"
+									v-for="dmf in listDMF"
+									:key="listDMF.indexOf(dmf)"
 									class="text-xs-center">{{ props.item[ dmf["oid_dmf" ] ] }}</td>
 							</template>
 
@@ -36,76 +80,6 @@
 			</v-flex>
 
 		</v-layout>
-
-
-
-
-
-		<!-- <v-divider></v-divider> -->
-
-
-
-
-		<!-- <!- - CREATE EDIT DOC - ->
-		<v-container 
-			mx-0 
-			px-0
-			>
-			
-			<v-layout 
-				align-center 
-				row 
-				>
-
-				<!- - DMF - SUBFIELDS - ->
-				<v-flex xs3 >
-					<ViewEditDMF
-						:flex_vars="$store.state.createSize"
-						:is_create="true"
-						:is_preview="true"
-						:coll="coll"
-						:parentFieldslist="parentFieldsList"
-						:item_doc="$store.state[coll].current_new"
-						:is_switch="false"
-						:no_toolbar="true"
-						:only_subfields="true"
-						>
-					</ViewEditDMF>
-				</v-flex>
-
-
-				<!- - DMF - DMF_LIST - ->
-				<template
-					v-if="DMF_list_loaded">
-					<v-flex 
-						xs3
-						v-for="item in list_DMF_full"
-						:key="item"
-						>
-						<ViewEditDMF
-							:flex_vars="$store.state.createSize"
-							:is_create="false"
-							:is_preview="true"
-							:coll="coll"
-							:parentFieldslist="parentFieldsList"
-							:item_doc="item"
-							:is_switch="false"
-							:no_toolbar="true"
-							:only_subfields="false"
-							>
-						</ViewEditDMF>
-					</v-flex>
-				</template> -->
-
-
-
-				<!-- DMF - CREATE NEW -->
-
-
-
-
-			<!-- </v-layout>
-		</v-container> -->
 
 
 
@@ -154,7 +128,9 @@ export default {
 
 	props : [
 		"listDMF",
-		"is_preview",
+		"isPreview",
+		"item_doc",
+		"panel_open"
 	],
 
 	components : {
@@ -188,7 +164,9 @@ export default {
 
 			coll 		: "dmf",
 			tab 		: 'datamodel_fields',
-			
+			paginationDMF : {
+				rowsPerPage: -1 
+			},
 			// DMF references
 			DMF_list_loaded : false,
 			list_DMF_oids : [],
@@ -267,6 +245,14 @@ export default {
 
 	methods: {
 
+		openDMF_lib_parent () {
+
+			console.log("\n...viewEditListDMF - openDMF_lib_parent ")
+
+			// send data back to parent component 
+			this.$emit('input')
+		},
+
 		// utils to pivot data to datatable format
 		pivotData (data_from_API) {
 
@@ -274,7 +260,6 @@ export default {
 
 			// var for internal purposes
 			var data_new_headers 	= [] ;
-			var data_pivoted 		= [] ;
 
 			// add empty_column_normalized to beginning of data_from_API
 			data_from_API.unshift(this.empty_column_normalized) ;
@@ -303,7 +288,9 @@ export default {
 			this.DMF_headers =  data_new_headers ;
 
 
-			// loop through fields 
+			// loop through fields to create data_pivoted
+			var data_pivoted 		= [] ;
+
 			console.log("...viewEditListDMF - pivotData / this.empty_column_normalized : ", this.empty_column_normalized );
 			for (const field of Object.keys(this.empty_column_normalized) ) {
 				

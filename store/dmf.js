@@ -13,7 +13,7 @@ export const state = () => ({
 
 	rowsPerPageItems: [ 6, 12, 24, 48 ],
 	pagination: {
-		rowsPerPage: 12
+		rowsPerPage: 6
 	},
 
 	query_current 	: null,

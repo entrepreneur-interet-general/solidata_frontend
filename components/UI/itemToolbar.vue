@@ -28,9 +28,13 @@
 			{{ itemTitle }}
 		</v-toolbar-title>
 
-		<!-- SWITCH FOR PREVIEW -->
+
 		<v-spacer></v-spacer>
-		<v-switch 
+
+
+
+		<!-- SWITCH FOR PREVIEW -->
+		<!-- <v-switch 
 			:label="$t('global.preview', $store.state.locale)"
 			v-model="is_preview"
 			color="white"
@@ -38,9 +42,22 @@
 			hide-details
 			@change="switchPreview()"
 			>
-		</v-switch>
+		</v-switch> -->
 
-		<v-spacer></v-spacer>
+		<v-btn 
+			icon
+			small
+			:color="btnSwitchColor"
+			@click="switchPreview()"
+			>
+			<v-icon
+				small
+				:color="iconSwitchColor"
+				>
+				{{ $store.state.mainIcons.view.icon }}
+			</v-icon>
+		</v-btn>
+
 
 		<!--  -->
 		<template 
@@ -68,6 +85,8 @@
 		</template>
 
 
+
+
 		<!-- RESET / DELETE ITEM MENU -->
 		<v-menu 
 			v-if="!is_create"
@@ -79,6 +98,7 @@
 			>
 
 			<v-btn 
+				:disabled="!$store.state.auth.isLogged"
 				icon 
 				small
 				slot="activator"
@@ -119,13 +139,21 @@
 
 				<!-- RESET BTN -->
 				<v-list-tile
-					v-if="is_reset"
+					v-if="is_reset && $store.state.auth.isLogged"
 					@click="dialog_reset = true"
+					disabled
 					>
 
 					<!-- RESET IN MENU -->
-					<v-list-tile-title class="pa-0 ma-0">
-						<v-icon small left class="pr-1 mb-1" color="warning">
+					<v-list-tile-title 
+						class="pa-0 ma-0"
+						>
+						<v-icon 
+							small 
+							left 
+							class="pr-1 mb-1" 
+							color="warning"
+							>
 							{{ $store.state.mainIcons.reset.icon }}
 						</v-icon>
 						<span>
@@ -196,6 +224,7 @@
 
 				<!-- DELETE BTN -->
 				<v-list-tile
+					v-if="$store.state.auth.isLogged"
 					>
 
 					<!-- BTN IN MENU -->
@@ -314,6 +343,17 @@ export default {
 			dialog_reset 	: false,
 
 		}
+	},
+
+	computed : {
+
+		iconSwitchColor() {
+			return (!this.isPreview) ? "white" : "primary" ;
+		},
+		btnSwitchColor() {
+			return (this.isPreview) ? "white" : "primary" ;
+		},
+
 	},
 
 	methods: {

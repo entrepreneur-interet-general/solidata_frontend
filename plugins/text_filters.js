@@ -20,12 +20,12 @@ Vue.filter('date_str', function(date_raw) {
 
 Vue.filter('truncate', function(value, length, suffix, sep=" ") { 
 
-	// console.log("\ntruncate filter / value : ", value) ;
+	console.log("\ntruncate filter / value : ", value) ;
 
 	var value_type = CheckValueType.getValType(value, sep) ; 
-	// console.log("truncate filter / value_type : ", value_type ) ;
+	console.log("truncate filter / value_type : ", value_type ) ;
 
-	var truncated ; 
+	var truncated = "" ; 
 
 	if (value === null ) {
 		truncated = ''
@@ -33,14 +33,18 @@ Vue.filter('truncate', function(value, length, suffix, sep=" ") {
 	else if (value_type.type === 'number'){
 		truncated = value
 	}
-	else {
+	else if (value_type.type === 'array'){
 		truncated = value_type.as_str ;
-
-		if (truncated.length > length && length > 0 ){
-			truncated = truncated.substring(0, length) + suffix; 
-		}
+	}
+	else {
+		truncated = value ;
 	}
 
-	// console.log("truncate filter / truncated : ", truncated ) ;
+	if (truncated.length > length && length > 0 ){
+		truncated = truncated.substring(0, length) + suffix; 
+	}
+	
+
+	console.log("truncate filter / truncated : ", truncated ) ;
 	return truncated
 } )

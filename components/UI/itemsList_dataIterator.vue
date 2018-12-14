@@ -4,10 +4,6 @@
 		:class="classMainCard"
 		>
 
-		<!-- <div> items_coll : {{ items_coll }}</div> -->
-		<!-- <br> -->
-		<!-- <div> items_coll['docs_user_is_in_team'] : {{ items_coll['docs_user_is_in_team'] }}</div> -->
-
 		<v-container 
 			fluid grid-list-md
 			pt-4
@@ -117,13 +113,6 @@
 
 
 				<!-- data iterator cards -->
-				<!-- <v-hover>
-					<v-card
-					slot-scope="{ hover }"
-					class="mx-auto"
-					:class="`elevation-${hover ? 12 : 2}`"
-					width="344"
-					> -->
 				<v-flex
 					slot="item"
 					slot-scope="props"
@@ -164,20 +153,10 @@
 					color="transparent"
 					flat
 					>
-					<!-- :height="$store.state.dataIteratorHeight" -->
-
-					<!-- <v-toolbar-side-icon disabled>
-						<v-icon small>
-							{{ $store.state.mainIcons[tab].icon }}
-						</v-icon>
-					</v-toolbar-side-icon> -->
 
 					<v-toolbar-title
 						class="body-2 grey--text"
 						>
-
-						<!-- {{ $t( tab+'.name', $store.state.locale)  }}
-						-  -->
 						{{ $t(`global.notTeam`, $store.state.locale) }}
 					</v-toolbar-title>
 
@@ -188,8 +167,7 @@
 				<v-flex
 					slot="item"
 					slot-scope="props"
-					:class="cardSizes"
-					mb-4
+					:class="'pa-3 ' + cardSizes"
 					>
 
 					<CardPreviewDense 
@@ -197,8 +175,14 @@
 						:tab="tab"
 						:item="props.item"
 						:inTeam="'yes'"
+						:add_to_parent="add_to_parent"
+						:parentDoc_id="parentDoc_id"
 						>
 					</CardPreviewDense>
+
+					<!-- <template slot="pageText" slot-scope="props">
+						Lignes {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
+					</template> -->
 
 				</v-flex>
 
@@ -233,21 +217,17 @@ export default {
 		"coll",
 
 		"no_margin",
-		"add_to_parent",
 
-		// "defaultHeightAdd", 
-		// "defaultHeight", 
-		
-		// "defaultFlex", 
+		// props to add item to parent
+		"add_to_parent",
+		"parentDoc_id",
+
 	],
 	
 
 	components : {
-		// SectionTitle,
-		// CardPreview,
 		CardPreviewDense,
 		BtnCreate,
-		// CardCreate
 	},
 	
 	created () {
@@ -263,8 +243,8 @@ export default {
 			itemsNot 	: this.items_coll['docs_user_not_in_team'],
 
 			// MAIN CARD SIZE 
-			with_margin 	: "grey lighten-3 elevation-0 mt-2 mx-5 px-3",
-			with_no_margin 	: "grey lighten-3 elevation-0 mt-2 mx-0 px-3",
+			with_margin 	: "grey lighten-3 elevation-0 mb-5 mx-5 px-3",
+			with_no_margin 	: "grey lighten-3 elevation-0 mt-0 mx-0 px-3",
 
 			// CARDS SIZES
 			// cardSizes : "xs12 sm6 md4 l4",

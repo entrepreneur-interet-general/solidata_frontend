@@ -1,163 +1,138 @@
 <template>
 
-	<!-- <v-hover> -->
-	<v-card
-		:to="$store.state.mainIcons[tab]['to'] + '/' + item._id"
-		:height="height_card"
-		class="elevation-2"
-		mb-3
-		>
+	<div>
 
-		<v-card-media 
-			:height="height_card_content"
-			flat 
+		<v-card
+			:to="$store.state.mainIcons[tab]['to'] + '/' + item._id"
+			flat
+			class="pa-0"
 			>
-			<!-- :height="h_percent" -->
-			<!--  -->
+
+			<v-toolbar 
+				flat 
+				color="transparent text-xs-center" 
+				dense
+				:height="height_title"
+				>
+				<v-card-text 
+					class="body-2 font-weight-bold py-1 ma-0"
+					>
+					{{ item.infos.title | truncate( 30, '...' )}}
+				</v-card-text>
+
+
+			</v-toolbar>
+
+			<v-btn
+				fab
+				small
+				flat
+				
+				class="secondary"
+				color=""
+				bottom
+				right
+				absolute
+				>
+				<v-icon>
+					{{$store.state.mainIcons[tab].icon}}
+				</v-icon>
+			</v-btn>
+
+			<v-divider ></v-divider>
+
+
+			<v-card-media
+				v-if="!not_main_colls.includes(coll)"
+				:height="height_main_coll_content"
+				>
+				<v-card-text mx-1>
+					<p>{{ item.infos.description | truncate(100, '...') }}</p>
+				</v-card-text>
+			</v-card-media>
 
 
 
-			<v-layout 
-				:class="padding_y"
-				row 
-				spacer 
-				mb-0
+			<v-card-media
+				v-if="not_main_colls.includes(coll) && coll!='tag'"
+				text-xs-center
+				class="mx-2 py-1"
+				absolute
 				>
 
+				<v-card-text mx-1 >
 
+				<!-- <v-container pa-0 ma-0 text-xs-center align-center> -->
 
-				<v-flex sm3 md2 hidden-xs-only text-xs-center ml-3>
-					<v-avatar size="30" color="grey">
-						<v-icon small dark> 
-							{{ $store.state.mainIcons[tab]['icon'] }}
-						</v-icon>
-					</v-avatar>
-				</v-flex>
+				<v-list dense two-line class="ma-0">
 
+					<v-list-tile class="">
 
+						<!-- <v-list-tile-action>
+							<v-icon color="indigo">mail</v-icon>
+						</v-list-tile-action> -->
 
-				<v-flex sm9 md10 px-3>
+						<v-list-tile-content>
+							<v-list-tile-sub-title>
+								{{ $t(`global.f_code`, $store.state.locale) }}
+							</v-list-tile-sub-title>
+							<v-list-tile-title>
+								{{ item.data_raw.f_code}}
+							</v-list-tile-title>
+						</v-list-tile-content>
 
-					<h4 
-						:class="'my-0 '+is_main_coll"
-						>
-						{{ item.infos.title }}
-					</h4>
+					</v-list-tile>
 
-					<div
-						v-if="!not_main_colls.includes(coll)"
-						class="pt-2 caption"
-						>
-						{{ item.infos.description }} 
-					</div>
+					<v-divider class=""></v-divider>
 
-
-					<!-- <v-divider></v-divider> -->
-
-					<!-- <v-list no-line dense> -->
-
-						<!-- <v-list-tile>
-							<v-list-tile-title>Created by :</v-list-tile-title>
-							<v-list-tile-content class="align-end">{{ item.log.created_by }}</v-list-tile-content>
-						</v-list-tile> -->
-
-						<!-- <v-list-tile>
-							<v-list-tile-title>id :</v-list-tile-title>
-							<v-list-tile-content class="align-end">{{ item._id }}</v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-title>open_level_show :</v-list-tile-title>
-							<v-list-tile-content class="align-end">{{ item.public_auth.open_level_show }}</v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-title>open_level_edit :</v-list-tile-title>
-							<v-list-tile-content class="align-end">{{ item.public_auth.open_level_edit }}</v-list-tile-content>
-						</v-list-tile> -->
-
-					<!-- </v-list> -->
-
-					<!-- <v-divider></v-divider> -->
-
-					<!-- <v-list dense >
-						<v-list-group
-							v-for="p_field in parent_fields"
-							v-model="p_field.active"
-							:key="p_field.title"
-							:prepend-icon="p_field.action"
-							no-action
-							>
-							<v-list-tile slot="activator">
-								<v-list-tile-content>
-									<v-list-tile-title>{{ p_field.title }}</v-list-tile-title>
-								</v-list-tile-content>
-							</v-list-tile>
-
-							<v-list-tile
-								v-for="subItem in p_field.items"
-								:key="subItem.title"
-								@click=""
-								>
-								<v-list-tile-title>
-									{{ subItem.subField }}
-								</v-list-tile-title>
-								<v-list-tile-sub-title>
-									{{ item[p_field.title][subItem.subField] }}
-								</v-list-tile-sub-title>
-
-							</v-list-tile>
-
-						</v-list-group>
-					</v-list> -->
-
-
-					<!-- <v-divider></v-divider> -->
-
-					<!-- <v-card-actions>
+					<v-list-tile >
 						
-						<!- - team button - ->
-						<v-btn 
-							flat block class="text-lowercase" 
-							:to="$store.state.mainIcons[tab]['to'] + '/' + item._id + '/team'"
-							> 
-							<v-icon left>{{ $store.state.mainIcons.profile.icon }}</v-icon>
-							{{ $t('global.team', $store.state.locale) }}
-						</v-btn>
+						<!-- <v-list-tile-action>
+							<v-icon color="indigo">mail</v-icon>
+						</v-list-tile-action> -->
 
-						<!- - settings button - ->
-						<v-btn 
-							v-if="inTeam === 'yes'"
-							flat block class="text-lowercase" 
-							:to="$store.state.mainIcons[tab]['to'] + '/' + item._id + '/settings'"
-							> 
-							<v-icon left>{{ $store.state.mainIcons.settings.icon }}</v-icon>
-							{{ $t('global.settings', $store.state.locale) }}
-						</v-btn>
-					
-					</v-card-actions> -->
-				
-				</v-flex>
+						<v-list-tile-content>
+							<v-list-tile-sub-title>
+								{{ $t(`global.f_type`, $store.state.locale) }}
+							</v-list-tile-sub-title>
+							<v-list-tile-title>
+								{{ item.data_raw.f_type}}
+							</v-list-tile-title>
+						</v-list-tile-content>
 
-			</v-layout>
+					</v-list-tile>
 
-		</v-card-media>
+				</v-list>
+
+				<!-- </v-container> -->
+
+				</v-card-text>
+
+			</v-card-media>
 
 
-		<v-card-text 
-			class="secondary py-1 white--text text-lowercase caption"
-			:height="height_footer"
-			>
-			<div class="text-xs-center">
-				{{ $t(`global.see_this`, $store.state.locale) }}
-				{{ $t( tab+'.singular', $store.state.locale)  }}
-			</div>
-		</v-card-text>
+		</v-card>
+		
+		<v-card>
 
+			<v-card-media 
+				class="grey lighten-1 text-lowercase caption"
+				:height="height_footer"
+				>
+				<!-- <v-container pa-0 ma-0 text-xs-center align-center>
+					<v-layout align-center class=" pa-0 ma-0 ">
+						<v-flex class="white--text  pa-0 ma-0 pt-1">
+							{{ $t(`global.see_this`, $store.state.locale) }}
+							{{ $t( tab+'.singular', $store.state.locale)  }}
+						</v-flex>
+					</v-layout>
+				</v-container> -->
 
-	</v-card>
+			</v-card-media>
 
-	<!-- </v-hover> -->
+		</v-card>
 
-
+	</div>
 
 </template>
 
@@ -170,35 +145,25 @@ export default {
 		"item", 
 		"index", 
 		"inTeam" , 
-		// "defaultHeight", 
-		// "defaultFlex" 
+		
+		"add_to_parent",
+		"parentDoc_id"
+
 	],
 	data () {
 		return {
 
-			not_main_colls : ['dmf', 'tag'],
-			height_footer : "20px",
+			not_main_colls 				: ['dmf', 'tag'],
 
-			parent_fields: [
-				{
-					action: 'infos',
-					title: 'infos',
-					// active: true,
-					items: [
-						{ subField: 'title' },
-						{ subField: 'description' },
-					]
-				},
-				{
-					action: 'lock',
-					title: 'public_auth',
-					items: [
-						{ subField: 'open_level_edit' },
-						{ subField: 'open_level_show' },
-					]
-				},
-	
-			]
+			height_footer 				: "0px",
+			height_main_coll_content 	: "120px",
+
+			direction: 'left',
+			fab: false,
+			fling: false,
+			tabs: null,
+			transition: 'slide-y-reverse-transition'
+
 		}
 	},
 
@@ -207,22 +172,21 @@ export default {
 		is_main_coll () { 
 			return (this.not_main_colls.includes(this.coll)) ? "body-2" : "subheading" 
 		},
-		
-		padding_y () { 
-			return (this.not_main_colls.includes(this.coll)) ? "py-2" : "py-4" 
+
+		height_title () { 
+			return (this.not_main_colls.includes(this.coll)) ? 
+				((this.coll=='tag')? '75px': '100px') : "60px" 
 		},
 
-		h_percent () { 
-			return (this.not_main_colls.includes(this.coll)) ? "57%" : "81%" 
-		},
-
-		height_card () { 
-			return (this.not_main_colls.includes(this.coll)) ? "75px" : "150px" 
-		},
-		height_card_content () { 
-			return (this.not_main_colls.includes(this.coll)) ? "55px" : "130px" 
-		},
-
+      activeFab () {
+        switch (this.tabs) {
+          case 'one': return { 'class': 'purple', icon: 'account_circle' }
+          case 'two': return { 'class': 'red', icon: 'edit' }
+          case 'three': return { 'class': 'green', icon: 'keyboard_arrow_up' }
+          default: return {}
+        }
+      }
+	
 	}
 }
 </script>
