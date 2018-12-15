@@ -20,32 +20,59 @@
 				dense
 				:height="height_title"
 				>
+
+				<v-expand-transition>
+					<v-layout align-center fill-height ma-0
+						v-if="hover"
+						class="d-flex px-1 py-2 transition-fast-in-fast-out primary font-italic text-xs-center white--text"
+						style="height: 100%;"
+						>
+
+						<!-- PREVIEW / EDIT -->
+						<strong v-if="!add_to_parent">
+							{{ $t( `${tab}.edit` , $store.state.locale) }}
+						</strong>
+
+						<!-- ADD TO PARENT -->
+						<strong v-else>
+							<v-icon dark>
+								{{ $store.state.mainIcons.create.icon }}
+							</v-icon>
+							<br>
+							{{ $t( `${tab}.singular` , $store.state.locale) }}
+						</strong>
+
+					</v-layout>
+				</v-expand-transition>
+
 				<v-layout align-center fill-height ma-0>
 					<v-card-text 
-						:class="`px-1 py-2 ${hover ? 'primary' : 'black' }--text`"
+						:class="`px-1 py-2 ${hover ? 'grey' : 'black' }--text`"
 						>
-						<p class="body-2 text-xs-center font-weight-bold ma-0">
-							{{ item.infos.title | truncate( 30, '...' )}}
+						<p class="text-xs-center subheading font-weight-bold ma-0">
+							{{ item.infos.title | truncate( 40, '...' )}}
 						</p>
 					</v-card-text>
 				</v-layout>
 			</v-responsive>
 
+
 			<v-divider ></v-divider>
+
 
 			<!-- FLOATING BTN -->
 			<v-btn
 				fab
 				small
 				flat
-				class="secondary"
+				:class="`${hover ? 'primary' : 'secondary' }`"
 				color=""
 				bottom
 				right
 				absolute
 				>
 				<v-icon>
-					{{$store.state.mainIcons[tab].icon}}
+					{{ $store.state.mainIcons[tab].icon }}
 				</v-icon>
 			</v-btn>
 
@@ -63,44 +90,110 @@
 			</v-card-text >
 
 
+			<!-- OPEN LEVEL EDIT -->
+			<v-card-text 
+				:class="`${ (coll==='tag') ? 'px-2 pb-4 pt-2 ' : 'pa-2 '} text-xs-center`"
+				>
+				<v-icon 
+					small
+					left
+					>
+					{{ $store.state.mainIcons.edit.icon }}
+				</v-icon>
+				{{ item.public_auth.open_level_edit }}
+			</v-card-text>
 
-			<!-- if - PRJ / DSI / dmt -->
-			<template
+
+			<!-- if - PRJ / DSI / DMT -->
+			<div
 				v-if="!not_main_colls.includes(coll)"
 				>
-				<div>
+
+				<v-divider ></v-divider>
+	
+				<v-responsive
+					:height="height_main_coll_content"
+					>
+					<v-card-text 
+						:class="`mx-2 ${hover ? 'font-weight-black' : '' }`"
+						>
+						<p>{{ item.infos.description | truncate(100, '...') }}</p>
+					</v-card-text>
+				</v-responsive>
+
+				<v-divider ></v-divider>
+
+				<v-card-text 
+					class="pa-2 text-xs-center"
+					>
+					<v-icon 
+						small
+						left
+						>
+						{{$store.state.mainIcons.view.icon}}
+					</v-icon>
+					{{ item.public_auth.open_level_show }}
+				</v-card-text>
+
+				<v-divider ></v-divider>
+
+
+				<!-- STATS - DMT -->
+				<v-card-text 
+					v-if="coll=='dmt'"
+					class="pa-2 text-xs-center"
+					>
+					<strong>{{ item.datasets.dmf_list.length }} </strong>
+					<span>{{ $t(`datamodel_fields.name`, $store.state.locale) }}</span>
+				</v-card-text>
+
+				<!-- STATS - DSI -->
+				<div
+					v-if="coll=='dsi'"
+					>
 
 					<v-card-text 
 						class="pa-2 text-xs-center"
 						>
-						<v-icon 
-							small
-							left
-							>
-							{{$store.state.mainIcons.view.icon}}
-						</v-icon>
-						{{ item.public_auth.open_level_show }}
+						<strong>{{ item.stats.f_data_count }} </strong>
+						<span>{{ $t(`datasets.f_data`, $store.state.locale) }}</span>
 					</v-card-text>
 
 					<v-divider ></v-divider>
 
-					<v-responsive
-						:height="height_main_coll_content"
+					<v-card-text 
+						class="pa-2 text-xs-center"
 						>
-						<v-card-text mx-1>
-							<p>{{ item.infos.description | truncate(100, '...') }}</p>
-						</v-card-text>
-					</v-responsive>
+						<strong>{{ item.stats.f_col_headers_count }} </strong>
+						<span>{{ $t(`datasets.f_col_headers`, $store.state.locale) }}</span>
+					</v-card-text>
 
 				</div>
 
-			</template>
+				<!-- STATS - PRJ -->
+				<div
+					v-if="coll=='prj'"
+					>
+
+					<v-card-text 
+						class="pa-2 text-xs-center"
+						>
+						<strong>{{ item.stats.dsi_count }} </strong>
+						<span>{{ $t(`projects.dsi`, $store.state.locale) }}</span>
+					</v-card-text>
+
+				</div>
+
+			</div>
 
 
-			<!-- if - DMF / TAG -->
-			<template
-				v-if="not_main_colls.includes(coll) && coll!='tag'"
+			<!-- if - DMF  -->
+			<div
+				v-if="coll=='dmf'"
 				>
+
+				<v-divider ></v-divider>
+
 				<v-responsive
 					text-xs-center
 					class="mx-0 py-1"
@@ -113,7 +206,7 @@
 
 						<v-list dense two-line class="ma-0">
 
-							<v-list-tile class="">
+							<v-list-tile>
 
 								<!-- <v-list-tile-action>
 									<v-icon color="indigo">mail</v-icon>
@@ -123,7 +216,9 @@
 									<v-list-tile-sub-title>
 										{{ $t(`global.f_code`, $store.state.locale) }}
 									</v-list-tile-sub-title>
-									<v-list-tile-title>
+									<v-list-tile-title 
+										:class="`${hover ? 'primary' : 'black' }--text ${hover ? 'font-weight-black' : '' }`"
+										>
 										{{ item.data_raw.f_code}}
 									</v-list-tile-title>
 								</v-list-tile-content>
@@ -157,19 +252,33 @@
 
 				</v-responsive>
 
-			</template>
+			</div>
 
+			<!-- if - TAG  -->
+			<!-- <div
+				v-if="coll=='tag'"
+				>
+				<v-responsive
+					text-xs-center
+					class="my-0"
+					absolute
+					>
+
+				</v-responsive>
+
+			</div> -->
 
 		</v-card>
 		
 
 		 <!-- FOOTER -->
-		<v-card>
+		<!-- <v-card>
 
 			<v-responsive 
 				class="grey lighten-1 text-lowercase caption"
 				:height="height_footer"
-				>
+				> -->
+
 				<!-- <v-container pa-0 ma-0 text-xs-center align-center>
 					<v-layout align-center class=" pa-0 ma-0 ">
 						<v-flex class="white--text  pa-0 ma-0 pt-1">
@@ -179,9 +288,9 @@
 					</v-layout>
 				</v-container> -->
 
-			</v-responsive>
+			<!-- </v-responsive>
 
-		</v-card>
+		</v-card> -->
 
 
 		</v-hover>
@@ -218,7 +327,7 @@ export default {
 			not_main_colls 				: ['dmf', 'tag'],
 
 			height_footer 				: "0px",
-			height_main_coll_content 	: "120px",
+			height_main_coll_content 	: "90px",
 
 			addDeleteFromParentlist		: "add_to_list",
 
@@ -239,7 +348,7 @@ export default {
 
 		height_title () { 
 			return (this.not_main_colls.includes(this.coll)) ? 
-				((this.coll=='tag')? '75px': '100px') : "60px" 
+				((this.coll=='tag')? '75px': '100px') : "70px" 
 		},
 
 		activeFab () {

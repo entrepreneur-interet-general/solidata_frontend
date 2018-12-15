@@ -1,3 +1,28 @@
+<style scoped>
+
+	tr th {
+		/* text-align : center ; */
+		/* border-left: thin dashed grey ; */
+	}
+
+	th, td {
+		border-left: thin dashed grey ;
+	}
+	td .col-values {
+		/* max-width: 150px;  */
+		width: 190px; 
+		overflow-y: hidden ;
+		text-align : center ;
+	}
+	td .col-titles {
+		/* max-width: 150px;  */
+		width: 90px; 
+		text-align : center ;
+		/* overflow-y: hidden; */
+	}
+
+</style>
+
 <template>
 
 	<div class="pa-0 ma-0">
@@ -20,12 +45,21 @@
 								
 								{{ item_doc.infos.title | truncate(30, '...') }}
 								
-								<v-icon  
-									right
-									:disabled="!isPreview"
+								<v-btn
+									icon
+									v-show="isPreview"
+									flat
+									class="secondary"
+									dark
+									small 
+									@click=""
 									>
-									{{ $store.state.mainIcons.edit.icon }}
-								</v-icon>
+
+									<v-icon small>
+										{{ $store.state.mainIcons.edit.icon }}
+									</v-icon>
+								
+								</v-btn>
 							
 							</v-toolbar-title>
 							
@@ -51,25 +85,57 @@
 						</v-toolbar>
 
 
+						<!-- DATA TABLE -->
 						<v-data-table
 
-							:headers="DMF_headers"
-							:items="list_DMF_full_pivoted"
+							:headers="list_headers_selector"
+							:items="list_DMF_selector"
 							class="elevation-1"
 							:loading="loading"
 							:pagination.sync="paginationDMF"
 							hide-actions
+							hide-headers
 							>
 							
 							<v-progress-linear slot="progress" color="accent" indeterminate></v-progress-linear>
 				
-							<template slot="items" slot-scope="props">
-								<td class="">{{ props.item["_"] }}</td>
-								<td 
-									v-for="dmf in listDMF"
-									:key="listDMF.indexOf(dmf)"
-									class="text-xs-center">{{ props.item[ dmf["oid_dmf" ] ] }}</td>
+							<template
+								slot="items" 
+								slot-scope="props"
+								>
+							
+								<td
+									v-for="dmf in list_DMF_raw_selector"
+									:key="list_DMF_raw_selector.indexOf(dmf)"
+									:class="`px-1 text-xs-center ${ (list_DMF_selector.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
+									style=""
+									>
+									<!-- first column  -->
+									<div 
+										v-if=" dmf['_id'] == '_' && !isPreview"
+										class="col-titles font-weight-bold"
+										>
+										<!-- {{ dmf }} -->
+										<!-- {{ dmf["_id"] }} -->
+										{{ props.item[ dmf["_id"] ] }}
+									</div>
+
+									<!-- rows for each entry in list_DMF_full_pivoted -->
+									<div 
+										v-else
+										class="col-values"
+										>
+										{{ props.item[ dmf["_id"] ] | truncate( 100, '...' ) }}
+										<span v-if="$store.state.is_debug">
+											dmf id : <code>{{ dmf["_id"] }}</code>
+										</span>
+									</div>
+
+								</td>
+								
+								
 							</template>
+
 
 						</v-data-table>
 
@@ -141,7 +207,7 @@ export default {
 		console.log("\n- viewEditListDMF / created ..." ) ;
 		console.log("- viewEditListDMF / listDMF : ", this.listDMF ) ;
 
-		if ( this.listDMF != [] ) {
+		if ( !Array.isArray(this.listDMF) || this.listDMF.length ) {
 
 			// map list DMF to list of DMF oids
 			this.list_DMF_oids = this.listDMF.map( function (obj) {
@@ -156,6 +222,7 @@ export default {
 	},
 
 	data () {
+
 		return {
 			
 			loading : false,
@@ -172,14 +239,18 @@ export default {
 			list_DMF_full : [],
 
 			// DMF data for datatable
+			listDMF_extended		: [],
 			DMF_headers 			: [],
+			DMF_headers_light 		: [],
+			listDMF_light			: [],
 			list_DMF_full_pivoted 	: [],
+			list_DMF_first_row_pivoted : [],
 
 			// empty column (first column on the left of the datatable)
 			empty_column : {
 				_id 	: "_",
 				infos 	: {
-					title : "title",
+					title : "",
 					description : "description"
 				},
 				public_auth : {
@@ -196,7 +267,7 @@ export default {
 			empty_column_normalized : {
 				"_id" 							: "_",
 				"infos.title" 					: "title",
-				// "infos.description" 			: "description",
+				"infos.description" 			: "description",
 				"public_auth.open_level_edit" 	: "open_level_edit", 
 				"data_raw.f_code" 				: "f_code", 
 				"data_raw.f_type" 				: "f_type", 
@@ -240,6 +311,17 @@ export default {
 
 	computed : {
 
+		list_DMF_selector() {
+			return (this.isPreview) ? this.list_DMF_first_row_pivoted : this.list_DMF_full_pivoted ;
+		},
+
+		list_headers_selector() {
+			return (this.isPreview) ? this.DMF_headers_light : this.DMF_headers ;
+		},
+
+		list_DMF_raw_selector() {
+			return (this.isPreview) ? this.listDMF_light : this.listDMF_extended ;
+		},
 	},
 
 	methods: {
@@ -259,53 +341,81 @@ export default {
 
 			// var for internal purposes
 			var data_new_headers 	= [] ;
+			var data_pivoted 		= [] ;
+
+			this.listDMF_light = data_from_API.slice(0) ;
 
 			// add empty_column_normalized to beginning of data_from_API
-			data_from_API.unshift(this.empty_column_normalized) ;
-			console.log("\n...viewEditListDMF - pivotData / data_from_API (B) : ", data_from_API);
+			data_from_API.unshift( this.empty_column_normalized ) ;
+			// console.log("...viewEditListDMF - pivotData / data_from_API (B) : ", data_from_API);
+			this.listDMF_extended = data_from_API ;
 
-			// loop through data_to_pivot
+
+			// --------------------------------------------- //
+			// loop through data_to_pivot => headers
+			// --------------------------------------------- //
 			for (let dmf in data_from_API ) {
 				
-				// set DMF_headers
+				// console.log("\n...viewEditListDMF - pivotData / dmf (C) : ", dmf);
+				// console.log("...viewEditListDMF - pivotData / data_from_API[dmf]['infos.title'] (D) : \n", data_from_API[dmf]["infos.title"]);
+	
 				// create new header
 				var temp_header = {
-					text 	: data_from_API[dmf]["infos.title"], 
-					value 	: data_from_API[dmf]["_id"], 
-					sortable : false,
-					align: function(){ return( data_from_API[dmf]["_id"] == "_") ? 'left' : 'center' } 
+					value		: data_from_API[dmf]["_id"], 
+					text 		: data_from_API[dmf]["infos.title"], 
+					// text 		: data_from_API[dmf]["_id"], 
+					sortable 	: false,
+					align		: 'center',
 				};
-				console.log("...viewEditListDMF - pivotData / temp_header : ", temp_header);
+				// console.log("...viewEditListDMF - pivotData / temp_header.value : ", temp_header.value);
 
 				// push DMF oid in data_new_headers
 				data_new_headers.push( temp_header )
 
-			}
+			};
 
 			// send datatable_headers back
-			console.log("...viewEditListDMF - pivotData / data_new_headers : ", data_new_headers);
-			this.DMF_headers =  data_new_headers ;
+			console.log("\n...viewEditListDMF - pivotData / data_new_headers : ", data_new_headers);
+			this.DMF_headers 		=  data_new_headers ;
+
+			var temp_DMF_light		=  data_new_headers.slice(0) ;
+			temp_DMF_light.shift() ; 
+			// console.log("\n...viewEditListDMF - pivotData / temp_DMF_light : ", temp_DMF_light);
+			this.DMF_headers_light	= temp_DMF_light ; 
+			console.log("\n...viewEditListDMF - pivotData / this.DMF_headers_light : ", this.DMF_headers_light);
 
 
-			// loop through fields to create data_pivoted
-			var data_pivoted 		= [] ;
+			// --------------------------------------------- //
+			// loop through fields to create data_pivoted => rows
+			// --------------------------------------------- //
 
-			console.log("...viewEditListDMF - pivotData / this.empty_column_normalized : ", this.empty_column_normalized );
-			for (const field of Object.keys(this.empty_column_normalized) ) {
+			// console.log("...viewEditListDMF - pivotData / this.empty_column_normalized : ", this.empty_column_normalized );
+			// for (var field in   ) {
+			for (var field of Object.keys(this.empty_column_normalized) ) {
 				
-				console.log("...viewEditListDMF - pivotData / field : ", field);
-				var temp_field = {} ;
+				// console.log("\n----- viewEditListDMF - pivotData / field : ", field);
+				
+				// if (field != "_id" && field!='infos.title' ) {
+				if (field != "_id"  ) {
 
-				for (let dmf in data_from_API ) {
-					temp_field[ data_from_API[dmf]["_id"] ] = data_from_API[dmf][ field ]
+					var temp_field = {} ;
+
+					for (var dmf in data_from_API ) {
+							// console.log("...viewEditListDMF - pivotData / dmf : ", dmf);
+							// console.log("...viewEditListDMF - pivotData / data_from_API[dmf]['_id'] : ", data_from_API[dmf]["_id"] );
+							// console.log("...viewEditListDMF - pivotData / data_from_API[dmf][field] : ", data_from_API[dmf][field] );
+							temp_field[ data_from_API[dmf]["_id"] ] = data_from_API[dmf][ field ]
+						}
+					// console.log("...viewEditListDMF - pivotData / temp_field : ", temp_field);
+					data_pivoted.push(temp_field)
+
 				}
-
-				data_pivoted.push(temp_field)
 			}
 
-			// send data_pivoted back
+			// send data_pivoted back to get_docs_fromApi()
 			console.log("...viewEditListDMF - pivotData / data_pivoted : ", data_pivoted);
-			return data_pivoted ;
+			this.list_DMF_full_pivoted 		=  data_pivoted ;
+			this.list_DMF_first_row_pivoted = [ data_pivoted[0] ] ;
 			
 		},
 
@@ -335,11 +445,10 @@ export default {
 				
 				console.log("viewEditListDMF get_doc_fromApi / result: ", result ) ; 
 				
-				this.list_DMF_full 			= result.data ;
+				this.list_DMF_full 		= result.data ;
 
 				// pivot data
-				this.list_DMF_full_pivoted 	=  this.pivotData(result.data) ;
-
+				this.pivotData(result.data) ;
 
 				this.loading 			= false
 				this.DMF_list_loaded 	= true

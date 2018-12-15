@@ -85,6 +85,7 @@
 		"upload"		: "Upload a file",
 		"edit"			: "Edit",
 		"edit_your"		: "Edit your ",
+		"add"			: "Add",
 		"remove"		: "Remove",
 		"delete"		: "Delete",
 		"delete_i"		: "Delete item",
@@ -249,7 +250,9 @@
 		"f_type" 		: "Field type" ,
 		"f_comments" 	: "Field comments" ,
 		"f_is_required"	: "Field is required" ,
-		"resume" 		: "Resume"
+		"resume" 		: "Resume",
+
+		"dsi" 			: "Datasets"
 	},
 
 	"datamodels" : {
@@ -322,7 +325,11 @@
 		"src_type" 		: "Source type", 
 		"src_link" 		: "Value", 
 		"src_sep" 		: "Separator", 
-		"src_parser" 	: "Source parser"
+		"src_parser" 	: "Source parser",
+		
+		"f_col_headers" : "Columns", 
+		"f_data" 		: "Data entries" 
+
 	},
 	
 	"recipes" : {

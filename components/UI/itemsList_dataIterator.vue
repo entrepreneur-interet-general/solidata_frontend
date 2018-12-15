@@ -13,7 +13,7 @@
 			<v-layout 
 				row
 				wrap
-				class="mb-1 pt-0"
+				:class="classPaddingBottomSearch"
 				align-center
 				>
 	 		
@@ -64,10 +64,10 @@
 					<BtnCreate
 						:is_icon="false"
 						:tab="tab"
-						:color="''"
+						:color="'primary'"
 						:btn_class="'primary'"
-						:is_block="false"
-						:outline="false"
+						:is_block="true"
+						:outline="true"
 						:large="true"
 						:flat="true"
 						>
@@ -251,7 +251,10 @@ export default {
 
 			// MAIN CARD SIZE 
 			with_margin 	: "grey lighten-3 elevation-0 mb-5 mx-5 px-3",
-			with_no_margin 	: "grey lighten-3 elevation-0 mt-0 mx-0 px-3",
+			with_no_margin 	: "grey lighten-3 elevation-0 mt-1 mx-0 px-3",
+
+			with_padding 	: "pb-2 mb-1",
+			with_no_padding : "pb-2 mb-0",
 
 			// CARDS SIZES
 			// cardSizes : "xs12 sm6 md4 l4",
@@ -298,6 +301,9 @@ export default {
 				return (this.no_margin) ? this.with_no_margin : this.with_margin ;
 			},
 
+			classPaddingBottomSearch () {
+				return (this.no_margin) ? this.with_no_padding : this.with_padding ;
+			},
 
 
 	},
@@ -306,7 +312,9 @@ export default {
 
 		itemsList (in_out) {
 			
-			console.log("-- itemsInList / in_out : ", in_out) ; 
+			console.log("-- itemsInList ..." ) ; 
+			// console.log("-- itemsInList / in_out : ", in_out) ; 
+
 			var searchStr 	= this.searchString ;
 
 			var items_list = (in_out === "inTeam") ? this.itemsIn : this.itemsNot ;
@@ -321,15 +329,14 @@ export default {
 
 				items_list = items_list.filter( function(item) { 
 
-					console.log("-- itemsInList / item : ", item) ; 
+					// console.log("-- itemsInList / item : ", item) ; 
 					return ( item.infos.title.includes(searchStr) )
 				
 				})
 
-
 			};
 
-			console.log("-- itemsInList / items_list : ", items_list) ; 
+			// console.log("-- itemsInList / items_list : ", items_list) ; 
 			return items_list
 		},
 

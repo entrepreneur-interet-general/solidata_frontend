@@ -113,8 +113,8 @@ export default {
 	data () {
 		return {
 
-			sectionTopPadding_dft 	: "px-3 pt-2 pb-2",
-			sectionTopPadding_color : "pt-2 pb-2"
+			sectionTopPadding_dft 	: "px-3 pt-2 pb-3",
+			sectionTopPadding_color : "pt-2 pb-3"
 
 		}
 	},

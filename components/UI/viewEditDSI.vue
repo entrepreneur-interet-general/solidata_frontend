@@ -1,3 +1,22 @@
+<style scoped>
+
+	th, td {
+		border-left: thin dashed grey ;
+	}
+	td .col-values {
+		/* max-width: 150px;  */
+		width: 190px; 
+		overflow-y: hidden ;
+	}
+	td .col-titles {
+		/* max-width: 150px;  */
+		width: 70px; 
+		text-align : right ;
+		/* overflow-y: hidden; */
+	}
+</style>
+
+
 <template>
 
 	<v-container 
@@ -89,13 +108,21 @@
 								{{ itemDoc.infos.title | truncate(30, '...') }}
 								
 								<!-- edit button if not in DSI -->
-									<!-- v-if="coll!='dsi'" -->
-								<v-icon  
-									right
-									:disabled="!isPreview"
+								<v-btn
+									icon
+									v-show="isPreview"
+									flat
+									class="secondary"
+									dark
+									small 
+									@click=""
 									>
-									{{ $store.state.mainIcons.edit.icon }}
-								</v-icon>
+
+									<v-icon small>
+										{{ $store.state.mainIcons.edit.icon }}
+									</v-icon>
+								
+								</v-btn>
 							
 							</v-toolbar-title>
 							
@@ -205,7 +232,9 @@
 								<td 
 									v-for="header in itemHeaders"
 									:key="itemHeaders.indexOf(header)">
-									{{ props.item[header.value] | truncate(30, ' ...') }}
+									<div class="col-values">
+										{{ props.item[header.value] | truncate(30, ' ...') }}
+									</div>
 								</td>
 
 							</template>

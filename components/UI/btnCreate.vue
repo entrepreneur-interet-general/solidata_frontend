@@ -75,7 +75,7 @@ export default {
 
 
 	mounted () {
-		console.log("\n- btnCreate / mounted ---> tab... ", this.tab ) ;
+		// console.log("\n- btnCreate / mounted ---> tab... ", this.tab ) ;
 		this.onResize() ; 
 		window.addEventListener('resize', this.onResize, { passive: true })
 	},

@@ -41,8 +41,8 @@
 		<v-card-text 
 			v-if="$store.state.is_debug"
 			>
-			- coll : <code> {{ coll }} </code>
-			- itemId : <code> {{ itemId }} </code>
+			- coll : <code> {{ coll }} </code><br>
+			- itemId : <code> {{ itemId }} </code><br>
 			- dmf_list : <code> {{ itemDoc.datasets.dmf_list }} </code> 
 		</v-card-text>
 
@@ -234,6 +234,8 @@ export default {
 	created () {
 		console.log("\n- viewEditDMT / created ---> item_doc : ", this.item_doc ) ;
 		this.itemDoc = this.item_doc ;
+
+		console.log("- viewEditDMT / created ---> item_doc.datasets.dmf_list : ", this.item_doc.datasets.dmf_list ) ;
 		// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
 		// this.canEdit = this.checkUserAuth(this.parentFieldslist)
 

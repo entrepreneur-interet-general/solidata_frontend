@@ -553,7 +553,7 @@ export const actions = {
 		return this.$axios.$post(`${payload.collection}/create/`, cleanPayload, config)
 			.then(response => {
 
-				console.log("... $ createItem / response : ", response ) ; 
+				// console.log("... $ createItem / response : ", response ) ; 
 
 				// set up corresponding store 
 				commit( `${payload.collection}/set_current`, response.data, { root: true } )
@@ -599,7 +599,7 @@ export const actions = {
 		return this.$axios.$get(`${collection}/infos/get_one/${doc_id}`, config )
 
 			.then(response => {
-				console.log(`... $ getOneItem : response : `, response);
+				// console.log(`... $ getOneItem : response : `, response);
 				// commit(`${collection}/set_current`, response.data);
 				return response
 			})
@@ -636,7 +636,7 @@ export const actions = {
 		// GET DATA 
 		return this.$axios.$get(`${collection}/infos/list`, config )
 			.then(response => {
-				console.log(`... $ getListItems : response : `, response);
+				// console.log(`... $ getListItems : response : `, response);
 				if ( level != "get_datasets") {
 					commit(`${collection}/set_list`, response);
 				}
@@ -665,7 +665,7 @@ export const actions = {
 		// API CALL
 		return this.$axios.$put(`${collection}/edit/${doc_id}`, fields, config )
 			.then(response => {
-				console.log(`... $ updateItem : response : `, response);
+				// console.log(`... $ updateItem : response : `, response);
 				// commit(`${collection}/set_list`, response);
 				return response
 			})
@@ -692,7 +692,7 @@ export const actions = {
 		
 		return this.$axios.$delete(`${collection}/edit/${doc_id}`, config )
 			.then(response => {
-				console.log(`... $ deleteItem : response : `, response);
+				// console.log(`... $ deleteItem : response : `, response);
 				// commit(`${collection}/set_list`, response);
 				return response
 				// return this.$router.push(`/${this.coll}`)

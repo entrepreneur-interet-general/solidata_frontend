@@ -83,6 +83,7 @@
 		"upload"		: "Charger un fichier",
 		"edit"			: "Editer",
 		"edit_your"		: "Editer votre ",
+		"add"			: "Ajouter",
 		"remove"		: "Effacer",
 		"delete"		: "Supprimer",
 		"delete_i"		: "Supprimer le document",
@@ -219,11 +220,13 @@
 		"openlevel" 	: "Choisissez un niveau d'ouverture",
 		"open_level_edit" : "Choisissez un niveau d'open level pour l'édition",
 		"open_level_show" : "Choisissez un niveau d'open level pour la prévisualisation",
+	
 		"f_code" 		: "Code du champ" ,
 		"f_object" 		: "Objet du champ" ,
 		"f_type" 		: "Type du champ" ,
 		"f_comments" 	: "Commentaires sur le champ" ,
 		"f_is_required"	: "Champ requis" ,
+		
 		"resume"		: "Résumé"
 	},
 
@@ -246,7 +249,10 @@
 		"f_type" 		: "Type du champ" ,
 		"f_comments" 	: "Commentaires sur le champ" ,
 		"f_is_required"	: "Champ requis" ,
-		"resume"		: "Résumé"
+		"resume"		: "Résumé",
+
+		"dsi" 			: "Jeux de données"
+
 	},
 
 	"datamodels" : {
@@ -320,7 +326,10 @@
 		"src_type" 		: "Type de source", 
 		"src_link" 		: "Valeur", 
 		"src_sep" 		: "Séparateur", 
-		"src_parser" 	: "Source parser"
+		"src_parser" 	: "Source parser",
+
+		"f_col_headers" : "Colonnes", 
+		"f_data" 		: "Lignes de données" 
 	},
 	
 	"recipes" : {

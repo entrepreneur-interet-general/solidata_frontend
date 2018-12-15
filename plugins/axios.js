@@ -56,11 +56,15 @@ export default function ({ $axios, redirect, store }) {
 			redirect('/')
 		}
 
-		// if (code === 403) {
+		// if (code === 401) {
 		// 	redirect('/login')
 		// }
 
+		// else {
+		// 	redirect('/login')
+		// }
 		// return error.response
+
 	})
 
 }
