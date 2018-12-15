@@ -6,8 +6,7 @@
 		fluid
 		>
 		
-
-		<!-- DSI TOOLBAR -->
+		<!-- DMT TOOLBAR -->
 		<template v-if="!no_toolbar">
 
 			<v-layout 
@@ -25,8 +24,9 @@
 						:itemDoc="item_doc"
 						:is_create="is_create" 
 						:isPreview="isPreview"
-						@input="switchPreview"
 						:is_reset="false"
+						:is_loading="loading"
+						@input="switchPreview"
 						>
 					</ItemToolbar>
 
@@ -36,6 +36,15 @@
 
 		</template>
 
+
+		<!-- DEBUG -->
+		<v-card-text 
+			v-if="$store.state.is_debug"
+			>
+			- coll : <code> {{ coll }} </code>
+			- itemId : <code> {{ itemId }} </code>
+			- dmf_list : <code> {{ itemDoc.datasets.dmf_list }} </code> 
+		</v-card-text>
 
 
 		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
@@ -72,7 +81,6 @@
 		</v-expansion-panel>
 
 
-
 		<!-- DMF LIBRARY -->
 		<v-expansion-panel
 			v-show="!isPreview"
@@ -81,8 +89,6 @@
 			class="elevation-0"
 			>
 			<v-expansion-panel-content >
-
-				<!-- - itemId : <code> {{ itemId }} </code> -->
 
 				<div 
 					class="accent--text"
@@ -103,6 +109,8 @@
 					:no_margin="true"
 					:add_to_parent="true"
 					:parentDoc_id="itemId"
+					:parentDoc_coll="coll"
+					@update_parent_dataset="updateDMF_list"
 					>
 				</ItemsListDI>
 
@@ -110,22 +118,18 @@
 		</v-expansion-panel>
 
 
-
-
 		<!-- DMT DATA COMPONENT -->
 		<v-layout row>
 			
 			<v-flex xs12>
 				
-				<!-- dmf_list - {{ itemDoc.datasets.dmf_list }} -->
-
-					<!-- :listDMF="itemDoc.datasets.dmf_list" -->
-				<ViewEditListDMF
-					:item_doc="itemDoc"
-					:listDMF="[
+					<!-- :listDMF="[
 						{'oid_dmf' : '5ba664030a82860745d51fdd'},
 						{'oid_dmf' : '5bf4183f0a8286180b53183c'}
-					]" 
+					]"  -->
+				<ViewEditListDMF
+					:listDMF="itemDoc.datasets.dmf_list"
+					:item_doc="itemDoc"
 					:isPreview="isPreview"
 					:panel_open="panel_lib[0]"
 					@input="openDMF_lib"
@@ -135,7 +139,6 @@
 			</v-flex>
 
 		</v-layout>
-
 
 
 		<!-- COMPONENTS FOR COMMON DOCS USES -->		
@@ -246,11 +249,13 @@ export default {
 			// coll 		: "dmt",
 			tab			: "datamodels",
 
+			loading		: false,
 			alert		: null,
+
 			isPreview 	: this.is_preview,
 			no_subField : true,
 
-			panel_infos	: [true],
+			panel_infos	: [false],
 			panel_lib	: [false],
 			panel_uses	: [false],
 
@@ -296,7 +301,6 @@ export default {
 	computed : {
 
 
-
 		formTitle () {
 			return this.editedIndex === -1 ? 'item_new' : 'item_edit' ;
 		},
@@ -315,7 +319,6 @@ export default {
 		parentPadding () {
 			return (this.isPreview) ? this.parentNoBotPadding : this.parentBotPadding ;
 		},
-
 
 
 		// SWITCH
@@ -466,17 +469,6 @@ export default {
 
 
 		//  ITEM FOR EDITION / CREATION
-		editedItem()  {
-
-			return {
-				name: '',
-				calories: 0,
-				fat: 0,
-				carbs: 0,
-				protein: 0
-			}
-		},
-
 		defaultItem()  {
 
 			var emptyItem = {};
@@ -490,6 +482,66 @@ export default {
 			console.log("fill_defaultItem / emptyItem : ", emptyItem)
 			return emptyItem
 		},
+
+
+		// ADD DELETE ITEM FROM
+		form ( input ) {
+
+			var datasets_coll 	= input.datasets_coll ;
+			var item_id_to_add 	= input.item_id_to_add ;
+			var add_or_delete 	= input.add_or_delete ;
+
+			return {
+				"field_to_update" 	: "datasets." + datasets_coll + "_list" ,
+				"field_value"		: item_id_to_add,
+				"add_to_list"		: add_or_delete,
+				"doc_type"			: datasets_coll 
+			}
+		},
+
+		updateDMF_list ( input ) {
+
+			console.log("updateDMF_list / input : ", input )
+
+			this.loading 		= true
+
+			// load values as pseudoForm
+			var pseudoForm	= this.form( input ) ;
+			var pseudoFormData 	= [ pseudoForm ] ;
+			console.log("updateDMF_list / pseudoFormData : ", pseudoFormData )
+
+			// dispatch action from store for update
+			this.$store.dispatch('updateItem', {
+				coll	: this.coll,
+				doc_id  : this.itemId,
+				form 	: pseudoFormData, 
+			})
+			
+			.then(result => {
+				this.alert 		= { type: 'success', message: result.msg }
+				this.loading 	= false
+
+				// update current in store
+				console.log("itemClickBehaviour - result data : ", result.data )
+				this.$store.commit(`${this.coll}/set_current`, result );
+
+			})
+			
+			.catch(error => {
+				console.log("submit / error... : ", error ) ; 
+				this.loading = false
+				this.alert = {type: 'error', message: "login error" }
+				if (error.response && error.response.data) {
+					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+				}
+			})
+
+		},
+
+
+
+
+
 
 
 		// EDIT ITEM

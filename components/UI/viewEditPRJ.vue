@@ -22,6 +22,7 @@
 					:itemDoc="item_doc"
 					:is_create="is_create" 
 					:isPreview="isPreview"
+					:is_loading="loading"
 					@input="switchPreview"
 					>
 				</ItemToolbar>

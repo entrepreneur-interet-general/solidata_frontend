@@ -216,7 +216,7 @@
 						@click="snack_if_not_create() "
 					></v-text-field>
 
-					<!-- TEXT VALUE / ...other -->
+					<!-- TEXT VALUE / ... other -->
 					<v-text-field
 						v-else
 						:solo="is_preview"
@@ -614,30 +614,38 @@ export default {
 			if (!this.is_create) {
 
 				// var pseudoFormData = ObjectFormatterUpdate.prepareFormData(this.form) ;
-				var pseudoFormData = [this.form] ;
-				console.log("submitValue - update / formData : ", pseudoFormData)
+				var pseudoFormData = [ this.form ] ;
+				console.log("submitValue - update / pseudoFormData : ", pseudoFormData)
 
 				// dispatch action from store
 				this.$store.dispatch('updateItem', {
 					coll	: this.coll,
 					doc_id  : this.item_id,
 					form 	: pseudoFormData, //this.form,
-				}).then(result => {
-					this.alert = {type: 'success', message: result.msg}
-					this.loading = false
+				})
+				
+				.then(result => {
+
+					console.log("submit / success... : ", result ) ; 
+
+					this.alert 		= { type: 'success', message: result.msg }
+					this.loading 	= false
 
 					// update current in store
-					valueData.update_current = true 
-					console.log("submitValue - create / valueData : ", valueData)
-					this.$store.commit(`${this.coll}/set_current_new`, valueData );
+					// valueData.update_current = true 
+					// console.log("submitValue - create / valueData : ", valueData)
+					// this.$store.commit(`${this.coll}/set_current_new`, valueData );
 
-					// this.$router.push('/') /////////
-				}).catch(error => {
+				})
+				
+				.catch(error => {
+
 					console.log("submit / error... : ", error ) ; 
-					this.loading = false
-					this.alert = {type: 'error', message: "login error" }
-					if (error.response && error.response.data) {
-						this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+
+					this.loading 	= false
+					this.alert 		= { type: 'error', message: "login error" }
+					if ( error.response && error.response.data ) {
+						this.alert 	= {type: 'error', message: error.response.data.msg || error.reponse.status}
 					}
 				})
 

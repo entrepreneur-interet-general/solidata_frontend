@@ -31,6 +31,7 @@
 				</v-layout>
 			</v-responsive>
 
+			<v-divider ></v-divider>
 
 			<!-- FLOATING BTN -->
 			<v-btn
@@ -50,13 +51,18 @@
 
 
 			<!-- DEBUG -->
-			<!-- <v-card-text >
+			<v-card-text 
+				v-if="$store.state.is_debug"
+				>
+				- coll : <code> {{ coll }} </code> <br>
+				- addDeleteFromParentlist : <code> {{ addDeleteFromParentlist }} </code> <br>
 				- add_to_parent : <code> {{ add_to_parent }} </code> <br>
 				- parentDoc_id : <code> {{ parentDoc_id }} </code>
-			</v-card-text > -->
+				- parentDoc_coll : <code> {{ parentDoc_coll }} </code>
+				<v-divider ></v-divider>
+			</v-card-text >
 
 
-			<v-divider ></v-divider>
 
 			<!-- if - PRJ / DSI / dmt -->
 			<template
@@ -198,23 +204,29 @@ export default {
 		"inTeam" , 
 		
 		"add_to_parent",
-		"parentDoc_id"
+		"parentDoc_coll",
+		"parentDoc_id",
 
 	],
 
 	data () {
 		return {
+			
+			loading 		: false,
+			alert 			: '',
 
 			not_main_colls 				: ['dmf', 'tag'],
 
 			height_footer 				: "0px",
 			height_main_coll_content 	: "120px",
 
-			direction: 'left',
-			fab: false,
-			fling: false,
-			tabs: null,
-			transition: 'slide-y-reverse-transition'
+			addDeleteFromParentlist		: "add_to_list",
+
+			// direction		: 'left',
+			// fab				: false,
+			// fling			: false,
+			// tabs				: null,
+			// transition		: 'slide-y-reverse-transition'
 
 		}
 	},
@@ -230,14 +242,14 @@ export default {
 				((this.coll=='tag')? '75px': '100px') : "60px" 
 		},
 
-      activeFab () {
-        switch (this.tabs) {
-          case 'one': return { 'class': 'purple', icon: 'account_circle' }
-          case 'two': return { 'class': 'red', icon: 'edit' }
-          case 'three': return { 'class': 'green', icon: 'keyboard_arrow_up' }
-          default: return {}
-        }
-      }
+		activeFab () {
+			switch (this.tabs) {
+				case 'one': return { 'class': 'purple', icon: 'account_circle' }
+				case 'two': return { 'class': 'red', icon: 'edit' }
+				case 'three': return { 'class': 'green', icon: 'keyboard_arrow_up' }
+				default: return {}
+			}
+		},
 	
 	},
 
@@ -248,9 +260,22 @@ export default {
 			console.log("itemClickBehaviour..." )
 
 			if ( this.add_to_parent ) {
+
 				console.log("itemClickBehaviour / add_to_parent..." )
 
-				// commit action update from main $store
+				// send data back to parent component 
+				console.log("itemClickBehaviour / emit..." )
+
+				var input = {
+					add_or_delete 	: this.addDeleteFromParentlist,
+					item_id_to_add 	: this.item._id,
+					datasets_coll 	: this.coll,
+					parentDoc_coll 	: this.parentDoc_coll,
+				}
+				console.log("itemClickBehaviour / input : ", input )
+
+				this.$emit('update_parent_dataset', input )
+
 			}
 
 			else {

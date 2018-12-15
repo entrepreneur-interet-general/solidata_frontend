@@ -93,6 +93,7 @@
 
 				<!-- data iterator title -->
 				<v-toolbar
+					v-if="!add_to_parent"
 					dense
 					slot="header"
 					class="mb-0 pb-0"
@@ -128,6 +129,8 @@
 						:inTeam="'yes'"
 						:add_to_parent="add_to_parent"
 						:parentDoc_id="parentDoc_id"
+						:parentDoc_coll="parentDoc_coll"
+						@update_parent_dataset="updateParentDatasetList"
 						>
 					</CardPreviewDense>
 
@@ -150,7 +153,8 @@
 
 				<!-- data iterator title -->
 				<v-toolbar
-					
+					v-if="!add_to_parent"
+					dense
 					slot="header"
 					class="mb-0 pb-0"
 					color="transparent"
@@ -181,6 +185,7 @@
 						:inTeam="'yes'"
 						:add_to_parent="add_to_parent"
 						:parentDoc_id="parentDoc_id"
+						@update_parent_dataset="updateParentDatasetList"
 						>
 					</CardPreviewDense>
 
@@ -207,11 +212,8 @@
 
 import BtnCreate from '~/components/UI/btnCreate.vue'
 
-// import SectionTitle from '~/components/UI/sectionTitle.vue'
-// import CardPreview from '~/components/UI/cardPreview.vue'
 import CardPreviewDense from '~/components/UI/cardPreview_dense.vue'
-// import CardCreate from '~/components/UI/cardCreate.vue'
-// import CardCreateDense from '~/components/UI/cardCreate_dense.vue'
+
 
 export default {
 
@@ -226,6 +228,7 @@ export default {
 		// props to add item to parent
 		"add_to_parent",
 		"parentDoc_id",
+		"parentDoc_coll",
 
 	],
 	
@@ -301,34 +304,40 @@ export default {
 
 	methods : {
 
-			itemsList (in_out) {
+		itemsList (in_out) {
+			
+			console.log("-- itemsInList / in_out : ", in_out) ; 
+			var searchStr 	= this.searchString ;
+
+			var items_list = (in_out === "inTeam") ? this.itemsIn : this.itemsNot ;
+
+			if (this.searchString != null ){
 				
-				console.log("-- itemsInList / in_out : ", in_out) ; 
-				var searchStr 	= this.searchString ;
+				// console.log("-- itemsInList / searchStr : ", searchStr) ; 
+				// console.log("-- itemsInList / itemsList : ", itemsList) ; 
+				// for (var d in itemsList){
+				// 	console.log("itemsList[d] : ", itemsList[d] )
+				// }
 
-				var items_list = (in_out === "inTeam") ? this.itemsIn : this.itemsNot ;
+				items_list = items_list.filter( function(item) { 
 
-				if (this.searchString != null ){
-					
-					// console.log("-- itemsInList / searchStr : ", searchStr) ; 
-					// console.log("-- itemsInList / itemsList : ", itemsList) ; 
-					// for (var d in itemsList){
-					// 	console.log("itemsList[d] : ", itemsList[d] )
-					// }
-
-					items_list = items_list.filter( function(item) { 
-
-						console.log("-- itemsInList / item : ", item) ; 
-						return ( item.infos.title.includes(searchStr) )
-					
-					})
+					console.log("-- itemsInList / item : ", item) ; 
+					return ( item.infos.title.includes(searchStr) )
+				
+				})
 
 
-				};
+			};
 
-				console.log("-- itemsInList / items_list : ", items_list) ; 
-				return items_list
-			},
+			console.log("-- itemsInList / items_list : ", items_list) ; 
+			return items_list
+		},
+
+
+		updateParentDatasetList (input) {
+			console.log("updateParentDatasetList / input : ", input )
+			this.$emit('update_parent_dataset', input )
+		}
 
 	},
 

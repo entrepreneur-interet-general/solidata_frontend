@@ -22,6 +22,7 @@
 					:itemDoc="item_doc"
 					:is_create="is_create" 
 					:isPreview="isPreview"
+					:is_loading="loading"
 					@input="switchPreview"
 					>
 				</ItemToolbar>
@@ -300,6 +301,7 @@ export default {
 			
 			alert		: null,
 			loading 	: false,
+			
 			isPreview 	: this.is_preview,
 			noToolbar	: this.no_toolbar,
 

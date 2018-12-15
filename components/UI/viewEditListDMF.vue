@@ -60,7 +60,6 @@
 							:pagination.sync="paginationDMF"
 							hide-actions
 							>
-							<!-- :rows-per-page-items="7" -->
 							
 							<v-progress-linear slot="progress" color="accent" indeterminate></v-progress-linear>
 				
