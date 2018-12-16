@@ -112,9 +112,12 @@ export const actions = {
 	// },
 
 	confirm_access({commit, dispatch, state}) {
+
 		console.log("\n...store/auth : confirm_access...");
 		const config = { "headers" : { 'Authorization': state.access_token }} ;
+		
 		return this.$axios.$get('auth/tokens/confirm_access', config )
+
 			.then(response => {
 				// access_token is still valid
 				console.log("\n...store/auth/confirm_access : response : ", response);
@@ -122,7 +125,9 @@ export const actions = {
 				commit('set_user',        response.data) ;
 				return response
 			})
+
 			.catch(error => {
+
 				console.log("\n...store/auth/confirm_access : ERROR / msg : ",  error.response.data.msg ) ; 
 				console.log("...store/auth/confirm_access : ERROR / statusText : ",  error.response.statusText ) ; 
 				console.log("...store/auth/confirm_access : ERROR / status : ",  error.response.status ) ;
@@ -132,32 +137,39 @@ export const actions = {
 
 				// error detected 
 				if ( error.response.data.sub_status == 42 ){
+
 					console.log("\n...store/auth/confirm_access : TOKEN EXPIRED " ) ;
 					console.log("...store/auth/confirm_access : dispatch('newAccessToken') " ) ;
 					// dispatch("newAccessToken")
+
 					return response_code = dispatch("newAccessToken")
+
 						.then(resp => {
 							console.log("...store/auth/confirm_access : resp : ", resp)
 							return resp
 						})
+						
 						.catch(err => {
 							console.log("...store/auth/confirm_access : ERROR / statusText : ",  err.response.data ) ; 
 							return err.response.data
 						}) 
-						;
+						
 				}
+
 				else if ( error.response.status == 401 && error.response.data.sub_status != 42 ) {
 					console.log("\n...store/auth/confirm_access : UNAUTHORIZED " ) ;
 					dispatch("loginAnonymous") ;
 					response_code = 401
 					// return error.response.data
 				}
+
 				else if ( error.response.data.status == 403 ){
 					console.log("\n...store/auth/confirm_access : FORRBIDDEN " ) ;
 					dispatch("loginAnonymous") ;
 					response_code = 401
 					// return error.response.data
 				}
+
 				else {
 					console.log("\n...store/auth/confirm_access : ERROR / status : ",  error.response.status ) ;
 					console.log("...store/auth/confirm_access : ERROR / data : ",  error.response.data ) ;
@@ -166,10 +178,8 @@ export const actions = {
 					// return error.response.data
 				} ;
 
-
 				return response_code
 				
-
 			})
 	},
 
@@ -177,15 +187,20 @@ export const actions = {
 
 
 	login ({commit, dispatch, state}, data) {
+
 		console.log("\n...store/auth : login...");
 		console.log("\n...store/auth/login : data : ", data);
 		// 
 		return dispatch('loginAnonymous')
+
 			.then( resp_anonymoous => {
+
 				console.log("\n...store/auth/login : resp_anonymoous : ", resp_anonymoous);
 				// needs an anonymous access_token to login 
 				const config = { "headers" : { 'Authorization': state.access_token }} ;
+				
 				return this.$axios.$post('auth/login/', data, config )
+
 					.then(response => {
 						console.log("\n...store/auth/login : response : ", response);
 						var user_login_infos = response.data ;
@@ -203,6 +218,7 @@ export const actions = {
 						
 						return response 
 					})
+
 					.catch(error => {
 						console.log("\n...store/auth/login : error status : ",  error.response.status )
 					})
@@ -210,8 +226,11 @@ export const actions = {
 	},
 
 	logout ({commit, dispatch}) {
+
 		console.log("\n...store/auth : logout...");
+
 		return new Promise ((resolve, reject) => {
+
 			console.log("\n...store/auth/logout : logout / promise...");
 			commit('reset_user');
 			dispatch('loginAnonymous');
@@ -228,15 +247,20 @@ export const actions = {
 
 			resolve()
 		})
+
 		.catch(error => {
 			console.log("\n...store/auth/logout : error status : ",  error.response.status )
 		})
+
 	},
 
 
 	loginAnonymous ({commit, rootState}) {
+
 		console.log("\n...store/auth : loginAnonymous...");
+
 		return this.$axios.$get('auth/login/anonymous/')
+
 			.then(response => {
 				console.log("\n...store/auth/loginAnonymous : response : ", response);
 				commit('set_isAnonymous', true)
@@ -254,19 +278,26 @@ export const actions = {
 				// Cookie.remove("tokens");
 				// resolve()
 				return response
+
 			})
+
 	},
 
 
 
 
 	register ({commit, state}, data) {
+
 		console.log("\n...store/auth : register...");
 		console.log("\n...store/auth/register : data : ", data);
+
 		// needs an anonymous access_token to create new user 
 		const config = { "headers" : { 'Authorization': state.access_token }} ;
+		
 		return this.$axios.$post('usr/register/', data, config)
+
 			.then(response => {
+
 				console.log("\n...store/auth/register : response : ", response);
 				commit('set_isAnonymous', false);
 				commit('set_isLogged',    true);
@@ -279,16 +310,19 @@ export const actions = {
 				Cookie.set("refresh_token",		response.tokens.refresh_token )
 
 				return response
+
 			})
 		},
 		
 	forgotpwd ({commit, state}, data) {
+
 		console.log("\n...store/auth : forgotpwd...");
 		console.log("\n...store/auth : data : ", data);
 		
 		// needs an anonymous access_token to create new user 
 		const config = { "headers" : { 'Authorization': state.access_token }} ;
 		return this.$axios.$post('auth/password/password_forgotten', data, config)
+
 			.then(response => {
 				console.log("\n...store/auth : response : ", response);
 				// commit('set_isAnonymous', false);
@@ -298,34 +332,47 @@ export const actions = {
 				// // commit('SET_LANG',        response.profile.lang, { root: true }) ;
 				// Cookie.set('tokens',      response.tokens)
 				return response
+
 			})
 	},
 		
 
 	newAccessToken ({commit, state}) {
-		console.log("\n...store/auth : newAccessToken...");
-		console.log("...store/auth : newAccessToken / state.refresh_token :", state.refresh_token);
+
+		console.log("\n...store/auth/newAccessToken...");
+		console.log("...store/auth/newAccessToken - state.refresh_token :", state.refresh_token);
 		const config = { "headers" : { 'Authorization': state.refresh_token }} ;
-		return this.$axios.$get('auth/tokens/new_access_token', config)
+		
+		return this.$axios.$get( 'auth/tokens/new_access_token', config )
+
 			.then(response => {
-				console.log("...store/auth/newAccessToken : response : ", response);
+
+				console.log("...store/auth/newAccessToken : response... ");
+				// console.log("...store/auth/newAccessToken : response : ", response);
 				commit('set_access_token',	response.tokens) ;
 				commit('set_isLogged',    true);
 				commit('set_user',        response.data) ;
 				Cookie.set("access_token",	response.tokens.access_token )
 				return response
 			})
+
 			.catch(error => {
-				console.log("\n...store/auth/newAccessToken : error : ", error);
+				console.log("\n...store/auth/newAccessToken : error...");
+				console.log("...store/auth/newAccessToken : error.response.status : ", error.response.status);
+				// console.log("\n...store/auth/newAccessToken : error : ", error);
 			})
 	},
 
 	newRefreshToken ({commit, state}, data) {
+		
 		console.log("\n...store/auth : refreshAccessToken...");
 		const config = { "headers" : { 'Authorization': state.refresh_token }} ;
+		
 		return this.$axios.$post('auth/tokens/new_access_token', data)
+			
 			.then(response => {
-				console.log("...store/auth/refreshAccessToken : response : ", response);
+				console.log("...store/auth/refreshAccessToken : response...");
+				// console.log("...store/auth/refreshAccessToken : response : ", response);
 				commit('set_access_token', response.tokens) ;
 				return response
 			})

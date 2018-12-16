@@ -432,16 +432,16 @@ export const state = () => ({
 	locales 		: [	
 		'en', 
 		'fr',
-		// 'sp',
+		'esp',
 		// 'tr',
 		// 'ge'
 	],
 	dropdown_lang	: [
 		{ text: 'english',	code : 'en'	},
-		{ text: 'français', code : 'fr' }
-		// { text: 'spanish', code : 'sp' }
-		// { text: 'turkish', code : 'tr' }
-		// { text: 'german', code : 'ge' }
+		{ text: 'français', code : 'fr' },
+		{ text: 'español', code : 'esp' },
+		// { text: 'turkish', code : 'tr' },
+		// { text: 'german', code : 'ge' },
 	],
 
 })
@@ -632,7 +632,7 @@ export const actions = {
 			headers : { 'Authorization' : rootState.auth.access_token },
 			params	: parameters
 		} ;
-		console.log("... $ getListItems : config : ", config );
+		// console.log("... $ getListItems : config : ", config );
 
 
 		// GET DATA 
@@ -645,7 +645,9 @@ export const actions = {
 				return response
 			})
 			.catch(error => {
-				console.log("... $ getListItems / error : ", error ) ; 
+				console.log("... $ getListItems / error..." ) ; 
+				console.log("... $ getListItems / error.response.status : ", error.response.status ) ; 
+				// console.log("... $ getListItems / error : ", error ) ; 
 				return error
 			})
 	},

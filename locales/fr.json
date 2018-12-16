@@ -309,7 +309,6 @@
 		"introAnon"		: "Les jeux de données partagés par la communauté",
 		"create"		: "Importer un nouveau jeu de données",
 		"edit"			: "Editer votre jeu de données",
-		"file" 			: "Choisissez un fichier",
 		"title"			: "Nommez votre jeu de données",
 		"description"	: "Décrivez votre jeu de données en quelques mots",
 		"licence" 		: "Choisissez une licence",
@@ -323,11 +322,13 @@
 		"f_comments" 	: "Commentaires sur le champ" ,
 		"f_is_required"	: "Champ requis" ,
 		"resume"		: "Résumé",
+		
 		"src_type" 		: "Type de source", 
 		"src_link" 		: "Valeur", 
 		"src_sep" 		: "Séparateur", 
 		"src_parser" 	: "Source parser",
-
+		
+		"file" 			: "Choisissez un fichier",
 		"f_col_headers" : "Colonnes", 
 		"f_data" 		: "Lignes de données" 
 	},

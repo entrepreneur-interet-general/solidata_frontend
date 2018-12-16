@@ -53,6 +53,7 @@ export default function ({ req, store, app, redirect }) {
 					store.commit('SET_LANG', lang_cookie, { root: true }) ;
 		
 				}
+				
 				catch(error) {
 					console.log("- - - ... fucking error : ", error)
 				}

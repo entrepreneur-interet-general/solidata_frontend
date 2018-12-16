@@ -47,8 +47,9 @@
 
 		<!-- <v-spacer></v-spacer> -->
 
+			<!-- href="/" -->
 		<a 
-			href="/"
+			:to="'/'"
 			class="ml-2 mr-0 hidden-xs-only"
 			>
 			<img src="@/assets/images/logo_solidata_7c.png" height="45px">

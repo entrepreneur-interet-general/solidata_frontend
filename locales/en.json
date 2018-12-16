@@ -308,7 +308,6 @@
 		"introAnon"		: "All the datasets shared by the community",
 		"create"		: "Import a new dataset",
 		"edit"			: "Preview / edit your dataset",
-		"file" 			: "Choose a file",
 		"title"			: "Name your dataset",
 		"description" 	: "Describe your dataset",
 		"licence" 		: "Choose a licence",
@@ -322,11 +321,13 @@
 		"f_comments" 	: "Field comments" ,
 		"f_is_required"	: "Field is required" ,
 		"resume" 		: "Resume",
+		
 		"src_type" 		: "Source type", 
 		"src_link" 		: "Value", 
 		"src_sep" 		: "Separator", 
 		"src_parser" 	: "Source parser",
 		
+		"file" 			: "Choose a file",
 		"f_col_headers" : "Columns", 
 		"f_data" 		: "Data entries" 
 

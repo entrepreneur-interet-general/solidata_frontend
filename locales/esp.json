@@ -1,0 +1,382 @@
+{
+	"links": {
+		"home"			: "Hogar",
+		"dashboard"		: "Tablero",
+		"about"			: "Acerca de",
+		"tutos"			: "Tutoriales",
+		"github"		: "Github",
+		"english"		: "Versión inglesa",
+		"french"		: "Versión francesa",
+
+		"allprojects"   : "Proyectos",
+		"myprojects"    : "Mis proyectos",
+		"alldatasets"   : "Datos",
+		"mydatasets"    : "mis datos",
+		"alldatamodels" : "Modelos de data",
+		"mydatamodels"  : "mis modelos de datos",
+		"alldatamodelfields" : "Campo de modelo de datos",
+		"mydatamodelfields"  : "mi campo de modelo de datos",
+		"allrecipes"    : "Receta",
+		"myrecipes"     : "mis recetas",
+		"alltags"       : "Etiquetas",
+		"mytags"        : "mis etiquetas",
+
+		"allusers"      : "Usuarios",
+
+		"mysettings"    : "Ajustes",
+		"myprofile"     : "Perfil",
+		"mypwd"         : "Contraseña"
+
+	},
+
+	"rules" : {
+		"email" 		: "Por favor entre una contraseña valida",
+		"length"		: "Longitud de caracteres invalida, max : ",
+		"password"		: "Contraseña tiene que contenir una mayuscula, un número, y un caracter especial",
+		"required"		: "Este canpo está obligatorio"
+	},
+	
+
+	"parentFields" : {
+		"infos"			: "Infos",
+		"public_auth"	: "Autorizión pública",
+		"specs"			: "Especificaciónes",
+		"log"			: "Log",
+		"modif_log"		: "Mofificaciónes",
+		"uses"			: "Usos",
+		"datasets"		: "Datos",
+		"translations"	: "Traducciónes",
+		"team"			: "Equipo",
+		"mapping"		: "Cartografía",
+		"data_raw"		: "Dato original",
+		"profile"		: "Perfil",
+		"professionnal_infos"	: "Infos profesionales",
+		"auth"			: "Autorizaciones"
+	},
+
+
+	"openlevel" : {
+		"opendata" 		: "opendata",
+		"commons" 		: "commons",
+		"collective" 	: "collective",
+		"private" 		: "private"
+	},
+
+	"dialog" : {
+		"opened"		: "Diálog abierto",
+		"closed"		: "Diálog cerrado",
+		"edit"			: "Edite y guarde prensando enter",
+		"saved"			: "Dato guardado",
+		"canceled"		: "Cancelado"
+	},
+
+	"global" : {
+		"hi"			: "Hola",
+		"yes"			: "si",
+		"no"			: "no",
+		"on"			: "on",
+		"off"			: "off",
+		"and"			: "y",
+		"lang"			: "Idioma",
+
+		"validate"		: "Validar",
+		"search"		: "Buscar",
+		"select"		: "Seleccionar",
+		"upload"		: "Importar un archivo",
+		"edit"			: "Editar",
+		"edit_your"		: "Edite su ",
+		"add"			: "Añadir",
+		"remove"		: "Eliminar",
+		"delete"		: "Suprimir",
+		"delete_i"		: "Suprimir ítem",
+		"confirm_del"	: "¿Está seguro.a que quiere suprimir este documento ?",
+		"reset"			: "Reiniciar dato",
+		"confirm_reset"	: "¿Está seguro.a que quiere reiniciar este documento ?",
+		"nofile"		: "No archivo seleccionado",
+		"continue"		: "Sigue",
+		"refresh"		: "Refrescar",
+		"cancel"		: "Cancelar",
+		"close"			: "Cerrar",
+		"save"			: "Guardar",
+		"next" 			: "Siguiente",
+		"back" 			: "Anterior",
+
+		"see_this"		: "Ver",
+
+		"item_infos"	: "Informaciones",
+		"item_edit"		: "Editar item",
+		"item_new"		: "Nuevo item",
+		"item_del"		: "Suprimir item",
+
+		"dmf_add"		: "Añadir un campo",
+
+		"list"			: "lista",
+		"create"		: "crear",
+		"export"		: "exportar",
+
+		"email"			: "Email",
+		"name" 			: "Nombre",
+		"surname" 		: "Apellido",
+		"password"		: "Contraseña",
+
+		"title" 		: "Título",
+		"description" 	: "Descripción",
+		"tag" 			: "Etiqueta",
+		"tags" 			: "Etiquetas",
+		"file" 			: "Archivo",
+		"licence" 		: "Licencia",
+		"resume" 		: "Resumen",
+		"preview" 		: "prevista",
+
+		"open_level_edit" : "Open level para editar",
+		"open_level_show" : "Open level para prevista",
+
+		"f_code" 		: "Código de campo" ,
+		"f_object" 		: "Objecto del campo" ,
+		"f_type" 		: "Tipo de campo" ,
+		"f_comments" 	: "Commentarios sobre el campo " ,
+		"f_is_required"	: "Campo está necesario" ,
+
+		"src_type" 		: "tipo de fuente" ,
+		"src_link" 		: "archivo fuente" ,
+		"src_sep" 		: "Separador",
+		"src_parser" 	: "Fuente parser",
+
+		"team"			: "Equipo",
+		"inTeam"		: "usted hace parte del equipo",
+		"notTeam"		: "usted no hace parte del equipo",
+
+		"settings"		: "Ajustes"
+
+	},
+
+	"root_fields" :{
+		"infos"			: "Infos",
+		"public_auth"	: "Autorizión pública",
+		"specs"			: "Specs",
+		"modif_log"		: "Modificaciónes",
+		"log"			: "Log",
+		"uses"			: "Usos",
+		"datasets"		: "Datos",
+		"translations"	: "Traducciones",
+		"team"			: "Equipo",
+		"mapping"		: "Cartografía",
+		"data_raw"		: "Dato original",
+		"rules"			: "Reglas",
+		"profile"		: "Perfil",
+		"professional_infos" : "Infos profesionales",
+		"auth" 			: "Autorizaciones"
+	},
+
+	"home": {
+		"title"				: "Solidata ESP",
+		"subtitle"			: "Agregar, enriquecer <br> y compartir su <strong><em>data</em></strong>",
+		"tagline"			: "Define un módelo de datos, consolide su data con su equipo y exporta el resultado",
+		
+		"startbtn"  		: "Empieze",
+		"videobtn"  		: "Mira la video",
+
+		"loginPage"			: "Inició de sesión",
+		"loginForm"			: "Forumlario de inicío",
+		"loginToRegister" 	: "¿Ya tiene una cuenta? ",
+		"registerToLogin" 	: "¿No tiene una cuenta? ",
+		"agreement"			: "Estoy de acuerdo con",
+		"termsService"		: "Términos de servicio",
+		"privacyPolicy"		: "Política de privacidad",
+
+		"forgotPwd" 		: "¿Ha olvidado su contraseña?",
+		"forgotPwdPage" 	: "Reiniciar su contraseña",
+		"forgotPwdAction" 	: "Mándañe un vínculo para reiniciar mi contraseña",
+
+		"registerPage"		: "Registrar",
+		"registerForm"		: "Formulario de registro",
+		
+		"logoutPage" 		: "Cerrar sesión",
+		"logoutMsg" 		: "¿Está usted seguro.a que quiere cerrar su sesión?",
+		
+		"introduction"		: "Eso es una introducción en inglés."
+	},
+	
+
+	"about": {
+		"title"			: "Acerca de",
+		"introduction"	: "Esa página tiene que informar el usuario."
+	},
+
+	"dashboard" : {
+		"name" 			: "Tablero",
+		"intro" 		: "Administrar todos los elementos para abrir datos",
+		"introAnon" 	: "Todos los elementos creados y abiertos por la comunidad"
+	},
+	
+	"users" : {
+		"name"			: "Usuarios",
+		"singular"		: "Usuario",
+		"intro"			: "Administrar los usuarios",
+		"introAnon"		: "La comunidad de usuarios",
+		"create"		: "Nuevo.a usuario.a",
+		"edit"			: "Ver / editar sus informaciones",
+		"title"			: "De un nombre a su usuario",
+		"description" 	: "Describe el usuario",
+		"licence" 		: "Elejir una licencia",
+		"tags" 			: "Elejir etiquetas para este usuario",
+		"openlevel" 	: "Elejir un nivel de open data",
+		"open_level_edit" : "Elejir un open level para edición",
+		"open_level_show" : "Elejir un open level para prevista",
+		"f_code" 		: "Código de campo" ,
+		"f_object" 		: "Objecto del campo" ,
+		"f_type" 		: "Tipo de campo" ,
+		"f_comments" 	: "Comentarios sobre el campo" ,
+		"f_is_required"	: "campo está necesario" ,
+		"resume" 		: "Resumen"
+	},
+
+	"projects" : {
+		"name"			: "Proyectos",
+		"singular"		: "Proyecto",
+		"intro"			: "Administrar sus proyectos",
+		"introAnon"		: "Todos los proyectos conpartidos por la comunidad",
+		"create"		: "Nuevo proyecto",
+		"edit"			: "Ver / editar las informaciones",
+		"title"			: "De un nombre a su proyecto",
+		"description" 	: "Describe su proyecto",
+		"licence" 		: "Elejir una licencia",
+		"tags" 			: "Elejir etiquetas para este proyecto",
+		"openlevel" 	: "Elejir un nivel de open data",
+		"open_level_edit" : "Elejir un open level para edición",
+		"open_level_show" : "Elejir un open level para prevista",
+		"f_code" 		: "Código de campo" ,
+		"f_object" 		: "Objecto del campo" ,
+		"f_type" 		: "Tipo de campo" ,
+		"f_comments" 	: "Comentarios sobre el campo" ,
+		"f_is_required"	: "Campo está necesario" ,
+		"resume" 		: "Resumen",
+
+		"dsi" 			: "Datos"
+	},
+
+	"datamodels" : {
+		"name"			: "Módelos de datos",
+		"singular"		: "Módelo de datos",
+		"intro"			: "Administrar sus módelos de datos",
+		"introAnon"		: "Todos los módelos de datos conpartidos por la comunidad",
+		"create"		: "Nuevo módelo de datos",
+		"edit"			: "Ver / editar las informaciones",
+		"title"			: "De un nombre a su módelo de datos",
+		"description" 	: "Describe su módelo de datos",
+		"licence" 		: "Elejir una licencia",
+		"tags" 			: "Elejir etiquetas para esto módelo de datos",
+		"openlevel" 	: "Elejir un nivel de open data",
+		"open_level_edit" : "Elejir un open level para edición",
+		"open_level_show" : "Elejir un open level para prevista",
+		"f_code" 		: "Código de campo" ,
+		"f_object" 		: "Objecto del campo" ,
+		"f_type" 		: "Tipo de campo" ,
+		"f_comments" 	: "Comentarios sobre el campo" ,
+		"f_is_required"	: "Campo está necesario" ,
+		"resume" 		: "Resumen",
+
+		"manage_dmf"	: "Añadir un campo de módelo de datos"
+	},
+
+	"datamodel_fields" : {
+		"name"			: "Campos de módelo de datos",
+		"singular"		: "Campo de módelo de datos",
+		"intro"			: "Administrar sus campo de módelo de datos",
+		"introAnon"		: "Todos los campo de módelo de datos conpartidos por la comunidad",
+		"create"		: "Nuevo campo de módelo de datos",
+		"edit"			: "Ver / editar las informaciones",
+		"title"			: "De un nombre a su módelo de datos",
+		"description" 	: "Describe su campo de módelo de datos",
+		"licence" 		: "Elejir una licencia",
+		"tags" 			: "Elejir etiquetas para esto campo de módelo de datos",
+		"openlevel" 	: "Elejir un nivel de open data",
+		"open_level_edit" : "Elejir un open level para edición",
+		"open_level_show" : "Elejir un open level para prevista",
+		"f_code" 		: "Código de campo" ,
+		"f_object" 		: "Objecto del campo" ,
+		"f_type" 		: "Tipo de campo" ,
+		"f_comments" 	: "Comentarios sobre el campo" ,
+		"f_is_required"	: "Campo está necesario" ,
+		"resume" 		: "Resumen"
+	},
+
+	"datasets" : {
+		"name" 			: "Datos",
+		"singular"		: "Dato",
+		"intro"			: "Administrar sus datos",
+		"introAnon"		: "Todos los datos conpartidos por la comunidad",
+		"create"		: "Importar nuevos datos",
+		"edit"			: "Ver / editar las informaciones",
+		"title"			: "De un nombre a su dato",
+		"description" 	: "Describe su dato",
+		"licence" 		: "Elejir a licence",
+		"tags" 			: "Elejir etiquetas para esto campo de módelo de datos",
+		"openlevel" 	: "Elejir a level of open data",
+		"open_level_edit" : "Elejir an open level for edition",
+		"open_level_show" : "Elejir an open level for preview",
+		"f_code" 		: "Código de campo" ,
+		"f_object" 		: "Objecto del campo" ,
+		"f_type" 		: "Tipo de campo" ,
+		"f_comments" 	: "Comentarios sobre el campo" ,
+		"f_is_required"	: "Campo está necesario" ,
+		"resume" 		: "Resumen",
+		
+		"src_type" 		: "Tipo de fuente", 
+		"src_link" 		: "Valor", 
+		"src_sep" 		: "Separador", 
+		"src_parser" 	: "Fuente parser",
+		
+		"file" 			: "Elejir un archivo",
+		"f_col_headers" : "Columnas", 
+		"f_data" 		: "Linea de datos" 
+
+	},
+	
+	"recipes" : {
+		"name" 			: "Recetas",
+		"singular"		: "Receta",
+		"intro"			: "Administrar sus recetas",
+		"introAnon"		: "Todas las recetas creadas por la comunidad",
+		"create"		: "Nueva receta",
+		"edit"			: "Ver / editar las informaciones",
+		"title"			: "De un nombre a su receta",
+		"nameLabel" 	: "Nombre",
+		"description" 	: "Describe su receta",
+		"licence" 		: "Elejir una licencia",
+		"tags" 			: "Elejir etiquetas para esta receta",
+		"openlevel" 	: "Elejir un nivel de open data",
+		"open_level_edit" : "Elejir un open level para edición",
+		"open_level_show" : "Elejir un open level para prevista",
+		"f_code" 		: "Código de campo" ,
+		"f_object" 		: "Objecto del campo" ,
+		"f_type" 		: "Tipo de campo" ,
+		"f_comments" 	: "Comentarios sobre el campo" ,
+		"f_is_required"	: "Campo está necesario" ,
+		"resume" 		: "Resumen"
+	},
+	
+	"tags" : {
+		"name" 			: "Etiquetas",
+		"singular"		: "Etiqueta",
+		"intro" 		: "Administrar sus etiquetas",
+		"introAnon"		: "Todas las etiquetas creadas por la comunidad",
+		"create"		: "Nueva etiqueta",
+		"edit"			: "Ver / editar su etiqueta",
+		"title"			: "De un nombre a su etiqueta",
+		"nameLabel" 	: "Nombre",
+		"description" 	: "Describe su etiqueta",
+		"licence" 		: "Elejir a licence",
+		"tags" 			: "Elejir etiquetas para esta etiqueta",
+		"openlevel" 	: "Elejir un nivel de open data",
+		"open_level_edit" : "Elejir un open level para edición",
+		"open_level_show" : "Elejir un open level para prevista",
+		"f_code" 		: "Código de campo" ,
+		"f_object" 		: "Objecto del campo" ,
+		"f_type" 		: "Tipo de campo" ,
+		"f_comments" 	: "Comentarios sobre el campo" ,
+		"f_is_required"	: "Campo está necesario" ,
+		"resume" 		: "Resumen"
+	}
+
+}

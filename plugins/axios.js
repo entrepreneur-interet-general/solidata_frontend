@@ -46,7 +46,7 @@ export default function ({ $axios, redirect, store }) {
 
 		const code = parseInt(error.response && error.response.status)
 		console.log('\n> > > plugin axios / error - code : ', code ); 
-		console.log('\n> > > plugin axios / error : ', error ); 
+		// console.log('> > > plugin axios / error : ', error ); 
 
 		if (code === 404) {
 			redirect('/404')
