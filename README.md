@@ -1,5 +1,6 @@
 <h1 align=center>  SOLIDATA <br> frontend</h1>
 
+![alt text](./screenshots/home_en.png "homepage (en)")
 
 -------
 ## PRESENTATION
@@ -36,7 +37,9 @@ part 2b/3 of the TADATA! sofware suite ([ApiViz](https://github.com/entrepreneur
 
 - intuitive UX 
 - login / register
-- 
+- import a dataset
+- manage / create datamodel templates (schemas) from datamodel fields
+- manage / create datamodel fields 
 
 ##### Features TO DO  :
 - ...
@@ -66,16 +69,32 @@ For detailed explanation on how things work, check out the [Nuxt.js](https://git
 
 -------
 
-## SCREENSHOTS
+## SCREENSHOTS 
+
 
 -------
-![alt text](./screenshots/home_en.png "homepage (en)")
-
--------
-![alt text](./screenshots/login_fr.png "login (fr)")
+![alt text](./screenshots/login_en.png "login (en)")
 
 -------
 ![alt text](./screenshots/dashboard_en.png "dashboard (en)")
 
 -------
-![alt text](./screenshots/create_prj_fr.png "create project (en)")
+![alt text](./screenshots/create_prj_en.png "create project (en)")
+
+-------
+![alt text](./screenshots/list_dmt_en.png "list datamodel templates (en)")
+
+-------
+![alt text](./screenshots/list_dmf_en.png "list datamodel fields (en)")
+
+-------
+![alt text](./screenshots/edit_dsi_en.png "list datamodel fields (en)")
+
+-------
+![alt text](./screenshots/edit_dmt_en.png "list datamodel fields (en)")
+
+-------
+![alt text](./screenshots/edit_dmt_settings_en.png "list datamodel fields (en)")
+
+-------
+![alt text](./screenshots/edit_dmf_settings_en.png "list datamodel fields (en)")
