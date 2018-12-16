@@ -34,7 +34,7 @@
 		</v-layout>
 
 
-		<!-- DMF / SETTINGS  -->
+		<!-- TAG / SETTINGS  -->
 		<v-dialog 
 			v-model="isSettings" 
 			fullscreen 
@@ -129,7 +129,7 @@
 
 
 		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
-		<!-- <v-flex d-flex :class="flex_vars">
+		<v-flex d-flex :class="flex_vars">
 
 			<v-expansion-panel
 				v-show="!isPreview"
@@ -163,7 +163,7 @@
 				</v-expansion-panel-content>
 			</v-expansion-panel>
 
-		</v-flex> -->
+		</v-flex>
 
 
 		<!-- COMPONENTS FOR DOCS DATA_RAW -->		
@@ -335,7 +335,7 @@ export default {
 	},
 	
 	created () {
-		console.log("\n- viewEditDMF / created ---> item_doc : ", this.item_doc ) ;
+		console.log("\n- viewEditTAG / created ---> item_doc : ", this.item_doc ) ;
 		this.itemDoc = this.item_doc ;
 		// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
 		// this.canEdit = this.checkUserAuth(this.parentFieldslist)

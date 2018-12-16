@@ -24,9 +24,11 @@
 						:itemDoc="item_doc"
 						:is_create="is_create" 
 						:isPreview="isPreview"
+						:isSettings="isSettings"
 						:is_reset="false"
 						:is_loading="loading"
 						@input="switchPreview"
+						@settings="switchSettings"
 						>
 					</ItemToolbar>
 
@@ -47,8 +49,107 @@
 		</v-card-text>
 
 
+		<!-- DMT / SETTINGS  -->
+		<v-dialog 
+			v-model="isSettings" 
+			fullscreen 
+			hide-overlay 
+			transition="dialog-bottom-transition"
+			>
+
+			<v-card>
+				
+				<!-- SETTINGS TOOLBAR -->
+				<SettingsToolbar
+					:itemDoc="item_doc"
+					@settings="switchSettings"
+					>
+				</SettingsToolbar>
+
+
+				<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
+				<v-expansion-panel
+					v-show="!isPreview"
+					v-model="panel_infos"
+					expand
+					class="elevation-0"
+					>
+
+					<v-expansion-panel-content>
+
+						<div 
+							class="pb-0 mb-0"
+							slot="header"
+							>
+							<v-icon small class="mr-3">
+								{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
+							</v-icon>
+							<span>
+								{{ $t(`parentFields.infos`, $store.state.locale) }}
+							</span>
+						</div>
+
+						<ItemDocInfos
+							:coll="coll"
+							:is_create="is_create"
+							:is_preview="isPreview"
+							:item_doc="itemDoc"
+							>
+						</itemDocInfos>
+
+					</v-expansion-panel-content>
+					
+				</v-expansion-panel>
+
+				<v-divider></v-divider>
+
+
+				<!-- DMF LIBRARY -->
+				<v-expansion-panel
+					v-show="!isPreview"
+					v-model="panel_lib"
+					expand
+					class="elevation-0"
+					>
+					<v-expansion-panel-content >
+
+						<div 
+							class="accent--text"
+							slot="header"
+							>
+							<v-icon small color="accent" class="mr-3">
+								{{ $store.state.mainIcons.add_to_parent.icon }}  
+							</v-icon>
+							<span>
+								{{ $t(`datamodels.manage_dmf`, $store.state.locale) }}
+							</span>
+						</div>
+
+						<ItemsListDI
+							:tab="'datamodel_fields'"
+							:coll="'dmf'"
+							:items_coll="$store.state.dmf.list"
+							:no_margin="true"
+							:add_to_parent="true"
+							:parentDoc_id="itemId"
+							:parentDoc_coll="coll"
+							@update_parent_dataset="updateDMF_list"
+							>
+						</ItemsListDI>
+
+					</v-expansion-panel-content>
+				</v-expansion-panel>
+			
+				<v-divider></v-divider>
+
+			</v-card>
+		</v-dialog>
+
+
+
+
 		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
-		<v-expansion-panel
+		<!-- <v-expansion-panel
 			v-show="!isPreview"
 			v-model="panel_infos"
 			expand
@@ -78,11 +179,12 @@
 				</itemDocInfos>
 
 			</v-expansion-panel-content>
-		</v-expansion-panel>
+
+		</v-expansion-panel> -->
 
 
 		<!-- DMF LIBRARY -->
-		<v-expansion-panel
+		<!-- <v-expansion-panel
 			v-show="!isPreview"
 			v-model="panel_lib"
 			expand
@@ -115,7 +217,7 @@
 				</ItemsListDI>
 
 			</v-expansion-panel-content>
-		</v-expansion-panel>
+		</v-expansion-panel> -->
 
 
 		<!-- DMT DATA COMPONENT -->
@@ -133,6 +235,8 @@
 					:isPreview="isPreview"
 					:panel_open="panel_lib[0]"
 					@input="openDMF_lib"
+					@settings="switchSettings"
+					@update_parent_dataset="updateDMF_list"
 					>
 				</ViewEditListDMF>
 
@@ -146,7 +250,7 @@
 			v-show="!isPreview"
 			v-model="panel_uses"
 			expand
-			class="elevation-0"
+			class="elevation-0 mt-2"
 			>
 
 			<v-expansion-panel-content>
@@ -186,14 +290,12 @@ import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
 import ObjectFormatterCreate from "~/utils/ObjectFormatterCreate.js"
 import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
 
-// import SectionTitle from '~/components/UI/sectionTitle.vue'
 import ItemToolbar from '~/components/UI/itemToolbar.vue'
 import ItemDocUses from '~/components/UI/itemDocUses.vue'
 import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
 import ViewEditListDMF from '~/components/UI/viewEditListDMF.vue'
 
-// import CardInfos from '~/components/UI/parentFields/cardInfos.vue'
-// import CardCreate from '~/components/UI/cardCreate.vue'
+import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
 import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
 
 
@@ -212,15 +314,13 @@ export default {
 	],
 
 	components : {
-		// SectionTitle,
 		ItemToolbar,
 		ItemDocInfos,
 		ItemDocUses,
 		ItemsListDI,
-		// CardInfos,
 		ViewEditListDMF,
+		SettingsToolbar,
 		ValueEdit,
-		// CardCreate,
 	},
 
 	middleware : ["getListItems"],
@@ -256,9 +356,10 @@ export default {
 
 			isPreview 	: this.is_preview,
 			no_subField : true,
+			isSettings 	: false,
 
-			panel_infos	: [false],
-			panel_lib	: [false],
+			panel_infos	: [true],
+			panel_lib	: [true],
 			panel_uses	: [false],
 
 			collName 	: this.$store.state.collectionsNames[this.coll],
@@ -273,7 +374,7 @@ export default {
 
 			// data table : loading, pagination 
 			loading 		: false,
-			pagination 		: {},
+			// pagination 		: {},
 			total_items		: 0, // per page must be in [0, 2, 5, 10, 20, 25, 50, 100]
 
 			// data table - edit/create item
@@ -357,34 +458,50 @@ export default {
 
 	watch: {
 		
+		item_doc : {
+
+			immediate : true,
+			handler( newVal, oldVal) {
+
+				console.log( "\nVE DMT / watch ~ item_doc / newVal : \n", newVal )
+				console.log( "\nVE DMT / watch ~ item_doc / oldVal : \n", oldVal )
+
+				// update itemDoc
+				if (oldVal != undefined ){
+					console.log( "\nVE DMT / watch ~ item_doc / newVal.datasets.dmf_list : \n", newVal.datasets.dmf_list )
+					console.log( "\nVE DMT / watch ~ item_doc / oldVal.datasets.dmf_list : \n", oldVal.datasets.dmf_list )
+					this.itemDoc = newVal
+				}
+			}
+		},
+
 		dialog (val) {
 			val || this.close()
 		},
 	
-		// TO DO !!!!
-		pagination: {
+		// pagination: {
 
-			handler () {
+		// 	handler () {
 
-				console.log("\n...VDSI pagination handler ... ")
-				console.log("...VDSI pagination - this.pagination : ", this.pagination)
+		// 		console.log("\n...VE DMT pagination handler ... ")
+		// 		console.log("...VE DMT pagination - this.pagination : ", this.pagination)
 
-				// change pagination params in store[coll]
-				var pagination_params 	= {
-					page		: this.pagination.page,
-					per_page 	: this.pagination.rowsPerPage,
-					total_items : this.pagination.totalItems,
-					sort_by 	: this.pagination.sortBy,
-					descending 	: this.pagination.descending,
-				}
-				console.log("...VDSI pagination - pagination_params : ", pagination_params)
+		// 		// change pagination params in store[coll]
+		// 		var pagination_params 	= {
+		// 			page		: this.pagination.page,
+		// 			per_page 	: this.pagination.rowsPerPage,
+		// 			total_items : this.pagination.totalItems,
+		// 			sort_by 	: this.pagination.sortBy,
+		// 			descending 	: this.pagination.descending,
+		// 		}
+		// 		console.log("...VE DMT pagination - pagination_params : ", pagination_params)
 
-				// call method for dispatch from main store
-				this.get_FData_fromApi(pagination_params)
+		// 		// call method for dispatch from main store
+		// 		this.get_FData_fromApi(pagination_params)
 				
-			},
-			deep: true
-		}
+		// 	},
+		// 	deep: true
+		// }
 	},
 
 	methods: {
@@ -399,48 +516,52 @@ export default {
 		switchPreview() {
 			this.isPreview = !this.isPreview ;
 		},
+		switchSettings() {
+			console.log("VE DMT / switchSettings...")
+			this.isSettings = !this.isSettings ;
+		},
 
 		// AXIOS CALL
-		get_FData_fromApi (pag_params) {
+		// get_FData_fromApi (pag_params) {
 
-			console.log("\n...VDSI get_FData_fromApi ... ")
+		// 	console.log("\n...VDSI get_FData_fromApi ... ")
 
-			this.loading = true
+		// 	this.loading = true
 
-			// AXIOS CALL OR DISPATCH 
-			var call_input = {
-				collection 		: this.coll,
-				doc_id			: this.itemId,
-				f_data_params 	: pag_params,
-			}
-			this.$store.dispatch('getOneItem', call_input )
+		// 	// AXIOS CALL OR DISPATCH 
+		// 	var call_input = {
+		// 		collection 		: this.coll,
+		// 		doc_id			: this.itemId,
+		// 		f_data_params 	: pag_params,
+		// 	}
+		// 	this.$store.dispatch('getOneItem', call_input )
 
-			.then( result => {
+		// 	.then( result => {
 				
-				console.log("VDSI get_FData_fromApi / result: ", result ) ; 
+		// 		console.log("VDSI get_FData_fromApi / result: ", result ) ; 
 				
-				this.itemDoc 		= result.data 
-				this.total_items 	= result.data.data_raw.f_data_count
+		// 		this.itemDoc 		= result.data 
+		// 		this.total_items 	= result.data.data_raw.f_data_count
 
-				this.pagination.page 		= result.query.page_args.page
-				this.pagination.rowsPerPage = result.query.page_args.per_page
-				this.pagination.sortBy 		= result.query.query_args.sort_by
+		// 		this.pagination.page 		= result.query.page_args.page
+		// 		this.pagination.rowsPerPage = result.query.page_args.per_page
+		// 		this.pagination.sortBy 		= result.query.query_args.sort_by
 
-				this.loading 		= false
-				this.alert   		= {type: 'success', message: result.msg}
+		// 		this.loading 		= false
+		// 		this.alert   		= {type: 'success', message: result.msg}
 
-			})
+		// 	})
 
-			.catch( error => {
-				console.log("VDSI get_FData_fromApi / submit - error... : ", error ) ; 
-				this.loading = false
-				// this.alert = {type: 'error', message: "login error" }
-				if (error.response && error.response.data) {
-					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
-				}
-			})
+		// 	.catch( error => {
+		// 		console.log("VDSI get_FData_fromApi / submit - error... : ", error ) ; 
+		// 		this.loading = false
+		// 		// this.alert = {type: 'error', message: "login error" }
+		// 		if (error.response && error.response.data) {
+		// 			this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+		// 		}
+		// 	})
 
-		},
+		// },
 
 
 		// HEADERS COLUMNS
@@ -524,7 +645,7 @@ export default {
 				this.loading 	= false
 
 				// update current in store
-				console.log("itemClickBehaviour - result data : ", result.data )
+				console.log("updateDMF_list - result : ", result )
 				this.$store.commit(`${this.coll}/set_current`, result );
 
 			})
@@ -620,7 +741,7 @@ export default {
 		//  USER AUTH  - checkUserAuth for an item --> /utils
 		checkUserAuth (field_name) {
 
-			console.log("\ncheckUserAuth / field_name : ", field_name ) ;
+			console.log("\ncheckUserAuth DMT / field_name : ", field_name ) ;
 			// console.log("checkUserAuth ...\n", this.item_doc.public_auth ) ;
 
 			var can_update_field 	= false  ;
@@ -636,112 +757,11 @@ export default {
 				can_update_field 		= checkDocUserAuth(this.item_doc, field_name, isLogged, user_id)
 			}
 
-			// var doc_auth_edit 		= this.item_doc.public_auth.open_level_edit ; 
-
-			// if (doc_auth_edit == 'open_data' ){
-			// 	can_update_field = true
-			// }
-
-			// else if (doc_auth_edit == 'commons') {
-			// 	//  check if user is connected
-			// 	if ( this.$store.state.auth.isLogged ){
-			// 		can_update_field = true
-			// 	}
-			// } 
-
-			// else if (doc_auth_edit == 'collective') {
-			// 	//  check if user is part of the team
-			// 	var doc_creator 		= this.item_doc.log.created_by ; 
-			// 	var doc_auth_team 		= this.item_doc.team ; 
-			// 	doc_auth_team = doc_auth_team.filter(function(d) { return d.oid_usr == doc_creator ; });
-
-			// 	console.log("checkUserAuth ... doc_auth_team", doc_auth_team ) ;
-			// 	if ( this.$store.state.auth.user_id == doc_creator || doc_auth_team.lenght == 1 ){
-			// 		can_update_field = true
-			// 	}
-			// } 
-
-			// else if (doc_auth_edit == 'private') {
-			// 	//  check if user is the owner
-			// 	var doc_creator 		= this.item_doc.log.created_by ; 
-			// 	console.log("checkUserAuth ...", this.item_doc.public_auth ) ;
-			// 	if ( this.$store.state.auth.user_id == doc_creator ){
-			// 		can_update_field = true
-			// 	}
-			// } 
-
-			console.log("checkUserAuth / can_update_field : ", can_update_field ) ;
+			// console.log("checkUserAuth DMT / can_update_field : ", can_update_field ) ;
 
 			return can_update_field
 		},
 
-		// submit value to create item via API backend
-		// createItem ( ) {
-			
-		// 	console.log("\n VE createItem... ")
-
-		// 	this.alert    = null
-		// 	this.loading  = true
-
-		// 	var current_new = this.$store.state[this.coll].current_new ; 
-			
-		// 	// this.formHasErrors = false ; 
-
-		// 	console.log("VE createItem - current_new : ", current_new )
-
-		// 	// Object.keys(this.form).forEach(f => {
-		// 		// 	if (!this.form[f]) this.formHasErrors = true
-		// 	// 	this.$refs[f].validate(true)
-				
-		// 	// })
-
-		// 	// REFORMAT DATA
-		// 	// var data_to_send = JSON.parse(JSON.stringify(current_new)) ;
-		// 	var data_to_send = ObjectFormatterCreate.prepareFormData(current_new) ;
-
-		// 	// add file's data if needed
-		// 	if( this.is_file == true ){
-		// 		console.log("VE createItem / adding file  to data_to_send")
-		// 		// data_to_send['file'] 		= this.$store.state[this.coll].current_file ;
-		// 		data_to_send['csv_sep'] 	= this.$store.state[this.coll].csv_sep ;
-		// 	// 	data_to_send['filename'] 	= this.$store.state[this.coll].current_filename ;
-		// 	}
-
-		// 	console.log("VE createItem / data_to_send : ", data_to_send)
-
-		// 	//  PREPARE PAYLOAD
-		// 	var payload = { collection : this.coll, data : data_to_send } ; 
-		// 	console.log("VE createItem / payload : ", payload)
-
-		// 	// dispatch action from store
-		// 	this.$store.dispatch('createItem', payload )
-			
-		// 	.then(result => {
-
-		// 		this.loading = false
-		// 		this.alert = {type: 'success', message: result.msg}
-
-		// 		// retrieve new item id
-		// 		var new_item_id = response.data._id
-
-		// 		// redirect to edit-preview page 
-		// 		return this.$router.push(`/${this.coll}/${new_item_id}`)
-		
-		// 	})
-		// 	.catch(error => {
-
-		// 		console.log("VE createItem / submit / error... : ", error ) ; 
-
-		// 		this.loading = false
-		// 		// this.alert = {type: 'error', message: "login error" }
-		// 		if (error.response && error.response.data) {
-		// 			this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
-		// 		}
-
-		// 	})
-		
-
-		// }
 
 	}
 

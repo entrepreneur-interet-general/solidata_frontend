@@ -42,9 +42,11 @@
 						:itemDoc="item_doc"
 						:is_create="is_create" 
 						:isPreview="isPreview"
+						:isSettings="isSettings"
 						:is_reset="true"
 						:is_loading="loading"
 						@input="switchPreview"
+						@settings="switchSettings"
 						>
 					</ItemToolbar>
 
@@ -54,9 +56,64 @@
 		</template>
 
 
+		<!-- DSI / SETTINGS  -->
+		<v-dialog 
+			v-model="isSettings" 
+			fullscreen 
+			hide-overlay 
+			transition="dialog-bottom-transition"
+			>
+
+			<v-card>
+				
+				<!-- SETTINGS TOOLBAR -->
+				<SettingsToolbar
+					:itemDoc="item_doc"
+					@settings="switchSettings"
+					>
+				</SettingsToolbar>
+
+
+				<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
+				<v-expansion-panel
+					v-show="!isPreview"
+					v-model="panel_infos"
+					expand
+					class="elevation-0"
+					>
+
+					<v-expansion-panel-content>
+
+						<div 
+							slot="header"
+							>
+							<v-icon small class="mr-3">
+								{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
+							</v-icon>
+							<span>
+								{{ $t(`parentFields.infos`, $store.state.locale) }}
+							</span>
+						</div>
+
+						<ItemDocInfos
+							:coll="coll"
+							:is_create="is_create"
+							:is_preview="isPreview"
+							:item_doc="itemDoc"
+							>
+						</itemDocInfos>
+
+					</v-expansion-panel-content>
+				</v-expansion-panel>
+
+				<v-divider></v-divider>
+
+
+			</v-card>
+		</v-dialog>
 
 		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
-		<v-expansion-panel
+		<!-- <v-expansion-panel
 			v-show="!isPreview"
 			v-model="panel_infos"
 			expand
@@ -85,7 +142,7 @@
 				</itemDocInfos>
 
 			</v-expansion-panel-content>
-		</v-expansion-panel>
+		</v-expansion-panel> -->
 
 
 
@@ -94,11 +151,14 @@
 		<v-layout row wrap>
 			
 			<v-flex xs12>
-				<v-card color="">
+				<v-card 
+					flat
+					color=""
+					>
 					<v-card-text class="pa-0">
 
 						<!-- DATA TOOLBAR -->
-						<v-toolbar class="elevation-1" color="white">
+						<v-toolbar class="elevation-0" color="white">
 							
 							<!-- title dataset -->
 							<v-toolbar-title
@@ -192,7 +252,8 @@
 
 						</v-toolbar>
 
-
+						<v-divider></v-divider>
+						
 						<!-- DATA -->
 						<v-data-table
 							:headers="itemHeaders_Actions"
@@ -200,7 +261,7 @@
 							:pagination.sync="pagination"
 							:total-items="total_items"
 							:loading="loading"
-							class="elevation-1"
+							class="elevation-0"
 							:rows-per-page-items="[5, 10, 25]"
 							>
 							<v-progress-linear slot="progress" color="accent" indeterminate></v-progress-linear>
@@ -259,7 +320,7 @@
 			v-show="!isPreview"
 			v-model="panel_uses"
 			expand
-			class="elevation-0"
+			class="elevation-0 mt-2"
 			>
 
 			<v-expansion-panel-content>
@@ -348,14 +409,11 @@
 import ObjectFormatterCreate from "~/utils/ObjectFormatterCreate.js"
 import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
 
-// import SectionTitle from '~/components/UI/sectionTitle.vue'
 import ItemToolbar from '~/components/UI/itemToolbar.vue'
 import ItemDocUses from '~/components/UI/itemDocUses.vue'
 import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
 
-// import CardInfos from '~/components/UI/parentFields/cardInfos.vue'
-// import CardCreate from '~/components/UI/cardCreate.vue'
-// import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
+import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
 
 
 export default {
@@ -373,13 +431,10 @@ export default {
 	],
 
 	components : {
-		// SectionTitle,
 		ItemToolbar,
 		ItemDocInfos,
 		ItemDocUses,
-		// CardInfos,
-		// ValueEdit,
-		// CardCreate,
+		SettingsToolbar
 	},
 
 	// meta : {
@@ -403,11 +458,13 @@ export default {
 		return {
 			
 			alert		: null,
+
 			isPreview 	: this.is_preview,
 			no_subField : true,
+			isSettings 	: false,
 
 			panel_uses	: [false],
-			panel_infos	: [false],
+			panel_infos	: [true],
 			
 			collName 	: this.$store.state.collectionsNames[this.coll],
 
@@ -542,6 +599,9 @@ export default {
 		// TOOLBAR SWITCH
 		switchPreview() {
 			this.isPreview = !this.isPreview ;
+		},
+		switchSettings() {
+			this.isSettings = !this.isSettings ;
 		},
 
 		// AXIOS CALL

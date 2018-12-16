@@ -22,8 +22,10 @@
 					:itemDoc="item_doc"
 					:is_create="is_create" 
 					:isPreview="isPreview"
+					:isSettings="isSettings"
 					:is_loading="loading"
 					@input="switchPreview"
+					@settings="switchSettings"
 					>
 				</ItemToolbar>
 
@@ -32,9 +34,64 @@
 		</v-layout>
 
 
+		<!-- PRJ / SETTINGS  -->
+		<v-dialog 
+			v-model="isSettings" 
+			fullscreen 
+			hide-overlay 
+			transition="dialog-bottom-transition"
+			>
+
+			<v-card>
+				
+				<!-- SETTINGS TOOLBAR -->
+				<SettingsToolbar
+					:itemDoc="item_doc"
+					@settings="switchSettings"
+					>
+				</SettingsToolbar>
+
+
+				<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
+				<v-expansion-panel
+					v-show="!isPreview"
+					v-model="panel_infos"
+					expand
+					class="elevation-0"
+					>
+
+					<v-expansion-panel-content>
+
+						<div 
+							slot="header"
+							>
+							<v-icon small class="mr-3">
+								{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
+							</v-icon>
+							<span>
+								{{ $t(`parentFields.infos`, $store.state.locale) }}
+							</span>
+						</div>
+
+						<ItemDocInfos
+							:coll="coll"
+							:is_create="is_create"
+							:is_preview="isPreview"
+							:item_doc="itemDoc"
+							>
+						</itemDocInfos>
+
+					</v-expansion-panel-content>
+				</v-expansion-panel>
+
+				<v-divider></v-divider>
+
+			</v-card>
+		</v-dialog>
+
 
 		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
-		<v-flex d-flex :class="flex_vars">
+		<!-- <v-flex d-flex :class="flex_vars">
 
 			<v-expansion-panel
 				v-show="!isPreview"
@@ -67,7 +124,7 @@
 				</v-expansion-panel-content>
 			</v-expansion-panel>
 
-		</v-flex>
+		</v-flex> -->
 
 
 
@@ -171,6 +228,8 @@ import ItemToolbar from '~/components/UI/itemToolbar.vue'
 import ItemDocUses from '~/components/UI/itemDocUses.vue'
 import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
 
+import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
+
 
 export default {
 
@@ -185,11 +244,10 @@ export default {
 	],
 
 	components : {
-
 		ItemToolbar,
 		ItemDocInfos,
 		ItemDocUses,
-
+		SettingsToolbar,
 	},
 	
 	created () {
@@ -212,6 +270,7 @@ export default {
 
 			isPreview 	: this.is_preview,
 			noToolbar	: this.no_toolbar,
+			isSettings 	: false,
 
 			// coll 		: this.item_doc.specs.doc_type, 
 			tab 		: this.$store.state.collectionsNames[this.coll],
@@ -270,6 +329,9 @@ export default {
 		
 		switchPreview() {
 			this.isPreview = !this.isPreview ;
+		},
+		switchSettings() {
+			this.isSettings = !this.isSettings ;
 		},
 
 		preloadIsFile () {

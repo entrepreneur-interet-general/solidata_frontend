@@ -53,7 +53,7 @@
 <script>
 
 import SectionTitle from '~/components/UI/sectionTitle.vue'
-import ViewEditTag from '~/components/UI/viewEditDMF.vue' 
+import ViewEditTag from '~/components/UI/viewEditTAG.vue' 
 
 // import CardDMF from '~/components/UI/cardDMF.vue' 
 

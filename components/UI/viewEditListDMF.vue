@@ -13,11 +13,13 @@
 		width: 190px; 
 		overflow-y: hidden ;
 		text-align : center ;
+		display: inline-block;
 	}
 	td .col-titles {
 		/* max-width: 150px;  */
 		width: 90px; 
 		text-align : center ;
+		display: inline-block;
 		/* overflow-y: hidden; */
 	}
 
@@ -32,41 +34,48 @@
 		<v-layout row wrap>
 			
 			<v-flex xs12>
-				<v-card color="">
+				<v-card 
+					flat
+					class=""
+					color=""
+					>
 					<v-card-text class="pa-0">
 
 						<!-- DATA TOOLBAR -->
-						<v-toolbar class="elevation-1" color="white">
+						<v-toolbar class="elevation-0" color="white">
 							
 							<!-- title dataset -->
 							<v-toolbar-title
 								class="subheading grey--text"
 								>
-								
-								{{ item_doc.infos.title | truncate(30, '...') }}
-								
+
 								<v-btn
 									icon
 									v-show="isPreview"
 									flat
-									class="secondary"
+									class="grey"
 									dark
 									small 
-									@click=""
+									:to="`/${item_doc.specs.doc_type}/${item_doc._id}`"
 									>
+									<!-- @click="goToItem()" -->
 
 									<v-icon small>
-										{{ $store.state.mainIcons.edit.icon }}
+										{{ $store.state.mainIcons.settings.icon }}
 									</v-icon>
 								
 								</v-btn>
+								
+								{{ item_doc.infos.title | truncate(30, '...') }}
 							
+								<!-- - {{ item_doc.specs.doc_type }} / {{ item_doc._id }} -->
+
 							</v-toolbar-title>
 							
 							<v-spacer></v-spacer>
 
 							<!-- OPEN DMF LIBRARY -->
-							<v-btn 
+							<!-- <v-btn 
 								:disabled="isPreview"
 								color="accent" 
 								dark 
@@ -79,11 +88,28 @@
 									{{ $store.state.mainIcons.add_to_parent.icon }}  
 								</v-icon>
 								{{ $t( 'global.dmf_add', $store.state.locale)  }}
-							</v-btn>
+							</v-btn> -->
+							<v-btn 
+								:disabled="isPreview"
+								color="accent" 
+								dark 
+								round
+								outline
+								@click="switchSettings"
+								class="text-lowercase"
+								>
 
+								<v-icon class="mr-3">
+									{{ $store.state.mainIcons.create.icon }}  
+								</v-icon>
+
+								{{ $t( 'global.dmf_add', $store.state.locale)  }}
+
+							</v-btn>
 
 						</v-toolbar>
 
+						<v-divider></v-divider>
 
 						<!-- DATA TABLE -->
 						<v-data-table
@@ -107,8 +133,8 @@
 								<td
 									v-for="dmf in list_DMF_raw_selector"
 									:key="list_DMF_raw_selector.indexOf(dmf)"
-									:class="`px-1 text-xs-center ${ (list_DMF_selector.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
-									style=""
+									:class="`px-1 ${ (list_DMF_selector.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
+									style="text-align: center;"
 									>
 									<!-- first column  -->
 									<div 
@@ -117,16 +143,50 @@
 										>
 										<!-- {{ dmf }} -->
 										<!-- {{ dmf["_id"] }} -->
+
 										{{ props.item[ dmf["_id"] ] }}
+
 									</div>
 
-									<!-- rows for each entry in list_DMF_full_pivoted -->
+									<!-- fisrt row -->
+									<div 
+										v-else-if="list_DMF_selector.indexOf(props.item) == 1"
+										class="col-values"
+										>
+										
+										<!-- DELETE DMF BTN -->
+										<v-btn
+											v-if="!isPreview"
+											icon
+											small
+											@click="deleteChild( props.item[dmf._id] ) "
+											>
+											<v-icon
+												color="accent"
+												>
+												{{ $store.state.mainIcons.delete.icon }}
+											</v-icon>
+										</v-btn>
+
+										<span v-if="$store.state.is_debug">
+											<br>
+											- props.item[ dmf._id ] : <code>{{ props.item[ dmf._id ] }}</code>
+											- item_doc.specs.doc_type : <code>{{ item_doc.specs.doc_type }}</code>
+											- item_doc._id : <code>{{ item_doc._id }}</code>
+										</span>
+
+									</div>
+
+									<!-- columns for each entry in list_DMF_full_pivoted -->
 									<div 
 										v-else
 										class="col-values"
 										>
+										
 										{{ props.item[ dmf["_id"] ] | truncate( 100, '...' ) }}
+
 										<span v-if="$store.state.is_debug">
+											<br>
 											dmf id : <code>{{ dmf["_id"] }}</code>
 										</span>
 									</div>
@@ -267,6 +327,9 @@ export default {
 			empty_column_normalized : {
 				"_id" 							: "_",
 				"infos.title" 					: "title",
+
+				"delete_child"					: "delete_child",
+
 				"infos.description" 			: "description",
 				"public_auth.open_level_edit" 	: "open_level_edit", 
 				"data_raw.f_code" 				: "f_code", 
@@ -274,37 +337,9 @@ export default {
 				"data_raw.f_object" 			: "f_object", 
 				// "data_raw.f_comments" 			: "f_comments", 
 				"data_raw.f_is_required" 		: "f_is_required", 
+
 			}, 
 
-			// DMFs' fields to display
-			parentFieldsList : [
-
-				{ 
-					parentFieldName : "infos",
-					subFields 	: [
-						"title", 
-						"description"
-					] 
-				},
-
-				{ 
-					parentFieldName : "public_auth",
-					subFields 	: [
-						"open_level_edit", 
-					] 
-				},
-
-				{ 
-					parentFieldName : "data_raw",
-					subFields 	: [
-						"f_code", 
-						"f_type", 
-						"f_object", 
-						"f_comments", 
-						"f_is_required", 
-					] 
-				},
-			],
 
 		}
 	},
@@ -324,7 +359,59 @@ export default {
 		},
 	},
 
+	watch: {
+		
+		listDMF : {
+
+			immediate : true,
+			handler( newVal, oldVal) {
+
+				console.log( "\nVE DMT / watch ~ listDMF / newVal : \n", newVal )
+				console.log( "\nVE DMT / watch ~ listDMF / oldVal : \n", oldVal )
+
+				if ( !Array.isArray(newVal) || newVal.length ) {
+
+					// map list DMF to list of DMF oids
+					this.list_DMF_oids = newVal.map( function (obj) {
+						return obj.oid_dmf
+					}); 
+					console.log("- viewEditListDMF / list_DMF_oids : ", this.list_DMF_oids ) ;
+
+					// get complete data for every DMF in list_DMF_oids => methods
+					this.get_docs_fromApi() ; 
+
+				}
+
+			}
+		},
+	},
+
 	methods: {
+
+		switchSettings() {
+			// console.log("settingsToolbar - switchSettings / this.is_settings : ", this.is_settings )
+			this.$emit('settings')
+		},
+
+		goToItem() {
+			// redirect to edit-preview page 
+			return this.$router.push(`/${this.item_doc.specs.doc_type}/${this.item_doc._id}`)
+		},
+
+		deleteChild(item_id) {
+			console.log("\n...viewEditListDMF - deleteChild / item_id : \n ", item_id)
+
+			var input = {
+				add_or_delete 	: "delete_from_list",
+				item_id_to_add 	: item_id,
+				datasets_coll 	: "dmf",
+				parentDoc_coll 	: this.item_doc.specs.doc_type,
+			}
+			console.log("deleteChild / input : ", input )
+
+			this.$emit('update_parent_dataset', input )
+		},
+
 
 		openDMF_lib_parent () {
 
@@ -352,7 +439,7 @@ export default {
 
 
 			// --------------------------------------------- //
-			// loop through data_to_pivot => headers
+			// loop through data_to_pivot => headers / columns
 			// --------------------------------------------- //
 			for (let dmf in data_from_API ) {
 				
@@ -395,21 +482,31 @@ export default {
 				
 				// console.log("\n----- viewEditListDMF - pivotData / field : ", field);
 				
-				// if (field != "_id" && field!='infos.title' ) {
 				if (field != "_id"  ) {
 
 					var temp_field = {} ;
-
-					for (var dmf in data_from_API ) {
+				
+					if (field != "delete_child"  ) {
+						for (var dmf in data_from_API ) {
 							// console.log("...viewEditListDMF - pivotData / dmf : ", dmf);
 							// console.log("...viewEditListDMF - pivotData / data_from_API[dmf]['_id'] : ", data_from_API[dmf]["_id"] );
 							// console.log("...viewEditListDMF - pivotData / data_from_API[dmf][field] : ", data_from_API[dmf][field] );
 							temp_field[ data_from_API[dmf]["_id"] ] = data_from_API[dmf][ field ]
 						}
+					}
+
+					else {
+						for (var dmf in data_from_API ) {
+							console.log("...viewEditListDMF - pivotData / dmf : ", dmf);
+							temp_field[ data_from_API[dmf]["_id"] ] = data_from_API[dmf][ "_id" ] ; 
+						};
+					}
+
 					// console.log("...viewEditListDMF - pivotData / temp_field : ", temp_field);
 					data_pivoted.push(temp_field)
 
 				}
+
 			}
 
 			// send data_pivoted back to get_docs_fromApi()

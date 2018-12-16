@@ -259,7 +259,7 @@
 		"name" 			: "Datamodels",
 		"singular"		: "Datamodel",
 		"intro" 		: "Manage your datamodels",
-		"introAnon"		: "All the datamodels shared by the community",
+		"introAnon"		: "All the datamodels created by the community",
 		"create"		: "New datamodel",
 		"edit"			: "Preview / edit your datamodel",
 		"title"			: "Name your datamodel",

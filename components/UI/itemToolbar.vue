@@ -10,18 +10,6 @@
 			xs12
 			>
 			
-			<!-- BACK TO COLL LIST -->
-			<v-btn 
-				icon 
-				small 
-				color=""
-				:to="'/'+coll"
-				>					
-				<v-icon small>
-					{{ $store.state.mainIcons[collName]['icon'] }}
-				</v-icon>
-			</v-btn>
-
 			<!-- ITEM TITLE -->
 			<v-toolbar-title
 				class="title"
@@ -30,22 +18,21 @@
 				{{ itemTitle }}
 			</v-toolbar-title>
 
+			<v-btn 
+				icon
+				@click="switchSettings()"
+				>
+				<v-icon
+					>
+					{{ $store.state.mainIcons.settings.icon }}
+				</v-icon>
+			</v-btn>
+
 
 			<v-spacer></v-spacer>
 
 
-
 			<!-- SWITCH FOR PREVIEW -->
-			<!-- <v-switch 
-				:label="$t('global.preview', $store.state.locale)"
-				v-model="is_preview"
-				color="white"
-				:input-value="is_preview"
-				hide-details
-				@change="switchPreview()"
-				>
-			</v-switch> -->
-
 			<v-btn 
 				icon
 				small
@@ -61,32 +48,31 @@
 			</v-btn>
 
 
-			<!--  -->
-			<template 
+			<!-- TEAM BTN -->
+			<v-btn 
 				v-if="!is_create"
+				icon
+				small
 				>
-				<v-btn 
-					icon
-					disabled
-					:to="'/'+coll+'/'+itemId+'/team'"
+				<v-icon 
+					color=""
 					>
-					<v-icon color="">
-						{{ $store.state.mainIcons.parentFieldIcons.team.icon }}
-					</v-icon>
-				</v-btn>
+					{{ $store.state.mainIcons.parentFieldIcons.team.icon }}
+				</v-icon>
+			</v-btn>
 
-				<v-btn 
-					icon
-					disabled
-					:to="'/'+coll+'/'+itemId+'/settings'"
+			<!-- QUESTION BTN -->
+			<v-btn 
+				icon
+				small
+				>
+				<v-icon 
+					small
+					color=""
 					>
-					<v-icon color="">
-						{{ $store.state.mainIcons.settings.icon }}
-					</v-icon>
-				</v-btn>
-			</template>
-
-
+					{{ $store.state.mainIcons.question.icon }}
+				</v-icon>
+			</v-btn>
 
 
 			<!-- RESET / DELETE ITEM MENU -->
@@ -335,6 +321,7 @@ export default {
 		"itemDoc",
 		"is_create", 
 		"isPreview",
+		"isSettings",
 		"is_reset",
 		"is_loading"
 	],
@@ -345,6 +332,8 @@ export default {
 			is_preview 	: this.isPreview,
 			itemId 		: this.itemDoc._id,
 			itemTitle 	: this.itemDoc.infos.title,
+
+			is_settings : this.isSettings,
 
 			loading		: false,
 			alert		: null,
@@ -369,15 +358,12 @@ export default {
 	methods: {
 
 		switchPreview() {
-
 			console.log("itemToolbar - switchPreview / this.is_preview : ", this.is_preview )
-			
-			this.$emit('input'
-			// , {
-			// 	prop : 'isPreview',
-			// 	value  : this.is_preview,
-			// }
-			)
+			this.$emit('input')
+		},
+		switchSettings() {
+			console.log("itemToolbar - switchSettings / this.is_settings : ", this.is_settings )
+			this.$emit('settings')
 		},
 
 		deleItem() {

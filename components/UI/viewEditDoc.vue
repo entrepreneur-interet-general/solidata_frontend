@@ -22,8 +22,10 @@
 					:itemDoc="item_doc"
 					:is_create="is_create" 
 					:isPreview="isPreview"
+					:isSettings="isSettings"
 					:is_loading="loading"
 					@input="switchPreview"
+					@settings="switchSettings"
 					>
 				</ItemToolbar>
 
@@ -304,6 +306,7 @@ export default {
 			
 			isPreview 	: this.is_preview,
 			noToolbar	: this.no_toolbar,
+			isSettings 	: false,
 
 			// coll 		: this.item_doc.specs.doc_type, 
 			tab 		: this.$store.state.collectionsNames[this.coll],
@@ -363,7 +366,10 @@ export default {
 		switchPreview() {
 			this.isPreview = !this.isPreview ;
 		},
-
+		switchSettings() {
+			this.isSettings = !this.isSettings ;
+		},
+		
 		preloadIsFile () {
 			var isFile = false ;
 			if ( this.coll == "dsi"){

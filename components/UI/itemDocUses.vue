@@ -2,7 +2,7 @@
 
 	<v-card 
 		v-show="!is_preview"
-		class="grey lighten-3 elevation-0 mt-1 pa-4 "
+		class="grey lighten-3 elevation-0 mt-0 pa-4 "
 		
 		>
 

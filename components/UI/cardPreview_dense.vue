@@ -7,7 +7,7 @@
 		<v-card
 			flat
 			slot-scope="{ hover }"
-			:class="`pa-0 elevation-${hover ? 5 : 0}`"
+			:class="`pa-0 mr-4 elevation-${hover ? 5 : 0}`"
 			:style="{ cursor: 'pointer'}"
 			@click="itemClickBehaviour()"
 			>
