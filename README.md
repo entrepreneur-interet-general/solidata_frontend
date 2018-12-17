@@ -69,7 +69,16 @@ For detailed explanation on how things work, check out the [Nuxt.js](https://git
 
 --------
 
+## BENCHMARK ETL (open source or proprietary)
+
+<a href="./screenshots/documentation/Tadata! uses & features - BENCHMARK_ETL.pdf" download>Download the benchmark as a PDF file</a>
+
+--------
+
 ## DATA MODEL & COMPONENTS
+
+<a href="./screenshots/documentation/Solidata_models - v.0.1 - datamodels_map.pdf" download>Download the datamodel as a PDF file</a>
+
 
 ![alt text](./screenshots/documentation/Solidata-Models-collections.jpeg "auth process")
 
