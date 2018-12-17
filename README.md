@@ -15,7 +15,7 @@ part 2b/3 of the TADATA! sofware suite ([ApiViz](https://github.com/entrepreneur
 ## GOALS
 
 - an intuitive UX to manage open data projects ;
-- support for multilingual (english and french to begin with) ;
+- support for multilingual (english, french, spanish to begin with) ;
 - allow you to consume data from your own csv/xls files or external APIs ;
 - consolidate your data : apply your own datamodel, simplify columns, apply metadatas, ... ; 
 - share the consolidated datas on API endpoints with the level of openness you decide (opendata, commons, collective, private) ;
@@ -31,23 +31,27 @@ part 2b/3 of the TADATA! sofware suite ([ApiViz](https://github.com/entrepreneur
 - _Framework (js)_ : **[Vue.js](https://vuejs.org/)** and **[Nuxt.js](https://nuxtjs.org/)**... Universal Vue.js Applications
 - _Framework (styles)_ : **[vuetify](https://vuetifyjs.com/)**... Material Design Component Framework
 - _Requests_ : **[Axios module for nuxt](https://axios.nuxtjs.org/)**... Secure and Easy Axios integration with Nuxt.js.
-- _Internationalization_ : **[i18n module for nuxt](https://nuxtjs.org/examples/i18n)**... do you speak franch, english, spanish, turkish ? 
+- _Internationalization_ : **[i18n module for nuxt](https://nuxtjs.org/examples/i18n)**... do you speak french, english, spanish, turkish ? 
 
 #### Features :
 
 - intuitive UX 
+- locales : FR, EN, ESP
 - login / register
 - import a dataset
 - manage / create datamodel templates (schemas) from datamodel fields
 - manage / create datamodel fields 
+- manage / create dataset inputs 
 
 ##### Features TO DO  :
-- ...
+- tutorials (videos)
+- RGPD compliance
+- 
 
 -------
 
 
-## Build Setup
+## BUILD SETUP
 
 ``` bash
 # install dependencies
@@ -85,14 +89,16 @@ For detailed explanation on how things work, check out the [Nuxt.js](https://git
 
 -------
 
-## AUTHORIZATION PROCESS
+## AUTHORIZATION PROCESS (access & refresh tokens)
 
-![alt text](./screenshots/documentation/auth_process.jpeg "auth process")
+<a href="./screenshots/documentation/AUTH_PROCESS_fixed.pdf" download>Download the schema as a PDF file</a>
+
+![alt text](./screenshots/documentation/AUTH_PROCESS_fixed.jpeg "auth process")
 
 
 -------
 
-## SCREENSHOTS 
+## SCREENSHOTS (UI/UX)
 
 
 -------
