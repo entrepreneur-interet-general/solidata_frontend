@@ -67,6 +67,20 @@ $ npm run generate
 For detailed explanation on how things work, check out the [Nuxt.js](https://github.com/nuxt/nuxt.js) and [Vuetify.js](https://vuetifyjs.com/) documentation.
 
 
+--------
+
+## DATA MODEL & COMPONENTS
+
+![alt text](./screenshots/documentation/Solidata-Models-collections.jpeg "auth process")
+
+
+-------
+
+## AUTHORIZATION PROCESS
+
+![alt text](./screenshots/documentation/auth_process.jpeg "auth process")
+
+
 -------
 
 ## SCREENSHOTS 

@@ -221,6 +221,9 @@ export const actions = {
 
 					.catch(error => {
 						console.log("\n...store/auth/login : error status : ",  error.response.status )
+						
+						return response 
+						
 					})
 			})
 	},
