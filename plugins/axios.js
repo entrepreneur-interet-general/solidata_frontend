@@ -19,8 +19,8 @@ export default function ({ $axios, redirect, store }) {
 
 	$axios.onResponse(response => {
 		console.log('\n> > > plugin axios / response.status : ', 	response.status )
-		console.log('> > > plugin axios / response.data : ', 		response.data )
-		console.log('> > > plugin axios / response.headers : ', 	response.headers )
+		console.log('> > > plugin axios / response.data     : \n', 		response.data )
+		console.log('> > > plugin axios / response.headers  : \n', 	response.headers )
 		// console.log('> > > plugin axios / response.config : ', 		response.config )
 		// console.log("\n")
 		// config.headers['Content-Type'] = 'application/json';

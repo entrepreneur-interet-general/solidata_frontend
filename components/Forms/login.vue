@@ -23,7 +23,20 @@
 					>
 					{{alert.message}}
 				</v-alert>
-				
+
+				<!-- ANTI-SPAMS -->
+				<v-text-field 
+					v-show="$store.state.is_debug"
+					id="email_bis"
+					v-model="email_bis"
+					prepend-icon="warning" 
+					name="email_bis" 
+					label="email_bis" 
+					type="text">
+				</v-text-field>
+
+
+				<!-- REAL USER INFOS FOR REGISTER -->
 
 				<!-- <EmailField
 					:rawInput="email"
@@ -171,6 +184,8 @@ export default {
 	
 	data () {
 		return {
+
+			email_bis: '',
 			email: '',
 			// email2: '',
 			password: '',
@@ -211,22 +226,32 @@ export default {
 			this.alert    = null
 			this.loading  = true
 			
-			// dispatch action from store/auth
-			this.$store.dispatch('auth/login', {
-				email : this.email,
-				pwd   : this.password
-			}).then(result => {
-				this.alert = {type: 'success', message: result.msg}
-				this.loading = false
-				this.$router.push('/dashboard') /////////
-			}).catch(error => {
-				console.log("submit / error... : ", error ) ; 
-				this.loading = false
-				this.alert = {type: 'error', message: "login error" }
-				if (error.response && error.response.data) {
-					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
-				}
-			})
+			// anti spam preventive measure
+			if ( this.email_bis == '' ) {
+
+				// dispatch action from store/auth
+				this.$store.dispatch('auth/login', {
+					email : this.email,
+					pwd   : this.password
+				})
+				
+				.then(result => {
+					this.alert 		= {type: 'success', message: result.msg}
+					this.loading 	= false
+					this.$router.push('/dashboard') 
+				})
+				
+				.catch(error => {
+					console.log("submit / error... : ", error ) ; 
+					this.loading 	= false
+					this.alert 		= {type: 'error', message: "login error" }
+					if (error.response && error.response.data) {
+						this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+					}
+				})
+
+			}
+
 		},
 
 		submitLoginAnonymous (event) {

@@ -371,6 +371,8 @@ export default {
 
 				if ( !Array.isArray(newVal) || newVal.length ) {
 
+					this.loading = true ; 
+
 					// map list DMF to list of DMF oids
 					this.list_DMF_oids = newVal.map( function (obj) {
 						return obj.oid_dmf

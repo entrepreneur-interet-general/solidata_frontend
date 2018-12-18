@@ -287,8 +287,9 @@ export default {
 				fav		: true,
 				menu	: false,
 				message	: false,
-				hints	: true
+				hints	: true,
 
+				loading : false,
 
 				// clipped: true,
 				// drawer: false,
@@ -308,9 +309,52 @@ export default {
 			}
 		},
 		methods: {
+
 			change_lang(new_locale) {
+
 				console.log("change_lang / new_locale : ", new_locale ) ; 
-				this.$store.commit('SET_LANG', new_locale )
+
+				// change locale in store
+				this.$store.commit('SET_LANG', new_locale ) ;
+
+				// update user in API if user is logged
+				if ( this.$store.state.auth.isLogged ){
+					
+					console.log("change_lang / updating user... " ) ; 
+
+					this.loading = true ;
+
+					var input = {
+						coll 	: "usr",
+						doc_id	: this.$store.state.auth.user_id, 
+						form	: [{ 
+							"field_to_update" 	: "profile.lang",
+							"field_value" 		: new_locale 
+						}]
+					}; 
+
+					// dispatch action from store for update
+					this.$store.dispatch('updateItem', input )
+					
+					.then(result => {
+
+						console.log("change_lang / success ... " ) ; 
+						this.alert 		= { type: 'success', message: result.msg }
+						this.loading 	= false
+
+					})
+					
+					.catch(error => {
+						console.log("change_lang / submit / error... : ", error ) ; 
+						this.loading = false
+						this.alert = {type: 'error', message: "login error" }
+						if (error.response && error.response.data) {
+							this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+						}
+					})
+
+				}
+
 			},
 			// change_drawer() {
 			//   this.$store.commit('set_drawer' )

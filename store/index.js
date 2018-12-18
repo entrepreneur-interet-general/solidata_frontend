@@ -660,6 +660,7 @@ export const actions = {
 		var collection 	= input.coll ;
 		var doc_id 		= input.doc_id ; 
 		var fields 		= input.form ; 
+		console.log("... $ updateItem : fields : \n", fields );
 
 		// SET UP CONFIG
 		const config = { 

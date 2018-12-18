@@ -8,7 +8,26 @@
 				@submit.prevent="submitRegister" 
 				id="register-form"
 				>
-				<v-alert v-if="alert" :type="alert.type" value="true">{{alert.message}}</v-alert>
+				
+				<!-- ALERT -->
+				<v-alert 
+					v-if="alert" 
+					:type="alert.type" 
+					value="true">{{alert.message}}
+				</v-alert>
+				
+				<!-- ANTI-SPAMS FIELD -->
+				<v-text-field 
+					v-show="$store.state.is_debug"
+					id="email_bis"
+					v-model="email_bis"
+					prepend-icon="warning" 
+					name="email_bis" 
+					label="email_bis" 
+					type="text">
+				</v-text-field>
+
+				<!-- REAL USER INFOS FOR REGISTER -->
 				<v-text-field 
 					id="email"
 					v-model="email"
@@ -18,6 +37,7 @@
 					label="Email" 
 					type="text">
 				</v-text-field>
+				
 				<v-text-field 
 					id="name" 
 					v-model="name"
@@ -27,6 +47,7 @@
 					:label="$t('global.name', $store.state.locale )"
 					type="text">
 				</v-text-field>
+			
 				<v-text-field 
 					id="surname" 
 					v-model="surname"
@@ -36,6 +57,7 @@
 					:label="$t('global.surname', $store.state.locale )"
 					type="text">
 				</v-text-field>
+			
 				<v-text-field 
 					id="password" 
 					v-model="password"
@@ -45,6 +67,7 @@
 					:label="$t('global.password', $store.state.locale )"
 					type="password">
 				</v-text-field>
+			
 				<v-checkbox
 					v-model="agreement"
 					:rules="[rules.required]"
@@ -56,6 +79,7 @@
 						<a href="#" @click.stop.prevent="dialog = true">{{ $t('home.privacyPolicy', $store.state.locale ) }}</a>*
 					</template>
 				</v-checkbox>
+
 			</v-form>
 
 		</v-card-text>
@@ -93,19 +117,24 @@ export default {
 	components : {
 	},
 
-	middleware: [ // run this before load
+	// run this before load
+	middleware: [ 
 		//   'notAuthenticated'
 	], 
   
   data () {
 	return {
-		email: '',
-		name: '',
-		surname: '',
-		password: '',
-		alert: null,
-		loading: false,
-		agreement: false,
+
+		// preventive anti spam field
+		email_bis   : '',
+
+		email		: '',
+		name		: '',
+		surname		: '',
+		password	: '',
+		alert		: null,
+		loading		: false,
+		agreement	: false,
 
 		rules: {
 				email	: v => (v || '').match(/@/) || this.$t('rules.email', this.$store.state.locale),
@@ -121,33 +150,41 @@ export default {
 
 	submitRegister (event) {
 
-		console.log("submitLogin..." ) ; 
+		console.log("submitRegister..." ) ; 
 
 		this.alert    = null
 		this.loading  = true
 
-		
-		// dispatch action from store/auth
-		this.$store.dispatch('auth/register', {
-			email   	: this.email,
-			name    	: this.name,
-			surname 	: this.surname,
-			pwd     	: this.password,
-			agreement 	: this.agreement
-		})
-		.then(result => {
-			this.alert = { type: 'success', message: result.msg}
-			this.loading = false
-			this.$router.push('/') /////////
-		})
-		.catch(error => {
-			console.log("submit / error..." ) ; 
-			this.loading = false
-			this.alert = {type: 'error', message: " error submitting request " }
-			if (error.response && error.response.data) {
-			this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
-			}
-		})
+		// anti spam preventive measure
+		if (this.email_bis == '' && this.agreement == true ) {
+
+			// dispatch action from store/auth
+			this.$store.dispatch('auth/register', {
+
+				email   	: this.email,
+				name    	: this.name,
+				surname 	: this.surname,
+				pwd     	: this.password,
+				language	: this.$store.state.locale,
+				agreement 	: this.agreement,
+
+			})
+
+			.then(result => {
+				this.alert   	= { type: 'success', message: result.msg}
+				this.loading 	= false
+				this.$router.push('/dashboard')
+			})
+
+			.catch(error => {
+				console.log("submit / error..." ) ; 
+				this.loading 	= false
+				this.alert 		= {type: 'error', message: " error submitting request " }
+				if (error.response && error.response.data) {
+				this.alert 		= {type: 'error', message: error.response.data.msg || error.reponse.status}
+				}
+			})
+		}
 	},
 
   }
