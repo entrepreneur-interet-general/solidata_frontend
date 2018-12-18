@@ -64,9 +64,9 @@
 					>
 
 					<img 
-						class="mb-4"
-						src="@/assets/images/logo_solidata_7c.png" 
-						height="110px"
+						class="mb-5"
+						:src="$store.state.app_logo_lg" 
+						height="120px"
 						>
 						<div class="fill-height bottom-gradient"></div>
 					</img> 
@@ -74,19 +74,19 @@
 					
 
 					<h4 
-						class="display-3 font-weight-thin pb-2 white--text"
+						class="display-2 font-weight-thin mb-2 white--text"
 						v-html="$t('home.subtitle', $store.state.locale)"
 						>
 					</h4>
 
 					<span 
-						class="title font-weight-light white--text"
+						class="title font-weight-light white--text "
 						v-html="$t('home.tagline', $store.state.locale)"
 						>
 					</span>
 
 
-					<v-layout row wrap my-5 pt-4>
+					<v-layout row wrap mt-3 pt-3>
 
 						<v-flex xs12 sm10 offset-sm1 md8 offset-md2 >
 							<v-layout row wrap>

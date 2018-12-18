@@ -7,6 +7,7 @@
 		app 
 		:fixed="$store.state.fixedNav" 
 		:clipped-left="$store.state.clipped"
+		height="45px"
 		>
 		
 		<!-- DRAWER -->
@@ -48,23 +49,29 @@
 		<!-- <v-spacer></v-spacer> -->
 
 			<!-- href="/" -->
-		<a 
+		<nuxt-link 
+			
 			:to="'/'"
-			class="ml-2 mr-0 hidden-xs-only"
+			class="ml-3 mr-0 hidden-xs-only mt-3 pt-2"
 			>
-			<img src="@/assets/images/logo_solidata_7c.png" height="45px">
-				<div class="fill-height bottom-gradient"></div>
+				<!-- src="@/assets/images/logo_solidata_8a.png"  -->
+				<!-- src="/logos/logo_solidata_8a.png"  -->
+			<img 
+				:src="$store.state.app_logo" 
+				height="40px"
+				>
+				<!-- <div class="fill-height bottom-gradient"></div> -->
 			</img> 
-		</a>
+		</nuxt-link>
 
-		<v-toolbar-title >
+		<!-- <v-toolbar-title >
 			<a
 				href="/"
 				style="text-decoration: none"
 				class="font-weight-thin black--text ml-0"
 				v-html="$store.state.title"
 			></a>
-		</v-toolbar-title>
+		</v-toolbar-title> -->
 
 		<!-- <v-btn
 			icon
@@ -97,7 +104,6 @@
 		<v-spacer></v-spacer>
 
 		<v-toolbar-items class="hidden-sm-and-down">
-
 
 			<!-- STATIC PAGES -->
 
@@ -192,7 +198,8 @@
 								<v-btn 
 									color=""
 									flat fab small
-									nuxt to="/usr/settings">
+									nuxt to="/usr/settings"
+									>
 									<v-icon>{{ $store.state.mainIcons.settings.icon }}</v-icon>
 								</v-btn>
 								<v-list-tile-title>{{ $t('global.settings', $store.state.locale ) }}</v-list-tile-title>
@@ -204,7 +211,8 @@
 								<v-btn 
 									color=""
 									flat fab small
-									nuxt to="/logout">
+									nuxt to="/logout"
+									>
 									<v-icon>{{ $store.state.mainIcons.logout.icon }}</v-icon>
 								</v-btn>
 								<v-list-tile-title>{{ $t('home.logoutPage', $store.state.locale ) }}</v-list-tile-title>
@@ -276,10 +284,10 @@ export default {
 		data() {
 			return {
 
-				fav: true,
-				menu: false,
-				message: false,
-				hints: true
+				fav		: true,
+				menu	: false,
+				message	: false,
+				hints	: true
 
 
 				// clipped: true,

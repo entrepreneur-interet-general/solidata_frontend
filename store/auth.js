@@ -202,17 +202,19 @@ export const actions = {
 				return this.$axios.$post('auth/login/', data, config )
 
 					.then(response => {
+
 						console.log("\n...store/auth/login : response : ", response);
 						var user_login_infos = response.data ;
+
 						commit('set_isAnonymous', false);
 						commit('set_isLogged',    true);
 						commit('set_user',        user_login_infos) ;
 						commit('SET_LANG',        user_login_infos.profile.lang, { root: true }) ;
 						commit('set_tokens',      response.tokens)
 						
+						// cf documentation js-cookie : https://github.com/js-cookie/js-cookie 
 						Cookie.set("access_token",		response.tokens.access_token )
 						Cookie.set("refresh_token",		response.tokens.refresh_token )
-						// Cookie.set("tokens",      response.tokens) // saving token in cookie for server rendering
 						
 						Cookie.set("lang",        user_login_infos.profile.lang ) // saving lang in cookie for server rendering
 						
@@ -221,9 +223,6 @@ export const actions = {
 
 					.catch(error => {
 						console.log("\n...store/auth/login : error status : ",  error.response.status )
-						
-						return response 
-						
 					})
 			})
 	},
@@ -361,8 +360,9 @@ export const actions = {
 
 			.catch(error => {
 				console.log("\n...store/auth/newAccessToken : error...");
-				console.log("...store/auth/newAccessToken : error.response.status : ", error.response.status);
+				// console.log("...store/auth/newAccessToken : error.response.status : ", error.response.status);
 				// console.log("\n...store/auth/newAccessToken : error : ", error);
+				// dispatch('loginAnonymous');
 			})
 	},
 

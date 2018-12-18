@@ -168,6 +168,8 @@ export const state = () => ({
 	title	 : '<span>SOLI</span><i><strong>DATA</strong></i>',
 	version	 : '<span>v.0.1</span>',
 	year	 : '2018',
+	app_logo : '/logos/logo_solidata_8a_white.png',
+	app_logo_lg : '/logos/logo_solidata_8a_lg.png',
 
 	is_debug : false ,
 
