@@ -52,13 +52,13 @@
 		<nuxt-link 
 			
 			:to="'/'"
-			class="ml-3 mr-0 hidden-xs-only mt-3 pt-2"
+			class="ml-5 mr-0 hidden-xs-only mt-0 pt-1"
 			>
 				<!-- src="@/assets/images/logo_solidata_8a.png"  -->
 				<!-- src="/logos/logo_solidata_8a.png"  -->
 			<img 
 				:src="$store.state.app_logo" 
-				height="40px"
+				height="35px"
 				>
 				<!-- <div class="fill-height bottom-gradient"></div> -->
 			</img> 

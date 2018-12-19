@@ -172,7 +172,9 @@
 		"title"				: "Solidata ESP",
 		"subtitle"			: "Agregar, enriquecer <br> y compartir su <strong><em>data</em></strong>",
 		"tagline"			: "Define un módelo de datos, consolide su data con su equipo y exporta el resultado",
-		
+
+		"project_by"  		: "un proyecto de código abierto por ",
+
 		"startbtn"  		: "Empieze",
 		"videobtn"  		: "Mira la video",
 

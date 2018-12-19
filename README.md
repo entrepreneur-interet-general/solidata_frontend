@@ -109,6 +109,9 @@ For detailed explanation on how things work, check out the [Nuxt.js](https://git
 ![alt text](./screenshots/login_en.png "login (en)")
 
 -------
+![alt text](./screenshots/login_en_menu.png "login & menu (en)")
+
+-------
 ![alt text](./screenshots/dashboard_en.png "dashboard (en)")
 
 -------

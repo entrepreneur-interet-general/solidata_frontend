@@ -172,7 +172,9 @@
 		"title"				: "Solidata EN",
 		"subtitle"			: "Aggregate, enrich <br> and share your <strong><em>data</em></strong>",
 		"tagline"			: "Define a datamodel, consolidate your data with your team and export your results",
-		
+
+		"project_by"  		: "an open source project by ",
+
 		"startbtn"  		: "Get started",
 		"videobtn"  		: "Watch the video",
 

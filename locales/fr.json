@@ -170,7 +170,9 @@
 		"title"				: "Solidata FR",
 		"subtitle"			: "Agréger, enrichir <br> et partager vos <strong><em>données</em></strong>",
 		"tagline"			: "Définissez un modèle de données, consolidez vos données à plusieurs et exportez vos résultats",
-		
+
+		"project_by"  		: "un projet open source de ",
+
 		"startbtn"  		: "Commencer !",
 		"videobtn"  		: "Regarder la video",
 

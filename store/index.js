@@ -168,8 +168,10 @@ export const state = () => ({
 	title	 : '<span>SOLI</span><i><strong>DATA</strong></i>',
 	version	 : '<span>v.0.1</span>',
 	year	 : '2018',
-	app_logo : '/logos/logo_solidata_8a_white.png',
-	app_logo_lg : '/logos/logo_solidata_8a_lg.png',
+
+	app_logo 	: '/logos/logo_solidata_9a.png',
+	app_logo_lg : '/logos/logo_solidata_9a_lg.png',
+	app_codemos : '/logos/logo_codemos_01b.png',
 
 	is_debug : false ,
 
@@ -655,6 +657,7 @@ export const actions = {
 	},
 
 	updateItem ({commit, state, rootState}, input ) {
+		
 		console.log("\n... $ updateItem : input : ", input);
 		
 		var collection 	= input.coll ;
