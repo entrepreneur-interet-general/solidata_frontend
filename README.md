@@ -1,8 +1,12 @@
 <h1 align=center>  SOLIDATA <br> frontend</h1>
 
+-------
+
 <h2 align=center>
-	<img src="./static/logos/logo_solidata_8a.png">
+	<img src="./static/logos/logo_solidata_9a.png">
 </h2>
+
+-------
 
 ![alt text](./screenshots/home_en.png "homepage (en)")
 
