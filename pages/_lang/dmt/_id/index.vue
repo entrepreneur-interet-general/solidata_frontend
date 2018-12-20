@@ -44,7 +44,6 @@
 		</v-layout>
 		
 
-
 	</div>
 	
 </template>

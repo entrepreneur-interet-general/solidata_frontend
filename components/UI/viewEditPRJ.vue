@@ -2,24 +2,27 @@
 
 	<v-container 
 		grid-list-sm 
-		pa-3
 		fluid
 		>
 
-		<!-- ITEM TITLE ROW -->
+		<!-- PRJ TOOLBAR -->
 		<v-layout 
 			v-if="!noToolbar"
 			row 
 			wrap 
-			mb-3
 			>
 
-			<v-flex d-flex :class="flex_vars">
+			<v-flex 
+				d-flex 
+				xs12
+				mb-3
+				>
+				<!-- :class="flex_vars" -->
 
 				<ItemToolbar
 					:coll="coll" 
 					:collName="tab" 
-					:itemDoc="item_doc"
+					:itemDoc="itemDoc"
 					:is_create="is_create" 
 					:isPreview="isPreview"
 					:isSettings="isSettings"
@@ -34,6 +37,63 @@
 		</v-layout>
 
 
+		<!-- DEBUG -->
+		<v-card-text 
+			v-if="$store.state.is_debug"
+			pa-3
+			>
+			- coll : <code> {{ coll }} </code><br>
+			- itemId : <code> {{ itemId }} </code>
+
+			<v-divider class="my-2"></v-divider>
+			
+			- itemDoc / dmt_list : <code> {{ itemDoc.datasets.dmt_list }} </code> <br>
+			- list_DMT_oids : <code> {{ list_DMT_oids }} </code> <br>
+			- list_DMT_oids_test : <code> {{ list_DMT_oids_test }} </code> <br>
+			<!-- - firstDMTinList : <code>{{ firstDMTinList() }}</code><br> -->
+
+			<v-divider class="my-2"></v-divider>
+
+			- itemDoc / dsi_list : <code> {{ itemDoc.datasets.dsi_list }} </code> <br>
+			- list_DSI_oids : <code> {{ list_DSI_oids }} </code> 
+			- list_DSI_oids_test : <code> {{ list_DSI_oids_test }} </code> 
+	
+		</v-card-text>
+
+
+		<!-- COMPONENTS FOR COMMON DOCS USES -->		
+		<v-expansion-panel
+			v-show="!isPreview"
+			v-model="panel_uses"
+			class="elevation-0 mt-2"
+			expand
+			>
+
+			<v-expansion-panel-content>
+
+				<div 
+					slot="header"
+					>
+					<v-icon small class="mr-3">
+						{{ $store.state.mainIcons.parentFieldIcons.uses.icon }}
+					</v-icon>
+					<span>
+						{{ $t(`parentFields.uses`, $store.state.locale) }}
+					</span>
+				</div>
+
+				<ItemDocUses
+					:coll="coll"
+					:is_create="is_create"
+					:is_preview="isPreview"
+					:item_doc="itemDoc"
+					>
+				</itemDocUses>
+
+			</v-expansion-panel-content>
+		</v-expansion-panel>
+
+
 		<!-- PRJ / SETTINGS  -->
 		<v-dialog 
 			v-model="isSettings" 
@@ -46,15 +106,15 @@
 				
 				<!-- SETTINGS TOOLBAR -->
 				<SettingsToolbar
-					:itemDoc="item_doc"
+					:itemDoc="itemDoc"
 					@settings="switchSettings"
 					>
 				</SettingsToolbar>
 
 
 				<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
+					<!-- v-show="!isPreview" -->
 				<v-expansion-panel
-					v-show="!isPreview"
 					v-model="panel_infos"
 					expand
 					class="elevation-0"
@@ -76,7 +136,7 @@
 						<ItemDocInfos
 							:coll="coll"
 							:is_create="is_create"
-							:is_preview="isPreview"
+							:is_preview="False"
 							:item_doc="itemDoc"
 							>
 						</itemDocInfos>
@@ -86,131 +146,231 @@
 
 				<v-divider></v-divider>
 
+
+				<!-- DMT LIBRARY -->
+					<!-- v-show="!isPreview" -->
+				<v-expansion-panel
+					v-model="panel_lib_dmt"
+					expand
+					class="elevation-0"
+					>
+					<v-expansion-panel-content >
+
+						<div 
+							class="accent--text"
+							slot="header"
+							>
+							<v-icon small color="accent" class="mr-3">
+								{{ $store.state.mainIcons.add_to_parent.icon }}  
+							</v-icon>
+							<span>
+								{{ $t(`projects.manage_dmt`, $store.state.locale) }}
+							</span>
+						</div>
+
+						<ItemsListDI
+							:tab="'datamodels'"
+							:coll="'dmt'"
+							:items_coll="$store.state.dmt.list"
+							:no_margin="true"
+							:add_to_parent="true"
+							:parentDoc_id="itemId"
+							:parentDoc_coll="coll"
+							>
+							<!-- @update_parent_dataset="updateDMT_list" -->
+						</ItemsListDI>
+
+					</v-expansion-panel-content>
+				</v-expansion-panel>
+			
+				<v-divider></v-divider>
+
+
+				<!-- DSI LIBRARY -->
+					<!-- v-show="!isPreview" -->
+				<v-expansion-panel
+					v-model="panel_lib_dsi"
+					expand
+					class="elevation-0"
+					>
+					<v-expansion-panel-content >
+
+						<div 
+							class="accent--text"
+							slot="header"
+							>
+							<v-icon small color="accent" class="mr-3">
+								{{ $store.state.mainIcons.add_to_parent.icon }}  
+							</v-icon>
+							<span>
+								{{ $t(`projects.manage_dsi`, $store.state.locale) }}
+							</span>
+						</div>
+
+						<ItemsListDI
+							:tab="'datasets'"
+							:coll="'dsi'"
+							:items_coll="$store.state.dsi.list"
+							:no_margin="true"
+							:add_to_parent="true"
+							:parentDoc_id="itemId"
+							:parentDoc_coll="coll"
+							>
+							<!-- @update_parent_dataset="updateDMT_list" -->
+						</ItemsListDI>
+
+					</v-expansion-panel-content>
+				</v-expansion-panel>
+			
+				<v-divider></v-divider>
+
 			</v-card>
 		</v-dialog>
 
 
-		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
-		<!-- <v-flex d-flex :class="flex_vars">
 
-			<v-expansion-panel
-				v-show="!isPreview"
-				v-model="panel_infos"
-				expand
-				class="elevation-0"
+
+		<!-- PRJ DATA -->
+
+		<!-- DMT / DMF DATA COMPONENT -->
+		<!-- TO DO !!! -->
+
+		<v-layout row mt-2>
+			
+			<!-- PRJ's DMT  -->
+			<v-flex xs11
+				v-if="list_DMT_oids_test || list_DMT_oids_test.length != 0 "
 				>
+				
+					<!-- :flex_vars="'xs8 offset-xs2'" -->
+				<ViewEditDMT
 
-				<v-expansion-panel-content>
-
-					<div 
-						slot="header"
-						>
-						<v-icon small class="mr-3">
-							{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
-						</v-icon>
-						<span>
-							{{ $t(`parentFields.infos`, $store.state.locale) }}
-						</span>
-					</div>
-
-					<ItemDocInfos
-						:coll="coll"
-						:is_create="is_create"
-						:is_preview="isPreview"
-						:item_doc="itemDoc"
-						>
-					</itemDocInfos>
-
-				</v-expansion-panel-content>
-			</v-expansion-panel>
-
-		</v-flex> -->
-
-
-
-		<!-- COMPONENTS FOR COMMON DOCS USES -->		
-		<v-flex d-flex :class="flex_vars">
-
-			<v-expansion-panel
-				v-show="!isPreview"
-				class="elevation-0"
-				expand
-				>
-
-				<v-expansion-panel-content>
-
-					<div 
-						slot="header"
-						>
-						<v-icon small class="mr-3">
-							{{ $store.state.mainIcons.parentFieldIcons.uses.icon }}
-						</v-icon>
-						<span>
-							{{ $t(`parentFields.uses`, $store.state.locale) }}
-						</span>
-					</div>
-
-					<ItemDocUses
-						:coll="coll"
-						:is_create="is_create"
-						:is_preview="isPreview"
-						:item_doc="itemDoc"
-						>
-					</itemDocUses>
-
-				</v-expansion-panel-content>
-			</v-expansion-panel>
-
-		</v-flex>
-
-		
-		<!-- DEBUG  -->
-		<v-layout 
-			v-if="$store.state.is_debug"
-			row wrap
-			>
-
-			<v-flex d-flex :class="flex_vars">
-
-				<v-alert       
-					:value="true"
-					type="error"
-					class="text-xs-left"
-					>
-					---- DEBUG component - ItemViewEdit ----
-					<hr>
-
-					-- itemDoc -- <br>
-					<code>{{ itemDoc }}</code>
-					<hr>
-
-					-- vars -- <br>
-					is_file : <code>{{ is_file }}</code> - 
-					coll : <code>{{ coll }}</code> - 
-					tab : <code>{{ tab }}</code> - 
-					is_create : <code>{{ is_create }}</code> - 
-					filetype : <code>{{ filetype }}</code> - 
-					itemId : <code>{{ itemId}}</code> - 
-					<!-- canEdit : <code>{{ canEdit }}</code> -->
-					flex_vars : <code>{{flex_vars}}</code> - 
-					<hr>
-
-					-- current_new in $store.state.{{coll}} -- <br>
-					{{coll}}.current_new : <br><code>{{ $store.state[coll].current_new }}</code>
-
-					<div v-if="is_file">
-						{{coll}}.csv_sep : <br><code>{{ $store.state[coll].csv_sep }}</code><br>
-						{{coll}}.current_filename : <br><code>{{ $store.state[coll].current_filename }}</code>
-					</div>
-					<div v-if="is_file && $store.state[coll].current_file != '' ">
-						{{coll}}.current_file : <br><code>{{ $store.state[coll].current_file.name }}</code>
-					</div>				
+					:item_doc="undefined"
+					:item_doc_id="list_DMT_oids_test"
 					
-				</v-alert>
+					:coll="'dmt'"
+
+					:is_create="false"
+					:is_preview="isPreview"
+
+					:is_switch="true"
+					:no_toolbar="true"
+					>
+				</ViewEditDMT> 
 
 			</v-flex>
 
+			<v-flex xs11
+				v-else
+				>
+
+			</v-flex>
+
+
+			<!-- RECIPES -->
+			<v-flex xs1>
+				<v-card
+					flat
+					class="pa-3 ml-3"
+					>
+					<v-card-text class="pa-0 text-xs-center">
+						REC_list btns
+					</v-card-text>
+				</v-card>
+			</v-flex>
+
 		</v-layout>
+
+
+
+
+
+
+
+		<!-- DSI LIST -->
+
+		<!-- NO DSI IN PRJ DSI_LIST -->
+		<v-layout 
+			row
+			>
+
+			<v-flex 
+				xs11
+				mt-2
+				>
+				<v-card
+					flat
+					class="pa-0 ma-0"
+					>
+
+					<v-card-text 
+						v-if="list_DSI_oids_test === undefined || list_DSI_oids_test.length == 0 "
+						class="pa-0 text-xs-center"
+						>
+						no_DSI / add_DSI_to_PRJ
+					</v-card-text>
+
+					<v-card-text 
+						v-else
+						class="pa-0 text-xs-center"
+						>
+						add_DSI_to_PRJ
+					</v-card-text>
+
+				</v-card>
+			</v-flex>
+
+		</v-layout>
+
+		<!-- LOOP PRJ's DSI_LIST -->
+		</v-layout
+			row
+			v-if="list_DSI_oids_test || list_DSI_oids_test.length != 0 "
+			>
+
+			<v-flex 
+				v-for="dsi in list_DSI_oids_test"
+				:key="list_DSI_oids_test.indexOf(dsi)"
+				xs11
+				mt-2
+				>
+
+				<!-- DEBUG -->
+				<v-card-text 
+					v-if="$store.state.is_debug"
+					>
+					dsi : <code>{{ dsi }}</code><br>
+				</v-card-text>
+
+				<ViewEditDSI
+
+					:item_doc="false"
+					:find_item="true"
+					:item_doc_id="dsi.oid_dsi"
+
+					:is_create="false"
+					:is_preview="true"
+					:is_map="true"
+
+					:coll="'dsi'"
+					:is_switch="true"
+					:no_toolbar="true"
+
+					>
+				</ViewEditDSI>
+
+				<!-- TO DO :  DIALOG MAPPER DSI -->
+
+
+			</v-flex>
+
+
+
+
+		</v-layout>
+
+
+
 
 
 
@@ -221,6 +381,7 @@
 
 <script>
 
+
 import ObjectFormatterCreate from "~/utils/ObjectFormatterCreate.js"
 import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
 
@@ -228,17 +389,26 @@ import ItemToolbar from '~/components/UI/itemToolbar.vue'
 import ItemDocUses from '~/components/UI/itemDocUses.vue'
 import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
 
+import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
+import ViewEditDMT from '~/components/UI/viewEditDMT.vue' 
+import ViewEditListDMF from '~/components/UI/viewEditListDMF.vue'
+import ViewEditDSI from '~/components/UI/viewEditDSI.vue' 
+
 import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
 
 
 export default {
 
 	props : [ 
-		"flex_vars",			// 
+
+		// "flex_vars",			// 
+
 		"is_create",			// view | create
 		"is_preview",			// 
+
 		"coll",
 		"item_doc", 			// complete item infos
+
 		"is_switch",
 		"no_toolbar",
 	],
@@ -247,38 +417,110 @@ export default {
 		ItemToolbar,
 		ItemDocInfos,
 		ItemDocUses,
+
+		ItemsListDI,
+		ViewEditDMT,
+		ViewEditListDMF,
+		ViewEditDSI,
+
 		SettingsToolbar,
 	},
-	
-	created () {
-		console.log("\n- viewEditPRJ / created ---> item_doc : ", this.item_doc ) ;
-		this.itemDoc = this.item_doc ;
 
-		this.is_file = this.preloadIsFile() ; 
-		this.filetype = this.preloadFileType() ; 
+	// middlewares to populate DMT and DSI catalogs
+	middleware : ["getListItems"],
+	meta : {
+		collection 	: [
+			'dmt', 'dsi',
+		],
+		level : 'get_list',
+	},
+
+	created () {
+
+		console.log("\n- viewEditPRJ / created ---> item_doc : ", this.item_doc ) ;
+		this.itemDoc 	= this.item_doc ;
+
+		this.list_DMT_oids 	= this.item_doc.datasets.dmt_list ;
+		this.list_DSI_oids 	= this.item_doc.datasets.dsi_list ;
+		console.log("\n- viewEditPRJ / created ---> this.list_DMT_oids : ", this.list_DMT_oids ) ;
+		console.log("\n- viewEditPRJ / created ---> this.list_DSI_oids : ", this.list_DSI_oids ) ;
+
+		// TO DO !!!!
+		// ------------------------------------ //
+		// get DMT full infos infos
+		// ------------------------------------ //
+		// if ( !Array.isArray(listDMT) || listDMT.length ) {
+
+		// 	// map list DMT in order to list of DMF oids
+		// 	this.list_DMT_oids = this.listDMT.map( function (obj) {
+		// 		return obj.oid_dmt
+		// 	}); 
+		// 	console.log("- viewEditPRJ / list_DMT_oids : ", this.list_DMT_oids ) ;
+
+		// 	// get complete data for every DMF in list_DMF_oids => methods
+		// 	// this.get_docs_fromApi("dmt") ; 
+		// }
+	
+		// // ------------------------------------ //
+		// // get DSI full infos infos
+		// // ------------------------------------ //
+		// if ( !Array.isArray(listDSI) || listDSI.length ) {
+
+		// 	// map list DSI in order to list of DMF oids
+		// 	this.list_DSI_oids = this.listDSI.map( function (obj) {
+		// 		return obj.oid_dsi
+		// 	}); 
+		// 	console.log("- viewEditPRJ / list_DSI_oids : ", this.list_DSI_oids ) ;
+
+		// 	// get complete data for every DSI in list_DSI_oids => methods
+		// 	// this.get_docs_fromApi("dsi") ; 
+		// }
+
 	},
 
 	data () {
 
 		return {
+
+			// ----------------------------- // 
+			// UX variables 
+			// ----------------------------- // 
 			
+			tab 		: this.$store.state.collectionsNames[this.coll],
+			// tab 	: this.$store.state.collectionsNames[this.item_doc.specs.doc_type],
 			alert		: null,
 			loading 	: false,
-			
+
 			panel_infos		: [true],
-			panel_data_raw	: [true],
+			panel_lib_dmt	: [false],
+			panel_lib_dsi	: [true],
+			panel_uses		: [false],
 
 			isPreview 	: this.is_preview,
 			noToolbar	: this.no_toolbar,
 			isSettings 	: false,
 
-			// coll 		: this.item_doc.specs.doc_type, 
-			tab 		: this.$store.state.collectionsNames[this.coll],
-			// tab 	: this.$store.state.collectionsNames[this.item_doc.specs.doc_type],
-			// canEdit		: false ,
+			// ----------------------------- // 
+			// DMT - DMF - DSI references
+			// ----------------------------- // 
 			itemId 		: this.item_doc._id, 
 			itemDoc		: this.item_doc,
+			// canEdit		: false ,
 
+			list_DMT_oids 		: [],
+			// list_DMT_oids_test 	: [],
+			list_DMT_oids_test 	: [ {"oid_dmt" : "5b98e4db0a8286332f4f1984" } ],
+
+			list_DSI_oids 		: [],
+			// list_DSI_oids_test 	: [],
+			list_DSI_oids_test 	: [ 
+				{"oid_dsi" : "5c0810c60a8286214c863fb6" },
+				{"oid_dsi" : "5c08f2da0a82868129391891" } 
+			],
+
+			// ----------------------------- // 
+			// UI/UX variables 
+			// ----------------------------- // 
 			is_file 			: null,
 			filetype 			: null,
 
@@ -325,11 +567,48 @@ export default {
 
 	},
 
+	watch : {
+
+		item_doc : {
+
+			immediate : true,
+			handler ( newVal, oldVal) {
+
+				console.log( "\nVE PRJ / watch ~ item_doc / newVal : \n", newVal )
+				// console.log( "\nVE PRJ / watch ~ item_doc / oldVal : \n", oldVal )
+
+				// update local DMT list and DSI list
+				this.list_DMT_oids = newVal.datasets.dmt_list ; 
+				this.list_DSI_oids = newVal.datasets.dsi_list ; 
+
+			}
+		}
+
+	},
+
 	methods: {
 		
+		//
+		// firstDMTinList () {
+		// 	return ( this.list_DSI_oids_test.length == 0 ? [] : this.list_DMT_oids_test[0] )
+		// },
+
+		// DMT_lib SWITCH
+		openDMF_lib() {
+			this.isPreview = false ;
+			this.panel_lib_dmt = [true];
+		},
+
+		openDSI_lib() {
+			this.isPreview = false ;
+			this.panel_lib_dsi = [true];
+		},
+
+		// TOOLBAR SWITCH
 		switchPreview() {
 			this.isPreview = !this.isPreview ;
 		},
+
 		switchSettings() {
 			this.isSettings = !this.isSettings ;
 		},
@@ -492,7 +771,71 @@ export default {
 			})
 		
 
-		}
+		},
+
+		
+		// ----------------------------- //
+		// AXIOS CALL
+		// ----------------------------- //
+		// get_docs_fromApi (coll_target) {
+
+		// 	console.log("\n...viewEditPRJ - get_doc_fromApi ... ")
+
+		// 	this.loading 	= true
+
+		// 	var oids_lists_dict = {
+		// 		dmf : this.list_DMF_oids , 
+		// 		dmt : this.list_DMT_oids , 
+		// 		dsi : this.list_DSI_oids , 
+		// 	} ; 
+
+		// 	var oids_list = { 
+		// 		oids 			: oids_lists_dict[ coll_target ].join(), 
+		// 		ignore_teams 	: true,
+		// 		// pivot_results	: true,
+		// 		// normalize		: true,
+		// 	}
+
+		// 	// AXIOS CALL OR DISPATCH 
+		// 	var call_input = {
+		// 		coll 			: this.coll,
+		// 		level			: "get_datasets",
+		// 		q_params		: oids_list,
+		// 	}
+		// 	this.$store.dispatch('getListItems', call_input )
+
+		// 	.then( result => {
+				
+		// 		console.log("viewEditPRJ get_doc_fromApi / result: ", result ) ; 
+				
+		// 		this.list_DMF_full 		= result.data ;
+
+		// 		if (coll_target == "dmf") {
+
+		// 		}
+
+		// 		this.loading 			= false
+
+
+		// 		this.alert   			= {type: 'success', message: result.msg}
+
+		// 	})
+
+		// 	.catch( error => {
+				
+		// 		console.log("viewEditPRJ get_doc_fromApi / submit - error... : ", error ) ; 
+				
+		// 		this.loading = false
+		// 		// this.alert = {type: 'error', message: "login error" }
+
+		// 		if (error.response && error.response.data) {
+		// 			this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+				
+		// 		}
+		// 	})
+
+		// },
+
 
 	}
 

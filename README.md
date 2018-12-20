@@ -122,19 +122,22 @@ For detailed explanation on how things work, check out the [Nuxt.js](https://git
 ![alt text](./screenshots/create_prj_en.png "create project (en)")
 
 -------
+![alt text](./screenshots/edit_prj_en.png "edit project (en)")
+
+-------
 ![alt text](./screenshots/list_dmt_en.png "list datamodel templates (en)")
 
 -------
 ![alt text](./screenshots/list_dmf_en.png "list datamodel fields (en)")
 
 -------
-![alt text](./screenshots/edit_dsi_en.png "list datamodel fields (en)")
+![alt text](./screenshots/edit_dsi_en.png "edit dataset input fields (en)")
 
 -------
-![alt text](./screenshots/edit_dmt_en.png "list datamodel fields (en)")
+![alt text](./screenshots/edit_dmt_en.png "list datamodel template (en)")
 
 -------
-![alt text](./screenshots/edit_dmt_settings_en.png "list datamodel fields (en)")
+![alt text](./screenshots/edit_dmt_settings_en.png "settings datamodel teamplate (en)")
 
 -------
-![alt text](./screenshots/edit_dmf_settings_en.png "list datamodel fields (en)")
+![alt text](./screenshots/edit_dmf_settings_en.png "settings datamodel fields (en)")

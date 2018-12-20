@@ -43,7 +43,7 @@ export default function ({ req, store, app, redirect }) {
 						refresh_token 	: refreshToken
 					} 
 				) ;
-				store.commit('SET_LANG', lang_cookie, { root: true }) ;
+				// store.commit('SET_LANG', lang_cookie, { root: true }) ;
 	
 			}
 			
@@ -88,7 +88,7 @@ export default function ({ req, store, app, redirect }) {
 					refresh_token 	: refreshToken
 				} 
 			) ;
-			store.commit('SET_LANG', lang_cookie, { root: true }) ;
+			// store.commit('SET_LANG', lang_cookie, { root: true }) ;
 
 		}
 		

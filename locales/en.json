@@ -254,7 +254,10 @@
 		"f_is_required"	: "Field is required" ,
 		"resume" 		: "Resume",
 
-		"dsi" 			: "Datasets"
+		"dsi" 			: "Datasets",
+		"manage_dsi" 	: "Manage your datasets",
+		"manage_dmt" 	: "Manage your datamodel template",
+		"manage_rec" 	: "Manage your recipes"
 	},
 
 	"datamodels" : {
@@ -286,7 +289,7 @@
 		"singular"		: "Datamodel field",
 		"intro" 		: "Manage your datamodel fields",
 		"introAnon"		: "All the datamodel fields shared by the community",
-		"create"		: "New datamodel field",
+		"create"		: "New field",
 		"edit"			: "Preview / edit your datamodel field",
 		"title"			: "Name your datamodel field",
 		"description" 	: "Describe your datamodel field",
@@ -308,7 +311,7 @@
 		"singular"		: "Dataset",
 		"intro" 		: "Manage your datasets",
 		"introAnon"		: "All the datasets shared by the community",
-		"create"		: "Import a new dataset",
+		"create"		: "New dataset",
 		"edit"			: "Preview / edit your dataset",
 		"title"			: "Name your dataset",
 		"description" 	: "Describe your dataset",

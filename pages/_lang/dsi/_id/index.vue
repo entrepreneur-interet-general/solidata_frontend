@@ -76,7 +76,7 @@ export default {
 	},
 
 	// add var-arg to middleware with meta
-	// cf : https://github.com/nuxt/nuxt.js/issues/1687#issuecomment-331870619
+	// cf : https://github.com/nuxt/nuxt.js/issues/1687#issuecomment-331870619 
 	middleware : ["getItem"],
 	meta : {
 		collection 	: 'dsi',

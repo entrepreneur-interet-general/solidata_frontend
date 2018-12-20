@@ -254,7 +254,11 @@
 		"f_is_required"	: "Campo está necesario" ,
 		"resume" 		: "Resumen",
 
-		"dsi" 			: "Datos"
+		"dsi" 			: "Datos",
+		"manage_dsi" 	: "Administrar sus datos",
+		"manage_dmt" 	: "Administrar su módelo de datos",
+		"manage_rec" 	: "Administrar sus recetas"	
+	
 	},
 
 	"datamodels" : {
@@ -262,7 +266,7 @@
 		"singular"		: "Módelo de datos",
 		"intro"			: "Administrar sus módelos de datos",
 		"introAnon"		: "Todos los módelos de datos conpartidos por la comunidad",
-		"create"		: "Nuevo módelo de datos",
+		"create"		: "Nuevo módelo",
 		"edit"			: "Ver / editar las informaciones",
 		"title"			: "De un nombre a su módelo de datos",
 		"description" 	: "Describe su módelo de datos",
@@ -286,7 +290,7 @@
 		"singular"		: "Campo de módelo de datos",
 		"intro"			: "Administrar sus campo de módelo de datos",
 		"introAnon"		: "Todos los campo de módelo de datos conpartidos por la comunidad",
-		"create"		: "Nuevo campo de módelo de datos",
+		"create"		: "Nuevo campo",
 		"edit"			: "Ver / editar las informaciones",
 		"title"			: "De un nombre a su módelo de datos",
 		"description" 	: "Describe su campo de módelo de datos",
@@ -308,7 +312,7 @@
 		"singular"		: "Dato",
 		"intro"			: "Administrar sus datos",
 		"introAnon"		: "Todos los datos conpartidos por la comunidad",
-		"create"		: "Importar nuevos datos",
+		"create"		: "Nuevos datos",
 		"edit"			: "Ver / editar las informaciones",
 		"title"			: "De un nombre a su dato",
 		"description" 	: "Describe su dato",

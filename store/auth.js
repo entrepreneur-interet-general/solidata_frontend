@@ -158,7 +158,7 @@ export const actions = {
 
 		console.log("\n...store/auth : login...");
 		console.log("\n...store/auth/login : data : ", data);
-		// 
+		
 		return dispatch('loginAnonymous')
 
 			.then( resp_anonymoous => {
@@ -183,7 +183,7 @@ export const actions = {
 						// cf documentation js-cookie : https://github.com/js-cookie/js-cookie 
 						Cookie.set("access_token",		response.tokens.access_token )
 						Cookie.set("refresh_token",		response.tokens.refresh_token )
-						Cookie.set("lang",        		user_login_infos.profile.lang ) // saving lang in cookie for server rendering
+						// Cookie.set("lang",        		user_login_infos.profile.lang ) // saving lang in cookie for server rendering
 						
 						return response 
 					})
@@ -204,6 +204,7 @@ export const actions = {
 
 			console.log("\n...store/auth/logout : logout / promise...");
 			commit('reset_user');
+
 			dispatch('loginAnonymous');
 
 			localStorage.removeItem("tokens");
@@ -213,23 +214,27 @@ export const actions = {
 			// cf documentation js-cookie : https://github.com/js-cookie/js-cookie 
 			Cookie.remove('access_token');
 			Cookie.remove('refresh_token');
+			// Cookie.remove("lang");
 
 			// localStorage.removeItem("lang");
-			// Cookie.remove("lang");
 
 			resolve()
 		})
 
 		.catch(error => {
-			console.log("\n...store/auth/logout : error status : ",  error.response.status )
+			console.log("\n...store/auth/logout : error : \n",  error )
+			// console.log("\n...store/auth/logout : error status : ",  error.response.status )
+			return error
 		})
 
 	},
 
 
-	loginAnonymous ({commit, rootState}) {
+	loginAnonymous ({commit, dispatch, rootState}) {
 
 		console.log("\n...store/auth : loginAnonymous...");
+
+		// var logout = dispatch('logout');
 
 		return this.$axios.$get('auth/login/anonymous/')
 
@@ -244,13 +249,15 @@ export const actions = {
 				// cf documentation js-cookie : https://github.com/js-cookie/js-cookie 
 				Cookie.set("access_token",		response.tokens.access_token )
 				Cookie.set("refresh_token",		response.tokens.refresh_token )
-				// Cookie.set('lang',        rootState.locale ) // saving lang
 
 				// localStorage.removeItem("tokens");
-				// Cookie.remove("tokens");
 				// resolve()
 				return response
 
+			})
+
+			.catch(error => {
+				return error
 			})
 
 	},
@@ -275,7 +282,7 @@ export const actions = {
 				commit('set_isLogged',    true);
 				commit('set_user',        response)
 				commit('set_tokens',      response.tokens)
-				// commit('SET_LANG',        response.profile.lang, { root: true }) ;
+				commit('SET_LANG',        response.profile.lang, { root: true }) ;
 
 				Cookie.set("access_token",		response.tokens.access_token )
 				Cookie.set("refresh_token",		response.tokens.refresh_token )

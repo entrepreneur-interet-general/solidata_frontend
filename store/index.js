@@ -129,6 +129,7 @@ const mainIconsConst = {
 	question			: { icon : "fas fa-question" },
 	view				: { icon : "remove_red_eye" },
 	edit				: { icon : "edit" },
+	map_doc				: { icon : "fas fa-exchange-alt" },
 	upload				: { icon : "fas fa-file-upload" },
 	reset				: { icon : "fas fa-redo" },
 	delete				: { icon : "delete_forever" },
@@ -605,6 +606,7 @@ export const actions = {
 		return this.$axios.$get(`${collection}/infos/get_one/${doc_id}`, config )
 
 			.then(response => {
+				console.log(`... $ getOneItem : response OK... `);
 				// console.log(`... $ getOneItem : response : `, response);
 				// commit(`${collection}/set_current`, response.data);
 				return response
@@ -641,19 +643,23 @@ export const actions = {
 
 		// GET DATA 
 		return this.$axios.$get(`${collection}/infos/list`, config )
+
 			.then(response => {
+				console.log(`... $ getListItems : response OK... `);
 				// console.log(`... $ getListItems : response : `, response);
 				if ( level != "get_datasets") {
 					commit(`${collection}/set_list`, response);
 				}
 				return response
 			})
+
 			.catch(error => {
 				console.log("... $ getListItems / error..." ) ; 
 				console.log("... $ getListItems / error.response.status : ", error.response.status ) ; 
 				// console.log("... $ getListItems / error : ", error ) ; 
 				return error
 			})
+
 	},
 
 	updateItem ({commit, state, rootState}, input ) {
@@ -674,11 +680,14 @@ export const actions = {
 
 		// API CALL
 		return this.$axios.$put(`${collection}/edit/${doc_id}`, fields, config )
+
 			.then(response => {
+				console.log(`... $ updateItem : response OK... `);
 				// console.log(`... $ updateItem : response : `, response);
 				// commit(`${collection}/set_list`, response);
 				return response
 			})
+		
 			.catch(error => {
 				console.log("... $ updateItem / error : ", error ) ; 
 				return error

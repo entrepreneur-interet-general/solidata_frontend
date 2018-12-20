@@ -28,12 +28,12 @@
 			<v-flex xs12>
 				<v-card flat color="grey lighten-3">
 
+						<!-- :flex_vars="'xs12'" -->
+						<!-- :parentFieldslist="parentFieldsList" -->
 					<ViewEditPRJ
-						:flex_vars="'xs12'"
 						:is_create="false"
-						:is_preview="false"
+						:is_preview="true"
 						:coll="coll"
-						:parentFieldslist="parentFieldsList"
 						:item_doc="$store.state[coll].current"
 						:is_switch="true"
 						>

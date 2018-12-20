@@ -58,7 +58,7 @@
 				<!-- src="/logos/logo_solidata_8a.png"  -->
 			<img 
 				:src="$store.state.app_logo" 
-				height="35px"
+				height="30px"
 				>
 				<!-- <div class="fill-height bottom-gradient"></div> -->
 			</img> 
@@ -308,6 +308,7 @@ export default {
 
 			}
 		},
+
 		methods: {
 
 			change_lang(new_locale) {
@@ -356,6 +357,7 @@ export default {
 				}
 
 			},
+			
 			// change_drawer() {
 			//   this.$store.commit('set_drawer' )
 			// },

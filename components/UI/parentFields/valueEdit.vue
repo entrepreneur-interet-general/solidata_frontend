@@ -598,15 +598,13 @@ export default {
 				
 			// })
 
-
 			this.loading = true
 
-
 			var valueData = {
-				"parentField" 	: this.parentField,
-				"subField" 		: this.subField,
-				"item_data" 	: (this.subField == "src_type") ? this.fileExt : this.itemData , 
-				"update_current" : false
+				"parentField" 		: this.parentField,
+				"subField" 			: this.subField,
+				"item_data" 		: (this.subField == "src_type") ? this.fileExt : this.itemData , 
+				"update_current" 	: false
 			} ;
 
 

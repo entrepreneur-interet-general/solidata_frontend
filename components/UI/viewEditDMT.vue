@@ -2,12 +2,43 @@
 
 	<v-container 
 		grid-list-sm 
-		pa-3
 		fluid
+		:class="`${ !no_toolbar ? 'pa-3' : 'pa-0'}`"
 		>
 		
+		<!-- DEBUG -->
+		<v-card-text 
+			v-if="$store.state.is_debug"
+			>
+			- coll : <code> {{ coll }} </code><br>
+			- itemId : <code> {{ itemId }} </code><br>
+			<!-- - dmf_list : <code> {{ itemDoc.datasets.dmf_list }} </code>  -->
+		</v-card-text>
+
+
+		<!-- IF NO ITEMDOC -->
+		<v-layout 
+			row 
+			wrap
+			v-if="!is_itemDoc"
+			>
+			<v-flex xs12>
+				<v-card
+					flat
+					class="pa-0 ma-0"
+					>
+					<v-card-text class="pa-0 text-xs-center">
+						no_DMT
+					</v-card-text>
+				</v-card>
+			</v-flex>
+
+		</v-layout>
+
 		<!-- DMT TOOLBAR -->
-		<template v-if="!no_toolbar">
+		<template 
+			v-if="!no_toolbar && is_itemDoc"
+			>
 
 			<v-layout 
 				v-if="!isPreview || is_create || is_switch"
@@ -21,7 +52,7 @@
 					<ItemToolbar
 						:coll="coll" 
 						:collName="collName" 
-						:itemDoc="item_doc"
+						:itemDoc="itemDoc"
 						:is_create="is_create" 
 						:isPreview="isPreview"
 						:isSettings="isSettings"
@@ -39,18 +70,9 @@
 		</template>
 
 
-		<!-- DEBUG -->
-		<v-card-text 
-			v-if="$store.state.is_debug"
-			>
-			- coll : <code> {{ coll }} </code><br>
-			- itemId : <code> {{ itemId }} </code><br>
-			- dmf_list : <code> {{ itemDoc.datasets.dmf_list }} </code> 
-		</v-card-text>
-
-
 		<!-- DMT / SETTINGS  -->
 		<v-dialog 
+			v-if="is_itemDoc"
 			v-model="isSettings" 
 			fullscreen 
 			hide-overlay 
@@ -61,7 +83,7 @@
 				
 				<!-- SETTINGS TOOLBAR -->
 				<SettingsToolbar
-					:itemDoc="item_doc"
+					:itemDoc="itemDoc"
 					@settings="switchSettings"
 					>
 				</SettingsToolbar>
@@ -146,81 +168,7 @@
 		</v-dialog>
 
 
-
-
-		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
-		<!-- <v-expansion-panel
-			v-show="!isPreview"
-			v-model="panel_infos"
-			expand
-			class="elevation-0"
-			>
-
-			<v-expansion-panel-content>
-
-				<div 
-					class="pb-0 mb-0"
-					slot="header"
-					>
-					<v-icon small class="mr-3">
-						{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
-					</v-icon>
-					<span>
-						{{ $t(`parentFields.infos`, $store.state.locale) }}
-					</span>
-				</div>
-
-				<ItemDocInfos
-					:coll="coll"
-					:is_create="is_create"
-					:is_preview="isPreview"
-					:item_doc="itemDoc"
-					>
-				</itemDocInfos>
-
-			</v-expansion-panel-content>
-
-		</v-expansion-panel> -->
-
-
-		<!-- DMF LIBRARY -->
-		<!-- <v-expansion-panel
-			v-show="!isPreview"
-			v-model="panel_lib"
-			expand
-			class="elevation-0"
-			>
-			<v-expansion-panel-content >
-
-				<div 
-					class="accent--text"
-					slot="header"
-					>
-					<v-icon small color="accent" class="mr-3">
-						{{ $store.state.mainIcons.add_to_parent.icon }}  
-					</v-icon>
-					<span>
-						{{ $t(`datamodels.manage_dmf`, $store.state.locale) }}
-					</span>
-				</div>
-
-				<ItemsListDI
-					:tab="'datamodel_fields'"
-					:coll="'dmf'"
-					:items_coll="$store.state.dmf.list"
-					:no_margin="true"
-					:add_to_parent="true"
-					:parentDoc_id="itemId"
-					:parentDoc_coll="coll"
-					@update_parent_dataset="updateDMF_list"
-					>
-				</ItemsListDI>
-
-			</v-expansion-panel-content>
-		</v-expansion-panel> -->
-
-
-		<!-- DMT DATA COMPONENT -->
+		<!-- DMT / DMF DATA COMPONENT -->
 		<v-layout row>
 			
 			<v-flex xs12>
@@ -230,6 +178,7 @@
 						{'oid_dmf' : '5bf4183f0a8286180b53183c'}
 					]"  -->
 				<ViewEditListDMF
+					v-if="is_itemDoc"
 					:listDMF="itemDoc.datasets.dmf_list"
 					:item_doc="itemDoc"
 					:isPreview="isPreview"
@@ -240,6 +189,7 @@
 					>
 				</ViewEditListDMF>
 
+
 			</v-flex>
 
 		</v-layout>
@@ -247,7 +197,8 @@
 
 		<!-- COMPONENTS FOR COMMON DOCS USES -->		
 		<v-expansion-panel
-			v-show="!isPreview"
+			v-if="is_itemDoc && !no_toolbar"
+			v-show="!isPreview "
 			v-model="panel_uses"
 			expand
 			class="elevation-0 mt-2"
@@ -285,7 +236,6 @@
 
 <script>
 
-import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
 
 import ObjectFormatterCreate from "~/utils/ObjectFormatterCreate.js"
 import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
@@ -293,34 +243,45 @@ import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
 import ItemToolbar from '~/components/UI/itemToolbar.vue'
 import ItemDocUses from '~/components/UI/itemDocUses.vue'
 import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
+
+import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
 import ViewEditListDMF from '~/components/UI/viewEditListDMF.vue'
 
 import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
-import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
+// import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
 
 
 export default {
 
 	props : [ 
-		"flex_vars",			// 
+
+		// "flex_vars",			// 
 		"is_create",			// view | create
 		"is_preview",			// 
 		// "parentFieldslist",		// 
 		"coll",
+
 		"item_doc", 			// complete item infos
+		"item_doc_id",
+
 		// "is_debug",
 		"is_switch",
+		
 		"no_toolbar"
+
 	],
 
 	components : {
+
 		ItemToolbar,
 		ItemDocInfos,
 		ItemDocUses,
+
 		ItemsListDI,
 		ViewEditListDMF,
+
 		SettingsToolbar,
-		ValueEdit,
+		// ValueEdit,
 	},
 
 	middleware : ["getListItems"],
@@ -332,16 +293,40 @@ export default {
 	},
 
 	created () {
+
 		console.log("\n- viewEditDMT / created ---> item_doc : ", this.item_doc ) ;
-		this.itemDoc = this.item_doc ;
 
-		console.log("- viewEditDMT / created ---> item_doc.datasets.dmf_list : ", this.item_doc.datasets.dmf_list ) ;
-		// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
-		// this.canEdit = this.checkUserAuth(this.parentFieldslist)
+		if ( this.item_doc != undefined ) {
+			
+			console.log("- viewEditDMT / created OK ---> item_doc exists... " ) ;
+			console.log("- viewEditDMT / created empty ---> item_doc.datasets.dmf_list : ", this.item_doc.datasets.dmf_list ) ;
+			
+			this.is_itemDoc = true ;
 
-		// this.is_file = ( this.coll == "dsi" ) ? true : false ; 
-		// this.is_file = this.preloadIsFile() ; 
-		// this.filetype = this.preloadFileType() ; 
+			this.itemDoc 	= this.item_doc ;
+			this.itemId		= this.item_doc._id ; 
+
+			// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
+			// this.canEdit = this.checkUserAuth(this.parentFieldslist)
+
+			// this.is_file = ( this.coll == "dsi" ) ? true : false ; 
+			// this.is_file = this.preloadIsFile() ; 
+			// this.filetype = this.preloadFileType() ; 
+
+		}
+
+		else {
+			
+			this.is_itemDoc = false ;
+			this.itemId		= this.item_doc_id[0].oid_dmt ; 
+			console.log("- viewEditDMT / created OK ---> item_doc is undefined ... " ) ;
+			
+			// this.itemDoc 	= this.item_doc ;
+
+		}
+
+
+
 	},
 
 	data () {
@@ -364,8 +349,10 @@ export default {
 
 			collName 	: this.$store.state.collectionsNames[this.coll],
 
-			itemId 			: this.item_doc._id, 
-			itemDoc			: this.item_doc,
+			is_itemDoc		: false,
+			// itemDoc			: this.item_doc,
+			itemDoc			: '',
+			itemId 			: '', 
 			// item_data 		: this.item_doc.data_raw.f_data, 
 			// item_headers 	: this.item_doc.data_raw.f_col_headers, 
 
@@ -445,19 +432,26 @@ export default {
 		},
 
 	},
-
-
-	// mounted () {
-	// 	this.getDataFromApi()
-	// 	.then(data => {
-	// 		this.desserts = data.items
-	// 		this.totalDesserts = data.total
-	// 	})
-	// },
 	
 
 	watch: {
 		
+		item_doc_id : {
+
+			immediate : true,
+			handler( newVal, oldVal) {
+
+				console.log( "\nVE DMT / watch ~ item_doc_id / newVal : \n", newVal )
+				console.log( "\nVE DMT / watch ~ item_doc_id / oldVal : \n", oldVal )
+
+				// update itemId
+				if (newVal != undefined ){
+					this.itemId = newVal[0].oid_dmt
+					this.get_DMT_fromApi()
+				}
+			}
+		},
+
 		item_doc : {
 
 			immediate : true,
@@ -470,8 +464,17 @@ export default {
 				if (oldVal != undefined ){
 					console.log( "\nVE DMT / watch ~ item_doc / newVal.datasets.dmf_list : \n", newVal.datasets.dmf_list )
 					console.log( "\nVE DMT / watch ~ item_doc / oldVal.datasets.dmf_list : \n", oldVal.datasets.dmf_list )
-					this.itemDoc = newVal
+					this.itemDoc = newVal ;
+
 				}
+			}
+		},
+
+		is_preview : {
+			immediate : true,
+			handler( newVal, oldVal) {
+				console.log( "\nVE DMT / watch ~ is_preview / newVal : \n", newVal )
+				this.isPreview = newVal ;
 			}
 		},
 
@@ -479,29 +482,6 @@ export default {
 			val || this.close()
 		},
 	
-		// pagination: {
-
-		// 	handler () {
-
-		// 		console.log("\n...VE DMT pagination handler ... ")
-		// 		console.log("...VE DMT pagination - this.pagination : ", this.pagination)
-
-		// 		// change pagination params in store[coll]
-		// 		var pagination_params 	= {
-		// 			page		: this.pagination.page,
-		// 			per_page 	: this.pagination.rowsPerPage,
-		// 			total_items : this.pagination.totalItems,
-		// 			sort_by 	: this.pagination.sortBy,
-		// 			descending 	: this.pagination.descending,
-		// 		}
-		// 		console.log("...VE DMT pagination - pagination_params : ", pagination_params)
-
-		// 		// call method for dispatch from main store
-		// 		this.get_FData_fromApi(pagination_params)
-				
-		// 	},
-		// 	deep: true
-		// }
 	},
 
 	methods: {
@@ -521,48 +501,6 @@ export default {
 			this.isSettings = !this.isSettings ;
 		},
 
-		// AXIOS CALL
-		// get_FData_fromApi (pag_params) {
-
-		// 	console.log("\n...VDSI get_FData_fromApi ... ")
-
-		// 	this.loading = true
-
-		// 	// AXIOS CALL OR DISPATCH 
-		// 	var call_input = {
-		// 		collection 		: this.coll,
-		// 		doc_id			: this.itemId,
-		// 		f_data_params 	: pag_params,
-		// 	}
-		// 	this.$store.dispatch('getOneItem', call_input )
-
-		// 	.then( result => {
-				
-		// 		console.log("VDSI get_FData_fromApi / result: ", result ) ; 
-				
-		// 		this.itemDoc 		= result.data 
-		// 		this.total_items 	= result.data.data_raw.f_data_count
-
-		// 		this.pagination.page 		= result.query.page_args.page
-		// 		this.pagination.rowsPerPage = result.query.page_args.per_page
-		// 		this.pagination.sortBy 		= result.query.query_args.sort_by
-
-		// 		this.loading 		= false
-		// 		this.alert   		= {type: 'success', message: result.msg}
-
-		// 	})
-
-		// 	.catch( error => {
-		// 		console.log("VDSI get_FData_fromApi / submit - error... : ", error ) ; 
-		// 		this.loading = false
-		// 		// this.alert = {type: 'error', message: "login error" }
-		// 		if (error.response && error.response.data) {
-		// 			this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
-		// 		}
-		// 	})
-
-		// },
-
 
 		// HEADERS COLUMNS
 		item_headers (is_actions) {
@@ -570,7 +508,7 @@ export default {
 			var headers 	= [] ;
 			var top_head 	= { text: 'Actions', value: 'name', sortable: false }
 
-			const raw_headers = this.item_doc.data_raw.f_col_headers ;
+			const raw_headers = this.itemDoc.data_raw.f_col_headers ;
 			console.log("item_headers / raw_headers : ", raw_headers)
 
 			for (let header in raw_headers ) {
@@ -662,6 +600,53 @@ export default {
 		},
 
 
+		// ----------------------------- //
+		// AXIOS CALL
+		// ----------------------------- //
+		get_DMT_fromApi () {
+
+			console.log("\n...VE_DMT - get_DMT_fromApi ... ")
+
+			this.loading = true
+
+			// AXIOS CALL OR DISPATCH 
+			var call_input = {
+				collection 		: this.coll,
+				doc_id			: this.itemId,
+			}
+
+			this.$store.dispatch('getOneItem', call_input )
+
+			.then( result => {
+				
+				console.log("VE_DMT - get_DMT_fromApi / result: ", result ) ; 
+				
+				this.itemDoc 		= result.data 
+
+				this.loading 		= false
+				this.alert   		= {type: 'success', message: result.msg}
+
+				this.is_itemDoc 	= true
+
+				return "ok"
+
+			})
+
+			.catch( error => {
+
+				console.log("VE_DMT - get_DMT_fromApi / submit - error... : ", error ) ; 
+				
+				this.loading = false
+
+				if (error.response && error.response.data) {
+					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+				}
+
+				return "error"
+
+			})
+
+		},
 
 
 
@@ -702,7 +687,7 @@ export default {
 		preloadIsFile () {
 			var isFile = false ;
 			if ( this.coll == "dsi"){
-				if(this.item_doc.specs.src_type != "API") {
+				if(this.itemDoc.specs.src_type != "API") {
 					isFile = true
 				}
 			}
@@ -712,7 +697,7 @@ export default {
 		preloadFileType () {
 			var filetype ;
 			if ( this.coll == "dsi"){
-				filetype = this.item_doc.specs.src_type
+				filetype = this.itemDoc.specs.src_type
 			}
 			return filetype
 		},
@@ -754,7 +739,7 @@ export default {
 				var isLogged 			= this.$store.state.auth.isLogged ;
 				var user_id 			= this.$store.state.auth.user_id ;
 
-				can_update_field 		= checkDocUserAuth(this.item_doc, field_name, isLogged, user_id)
+				can_update_field 		= checkDocUserAuth(this.itemDoc, field_name, isLogged, user_id)
 			}
 
 			// console.log("checkUserAuth DMT / can_update_field : ", can_update_field ) ;

@@ -6,18 +6,18 @@
 	}
 
 	th, td {
-		border-left: thin dashed grey ;
+		border-right: thin dashed grey ;
+		max-width: 200px !important; 
 	}
 	td .col-values {
-		/* max-width: 150px;  */
-		width: 190px; 
+		width: 200px; 
 		overflow-y: hidden ;
 		text-align : center ;
 		display: inline-block;
 	}
 	td .col-titles {
-		/* max-width: 150px;  */
-		width: 90px; 
+		/* max-width: 70px;  */
+		width: 70px; 
 		text-align : center ;
 		display: inline-block;
 		/* overflow-y: hidden; */
@@ -29,11 +29,11 @@
 
 	<div class="pa-0 ma-0">
 
-
 		<!-- CREATE EDIT DOC / DATA TABLE STYLE-->
 		<v-layout row wrap>
 			
 			<v-flex xs12>
+
 				<v-card 
 					flat
 					class=""
@@ -42,7 +42,11 @@
 					<v-card-text class="pa-0">
 
 						<!-- DATA TOOLBAR -->
-						<v-toolbar class="elevation-0" color="white">
+						<v-toolbar 
+							v-if="!no_toolbar"
+							class="elevation-0" 
+							color="white"
+							>
 							
 							<!-- title dataset -->
 							<v-toolbar-title
@@ -252,10 +256,14 @@ import ViewEditDMF from '~/components/UI/viewEditDoc.vue'
 export default {
 
 	props : [
+		
 		"listDMF",
 		"isPreview",
 		"item_doc",
-		"panel_open"
+		"panel_open",
+
+		"no_toolbar",
+
 	],
 
 	components : {

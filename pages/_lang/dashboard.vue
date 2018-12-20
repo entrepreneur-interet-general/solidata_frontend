@@ -1,3 +1,9 @@
+<style scoped>
+
+
+
+</style>
+
 <template>
 
 	<div>
@@ -6,11 +12,14 @@
 			centered
 			color="transparent"
 			:fixed-tabs="!isMobile"
+			class="align-center"
+			height="65px"
 			>
 			<!-- icons-and-text -->
 
 			<v-tabs-slider 
 				color="primary"
+				class=""
 				>
 			</v-tabs-slider>
 

@@ -1,15 +1,16 @@
 <style scoped>
 
 	th, td {
-		border-left: thin dashed grey ;
+		border-right: thin dashed grey ;
+		max-width: 200px; 
 	}
 	td .col-values {
-		/* max-width: 150px;  */
-		width: 190px; 
+		/* max-width: 190px;  */
+		width: 200px; 
 		overflow-y: hidden ;
 	}
 	td .col-titles {
-		/* max-width: 150px;  */
+		/* max-width: 70px !important;  */
 		width: 70px; 
 		text-align : right ;
 		/* overflow-y: hidden; */
@@ -20,9 +21,10 @@
 <template>
 
 	<v-container 
+		v-if="itemDoc_loaded"
 		grid-list-sm 
 		fluid
-		pa-3
+		:class="`${ !no_toolbar ? 'pa-3' : 'pa-0'}`"
 		>
 		
 		<!-- DSI TOOLBAR -->
@@ -39,7 +41,7 @@
 					<ItemToolbar
 						:coll="coll" 
 						:collName="collName" 
-						:itemDoc="item_doc"
+						:itemDoc="itemDoc"
 						:is_create="is_create" 
 						:isPreview="isPreview"
 						:isSettings="isSettings"
@@ -68,7 +70,7 @@
 				
 				<!-- SETTINGS TOOLBAR -->
 				<SettingsToolbar
-					:itemDoc="item_doc"
+					:itemDoc="itemDoc"
 					@settings="switchSettings"
 					>
 				</SettingsToolbar>
@@ -112,49 +114,18 @@
 			</v-card>
 		</v-dialog>
 
-		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
-		<!-- <v-expansion-panel
-			v-show="!isPreview"
-			v-model="panel_infos"
-			expand
-			class="elevation-0"
-			>
-
-			<v-expansion-panel-content>
-
-				<div 
-					slot="header"
-					>
-					<v-icon small class="mr-3">
-						{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
-					</v-icon>
-					<span>
-						{{ $t(`parentFields.infos`, $store.state.locale) }}
-					</span>
-				</div>
-
-				<ItemDocInfos
-					:coll="coll"
-					:is_create="is_create"
-					:is_preview="isPreview"
-					:item_doc="itemDoc"
-					>
-				</itemDocInfos>
-
-			</v-expansion-panel-content>
-		</v-expansion-panel> -->
-
-
 
 
 		<!-- DSI DATA -->
 		<v-layout row wrap>
 			
 			<v-flex xs12>
+
 				<v-card 
 					flat
 					color=""
 					>
+
 					<v-card-text class="pa-0">
 
 						<!-- DATA TOOLBAR -->
@@ -164,11 +135,28 @@
 							<v-toolbar-title
 								class="subheading grey--text"
 								>
+
+								<v-btn
+									icon
+									v-show="isPreview"
+									flat
+									class="grey"
+									dark
+									small 
+									:to="`/${itemDoc.specs.doc_type}/${itemDoc._id}`"
+									>
+									<!-- @click="goToItem()" -->
+
+									<v-icon small>
+										{{ $store.state.mainIcons.settings.icon }}
+									</v-icon>
 								
+								</v-btn>
+
 								{{ itemDoc.infos.title | truncate(30, '...') }}
 								
-								<!-- edit button if not in DSI -->
-								<v-btn
+								<!-- TO DO : edit button if not in DSI -->
+								<!-- <v-btn
 									icon
 									v-show="isPreview"
 									flat
@@ -182,15 +170,36 @@
 										{{ $store.state.mainIcons.edit.icon }}
 									</v-icon>
 								
+								</v-btn> -->
+
+								<!-- TO DO : edit button if not in DSI -->
+								<v-btn
+									icon
+									v-show="is_map"
+									flat
+									class="secondary"
+									dark
+									small 
+									@click=""
+									>
+
+									<v-icon small>
+										{{ $store.state.mainIcons.map_doc.icon }}
+									</v-icon>
+								
 								</v-btn>
-							
+
 							</v-toolbar-title>
 							
 							<v-spacer></v-spacer>
 
-							<v-dialog v-model="dialog" max-width="600px">
+							<v-dialog 
+								v-model="dialog" 
+								max-width="600px"
+								>
 
 								<v-btn 
+									v-show="!isPreview"
 									slot="activator" 
 									color="accent" 
 									dark 
@@ -263,11 +272,17 @@
 							:loading="loading"
 							class="elevation-0"
 							:rows-per-page-items="[5, 10, 25]"
+							:hide-headers="isPreview"
 							>
+
 							<v-progress-linear slot="progress" color="accent" indeterminate></v-progress-linear>
+
 							<template slot="items" slot-scope="props">
 
-								<td class="justify-center layout px-0">
+								<td 
+									v-show="!isPreview"
+									class="justify-center layout px-0"
+									>
 									<v-icon
 										small
 										class="mr-1"
@@ -317,7 +332,7 @@
 
 		<!-- COMPONENTS FOR COMMON DOCS USES -->		
 		<v-expansion-panel
-			v-show="!isPreview"
+			v-show="!isPreview && !no_toolbar"
 			v-model="panel_uses"
 			expand
 			class="elevation-0 mt-2"
@@ -355,7 +370,9 @@
 			row wrap
 			>
 
-			<v-flex d-flex :class="flex_vars">
+				<!-- :class="flex_vars" -->
+			<v-flex d-flex 
+				>
 
 				<v-alert       
 					:value="true"
@@ -377,7 +394,7 @@
 					filetype : <code>{{ filetype }}</code> - 
 					itemId : <code>{{ itemId}}</code> - 
 					<!-- canEdit : <code>{{ canEdit }}</code> -->
-					flex_vars : <code>{{flex_vars}}</code> - 
+					<!-- flex_vars : <code>{{flex_vars}}</code> -  -->
 					<hr>
 
 					-- current_new in $store.state.{{coll}} -- <br>
@@ -419,15 +436,25 @@ import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
 export default {
 
 	props : [ 
-		"flex_vars",			// 
+
+		// "flex_vars",			// 
 		"is_create",			// view | create
 		"is_preview",			// 
+		"is_map",
 		// "parentFieldslist",		// 
+
 		"coll",
+
 		"item_doc", 			// complete item infos
+		
+		"find_item",
+		"item_doc_id",
+
 		// "is_debug",
+
 		"is_switch",
-		"no_toolbar"
+		"no_toolbar",
+
 	],
 
 	components : {
@@ -437,20 +464,42 @@ export default {
 		SettingsToolbar
 	},
 
-	// meta : {
-	// 	collection 	: 'dsi',
-	// 	level 		: 'get_f_data',
-	// },
-
 	created () {
-		console.log("\n- itemViewEdit / created ---> item_doc : ", this.item_doc ) ;
-		this.itemDoc = this.item_doc ;
-		// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
-		// this.canEdit = this.checkUserAuth(this.parentFieldslist)
 
-		this.is_file = ( this.coll == "dsi" ) ? true : false ; 
-		this.is_file = this.preloadIsFile() ; 
-		this.filetype = this.preloadFileType() ; 
+		console.log("\n- viewEditDSI / created ---> item_doc : ", this.item_doc ) ;
+		
+		if ( this.find_item ) {
+
+			console.log("- viewEditDSI / created OK ---> need to get item from API ... " ) ;
+			this.itemId  = this.item_doc_id 
+
+			// change pagination params in store[coll]
+			var pagination_params 	= {
+				page		: 1 ,
+				per_page 	: 5,
+			}
+
+			// load DSI data 
+			this.get_FData_fromApi( pagination_params ) ;
+
+		}
+
+		else {
+
+			console.log("- viewEditDSI / created OK ---> item_doc exists... " ) ;
+			this.itemDoc 		= this.item_doc ;
+			this.itemId 		= this.item_doc._id ;
+			this.itemDoc_loaded = true ;
+
+			// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
+			// this.canEdit = this.checkUserAuth(this.parentFieldslist)
+
+			this.is_file 	= ( this.coll == "dsi" ) ? true : false ; 
+			this.is_file 	= this.preloadIsFile() ; 
+			this.filetype 	= this.preloadFileType() ; 
+		}
+		
+
 	},
 
 	data () {
@@ -468,8 +517,9 @@ export default {
 			
 			collName 	: this.$store.state.collectionsNames[this.coll],
 
-			itemId 			: this.item_doc._id, 
+			itemDoc_loaded	: false,
 			itemDoc			: this.item_doc,
+			itemId 			: '', 
 			// item_data 		: this.item_doc.data_raw.f_data, 
 			// item_headers 	: this.item_doc.data_raw.f_col_headers, 
 
@@ -520,8 +570,10 @@ export default {
 		itemHeaders() {
 			return this.item_headers() ;
 		},
+
 		itemHeaders_Actions() {
-			return this.item_headers(true) ;
+			// return this.item_headers(true) ;
+			return this.item_headers( !this.isPreview ) ;
 		},
 
 		parentPadding () {
@@ -563,11 +615,19 @@ export default {
 	
 
 	watch: {
-		
+
 		dialog (val) {
 			val || this.close()
 		},
 	
+		is_preview : {
+			immediate : true,
+			handler( newVal, oldVal) {
+				console.log( "\nVE DMT / watch ~ is_preview / newVal : \n", newVal )
+				this.isPreview = newVal ;
+			}
+		},
+
 		// TO DO !!!!
 		pagination: {
 
@@ -604,7 +664,10 @@ export default {
 			this.isSettings = !this.isSettings ;
 		},
 
+
+		// ----------------------------- //
 		// AXIOS CALL
+		// ----------------------------- //
 		get_FData_fromApi (pag_params) {
 
 			console.log("\n...VDSI get_FData_fromApi ... ")
@@ -617,6 +680,7 @@ export default {
 				doc_id			: this.itemId,
 				f_data_params 	: pag_params,
 			}
+
 			this.$store.dispatch('getOneItem', call_input )
 
 			.then( result => {
@@ -633,42 +697,57 @@ export default {
 				this.loading 		= false
 				this.alert   		= {type: 'success', message: result.msg}
 
+				this.itemDoc_loaded	= true 
+
+				return "ok"
+
 			})
 
 			.catch( error => {
+
 				console.log("VDSI get_FData_fromApi / submit - error... : ", error ) ; 
+				
 				this.loading = false
+
 				// this.alert = {type: 'error', message: "login error" }
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
 				}
+
+				return "error"
+
 			})
 
 		},
 
 
+		// ----------------------------- //
 		// HEADERS COLUMNS
+		// ----------------------------- //
 		item_headers (is_actions) {
 
 			var headers 	= [] ;
 			var top_head 	= { text: 'Actions', value: 'name', sortable: false }
 
-			const raw_headers = this.item_doc.data_raw.f_col_headers ;
-			console.log("item_headers / raw_headers : ", raw_headers)
+			// only create headers if item is loaded
+			if ( this.itemDoc_loaded ) {
 
-			for (let header in raw_headers ) {
-				// console.log("item_headers / header : ", header)
-				var header_ = {
-					value 	: raw_headers[header].f_coll_header_val,
-					text	: raw_headers[header].f_coll_header_text,
-				};
-				headers.push(header_)
+				const raw_headers = this.itemDoc.data_raw.f_col_headers ;
+				console.log("item_headers / raw_headers : ", raw_headers)
+
+				for (let header in raw_headers ) {
+					// console.log("item_headers / header : ", header)
+					var header_ = {
+						value 	: raw_headers[header].f_coll_header_val,
+						text	: raw_headers[header].f_coll_header_text,
+					};
+					headers.push(header_)
+				}
+
+				if (is_actions){
+					headers.unshift(top_head)
+				}
 			}
-
-			if(is_actions){
-				headers.unshift(top_head)
-			}
-
 			return headers
 		},
 
@@ -734,10 +813,15 @@ export default {
 
 		// PREALOADS / UPDATES
 		preloadIsFile () {
+
 			var isFile = false ;
-			if ( this.coll == "dsi"){
-				if(this.item_doc.specs.src_type != "API") {
+
+			if ( this.coll == "dsi" ) {
+
+				if ( this.itemDoc.specs.src_type != "API") {
+				// if ( this.item_doc.specs.src_type != "API") {
 					isFile = true
+
 				}
 			}
 			return isFile
@@ -746,7 +830,8 @@ export default {
 		preloadFileType () {
 			var filetype ;
 			if ( this.coll == "dsi"){
-				filetype = this.item_doc.specs.src_type
+				// filetype = this.item_doc.specs.src_type
+				filetype = this.itemDoc.specs.src_type
 			}
 			return filetype
 		},
@@ -788,7 +873,8 @@ export default {
 				var isLogged 			= this.$store.state.auth.isLogged ;
 				var user_id 			= this.$store.state.auth.user_id ;
 
-				can_update_field 		= checkDocUserAuth(this.item_doc, field_name, isLogged, user_id)
+				// can_update_field 		= checkDocUserAuth(this.item_doc, field_name, isLogged, user_id)
+				can_update_field 		= checkDocUserAuth(this.itemDoc, field_name, isLogged, user_id)
 			}
 
 			// var doc_auth_edit 		= this.item_doc.public_auth.open_level_edit ; 
@@ -829,74 +915,6 @@ export default {
 
 			return can_update_field
 		},
-
-		// submit value to create item via API backend
-		// createItem ( ) {
-			
-		// 	console.log("\n VE createItem... ")
-
-		// 	this.alert    = null
-		// 	this.loading  = true
-
-		// 	var current_new = this.$store.state[this.coll].current_new ; 
-			
-		// 	// this.formHasErrors = false ; 
-
-		// 	console.log("VE createItem - current_new : ", current_new )
-
-		// 	// Object.keys(this.form).forEach(f => {
-		// 		// 	if (!this.form[f]) this.formHasErrors = true
-		// 	// 	this.$refs[f].validate(true)
-				
-		// 	// })
-
-		// 	// REFORMAT DATA
-		// 	// var data_to_send = JSON.parse(JSON.stringify(current_new)) ;
-		// 	var data_to_send = ObjectFormatterCreate.prepareFormData(current_new) ;
-
-		// 	// add file's data if needed
-		// 	if( this.is_file == true ){
-		// 		console.log("VE createItem / adding file  to data_to_send")
-		// 		// data_to_send['file'] 		= this.$store.state[this.coll].current_file ;
-		// 		data_to_send['csv_sep'] 	= this.$store.state[this.coll].csv_sep ;
-		// 	// 	data_to_send['filename'] 	= this.$store.state[this.coll].current_filename ;
-		// 	}
-
-		// 	console.log("VE createItem / data_to_send : ", data_to_send)
-
-		// 	//  PREPARE PAYLOAD
-		// 	var payload = { collection : this.coll, data : data_to_send } ; 
-		// 	console.log("VE createItem / payload : ", payload)
-
-		// 	// dispatch action from store
-		// 	this.$store.dispatch('createItem', payload )
-			
-		// 	.then(result => {
-
-		// 		this.loading = false
-		// 		this.alert = {type: 'success', message: result.msg}
-
-		// 		// retrieve new item id
-		// 		var new_item_id = response.data._id
-
-		// 		// redirect to edit-preview page 
-		// 		return this.$router.push(`/${this.coll}/${new_item_id}`)
-		
-		// 	})
-		// 	.catch(error => {
-
-		// 		console.log("VE createItem / submit / error... : ", error ) ; 
-
-		// 		this.loading = false
-		// 		// this.alert = {type: 'error', message: "login error" }
-		// 		if (error.response && error.response.data) {
-		// 			this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
-		// 		}
-
-		// 	})
-		
-
-		// }
 
 	}
 

@@ -4,6 +4,20 @@
 		:class="classMainCard"
 		>
 
+
+		<!-- DEBUG -->
+		<v-card-text 
+			v-if="$store.state.is_debug"
+			>
+			- tab : <code> {{ tab }} </code><br>
+			- coll : <code> {{ coll }} </code><br>
+			- add_to_parent : <code> {{ add_to_parent }} </code><br>
+			- parentDoc_id : <code> {{ parentDoc_id }} </code><br>
+			- parentDoc_coll : <code> {{ parentDoc_coll }} </code><br>
+			<!-- - items_coll : <code> {{ items_coll }} </code><br> -->
+		</v-card-text>
+
+
 		<v-container 
 			fluid grid-list-md
 			pt-4
@@ -66,7 +80,7 @@
 						:tab="tab"
 						:color="'primary'"
 						:btn_class="'primary'"
-						:is_block="true"
+						:is_block="false"
 						:outline="true"
 						:large="true"
 						:flat="true"
@@ -254,7 +268,7 @@ export default {
 			with_no_margin 	: "grey lighten-3 elevation-0 mt-1 mx-0 px-3",
 
 			with_padding 	: "pb-2 mb-1",
-			with_no_padding : "pb-2 mb-0",
+			with_no_padding : "pb-2 mb-2",
 
 			// CARDS SIZES
 			// cardSizes : "xs12 sm6 md4 l4",
