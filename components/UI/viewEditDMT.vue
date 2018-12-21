@@ -111,10 +111,10 @@
 							</span>
 						</div>
 
+							<!-- :is_preview="isPreview" -->
 						<ItemDocInfos
 							:coll="coll"
 							:is_create="is_create"
-							:is_preview="isPreview"
 							:item_doc="itemDoc"
 							>
 						</itemDocInfos>
@@ -128,6 +128,7 @@
 
 				<!-- DMF LIBRARY -->
 				<v-expansion-panel
+					v-if="$store.state.auth.isLogged"
 					v-show="!isPreview"
 					v-model="panel_lib"
 					expand
@@ -183,9 +184,11 @@
 					:item_doc="itemDoc"
 					:isPreview="isPreview"
 					:panel_open="panel_lib[0]"
+					:add_to_parent="add_to_parent"
 					@input="openDMF_lib"
 					@settings="switchSettings"
 					@update_parent_dataset="updateDMF_list"
+					@update_loading="updateLoading"
 					>
 				</ViewEditListDMF>
 
@@ -201,7 +204,7 @@
 			v-show="!isPreview "
 			v-model="panel_uses"
 			expand
-			class="elevation-0 mt-2"
+			class="elevation-0 mt-3"
 			>
 
 			<v-expansion-panel-content>
@@ -267,7 +270,9 @@ export default {
 		// "is_debug",
 		"is_switch",
 		
-		"no_toolbar"
+		"no_toolbar",
+
+		"add_to_parent",
 
 	],
 
@@ -360,7 +365,7 @@ export default {
 			filetype 			: null,
 
 			// data table : loading, pagination 
-			loading 		: false,
+			// loading 		: false,
 			// pagination 		: {},
 			total_items		: 0, // per page must be in [0, 2, 5, 10, 20, 25, 50, 100]
 
@@ -436,6 +441,30 @@ export default {
 
 	watch: {
 		
+		loading : {
+
+			immediate : true,
+			handler (newVal, oldVal ) {
+				// console.log( "\nVE DMT / watch ~ loading / newVal : \n", newVal )
+				
+				// var doc_id = "from_VE_DMT"
+				// if ( this.itemId == undefined || this.itemId == "" ) {
+				// 	var doc_id = "from_VE_DMT"
+				// }
+				// else {
+				// 	var doc_id = this.itemId
+				// }
+				var input = {
+					loading : newVal,
+					// doc_id	: doc_id,
+					coll	: this.coll
+				}
+				// this.$emit("update_loading", newVal)
+				this.$emit("update_loading", input)
+			}
+
+		},
+
 		item_doc_id : {
 
 			immediate : true,
@@ -486,6 +515,13 @@ export default {
 
 	methods: {
 
+		updateLoading(input) {
+
+			console.log("updateLoading / input : ", input )
+			this.loading = input.loading
+
+		},
+		
 		// DMF_lib SWITCH
 		openDMF_lib() {
 			this.isPreview = false ;
@@ -565,6 +601,7 @@ export default {
 			console.log("updateDMF_list / input : ", input )
 
 			this.loading 		= true
+			// this.$emit('update_loading', true )
 
 			// load values as pseudoForm
 			var pseudoForm	= this.form( input ) ;
@@ -581,7 +618,8 @@ export default {
 			.then(result => {
 				this.alert 		= { type: 'success', message: result.msg }
 				this.loading 	= false
-
+				// this.$emit('update_loading', false )
+				
 				// update current in store
 				console.log("updateDMF_list - result : ", result )
 				this.$store.commit(`${this.coll}/set_current`, result );
@@ -591,6 +629,7 @@ export default {
 			.catch(error => {
 				console.log("submit / error... : ", error ) ; 
 				this.loading = false
+				// this.$emit('update_loading', false )
 				this.alert = {type: 'error', message: "login error" }
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
@@ -608,6 +647,7 @@ export default {
 			console.log("\n...VE_DMT - get_DMT_fromApi ... ")
 
 			this.loading = true
+			// this.$emit('update_loading', true )
 
 			// AXIOS CALL OR DISPATCH 
 			var call_input = {
@@ -624,6 +664,8 @@ export default {
 				this.itemDoc 		= result.data 
 
 				this.loading 		= false
+				// this.$emit('update_loading', false )
+
 				this.alert   		= {type: 'success', message: result.msg}
 
 				this.is_itemDoc 	= true
@@ -637,6 +679,7 @@ export default {
 				console.log("VE_DMT - get_DMT_fromApi / submit - error... : ", error ) ; 
 				
 				this.loading = false
+				// this.$emit('update_loading', false )
 
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}

@@ -10,12 +10,12 @@
 			v-if="!noToolbar"
 			row 
 			wrap 
+			mb-3
 			>
 
 			<v-flex 
 				d-flex 
 				xs12
-				mb-3
 				>
 				<!-- :class="flex_vars" -->
 
@@ -26,7 +26,7 @@
 					:is_create="is_create" 
 					:isPreview="isPreview"
 					:isSettings="isSettings"
-					:is_loading="loading"
+					:is_loading="isLoading"
 					@input="switchPreview"
 					@settings="switchSettings"
 					>
@@ -42,6 +42,11 @@
 			v-if="$store.state.is_debug"
 			pa-3
 			>
+
+			- loading_list : <code>{{loading_list}}</code><br>
+
+			<v-divider></v-divider>
+
 			- coll : <code> {{ coll }} </code><br>
 			- itemId : <code> {{ itemId }} </code>
 
@@ -65,7 +70,7 @@
 		<v-expansion-panel
 			v-show="!isPreview"
 			v-model="panel_uses"
-			class="elevation-0 mt-2"
+			class="elevation-0 "
 			expand
 			>
 
@@ -82,10 +87,10 @@
 					</span>
 				</div>
 
+					<!-- :is_preview="isPreview" -->
 				<ItemDocUses
 					:coll="coll"
 					:is_create="is_create"
-					:is_preview="isPreview"
 					:item_doc="itemDoc"
 					>
 				</itemDocUses>
@@ -136,7 +141,7 @@
 						<ItemDocInfos
 							:coll="coll"
 							:is_create="is_create"
-							:is_preview="False"
+							:is_preview="false"
 							:item_doc="itemDoc"
 							>
 						</itemDocInfos>
@@ -150,6 +155,7 @@
 				<!-- DMT LIBRARY -->
 					<!-- v-show="!isPreview" -->
 				<v-expansion-panel
+					v-if="$store.state.auth.isLogged"
 					v-model="panel_lib_dmt"
 					expand
 					class="elevation-0"
@@ -189,6 +195,7 @@
 				<!-- DSI LIBRARY -->
 					<!-- v-show="!isPreview" -->
 				<v-expansion-panel
+					v-if="$store.state.auth.isLogged"
 					v-model="panel_lib_dsi"
 					expand
 					class="elevation-0"
@@ -230,12 +237,13 @@
 
 
 
-		<!-- PRJ DATA -->
+		<!-- PRJ DATA : DMT -->
 
 		<!-- DMT / DMF DATA COMPONENT -->
-		<!-- TO DO !!! -->
-
-		<v-layout row mt-2>
+		<v-layout 
+			row 
+			mt-3
+			>
 			
 			<!-- PRJ's DMT  -->
 			<v-flex xs11
@@ -255,6 +263,10 @@
 
 					:is_switch="true"
 					:no_toolbar="true"
+
+					:add_to_parent="true"
+
+					@update_loading="updateLoading"
 					>
 				</ViewEditDMT> 
 
@@ -263,7 +275,7 @@
 			<v-flex xs11
 				v-else
 				>
-
+				list_DMT_oids_test empty
 			</v-flex>
 
 
@@ -274,7 +286,7 @@
 					class="pa-3 ml-3"
 					>
 					<v-card-text class="pa-0 text-xs-center">
-						REC_list btns
+						REC list btns
 					</v-card-text>
 				</v-card>
 			</v-flex>
@@ -282,6 +294,98 @@
 		</v-layout>
 
 
+
+		<!-- DSI LIST -->
+
+		<v-layout row wrap>
+
+			<!-- DSI COLUMN -->
+			<v-flex 
+				d-flex 
+				xs11
+				>
+
+				<v-layout row wrap>
+
+					<v-flex d-flex>
+						<v-layout row wrap>
+
+							<!-- LOOP PRJ's DSI_LIST -->
+							<v-flex 
+								v-for="dsi in list_DSI_oids_test"
+								:key="list_DSI_oids_test.indexOf(dsi)"
+								xs12
+								mt-3
+								>
+
+								<!-- DEBUG -->
+								<v-card-text 
+									v-if="$store.state.is_debug"
+									>
+									dsi : <code>{{ dsi }}</code><br>
+								</v-card-text>
+
+								<ViewEditDSI
+
+									:item_doc="false"
+									:find_item="true"
+									:item_doc_id="dsi.oid_dsi"
+
+									:is_create="false"
+									:is_preview="isPreview"
+									:is_map="true"
+
+									:coll="'dsi'"
+									:is_switch="true"
+									:no_toolbar="true"
+
+									:add_to_parent="true"
+
+									@update_loading="updateLoading"
+									>
+								</ViewEditDSI>
+
+								<!-- TO DO :  DIALOG MAPPER DSI -->
+
+
+							</v-flex>
+						
+						</v-layout>
+					</v-flex>
+					
+				</v-layout>
+
+			</v-flex>
+		
+
+			<!-- NO DSI IN PRJ DSI_LIST -->
+			<v-flex 
+				xs1
+				mt-3
+				class="text-xs-center"
+				>
+
+				<v-btn 
+					:class="`${ loading ? 'grey' : 'accent'} `"
+					:disabled="loading"
+					fab
+					outline
+					small
+					flat
+					@click="isSettings=true"
+					>
+
+					<v-icon 
+						small
+						:color="`${ loading ? 'grey' : 'accent'} `"
+						>
+						{{ $store.state.mainIcons.datasets.icon }}
+					</v-icon>
+
+				</v-btn>
+			</v-flex>
+
+		</v-layout>
 
 
 
@@ -290,80 +394,114 @@
 		<!-- DSI LIST -->
 
 		<!-- NO DSI IN PRJ DSI_LIST -->
-		<v-layout 
+		<!-- <v-layout 
+			v-show="!loading"
 			row
+			mt-3
 			>
 
 			<v-flex 
 				xs11
-				mt-2
 				>
 				<v-card
 					flat
-					class="pa-0 ma-0"
+					class="pa-0 ma-0 transparent"
 					>
 
 					<v-card-text 
-						v-if="list_DSI_oids_test === undefined || list_DSI_oids_test.length == 0 "
 						class="pa-0 text-xs-center"
 						>
-						no_DSI / add_DSI_to_PRJ
-					</v-card-text>
 
-					<v-card-text 
-						v-else
-						class="pa-0 text-xs-center"
-						>
-						add_DSI_to_PRJ
+						<v-btn 
+							class="my-2 accent text-lowercase"
+							color="accent"
+							:fab="isPreview"
+							outline
+							:round="!isPreview"
+							small
+							flat
+							@click="isSettings=true"
+							>
+
+							<v-icon 
+								small
+								dark 
+								:left="!isPreview"
+								>
+								{{ $store.state.mainIcons.datasets.icon }}
+							</v-icon>
+
+							<span
+								v-if="!isPreview"
+								>
+							{{ $t(`projects.manage_dsi`, $store.state.locale) }}
+							</span>
+						</v-btn>
+
 					</v-card-text>
 
 				</v-card>
-			</v-flex>
+			</v-flex> -->
 
 		</v-layout>
 
 		<!-- LOOP PRJ's DSI_LIST -->
+			<!-- v-if="list_DSI_oids_test || list_DSI_oids_test.length != 0 " -->
 		</v-layout
 			row
-			v-if="list_DSI_oids_test || list_DSI_oids_test.length != 0 "
+			wrap
 			>
 
-			<v-flex 
-				v-for="dsi in list_DSI_oids_test"
-				:key="list_DSI_oids_test.indexOf(dsi)"
+			<!-- <v-flex 
 				xs11
-				mt-2
+				mt-0
+				pa-0
 				>
 
-				<!-- DEBUG -->
-				<v-card-text 
-					v-if="$store.state.is_debug"
+				<v-layout 
+					row wrap
+					v-if="list_DSI_oids_test || list_DSI_oids_test.length != 0 "
 					>
-					dsi : <code>{{ dsi }}</code><br>
-				</v-card-text>
 
-				<ViewEditDSI
+					<v-flex 
+						v-for="dsi in list_DSI_oids_test"
+						:key="list_DSI_oids_test.indexOf(dsi)"
+						xs12
+						mt-3
+						>
 
-					:item_doc="false"
-					:find_item="true"
-					:item_doc_id="dsi.oid_dsi"
+						<!- - DEBUG - ->
+						<v-card-text 
+							v-if="$store.state.is_debug"
+							>
+							dsi : <code>{{ dsi }}</code><br>
+						</v-card-text>
 
-					:is_create="false"
-					:is_preview="true"
-					:is_map="true"
+						<ViewEditDSI
 
-					:coll="'dsi'"
-					:is_switch="true"
-					:no_toolbar="true"
+							:item_doc="false"
+							:find_item="true"
+							:item_doc_id="dsi.oid_dsi"
 
-					>
-				</ViewEditDSI>
+							:is_create="false"
+							:is_preview="isPreview"
+							:is_map="true"
 
-				<!-- TO DO :  DIALOG MAPPER DSI -->
+							:coll="'dsi'"
+							:is_switch="true"
+							:no_toolbar="true"
 
+							:add_to_parent="true"
 
-			</v-flex>
+							@update_loading="updateLoading"
+							>
+						</ViewEditDSI>
 
+					</v-flex>
+
+				</v-layout>
+
+			</v-flex> -->
 
 
 
@@ -482,6 +620,9 @@ export default {
 
 		return {
 
+
+			lorem: `Lorem ipsum dolor sit amet, mel at clita quando. Te sit oratio vituperatoribus, nam ad ipsum posidonium mediocritatem, explicari dissentiunt cu mea. Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.`,
+
 			// ----------------------------- // 
 			// UX variables 
 			// ----------------------------- // 
@@ -489,7 +630,12 @@ export default {
 			tab 		: this.$store.state.collectionsNames[this.coll],
 			// tab 	: this.$store.state.collectionsNames[this.item_doc.specs.doc_type],
 			alert		: null,
-			loading 	: false,
+			
+			loading 		: false,
+			loading_list 	: {
+				"dsi" 	: {},
+				"dmt"	: {}
+			},
 
 			panel_infos		: [true],
 			panel_lib_dmt	: [false],
@@ -543,6 +689,15 @@ export default {
 
 	computed : {
 
+		isLoading () {
+			if ( !this.loading_list.dsi && !this.loading_list.dmt ){
+				return false
+			}
+			else {
+				return true
+			}
+		},
+
 		parentPadding () {
 			return (this.isPreview) ? this.parentNoBotPadding : this.parentBotPadding ;
 		},
@@ -592,6 +747,15 @@ export default {
 		// firstDMTinList () {
 		// 	return ( this.list_DSI_oids_test.length == 0 ? [] : this.list_DMT_oids_test[0] )
 		// },
+
+		updateLoading(input) {
+
+			console.log("updateLoading / input : ", input )
+			this.loading = input.loading
+			// this.loading_list[input.coll][input.doc_id] = input.loading
+			this.loading_list[input.coll] = input.loading
+
+		},
 
 		// DMT_lib SWITCH
 		openDMF_lib() {

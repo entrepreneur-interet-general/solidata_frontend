@@ -77,8 +77,8 @@
 
 
 				<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
+					<!-- v-show="!isPreview" -->
 				<v-expansion-panel
-					v-show="!isPreview"
 					v-model="panel_infos"
 					expand
 					class="elevation-0"
@@ -97,10 +97,10 @@
 							</span>
 						</div>
 
+							<!-- :is_preview="isPreview" -->
 						<ItemDocInfos
 							:coll="coll"
 							:is_create="is_create"
-							:is_preview="isPreview"
 							:item_doc="itemDoc"
 							>
 						</itemDocInfos>
@@ -148,7 +148,7 @@
 									<!-- @click="goToItem()" -->
 
 									<v-icon small>
-										{{ $store.state.mainIcons.settings.icon }}
+										{{ $store.state.mainIcons[collName].icon }}
 									</v-icon>
 								
 								</v-btn>
@@ -172,6 +172,9 @@
 								
 								</v-btn> -->
 
+
+
+							
 								<!-- TO DO : edit button if not in DSI -->
 								<v-btn
 									icon
@@ -193,22 +196,29 @@
 							
 							<v-spacer></v-spacer>
 
+							<v-progress-circular 
+								v-show="loading" 
+								color="accent" 
+								indeterminate
+								>
+							</v-progress-circular>
+
 							<v-dialog 
+								v-show="!isPreview"
 								v-model="dialog" 
 								max-width="600px"
 								>
 
 								<v-btn 
-									v-show="!isPreview"
 									slot="activator" 
 									color="accent" 
 									dark 
 									block
 									round
 									outline
-									class="text-lowercase"
+									class="text-lowercase ml-2"
 									>
-									<v-icon small class="mr-3">
+									<v-icon small class="mr-2">
 										{{ $store.state.mainIcons.add_to_parent.icon }}  
 									</v-icon>
 									{{ $t( 'global.item_new', $store.state.locale)  }}
@@ -257,25 +267,40 @@
 										</v-btn>
 									</v-card-actions>
 								</v-card>
+
 							</v-dialog>
+
+							<v-btn
+								v-if="add_to_parent"
+								icon
+								ml-2
+								>
+								<v-icon>
+									{{ $store.state.mainIcons.options.icon }}
+								</v-icon>
+							</v-btn>
 
 						</v-toolbar>
 
 						<v-divider></v-divider>
 						
 						<!-- DATA -->
+							<!-- :loading="loading" -->
 						<v-data-table
 							:headers="itemHeaders_Actions"
 							:items="item_data"
 							:pagination.sync="pagination"
 							:total-items="total_items"
-							:loading="loading"
 							class="elevation-0"
 							:rows-per-page-items="[5, 10, 25]"
 							:hide-headers="isPreview"
 							>
 
-							<v-progress-linear slot="progress" color="accent" indeterminate></v-progress-linear>
+							<!-- <v-progress-linear 
+								slot="progress" 
+								color="accent" 
+								indeterminate>
+							</v-progress-linear> -->
 
 							<template slot="items" slot-scope="props">
 
@@ -335,7 +360,7 @@
 			v-show="!isPreview && !no_toolbar"
 			v-model="panel_uses"
 			expand
-			class="elevation-0 mt-2"
+			class="elevation-0 mt-3"
 			>
 
 			<v-expansion-panel-content>
@@ -454,6 +479,8 @@ export default {
 
 		"is_switch",
 		"no_toolbar",
+
+		"add_to_parent",
 
 	],
 
@@ -615,6 +642,30 @@ export default {
 	
 
 	watch: {
+
+		loading : {
+
+			immediate : true,
+			handler (newVal, oldVal ) {
+				// console.log( "\nVE DMT / watch ~ loading / newVal : \n", newVal )
+				
+				// var doc_id = "from_VE_DSI"
+				// if ( this.itemId == undefined || this.itemId == "" ) {
+				// 	var doc_id = "from_VE_DSI"
+				// }
+				// else {
+				// 	var doc_id = this.itemId
+				// }
+				var input = {
+					loading : newVal,
+					// doc_id	: doc_id,
+					coll	: this.coll
+				}
+				// this.$emit("update_loading", newVal)
+				this.$emit("update_loading", input)
+			}
+
+		},
 
 		dialog (val) {
 			val || this.close()

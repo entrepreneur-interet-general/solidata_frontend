@@ -5,7 +5,7 @@
 		<v-toolbar 
 			dense 
 			dark
-			class="elevation-1"
+			class="elevation-0"
 			color="primary" 
 			xs12
 			>
@@ -92,7 +92,7 @@
 					slot="activator"
 					>
 					<v-icon>
-						more_vert
+						{{ $store.state.mainIcons.options.icon }}
 					</v-icon>
 				</v-btn>
 
@@ -302,6 +302,7 @@
 			v-show="is_loading"
 			color="accent"
 			:indeterminate="true"
+			class="my-0"
 			>
 		</v-progress-linear>
 

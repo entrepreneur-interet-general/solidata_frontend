@@ -65,7 +65,7 @@
 									<!-- @click="goToItem()" -->
 
 									<v-icon small>
-										{{ $store.state.mainIcons.settings.icon }}
+										{{ $store.state.mainIcons[collName].icon }}
 									</v-icon>
 								
 								</v-btn>
@@ -77,6 +77,13 @@
 							</v-toolbar-title>
 							
 							<v-spacer></v-spacer>
+
+							<v-progress-circular 
+								v-show="loading" 
+								color="accent" 
+								indeterminate
+								>
+							</v-progress-circular>
 
 							<!-- OPEN DMF LIBRARY -->
 							<!-- <v-btn 
@@ -94,21 +101,31 @@
 								{{ $t( 'global.dmf_add', $store.state.locale)  }}
 							</v-btn> -->
 							<v-btn 
-								:disabled="isPreview"
+								v-show="!isPreview"
 								color="accent" 
 								dark 
 								round
 								outline
 								@click="switchSettings"
-								class="text-lowercase"
+								class="text-lowercase ml-2"
 								>
 
-								<v-icon class="mr-3">
+								<v-icon class="mr-2">
 									{{ $store.state.mainIcons.create.icon }}  
 								</v-icon>
 
 								{{ $t( 'global.dmf_add', $store.state.locale)  }}
 
+							</v-btn>
+
+							<v-btn
+								v-if="add_to_parent"
+								icon
+								ml-2
+								>
+								<v-icon>
+									{{ $store.state.mainIcons.options.icon }}
+								</v-icon>
 							</v-btn>
 
 						</v-toolbar>
@@ -127,7 +144,12 @@
 							hide-headers
 							>
 							
-							<v-progress-linear slot="progress" color="accent" indeterminate></v-progress-linear>
+							<!-- <v-progress-linear 
+								slot="progress" 
+								color="accent" 
+								indeterminate
+								>
+							</v-progress-linear> -->
 				
 							<template
 								slot="items" 
@@ -140,6 +162,7 @@
 									:class="`px-1 ${ (list_DMF_selector.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
 									style="text-align: center;"
 									>
+
 									<!-- first column  -->
 									<div 
 										v-if=" dmf['_id'] == '_' && !isPreview"
@@ -152,7 +175,7 @@
 
 									</div>
 
-									<!-- fisrt row -->
+									<!-- delete row -->
 									<div 
 										v-else-if="list_DMF_selector.indexOf(props.item) == 1"
 										class="col-values"
@@ -161,6 +184,7 @@
 										<!-- DELETE DMF BTN -->
 										<v-btn
 											v-if="!isPreview"
+											:disabled="!$store.state.auth.isLogged"
 											icon
 											small
 											@click="deleteChild( props.item[dmf._id] ) "
@@ -259,10 +283,13 @@ export default {
 		
 		"listDMF",
 		"isPreview",
+
 		"item_doc",
 		"panel_open",
 
 		"no_toolbar",
+
+		"add_to_parent",
 
 	],
 
@@ -298,9 +325,12 @@ export default {
 
 			coll 		: "dmf",
 			tab 		: 'datamodel_fields',
+			collName 	: this.$store.state.collectionsNames['dmt'],
+
 			paginationDMF : {
 				rowsPerPage: -1 
 			},
+
 			// DMF references
 			DMF_list_loaded : false,
 			list_DMF_oids : [],
@@ -369,6 +399,24 @@ export default {
 
 	watch: {
 		
+		loading : {
+
+			immediate : true,
+			handler (newVal, oldVal ) {
+				// console.log( "\nVE DMT / watch ~ loading / newVal : \n", newVal )
+				
+				// var doc_id = "from_VE_DMF_list"
+				var input = {
+					loading : newVal,
+					// doc_id	: doc_id, //"from_VE_DMF_list",
+					coll	: "dmf"
+				}
+				// this.$emit("update_loading", newVal)
+				this.$emit("update_loading", input)
+			}
+
+		},
+
 		listDMF : {
 
 			immediate : true,

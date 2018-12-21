@@ -113,7 +113,8 @@ const mainIconsConst = {
 	users		 		: { icon : "fas fa-user-friends",	 	to:"/usr",			abr:"usrs" },
 	
 	settings			: { icon : "settings",					to:"/usr/settings", abr:"dsh" },
-
+	options				: { icon : "more_vert" },
+	
 	profile	 			: { icon : "far fa-user-circle",		to:"/usr",			abr:"usr" },
 	password			: { icon : "fas fa-unlock",			 	to:"/usr/password", abr:"pwd" },
 	login				: { icon : "fas fa-sign-in-alt",		to:"/login" },

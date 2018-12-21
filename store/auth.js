@@ -183,7 +183,7 @@ export const actions = {
 						// cf documentation js-cookie : https://github.com/js-cookie/js-cookie 
 						Cookie.set("access_token",		response.tokens.access_token )
 						Cookie.set("refresh_token",		response.tokens.refresh_token )
-						// Cookie.set("lang",        		user_login_infos.profile.lang ) // saving lang in cookie for server rendering
+						Cookie.set("lang",        		user_login_infos.profile.lang ) // saving lang in cookie for server rendering
 						
 						return response 
 					})

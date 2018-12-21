@@ -53,8 +53,8 @@
 
 
 				<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
+					<!-- v-show="!isPreview" -->
 				<v-expansion-panel
-					v-show="!isPreview"
 					v-model="panel_infos"
 					expand
 					class="elevation-0"
@@ -74,10 +74,10 @@
 							</span>
 						</div>
 
+							<!-- :is_preview="isPreview" -->
 						<ItemDocInfos
 							:coll="coll"
 							:is_create="is_create"
-							:is_preview="isPreview"
 							:item_doc="itemDoc"
 							>
 						</itemDocInfos>
@@ -89,8 +89,8 @@
 
 
 				<!-- COMPONENTS FOR DOCS DATA_RAW -->		
+					<!-- v-show="!isPreview" -->
 				<v-expansion-panel
-					v-show="!isPreview"
 					v-model="panel_data_raw"
 					expand
 					class="elevation-0"
@@ -110,10 +110,10 @@
 							</span>
 						</div>
 
+							<!-- :is_preview="isPreview" -->
 						<ItemDocDataRaw
 							:coll="coll"
 							:is_create="is_create"
-							:is_preview="isPreview"
 							:item_doc="itemDoc"
 							>
 						</itemDocDataRaw>
@@ -191,9 +191,9 @@
 					</div>
 
 					<ItemDocDataRaw
+						:is_preview="isPreview"
 						:coll="coll"
 						:is_create="is_create"
-						:is_preview="isPreview"
 						:item_doc="itemDoc"
 						>
 					</itemDocDataRaw>
@@ -228,9 +228,9 @@
 					</div>
 
 					<ItemDocUses
+						:is_preview="isPreview"
 						:coll="coll"
 						:is_create="is_create"
-						:is_preview="isPreview"
 						:item_doc="itemDoc"
 						>
 					</itemDocUses>
@@ -413,6 +413,13 @@ export default {
 	},
 
 	methods: {
+
+		updateLoading(input) {
+
+			console.log("updateLoading / input : ", input )
+			this.loading = input
+
+		},
 		
 		switchPreview() {
 			this.isPreview = !this.isPreview ;

@@ -33,20 +33,25 @@ export default function ({ req, store, app, redirect }) {
 				refreshToken 	= parsed.refresh_token;
 				// console.log("- - - checkTokens / refreshToken :", refreshToken) ; 
 
-				lang_cookie 	= parsed.lang;
-				console.log("- - - checkTokens / lang_cookie :", lang_cookie) ; 
-
+				
 				// set store auth tokens
 				store.commit('auth/set_tokens', 
-					{ 	
-						access_token 	: accessToken, 
-						refresh_token 	: refreshToken
-					} 
+				{ 	
+					access_token 	: accessToken, 
+					refresh_token 	: refreshToken
+				} 
 				) ;
-				// store.commit('SET_LANG', lang_cookie, { root: true }) ;
-	
+				
+			}
+			catch(error) {
+				console.log("- - - ... fucking error in parsing cookie with process.server == true : \n", error)
 			}
 			
+			try {
+				lang_cookie 	= parsed.lang;
+				console.log("- - - checkTokens / lang_cookie :", lang_cookie) ; 
+				store.commit('SET_LANG', lang_cookie, { root: true }) ;
+			}
 			catch(error) {
 				console.log("- - - ... fucking error in parsing cookie with process.server == true : \n", error)
 			}

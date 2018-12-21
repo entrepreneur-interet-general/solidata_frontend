@@ -33,18 +33,20 @@
 				v-if="!only_subfields"
 				ValEdit_field
 				:class="valueBlockSize"
-				class="pa-0 ma-0"
+				class="pa-0 my-0 mx-2"
 				>
-
-					<!-- <span> -->
-						<!-- {{ item_data }}  -->
-						<!-- - {{ coll }} / {{ collName }} -->
-						<!-- - is_create :{{ is_create }} -->
-						<!-- - {{ parentField }}.{{ subField }} -->
-						<!-- - canEdit : {{ canEdit }} -->
-						<!-- - {{ valueBlockSize }} -->
-
-					<!-- </span> -->
+					
+					<!-- DEBUG -->
+					<span
+						v-if="$store.state.is_debug"
+						>
+						- {{ item_data }} 
+						- {{ coll }} / {{ collName }}
+						- is_create :{{ is_create }}
+						- {{ parentField }}.{{ subField }}
+						- canEdit : {{ canEdit }}
+						- valueBlockSize : {{ valueBlockSize }}
+					</span>
 
 					<!-- <v-icon small right v-if="canEdit" color="accent"> 
 						edit

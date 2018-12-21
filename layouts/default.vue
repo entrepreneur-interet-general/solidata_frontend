@@ -174,27 +174,27 @@
 								
 								<!-- DMF -->
 								<v-divider class="my-3"></v-divider>
-								<div>dmf.list : <br><code>{{ $store.state.dmf.list }}</code></div>
-								<div>dmf.current : <br>
+								<!-- <div>dmf.list : <br><code>{{ $store.state.dmf.list }}</code></div> -->
+								<!-- <div>dmf.current : <br>
 									<code>{{ $store.state.dmf.current | json }}</code>
 								</div>
 								<div>dmf.current_new : <br> 
 									<code>{{ $store.state.dmf.current_new | json }}</code>
-								</div>
+								</div> -->
 
 								<!-- TAG -->
 								<v-divider class="my-3"></v-divider>
-								<div>tag.list :  <br><code>{{ $store.state.tag.list }}</code></div>
+								<!-- <div>tag.list :  <br><code>{{ $store.state.tag.list }}</code></div>
 								<div>tag.current : <br> 
 									<code>{{ $store.state.tag.current | json }} </code>
 								</div>
 								<div>tag.current_new : <br> 
 									<code>{{ $store.state.tag.current_new | json }}</code>
-								</div>
+								</div> -->
 
 								<!-- DSI  -->
 								<v-divider class="my-3"></v-divider>
-								<div>dsi.current_filename :<code>{{ $store.state.dsi.current_filename }}</code></div>
+								<!-- <div>dsi.current_filename :<code>{{ $store.state.dsi.current_filename }}</code></div>
 								<div>dsi.csv_sep :<code>{{ $store.state.dsi.csv_sep }}</code></div>
 								<div>dsi.list :  <br><code>{{ $store.state.dsi.list }}</code></div>
 								<div>dsi.current : <br>
@@ -202,7 +202,7 @@
 								</div>
 								<div>dsi.current_new : <br>
 									<code>{{ $store.state.dsi.current_new | json }}</code>
-								</div>
+								</div> -->
 							</v-alert>
 						</v-flex>
 					</v-layout>
