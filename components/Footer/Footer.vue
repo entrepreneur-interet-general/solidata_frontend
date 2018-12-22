@@ -1,6 +1,5 @@
 <template>
 
-
 	<!-- <v-footer :fixed="$store.state.fixedNav" app>
 		<span>&copy; 2018</span>
 	</v-footer> -->
@@ -27,6 +26,7 @@
 					:key="icons.indexOf(icon)"
 					class="mx-3"
 					:href="icon.href"
+					target="_blank"
 					dark
 					small
 					icon

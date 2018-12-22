@@ -17,7 +17,7 @@
 	}
 	td .col-titles {
 		/* max-width: 70px;  */
-		width: 70px; 
+		width: 90px; 
 		text-align : center ;
 		display: inline-block;
 		/* overflow-y: hidden; */
@@ -55,7 +55,7 @@
 
 								<v-btn
 									icon
-									v-show="isPreview"
+									v-show="isPreview || add_to_parent"
 									flat
 									class="grey"
 									dark
@@ -71,7 +71,10 @@
 								</v-btn>
 								
 								{{ item_doc.infos.title | truncate(30, '...') }}
-							
+
+								<!-- - ScT : {{ offsetTop }} -->
+								- ScL : {{ offsetLeft }}
+
 								<!-- - {{ item_doc.specs.doc_type }} / {{ item_doc._id }} -->
 
 							</v-toolbar-title>
@@ -133,8 +136,9 @@
 						<v-divider></v-divider>
 
 						<!-- DATA TABLE -->
+						<scroll-sync>
 						<v-data-table
-
+							:ref="'datatable'"
 							:headers="list_headers_selector"
 							:items="list_DMF_selector"
 							class="elevation-1"
@@ -226,7 +230,7 @@
 
 
 						</v-data-table>
-
+						</scroll-sync>
 
 					</v-card-text>
 				</v-card>
@@ -290,6 +294,7 @@ export default {
 		"no_toolbar",
 
 		"add_to_parent",
+		"parent_scroll"
 
 	],
 
@@ -330,6 +335,10 @@ export default {
 			paginationDMF : {
 				rowsPerPage: -1 
 			},
+
+			offsetTop 	: 0,
+			offsetLeft 	: 0,
+			dataTable 	: undefined,
 
 			// DMF references
 			DMF_list_loaded : false,
@@ -398,7 +407,18 @@ export default {
 	},
 
 	watch: {
-		
+
+		parent_scroll : {
+
+			immediate : true,
+			handler (newVal, oldVal ) {
+				if ( this.dataTable !== undefined ) {
+					this.dataTable.scrollLeft = newVal
+				}
+			}
+
+		},
+
 		loading : {
 
 			immediate : true,
@@ -445,6 +465,16 @@ export default {
 	},
 
 	methods: {
+
+		onScroll (e) {
+			// console.log("... onScroll - e.target : ", e.target ) ;
+			var scroll_data = e.target ;
+			// this.offsetTop 	= scroll_data.scrollTop ;
+			this.offsetLeft = scroll_data.scrollLeft ;
+			this.$emit('scrollTable', { 
+				left : scroll_data.scrollLeft 
+			}) 
+		},
 
 		switchSettings() {
 			// console.log("settingsToolbar - switchSettings / this.is_settings : ", this.is_settings )
@@ -608,6 +638,21 @@ export default {
 				this.loading 			= false
 				this.DMF_list_loaded 	= true
 				this.alert   			= {type: 'success', message: result.msg}
+
+				// add scroll event listener on datatable 
+				// detect scroll : cf : https://forum.vuejs.org/t/how-to-detect-body-scroll/7057/5   
+				// sync scroll : cf : https://github.com/asvd/syncscroll/blob/master/syncscroll.js 
+				var dataTable = this.$refs.datatable ; //) ;
+				// console.log("- viewEditDSI / then 1 - dataTable : ", dataTable ) ;
+
+				if ( dataTable !== undefined ) {
+					console.log("- viewEditDSI / then 2 - dataTable : ", dataTable ) ;
+					// component selector : https://forum.vuejs.org/t/help-with-selector/18652/11 
+					var dt = dataTable.$el.querySelector(".v-table__overflow") 
+					console.log("- viewEditDSI / then 3 - dt : ", dt ) ;
+					dt.addEventListener('scroll', this.onScroll);
+					this.dataTable = dt
+				}
 
 			})
 

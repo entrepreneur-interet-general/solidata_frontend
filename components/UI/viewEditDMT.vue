@@ -180,15 +180,20 @@
 					]"  -->
 				<ViewEditListDMF
 					v-if="is_itemDoc"
+
 					:listDMF="itemDoc.datasets.dmf_list"
 					:item_doc="itemDoc"
 					:isPreview="isPreview"
 					:panel_open="panel_lib[0]"
+
 					:add_to_parent="add_to_parent"
+					:parent_scroll="parent_scroll"
+
 					@input="openDMF_lib"
 					@settings="switchSettings"
 					@update_parent_dataset="updateDMF_list"
 					@update_loading="updateLoading"
+					@scrollTable="updateScroll"
 					>
 				</ViewEditListDMF>
 
@@ -273,6 +278,7 @@ export default {
 		"no_toolbar",
 
 		"add_to_parent",
+		"parent_scroll"
 
 	],
 
@@ -514,6 +520,10 @@ export default {
 	},
 
 	methods: {
+
+		updateScroll (input) {
+			this.$emit('scrollTable', input ) 
+		},
 
 		updateLoading(input) {
 

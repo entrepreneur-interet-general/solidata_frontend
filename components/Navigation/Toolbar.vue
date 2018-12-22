@@ -109,17 +109,21 @@
 
 			<v-btn 
 				disabled
+				class="text-lowercase"
 				flat 
 				nuxt 
-				to="/tutos">
+				to="/tutos"
+				>
 				{{ $t(`links.tutos`, $store.state.locale )}}
 			</v-btn>
 
 			<v-btn 
 				disabled
+				class="text-lowercase"
 				flat 
 				nuxt 
-				to="/about">
+				to="/about"
+				>
 				{{ $t(`links.about`, $store.state.locale )}}
 			</v-btn>
 
@@ -135,7 +139,7 @@
 					class="px-0 ma-0"
 					>
 					<v-icon>
-						fas fa-sign-in-alt
+						{{ $store.state.mainIcons.login.icon }}
 					</v-icon>
 					<!-- {{ $t('home.loginPage', $store.state.locale ) }} -->
 				</v-btn>

@@ -265,8 +265,10 @@
 					:no_toolbar="true"
 
 					:add_to_parent="true"
+					:parent_scroll="scrollLeft"
 
 					@update_loading="updateLoading"
+					@scrollTable="updateScroll"
 					>
 				</ViewEditDMT> 
 
@@ -297,7 +299,11 @@
 
 		<!-- DSI LIST -->
 
-		<v-layout row wrap>
+		<v-layout 
+			mt-3
+			row 
+			wrap
+			>
 
 			<!-- DSI COLUMN -->
 			<v-flex 
@@ -340,8 +346,10 @@
 									:no_toolbar="true"
 
 									:add_to_parent="true"
+									:parent_scroll="scrollLeft"
 
 									@update_loading="updateLoading"
+									@scrollTable="updateScroll"
 									>
 								</ViewEditDSI>
 
@@ -361,7 +369,6 @@
 			<!-- NO DSI IN PRJ DSI_LIST -->
 			<v-flex 
 				xs1
-				mt-3
 				class="text-xs-center"
 				>
 
@@ -389,129 +396,6 @@
 
 
 
-
-
-		<!-- DSI LIST -->
-
-		<!-- NO DSI IN PRJ DSI_LIST -->
-		<!-- <v-layout 
-			v-show="!loading"
-			row
-			mt-3
-			>
-
-			<v-flex 
-				xs11
-				>
-				<v-card
-					flat
-					class="pa-0 ma-0 transparent"
-					>
-
-					<v-card-text 
-						class="pa-0 text-xs-center"
-						>
-
-						<v-btn 
-							class="my-2 accent text-lowercase"
-							color="accent"
-							:fab="isPreview"
-							outline
-							:round="!isPreview"
-							small
-							flat
-							@click="isSettings=true"
-							>
-
-							<v-icon 
-								small
-								dark 
-								:left="!isPreview"
-								>
-								{{ $store.state.mainIcons.datasets.icon }}
-							</v-icon>
-
-							<span
-								v-if="!isPreview"
-								>
-							{{ $t(`projects.manage_dsi`, $store.state.locale) }}
-							</span>
-						</v-btn>
-
-					</v-card-text>
-
-				</v-card>
-			</v-flex> -->
-
-		</v-layout>
-
-		<!-- LOOP PRJ's DSI_LIST -->
-			<!-- v-if="list_DSI_oids_test || list_DSI_oids_test.length != 0 " -->
-		</v-layout
-			row
-			wrap
-			>
-
-			<!-- <v-flex 
-				xs11
-				mt-0
-				pa-0
-				>
-
-				<v-layout 
-					row wrap
-					v-if="list_DSI_oids_test || list_DSI_oids_test.length != 0 "
-					>
-
-					<v-flex 
-						v-for="dsi in list_DSI_oids_test"
-						:key="list_DSI_oids_test.indexOf(dsi)"
-						xs12
-						mt-3
-						>
-
-						<!- - DEBUG - ->
-						<v-card-text 
-							v-if="$store.state.is_debug"
-							>
-							dsi : <code>{{ dsi }}</code><br>
-						</v-card-text>
-
-						<ViewEditDSI
-
-							:item_doc="false"
-							:find_item="true"
-							:item_doc_id="dsi.oid_dsi"
-
-							:is_create="false"
-							:is_preview="isPreview"
-							:is_map="true"
-
-							:coll="'dsi'"
-							:is_switch="true"
-							:no_toolbar="true"
-
-							:add_to_parent="true"
-
-							@update_loading="updateLoading"
-							>
-						</ViewEditDSI>
-
-					</v-flex>
-
-				</v-layout>
-
-			</v-flex> -->
-
-
-
-		</v-layout>
-
-
-
-
-
-
 	</v-container>
 	
 </template>
@@ -519,6 +403,7 @@
 
 <script>
 
+// import ScrollSync from 'vue-scroll-sync';
 
 import ObjectFormatterCreate from "~/utils/ObjectFormatterCreate.js"
 import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
@@ -583,6 +468,7 @@ export default {
 		console.log("\n- viewEditPRJ / created ---> this.list_DMT_oids : ", this.list_DMT_oids ) ;
 		console.log("\n- viewEditPRJ / created ---> this.list_DSI_oids : ", this.list_DSI_oids ) ;
 
+
 		// TO DO !!!!
 		// ------------------------------------ //
 		// get DMT full infos infos
@@ -636,6 +522,8 @@ export default {
 				"dsi" 	: {},
 				"dmt"	: {}
 			},
+
+			scrollLeft		: 0,
 
 			panel_infos		: [true],
 			panel_lib_dmt	: [false],
@@ -747,6 +635,14 @@ export default {
 		// firstDMTinList () {
 		// 	return ( this.list_DSI_oids_test.length == 0 ? [] : this.list_DMT_oids_test[0] )
 		// },
+
+
+		updateScroll(input) {
+
+			// console.log("updateScroll / input : ", input )
+			this.scrollLeft = input.left
+
+		},
 
 		updateLoading(input) {
 

@@ -47,14 +47,14 @@ export default function ({ req, store, app, redirect }) {
 				console.log("- - - ... fucking error in parsing cookie with process.server == true : \n", error)
 			}
 			
-			try {
-				lang_cookie 	= parsed.lang;
-				console.log("- - - checkTokens / lang_cookie :", lang_cookie) ; 
-				store.commit('SET_LANG', lang_cookie, { root: true }) ;
-			}
-			catch(error) {
-				console.log("- - - ... fucking error in parsing cookie with process.server == true : \n", error)
-			}
+			// try {
+			// 	lang_cookie 	= parsed.lang;
+			// 	console.log("- - - checkTokens / lang_cookie :", lang_cookie) ; 
+			// 	store.commit('SET_LANG', lang_cookie, { root: true }) ;
+			// }
+			// catch(error) {
+			// 	console.log("- - - ... fucking error in parsing cookie with process.server == true : \n", error)
+			// }
 
 		}
 		

@@ -11,7 +11,7 @@
 	}
 	td .col-titles {
 		/* max-width: 70px !important;  */
-		width: 70px; 
+		width: 90px; 
 		text-align : right ;
 		/* overflow-y: hidden; */
 	}
@@ -126,7 +126,9 @@
 					color=""
 					>
 
-					<v-card-text class="pa-0">
+					<v-card-text 
+						class="pa-0"
+						>
 
 						<!-- DATA TOOLBAR -->
 						<v-toolbar class="elevation-0" color="white">
@@ -138,7 +140,7 @@
 
 								<v-btn
 									icon
-									v-show="isPreview"
+									v-show="isPreview || add_to_parent"
 									flat
 									class="grey"
 									dark
@@ -153,7 +155,12 @@
 								
 								</v-btn>
 
+								
 								{{ itemDoc.infos.title | truncate(30, '...') }}
+
+								<!-- - ScT : {{ offsetTop }} -->
+								- ScL : {{ offsetLeft }}
+								- parent_scroll : {{ parent_scroll }}
 								
 								<!-- TO DO : edit button if not in DSI -->
 								<!-- <v-btn
@@ -171,26 +178,6 @@
 									</v-icon>
 								
 								</v-btn> -->
-
-
-
-							
-								<!-- TO DO : edit button if not in DSI -->
-								<v-btn
-									icon
-									v-show="is_map"
-									flat
-									class="secondary"
-									dark
-									small 
-									@click=""
-									>
-
-									<v-icon small>
-										{{ $store.state.mainIcons.map_doc.icon }}
-									</v-icon>
-								
-								</v-btn>
 
 							</v-toolbar-title>
 							
@@ -270,6 +257,24 @@
 
 							</v-dialog>
 
+
+							<!-- TO DO : edit button if not in DSI -->
+							<v-btn
+								icon
+								v-show="is_map"
+								flat
+								class="secondary"
+								dark
+								small 
+								@click=""
+								>
+
+								<v-icon small>
+									{{ $store.state.mainIcons.map_doc.icon }}
+								</v-icon>
+							
+							</v-btn>
+
 							<v-btn
 								v-if="add_to_parent"
 								icon
@@ -287,14 +292,16 @@
 						<!-- DATA -->
 							<!-- :loading="loading" -->
 						<v-data-table
+							:ref="'datatable'"
 							:headers="itemHeaders_Actions"
 							:items="item_data"
 							:pagination.sync="pagination"
 							:total-items="total_items"
-							class="elevation-0"
+							class="elevation-0 scroll_data"
 							:rows-per-page-items="[5, 10, 25]"
 							:hide-headers="isPreview"
 							>
+							<!-- v-scroll="onScroll" -->
 
 							<!-- <v-progress-linear 
 								slot="progress" 
@@ -302,7 +309,12 @@
 								indeterminate>
 							</v-progress-linear> -->
 
-							<template slot="items" slot-scope="props">
+							<!-- <scroll-sync horizontal></scroll-sync> -->
+
+							<template 
+								slot="items"
+								slot-scope="props"
+								>
 
 								<td 
 									v-show="!isPreview"
@@ -339,13 +351,12 @@
 								</td>
 
 							</template>
-
+						
 							<!-- <template slot="pageText" slot-scope="props">
 								Lignes {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
 							</template> -->
 
 						</v-data-table>
-
 
 					</v-card-text>
 				</v-card>
@@ -448,6 +459,8 @@
 
 <script>
 
+// import ScrollSync from 'vue-scroll-sync';
+
 import ObjectFormatterCreate from "~/utils/ObjectFormatterCreate.js"
 import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
 
@@ -481,6 +494,7 @@ export default {
 		"no_toolbar",
 
 		"add_to_parent",
+		"parent_scroll"
 
 	],
 
@@ -488,13 +502,15 @@ export default {
 		ItemToolbar,
 		ItemDocInfos,
 		ItemDocUses,
-		SettingsToolbar
+		SettingsToolbar,
+		// ScrollSync
 	},
 
 	created () {
 
 		console.log("\n- viewEditDSI / created ---> item_doc : ", this.item_doc ) ;
 		
+		// get data
 		if ( this.find_item ) {
 
 			console.log("- viewEditDSI / created OK ---> need to get item from API ... " ) ;
@@ -526,14 +542,18 @@ export default {
 			this.filetype 	= this.preloadFileType() ; 
 		}
 		
-
 	},
+
 
 	data () {
 
 		return {
 			
 			alert		: null,
+
+			offsetTop 	: 0,
+			offsetLeft 	: 0,
+			dataTable 	: undefined,
 
 			isPreview 	: this.is_preview,
 			no_subField : true,
@@ -633,15 +653,39 @@ export default {
 
 
 	// mounted () {
-	// 	this.getDataFromApi()
-	// 	.then(data => {
-	// 		this.desserts = data.items
-	// 		this.totalDesserts = data.total
-	// 	})
+
+	// 	console.log("\n- viewEditDSI / mounted ... " ) ;
+
+	// 	// scroll event listener on datatable 
+	// 	var dataTable = this.$refs.datatable ;
+	// 	//"v-table__overflow") ;
+	// 	console.log("- viewEditDSI / mounted - dataTable : ", dataTable ) ;
+
+	// 	// dataTable[0].addEventListener('scroll', this.onScroll);
+
 	// },
-	
+
+	// beforeDestroy () {
+		
+	// 	console.log("\n- viewEditDSI / beforeMount ... " ) ;
+
+	// 	var dataTable = document.getElementsByClassName("v-table__overflow") ;
+	// 	dataTable[0].removeEventListener('scroll', this.onScroll);
+	// },
+
 
 	watch: {
+
+		parent_scroll : {
+
+			immediate : true,
+			handler (newVal, oldVal ) {
+				if ( this.dataTable !== undefined ) {
+					this.dataTable.scrollLeft = newVal
+				}
+			}
+
+		},
 
 		loading : {
 
@@ -707,6 +751,16 @@ export default {
 
 	methods: {
 		
+		onScroll (e) {
+			// console.log("... onScroll - e.target : ", e.target ) ;
+			var scroll_data = e.target ;
+			// this.offsetTop 	= scroll_data.scrollTop ;
+			this.offsetLeft = scroll_data.scrollLeft ;
+			this.$emit('scrollTable', { 
+				left : scroll_data.scrollLeft 
+			}) 
+		},
+
 		// TOOLBAR SWITCH
 		switchPreview() {
 			this.isPreview = !this.isPreview ;
@@ -749,6 +803,22 @@ export default {
 				this.alert   		= {type: 'success', message: result.msg}
 
 				this.itemDoc_loaded	= true 
+		
+
+				// add scroll event listener on datatable 
+				// detect scroll : cf : https://forum.vuejs.org/t/how-to-detect-body-scroll/7057/5   
+				// sync scroll : cf : https://github.com/asvd/syncscroll/blob/master/syncscroll.js 
+				var dataTable = this.$refs.datatable ; //) ;
+				// console.log("- viewEditDSI / then 1 - dataTable : ", dataTable ) ;
+
+				if ( dataTable !== undefined ) {
+					console.log("- viewEditDSI / then 2 - dataTable : ", dataTable ) ;
+					// component selector : https://forum.vuejs.org/t/help-with-selector/18652/11 
+					var dt = dataTable.$el.querySelector(".v-table__overflow") 
+					console.log("- viewEditDSI / then 3 - dt : ", dt ) ;
+					dt.addEventListener('scroll', this.onScroll);
+					this.dataTable = dt
+				}
 
 				return "ok"
 
