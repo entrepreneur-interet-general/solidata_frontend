@@ -29,6 +29,7 @@
 		
 		<!-- DSI TOOLBAR -->
 		<template v-if="!no_toolbar">
+
 			<v-layout 
 				v-if="!isPreview || is_create || is_switch"
 				row 
@@ -119,7 +120,7 @@
 		<!-- DSI DATA -->
 		<v-layout row wrap>
 			
-			<v-flex xs12>
+			<v-flex xs12 pt-0>
 
 				<v-card 
 					flat
@@ -159,8 +160,8 @@
 								{{ itemDoc.infos.title | truncate(30, '...') }}
 
 								<!-- - ScT : {{ offsetTop }} -->
-								- ScL : {{ offsetLeft }}
-								- parent_scroll : {{ parent_scroll }}
+								<!-- - ScL : {{ offsetLeft }}
+								- parent_scroll : {{ parent_scroll }} -->
 								
 								<!-- TO DO : edit button if not in DSI -->
 								<!-- <v-btn
@@ -183,6 +184,7 @@
 							
 							<v-spacer></v-spacer>
 
+							<!-- PROGRESS -->
 							<v-progress-circular 
 								v-show="loading" 
 								color="accent" 
@@ -190,12 +192,15 @@
 								>
 							</v-progress-circular>
 
+							<!-- DIALOG -->
 							<v-dialog 
 								v-show="!isPreview"
 								v-model="dialog" 
+								class="mx-2"
 								max-width="600px"
 								>
 
+								<!-- NEW ITEM -->
 								<v-btn 
 									slot="activator" 
 									color="accent" 
@@ -203,7 +208,7 @@
 									block
 									round
 									outline
-									class="text-lowercase ml-2"
+									class="text-lowercase"
 									>
 									<v-icon small class="mr-2">
 										{{ $store.state.mainIcons.add_to_parent.icon }}  
@@ -259,11 +264,12 @@
 
 
 							<!-- TO DO : edit button if not in DSI -->
+							<!-- MAPPING -->
 							<v-btn
 								icon
 								v-show="is_map"
 								flat
-								class="secondary"
+								class="secondary ml-2"
 								dark
 								small 
 								@click=""

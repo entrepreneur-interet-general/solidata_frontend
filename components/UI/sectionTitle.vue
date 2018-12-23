@@ -21,7 +21,7 @@
 			flat
 			
 			color="white"
-			class="display-1"
+			class="headline ml-2 "
 			:to='to_link'
 			>
 			<v-icon 
@@ -36,11 +36,11 @@
 		</v-toolbar-side-icon>
 
 		<v-toolbar-title
-			class=""
+			class="ml-1"
 			>
 
 			<span 
-				class="display-1 font-weight-thin"
+				class="headline font-weight-thin"
 				>
 				{{ title }}
 			</span>
@@ -48,7 +48,7 @@
 			&nbsp;
 
 			<span 
-				class="subheading"
+				class="caption"
 				>
 				{{ intro }}
 			</span>
@@ -77,10 +77,10 @@
 			v-if="!isDashboard"
 			icon
 			nuxt
-			:to="'/dashboard'"
+			:to="'/dashboard#'+tab"
 			>
 			<v-icon>
-				clear
+				{{ $store.state.mainIcons.back.icon }}  
 			</v-icon>
 		</v-btn>
 
@@ -113,8 +113,8 @@ export default {
 	data () {
 		return {
 
-			sectionTopPadding_dft 	: "px-3 pt-2 pb-3",
-			sectionTopPadding_color : "pt-2 pb-3"
+			sectionTopPadding_dft 	: "px-3 pt-2 pb-2",
+			sectionTopPadding_color : "pt-2 pb-2"
 
 		}
 	},

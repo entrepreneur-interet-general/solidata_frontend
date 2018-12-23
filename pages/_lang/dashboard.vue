@@ -12,8 +12,9 @@
 			centered
 			color="transparent"
 			:fixed-tabs="!isMobile"
-			class="align-center"
-			height="65px"
+			class="align-center "
+			height="60px"
+			:active-class="'primary--text font-weight-black'"
 			>
 			<!-- icons-and-text -->
 
@@ -27,12 +28,13 @@
 			<v-tab 
 				v-for="(tab,i) in tabsList"
 				:key="i"
-				:href="'#'+tab"
-				class="text-capitalize subheading"
+				:to="'#'+tab"
+				class="text-lowercase font-weight-thin body-2 "
 				>
 
 				<span
 					v-if="!isMobile"
+					
 					>
 					{{ $t( tab+'.name', $store.state.locale)  }}
 				</span>
@@ -52,6 +54,7 @@
 				v-for="(tab,i) in tabsList"
 				:value="tab"
 				:key="i"
+				class="mt-3"
 				>
 
 				<SectionTitle

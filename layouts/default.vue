@@ -220,7 +220,7 @@
 			:right="$store.state.right"
 			v-model="$store.state.rightDrawer"
 			fixed
-		>
+			>
 			<v-list>
 				<v-list-tile @click.native="change_right">
 					<v-list-tile-action>

@@ -99,7 +99,7 @@ const user_edit_auth_rights_list	= {
 
 const mainIconsConst = {
 
-	home				: { icon : "home",				 to:"/" },
+	home				: { icon : "home",				 		to:"/" },
 	// dashboard	 	: { icon : "fas fa-th-list",				to:"/dashboard",	abr:"dsh"},
 	// dashboard	 		: { icon : "fas fa-eye",				to:"/dashboard",	abr:"dsh"},
 	dashboard	 		: { icon : "dashboard",					to:"/dashboard",	abr:"dsh"},
@@ -139,6 +139,8 @@ const mainIconsConst = {
 	close				: { icon : "close" },
 	export				: { icon : "get_app" },
 
+	back				: { icon : "arrow_back" },
+
 	infos				: { icon : "info" },
 	data				: { icon : "data_usage" },
 	add_to_parent		: { icon : "library_add" },
@@ -176,6 +178,8 @@ export const state = () => ({
 	app_codemos : '/logos/logo_codemos_01b.png',
 
 	is_debug : false ,
+
+	show_agreement_cgu : true , 
 
 	// USER AUTH
 	auth 	: null, 

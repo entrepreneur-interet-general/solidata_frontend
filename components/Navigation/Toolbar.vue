@@ -7,7 +7,7 @@
 		app 
 		:fixed="$store.state.fixedNav" 
 		:clipped-left="$store.state.clipped"
-		height="45px"
+		height="50px"
 		>
 		
 		<!-- DRAWER -->

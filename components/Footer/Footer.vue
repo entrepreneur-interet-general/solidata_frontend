@@ -64,41 +64,91 @@
 				<span v-html="$store.state.year"></span>
 
 
-
 			</v-card-actions>
 
 		</v-card>
+
+
+		<v-snackbar
+			v-model="$store.state.show_agreement_cgu"
+			color="accent text-xs-center"
+			:timeout="0"
+			bottom
+			multi-line
+			>
+
+			<span 
+				class="ml-5"
+				>
+				{{ $t(`global.cgu`, $store.state.locale) }}
+			</span>
+
+			<v-btn
+				class="mx-5"
+				dark
+				small
+				flat
+				block
+				outline
+				@click="$store.state.show_agreement_cgu = false"
+				>
+				
+				<v-icon
+					dark
+					left
+					small
+					class="pl-2"
+					>
+					{{ $store.state.mainIcons.close.icon }}
+				</v-icon>
+
+				<span 
+					class="pr-3"
+					>
+
+					{{ $t(`global.yes`, $store.state.locale) }}
+
+				</span>
+
+			</v-btn>
+
+		</v-snackbar>
+
 	</v-footer>
+
 </template>
 
 <script>
- export default {
-    data: () => ({
-      icons: [
-		{ 	
-			label : "frontend", 
-			href : "https://github.com/entrepreneur-interet-general/solidata_frontend", 
-			icon : 'fab fa-vuejs',
-			title : "frontend"
-		} , 
-        { 
-			label : "", 
-			href : "http://twitter.com/jparis_py", 
-			icon : 'fab fa-twitter',
-			title : "twitter"
-		} , 
-        { 
-			label : "backend", 
-			href : "https://github.com/entrepreneur-interet-general/solidata_backend", 
-			icon : 'fab fa-python',
-			title : "backend"
-		} , 
-        // {label : "", href : "/", icon : 'fab fa-facebook'} , 
-        // {label : "", href : "/", icon : 'fab fa-google-plus'} , 
-        // {label : "", href : "/", icon : 'fab fa-linkedin'} , 
-        // {label : "", href : "/", icon : 'fab fa-instagram' }
-      ]
-    })
-  }
+
+export default {
+
+	data: () => ({
+
+		icons: [
+			{ 	
+				label : "frontend", 
+				href : "https://github.com/entrepreneur-interet-general/solidata_frontend", 
+				icon : 'fab fa-vuejs',
+				title : "frontend"
+			} , 
+			{ 
+				label : "", 
+				href : "http://twitter.com/jparis_py", 
+				icon : 'fab fa-twitter',
+				title : "twitter"
+			} , 
+			{ 
+				label : "backend", 
+				href : "https://github.com/entrepreneur-interet-general/solidata_backend", 
+				icon : 'fab fa-python',
+				title : "backend"
+			} , 
+			// {label : "", href : "/", icon : 'fab fa-facebook'} , 
+			// {label : "", href : "/", icon : 'fab fa-google-plus'} , 
+			// {label : "", href : "/", icon : 'fab fa-linkedin'} , 
+			// {label : "", href : "/", icon : 'fab fa-instagram' }
+		]
+	})
+}
 </script>
 

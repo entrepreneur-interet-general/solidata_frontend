@@ -29,7 +29,7 @@
 		
 
 		<v-layout mx-5 px-4 pb-5 pt-0>
-			<v-flex sm12 md10 offset-md1 lg8 offset-lg2>
+			<v-flex sm12 md10 offset-md1 lg10 offset-lg1>
 				<v-card flat color="secondary">
 
 					<ViewEditDMF

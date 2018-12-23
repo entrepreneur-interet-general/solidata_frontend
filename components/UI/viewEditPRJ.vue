@@ -246,8 +246,9 @@
 			>
 			
 			<!-- PRJ's DMT  -->
-			<v-flex xs11
-				v-if="list_DMT_oids_test || list_DMT_oids_test.length != 0 "
+			<v-flex 
+				xs10
+				v-if="list_DMT_oids_test && list_DMT_oids_test.length != 0 "
 				>
 				
 					<!-- :flex_vars="'xs8 offset-xs2'" -->
@@ -274,23 +275,83 @@
 
 			</v-flex>
 
-			<v-flex xs11
+			<!-- NO DMT -->
+			<v-flex 
+				xs10
 				v-else
 				>
-				list_DMT_oids_test empty
+
+				<v-card
+					flat
+					class="pa-5 text-xs-center"
+					>
+
+					no DMT in PRJ
+					list_DMT_oids_test empty
+
+				</v-card>
+				
 			</v-flex>
 
 
-			<!-- RECIPES -->
-			<v-flex xs1>
-				<v-card
-					flat
-					class="pa-3 ml-3"
-					>
-					<v-card-text class="pa-0 text-xs-center">
-						REC list btns
-					</v-card-text>
-				</v-card>
+			<v-flex xs2>
+
+				<v-layout row wrap>
+
+					<!-- MANAGE DMT -->
+					<v-flex xs12>
+
+						<v-card
+							flat
+							class="pa-1 ml-3"
+							>
+
+							<v-card-text class="pa-0 text-xs-center ">
+							
+								<v-btn 
+									:disabled="loading"
+									class="ma-0 text-lowercase accent--text"
+									block
+									small
+									flat
+									@click="panel_lib_dmt=[true]; panel_infos=[false]; isSettings=true"
+									>
+
+										<!-- :color="`${ loading ? 'grey' : 'accent'} `" -->
+									<v-icon 
+										small
+										color="accent"
+										>
+										{{ $store.state.mainIcons.datamodels.icon }}
+									</v-icon>
+									
+									<!-- {{ $t(`projects.manage_dmt`, $store.state.locale) }} -->
+
+								</v-btn>
+
+							</v-card-text>
+
+						</v-card>
+					</v-flex>
+
+					<!-- RECIPES -->
+					<v-flex 
+						xs12
+						v-show="!loading"
+						>
+						
+						<v-card
+							flat
+							class="pa-2 ml-3 mt-2"
+							>
+							<v-card-text class="pa-0 text-xs-center">
+								REC list btns
+							</v-card-text>
+						</v-card>
+					
+					</v-flex>
+
+				</v-layout>
 			</v-flex>
 
 		</v-layout>
@@ -298,102 +359,164 @@
 
 
 		<!-- DSI LIST -->
-
+		<!-- ADD DSI IN PRJ DSI_LIST -->
 		<v-layout 
 			mt-3
 			row 
 			wrap
 			>
 
-			<!-- DSI COLUMN -->
 			<v-flex 
-				d-flex 
-				xs11
-				>
-
-				<v-layout row wrap>
-
-					<v-flex d-flex>
-						<v-layout row wrap>
-
-							<!-- LOOP PRJ's DSI_LIST -->
-							<v-flex 
-								v-for="dsi in list_DSI_oids_test"
-								:key="list_DSI_oids_test.indexOf(dsi)"
-								xs12
-								mt-3
-								>
-
-								<!-- DEBUG -->
-								<v-card-text 
-									v-if="$store.state.is_debug"
-									>
-									dsi : <code>{{ dsi }}</code><br>
-								</v-card-text>
-
-								<ViewEditDSI
-
-									:item_doc="false"
-									:find_item="true"
-									:item_doc_id="dsi.oid_dsi"
-
-									:is_create="false"
-									:is_preview="isPreview"
-									:is_map="true"
-
-									:coll="'dsi'"
-									:is_switch="true"
-									:no_toolbar="true"
-
-									:add_to_parent="true"
-									:parent_scroll="scrollLeft"
-
-									@update_loading="updateLoading"
-									@scrollTable="updateScroll"
-									>
-								</ViewEditDSI>
-
-								<!-- TO DO :  DIALOG MAPPER DSI -->
-
-
-							</v-flex>
-						
-						</v-layout>
-					</v-flex>
-					
-				</v-layout>
-
-			</v-flex>
-		
-
-			<!-- NO DSI IN PRJ DSI_LIST -->
-			<v-flex 
-				xs1
+				xs10
 				class="text-xs-center"
 				>
 
-				<v-btn 
-					:class="`${ loading ? 'grey' : 'accent'} `"
-					:disabled="loading"
-					fab
-					outline
-					small
+				<v-card
 					flat
-					@click="isSettings=true"
+					class="pa-2"
 					>
 
-					<v-icon 
-						small
-						:color="`${ loading ? 'grey' : 'accent'} `"
+						<!-- :class="`${ loading ? 'grey' : 'accent'} ma-0 pa-2`" -->
+					<v-btn 
+						:disabled="loading"
+						class="transparent ma-0 pa-2 text-lowercase accent--text"
+						block
+						flat
+						@click="isSettings=true"
 						>
-						{{ $store.state.mainIcons.datasets.icon }}
-					</v-icon>
 
-				</v-btn>
+							<!-- :color="`${ loading ? 'grey' : 'accent'} `" -->
+						<v-icon 
+							left
+							>
+							{{ $store.state.mainIcons.create.icon }}
+						</v-icon>
+						
+						{{ $t(`projects.manage_dsi`, $store.state.locale) }}
+
+					</v-btn>
+
+				</v-card>
+
 			</v-flex>
 
 		</v-layout>
 
+
+		<!-- DSI COLUMN / IF ARRAY OF DSI IS NOT EMPTY -->
+		<v-layout 
+			row 
+			wrap
+			v-if="list_DSI_oids_test || list_DSI_oids_test.length != 0 "
+			>
+			<!-- v-if="list_DSI_oids_test" -->
+	
+			<!-- LOOP PRJ's DSI_LIST -->
+			<v-flex 
+				v-for="dsi in list_DSI_oids_test"
+				:key="list_DSI_oids_test.indexOf(dsi)"
+				d-flex 
+				xs12
+				mt-3
+				>
+
+				<v-layout row >
+
+					<!-- <v-flex d-flex>
+						<v-layout row wrap> -->
+
+					<v-flex 
+						xs10
+						class="pa-0"
+						>
+
+						<!-- DEBUG -->
+						<v-card-text 
+							v-if="$store.state.is_debug"
+							>
+							dsi : <code>{{ dsi }}</code><br>
+						</v-card-text>
+
+						<ViewEditDSI
+
+							:item_doc="false"
+							:find_item="true"
+							:item_doc_id="dsi.oid_dsi"
+
+							:is_create="false"
+							:is_preview="isPreview"
+							:is_map="true"
+
+							:coll="'dsi'"
+							:is_switch="true"
+							:no_toolbar="true"
+
+							:add_to_parent="true"
+							:parent_scroll="scrollLeft"
+
+							@update_loading="updateLoading"
+							@scrollTable="updateScroll"
+							>
+						</ViewEditDSI>
+
+					</v-flex>
+
+
+					<!-- TO DO :  DIALOG MAPPER DSI -->
+					<v-flex 
+						xs2
+						class="pa-0"
+						v-show="!loading"
+						>
+
+						<v-card
+							flat
+							class="pa-3 ml-3"
+							>
+							<v-card-text class="pa-0 text-xs-center">
+							
+								ACTIONS ON DSI
+							
+							</v-card-text>
+						</v-card>
+
+					</v-flex>
+
+						<!-- </v-layout>
+					</v-flex> -->
+					
+				</v-layout>
+
+			</v-flex>
+	
+
+		</v-layout>
+
+
+		<v-layout 
+			mt-3
+			row 
+			wrap
+			v-else
+			>
+
+			<v-flex 
+				xs10
+				class="text-xs-center"
+				>
+
+				<v-card
+					flat
+					class="pa-5"
+					>
+
+					no DSI in PRJ
+
+				</v-card>
+
+			</v-flex>
+
+		</v-layout>
 
 
 	</v-container>
@@ -542,8 +665,8 @@ export default {
 			// canEdit		: false ,
 
 			list_DMT_oids 		: [],
-			// list_DMT_oids_test 	: [],
-			list_DMT_oids_test 	: [ {"oid_dmt" : "5b98e4db0a8286332f4f1984" } ],
+			list_DMT_oids_test 	: [],
+			// list_DMT_oids_test 	: [ {"oid_dmt" : "5b98e4db0a8286332f4f1984" } ],
 
 			list_DSI_oids 		: [],
 			// list_DSI_oids_test 	: [],

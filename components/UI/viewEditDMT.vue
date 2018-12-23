@@ -480,7 +480,7 @@ export default {
 				console.log( "\nVE DMT / watch ~ item_doc_id / oldVal : \n", oldVal )
 
 				// update itemId
-				if (newVal != undefined ){
+				if (newVal != undefined && newVal.length ){
 					this.itemId = newVal[0].oid_dmt
 					this.get_DMT_fromApi()
 				}

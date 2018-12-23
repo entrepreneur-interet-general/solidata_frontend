@@ -146,6 +146,8 @@
 		"inTeam"		: "usted hace parte del equipo",
 		"notTeam"		: "usted no hace parte del equipo",
 
+		"cgu" 			: "Estoy de acuerdo con las CGU",
+
 		"settings"		: "Ajustes"
 
 	},

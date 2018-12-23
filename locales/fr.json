@@ -144,6 +144,8 @@
 		"inTeam"		: "vous faîtes partie de l'équipe",
 		"notTeam"		: "vous ne faîtes pas partie de l'équipe",
 
+		"cgu" 			: "Je suis d'accord avec les CGU",
+
 		"settings"		: "Préférences"
 
 	},
@@ -361,8 +363,8 @@
 	},
 	
 	"tags" : {
-		"name" 			: "Etiquettes",
-		"singular"		: "Etiquette",
+		"name" 			: "Étiquettes",
+		"singular"		: "Étiquette",
 		"intro" 		: "Gérer toutes vos étiquettes",
 		"introAnon"		: "Les tags produits par la communauté",
 		"create" 		: "Nouvelle étiquette",

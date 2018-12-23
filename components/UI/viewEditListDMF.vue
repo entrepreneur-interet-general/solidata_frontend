@@ -32,7 +32,7 @@
 		<!-- CREATE EDIT DOC / DATA TABLE STYLE-->
 		<v-layout row wrap>
 			
-			<v-flex xs12>
+			<v-flex xs12 pt-0>
 
 				<v-card 
 					flat
@@ -73,7 +73,7 @@
 								{{ item_doc.infos.title | truncate(30, '...') }}
 
 								<!-- - ScT : {{ offsetTop }} -->
-								- ScL : {{ offsetLeft }}
+								<!-- - ScL : {{ offsetLeft }} -->
 
 								<!-- - {{ item_doc.specs.doc_type }} / {{ item_doc._id }} -->
 
