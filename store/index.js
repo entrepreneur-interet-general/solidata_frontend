@@ -173,8 +173,8 @@ export const state = () => ({
 	version	 : '<span>v.0.1</span>',
 	year	 : '2018',
 
-	app_logo 	: '/logos/logo_solidata_9a.png',
-	app_logo_lg : '/logos/logo_solidata_9a_lg.png',
+	app_logo 	: '/logos/logo_solidata_15a_lg.png',
+	app_logo_lg : '/logos/logo_solidata_15a.png',
 	app_codemos : '/logos/logo_codemos_01b.png',
 
 	is_debug : false ,

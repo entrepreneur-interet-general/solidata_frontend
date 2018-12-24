@@ -634,7 +634,9 @@ export default {
 					// update current in store
 					// valueData.update_current = true 
 					// console.log("submitValue - create / valueData : ", valueData)
-					// this.$store.commit(`${this.coll}/set_current_new`, valueData );
+					// this.$store.commit(`${this.coll}/set_current`, valueData );
+
+					this.$store.commit(`${this.coll}/set_current`, result );
 
 				})
 				

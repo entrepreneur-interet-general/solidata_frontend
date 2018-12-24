@@ -126,6 +126,8 @@
 		"resume" 		: "Résumé",
 		"preview" 		: "prévisualisation",
 
+		"manage_tag" 	: "Gérer les étiquettes",
+
 		"open_level_edit" : "Open level pour l'édition",
 		"open_level_show" : "Open level pour la prévisualisation",
 
@@ -143,6 +145,8 @@
 		"team"			: "Equipe",
 		"inTeam"		: "vous faîtes partie de l'équipe",
 		"notTeam"		: "vous ne faîtes pas partie de l'équipe",
+		
+		"doc_used"		: "Document déjà utilisé",
 
 		"cgu" 			: "Je suis d'accord avec les CGU",
 
@@ -256,10 +260,16 @@
 		"resume"		: "Résumé",
 
 		"dsi" 			: "Jeux de données",
+		"no_dmt" 		: "Merci de sélectionner un modèle de données",
+		"no_dsi" 		: "Merci de sélectionner un ou plusieurs jeux de données",
+
 		"manage_dsi" 	: "Gérer ses jeux de données",
 		"manage_dmt" 	: "Gérer le modèle de données",
-		"manage_rec" 	: "Gérer ses recettes"	
+		"manage_rec" 	: "Gérer ses recettes",
 
+		"del_dsi" 		: "Supprimer ce jeux de données",
+		"del_dmt" 		: "Supprimer ce modèle de données",
+		"del_rec" 		: "Supprimer cette recette"
 	},
 
 	"datamodels" : {

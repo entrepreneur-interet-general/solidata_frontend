@@ -14,6 +14,7 @@
 			- add_to_parent : <code> {{ add_to_parent }} </code><br>
 			- parentDoc_id : <code> {{ parentDoc_id }} </code><br>
 			- parentDoc_coll : <code> {{ parentDoc_coll }} </code><br>
+			- items_in_parent : <code> {{ items_in_parent }} </code><br>
 			<!-- - items_coll : <code> {{ items_coll }} </code><br> -->
 		</v-card-text>
 
@@ -141,9 +142,12 @@
 						:tab="tab"
 						:item="props.item"
 						:inTeam="'yes'"
+
 						:add_to_parent="add_to_parent"
 						:parentDoc_id="parentDoc_id"
 						:parentDoc_coll="parentDoc_coll"
+						:is_in_parent="is_in_parent(props.item._id)"
+
 						@update_parent_dataset="updateParentDatasetList"
 						>
 					</CardPreviewDense>
@@ -196,9 +200,12 @@
 						:coll="coll"
 						:tab="tab"
 						:item="props.item"
-						:inTeam="'yes'"
+						:inTeam="'no'"
+
 						:add_to_parent="add_to_parent"
 						:parentDoc_id="parentDoc_id"
+						:is_in_parent="is_in_parent(props.item._id)"
+
 						@update_parent_dataset="updateParentDatasetList"
 						>
 					</CardPreviewDense>
@@ -243,6 +250,7 @@ export default {
 		"add_to_parent",
 		"parentDoc_id",
 		"parentDoc_coll",
+		"items_in_parent",
 
 	],
 	
@@ -253,6 +261,7 @@ export default {
 	
 	created () {
 		console.log("\n itemList_dataIterator / col : ", this.coll )
+		console.log("itemList_dataIterator / items_in_parent : \n", this.items_in_parent )
 	},
 
 	data () {
@@ -323,6 +332,24 @@ export default {
 	},
 
 	methods : {
+		
+		is_in_parent (item_id) {
+
+			// console.log("\n-- is_in_parent ..." ) ; 
+			var is_in_array = false ;
+			const coll 		= this.coll ; 
+
+			// console.log("\n-- is_in_parent ... this.items_in_parent : ", this.items_in_parent ) ; 
+			// console.log("-- is_in_parent ... coll (A) : ", coll ) ; 
+
+			if ( this.items_in_parent ) {
+				// console.log("-- is_in_parent ... item_id : ", item_id ) ; 
+				const checkInArray = obj => obj["oid_"+coll] === item_id;
+				is_in_array = this.items_in_parent.some( checkInArray );
+			}
+
+			return is_in_array 
+		},
 
 		itemsList (in_out) {
 			

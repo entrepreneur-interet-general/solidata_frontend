@@ -15,7 +15,7 @@
 				class="title"
 				>
 				<!-- {{$t(collName+'.edit', $store.state.locale )}} -->
-				{{ itemTitle }}
+				{{ itemDoc.infos.title }}
 			</v-toolbar-title>
 
 			<v-btn 
@@ -354,6 +354,24 @@ export default {
 			return (this.isPreview) ? "white" : "primary" ;
 		},
 
+	},
+
+	watch: {
+
+		itemDoc : {
+
+			immediate : true,
+			handler ( newVal, oldVal) {
+
+				console.log( "\nItemToolbar / watch ~ item_doc / newVal : \n", newVal )
+			
+				if (newVal) {
+					this.itemDoc = newVal
+					this.itemTitle = newVal.infos.title
+				}
+
+			}
+		},
 	},
 
 	methods: {

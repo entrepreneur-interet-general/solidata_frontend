@@ -20,446 +20,637 @@
 
 <template>
 
-	<v-container 
-		v-if="itemDoc_loaded"
-		grid-list-sm 
-		fluid
-		:class="`${ !no_toolbar ? 'pa-3' : 'pa-0'}`"
-		>
-		
-		<!-- DSI TOOLBAR -->
-		<template v-if="!no_toolbar">
+	<div>
 
-			<v-layout 
-				v-if="!isPreview || is_create || is_switch"
-				row 
-				wrap 
-				mb-3
+		<!-- IF NO ITEMDOC -->
+		<v-layout 
+			v-if="!itemDoc_loaded"
+			row 
+			wrap
+			>
+			<v-flex xs12>
+
+				<v-card
+					flat
+					class="pa-4 text-xs-center"
+					>
+
+					<!-- <v-card-text>
+						no_DSI in VE DSI
+					</v-card-text> -->
+
+					<v-progress-circular
+					color="accent"
+					indeterminate
+					></v-progress-circular>
+					
+				</v-card>
+			</v-flex>
+
+		</v-layout>
+
+		
+
+			<!-- v-if="itemDoc_loaded" -->
+		<v-container 
+			v-else
+			grid-list-sm 
+			fluid
+			:class="`${ !no_toolbar ? 'pa-3' : 'pa-0'}`"
+			>
+			
+
+			<!-- DSI TOOLBAR -->
+			<template v-if="!no_toolbar">
+
+				<v-layout 
+					v-if="!isPreview || is_create || is_switch"
+					row 
+					wrap 
+					mb-3
+					>
+
+					<v-flex xs12>
+
+						<ItemToolbar
+							:coll="coll" 
+							:collName="collName" 
+							:itemDoc="itemDoc"
+							:is_create="is_create" 
+							:isPreview="isPreview"
+							:isSettings="isSettings"
+							:is_reset="true"
+							:is_loading="loading"
+							@input="switchPreview"
+							@settings="switchSettings"
+							>
+						</ItemToolbar>
+
+					</v-flex>
+
+				</v-layout>
+			</template>
+
+
+			<!-- DSI / SETTINGS  -->
+			<v-dialog 
+				v-model="isSettings" 
+				fullscreen 
+				hide-overlay 
+				transition="dialog-bottom-transition"
 				>
 
-				<v-flex xs12>
-
-					<ItemToolbar
-						:coll="coll" 
-						:collName="collName" 
+				<v-card>
+					
+					<!-- SETTINGS TOOLBAR -->
+					<SettingsToolbar
 						:itemDoc="itemDoc"
-						:is_create="is_create" 
-						:isPreview="isPreview"
-						:isSettings="isSettings"
-						:is_reset="true"
-						:is_loading="loading"
-						@input="switchPreview"
 						@settings="switchSettings"
 						>
-					</ItemToolbar>
-
-				</v-flex>
-
-			</v-layout>
-		</template>
+					</SettingsToolbar>
 
 
-		<!-- DSI / SETTINGS  -->
-		<v-dialog 
-			v-model="isSettings" 
-			fullscreen 
-			hide-overlay 
-			transition="dialog-bottom-transition"
-			>
-
-			<v-card>
-				
-				<!-- SETTINGS TOOLBAR -->
-				<SettingsToolbar
-					:itemDoc="itemDoc"
-					@settings="switchSettings"
-					>
-				</SettingsToolbar>
-
-
-				<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
-					<!-- v-show="!isPreview" -->
-				<v-expansion-panel
-					v-model="panel_infos"
-					expand
-					class="elevation-0"
-					>
-
-					<v-expansion-panel-content>
-
-						<div 
-							slot="header"
-							>
-							<v-icon small class="mr-3">
-								{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
-							</v-icon>
-							<span>
-								{{ $t(`parentFields.infos`, $store.state.locale) }}
-							</span>
-						</div>
-
-							<!-- :is_preview="isPreview" -->
-						<ItemDocInfos
-							:coll="coll"
-							:is_create="is_create"
-							:item_doc="itemDoc"
-							>
-						</itemDocInfos>
-
-					</v-expansion-panel-content>
-				</v-expansion-panel>
-
-				<v-divider></v-divider>
-
-
-			</v-card>
-		</v-dialog>
-
-
-
-		<!-- DSI DATA -->
-		<v-layout row wrap>
-			
-			<v-flex xs12 pt-0>
-
-				<v-card 
-					flat
-					color=""
-					>
-
-					<v-card-text 
-						class="pa-0"
+					<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
+						<!-- v-show="!isPreview" -->
+					<v-expansion-panel
+						v-model="panel_infos"
+						expand
+						class="elevation-0"
 						>
 
-						<!-- DATA TOOLBAR -->
-						<v-toolbar class="elevation-0" color="white">
-							
-							<!-- title dataset -->
-							<v-toolbar-title
-								class="subheading grey--text"
+						<v-expansion-panel-content>
+
+							<div 
+								slot="header"
 								>
+								<v-icon small class="mr-3">
+									{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
+								</v-icon>
+								<span>
+									{{ $t(`parentFields.infos`, $store.state.locale) }}
+								</span>
+							</div>
 
-								<v-btn
-									icon
-									v-show="isPreview || add_to_parent"
-									flat
-									class="grey"
-									dark
-									small 
-									:to="`/${itemDoc.specs.doc_type}/${itemDoc._id}`"
+								<!-- :is_preview="isPreview" -->
+							<ItemDocInfos
+								:coll="coll"
+								:is_create="is_create"
+								:item_doc="itemDoc"
+								>
+							</itemDocInfos>
+
+						</v-expansion-panel-content>
+					</v-expansion-panel>
+
+					<v-divider></v-divider>
+
+
+					<!-- TAGS LIBRARY -->
+						<!-- v-show="!isPreview" -->
+					<v-expansion-panel
+						v-if="$store.state.auth.isLogged"
+						v-model="panel_lib_tag"
+						expand
+						class="elevation-0"
+						>
+						<v-expansion-panel-content >
+
+							<div 
+								class="accent--text"
+								slot="header"
+								>
+								<v-icon small color="accent" class="mr-3">
+									{{ $store.state.mainIcons.add_to_parent.icon }}  
+								</v-icon>
+								<span>
+									{{ $t(`global.manage_tag`, $store.state.locale) }}
+								</span>
+							</div>
+
+							<ItemsListDI
+								:tab="'tags'"
+								:coll="'tag'"
+								:items_coll="$store.state.tag.list"
+								:no_margin="true"
+
+								:add_to_parent="true"
+								:parentDoc_id="itemId"
+								:parentDoc_coll="coll"
+								:items_in_parent="list_TAG_oids"
+
+								@update_parent_dataset="update_parent_list"
+								>
+							</ItemsListDI>
+
+						</v-expansion-panel-content>
+					</v-expansion-panel>
+				
+					<v-divider></v-divider>
+
+				</v-card>
+			</v-dialog>
+
+
+
+
+
+			<!-- DSI DATA -->
+			<v-layout 
+				row 
+				wrap
+				>
+				
+				<v-flex xs12 pt-0>
+
+					<v-card 
+						flat
+						color=""
+						>
+
+						<v-card-text 
+							class="pa-0"
+							>
+
+							<!-- DATA TOOLBAR -->
+							<v-toolbar class="elevation-0" color="white">
+								
+								<!-- title dataset -->
+								<v-toolbar-title
+									class="subheading grey--text"
 									>
-									<!-- @click="goToItem()" -->
 
-									<v-icon small>
-										{{ $store.state.mainIcons[collName].icon }}
-									</v-icon>
-								
-								</v-btn>
+									<v-btn
+										icon
+										v-show="isPreview || add_to_parent"
+										flat
+										class="grey"
+										dark
+										small 
+										:to="`/${itemDoc.specs.doc_type}/${itemDoc._id}`"
+										>
+										<!-- @click="goToItem()" -->
 
-								
-								{{ itemDoc.infos.title | truncate(30, '...') }}
+										<v-icon small>
+											{{ $store.state.mainIcons[collName].icon }}
+										</v-icon>
+									
+									</v-btn>
 
-								<!-- - ScT : {{ offsetTop }} -->
-								<!-- - ScL : {{ offsetLeft }}
-								- parent_scroll : {{ parent_scroll }} -->
+									
+									{{ itemDoc.infos.title | truncate(30, '...') }}
+
+									<!-- - ScT : {{ offsetTop }} -->
+									<!-- - ScL : {{ offsetLeft }}
+									- parent_scroll : {{ parent_scroll }} -->
+									
+									<!-- TO DO : edit button if not in DSI -->
+									<!-- <v-btn
+										icon
+										v-show="isPreview"
+										flat
+										class="secondary"
+										dark
+										small 
+										@click=""
+										>
+
+										<v-icon small>
+											{{ $store.state.mainIcons.edit.icon }}
+										</v-icon>
+									
+									</v-btn> -->
+
+								</v-toolbar-title>
 								
+								<v-spacer></v-spacer>
+
+								<!-- PROGRESS -->
+								<v-progress-circular 
+									v-show="loading" 
+									color="accent" 
+									indeterminate
+									>
+								</v-progress-circular>
+
+								<!-- DIALOG -->
+								<v-dialog 
+									v-show="!isPreview"
+									v-model="dialog" 
+									class="mx-2"
+									max-width="600px"
+									>
+
+									<!-- NEW ITEM -->
+									<v-btn 
+										slot="activator" 
+										color="accent" 
+										dark 
+										block
+										round
+										outline
+										class="text-lowercase"
+										>
+										<v-icon small class="mr-2">
+											{{ $store.state.mainIcons.add_to_parent.icon }}  
+										</v-icon>
+										{{ $t( 'global.item_new', $store.state.locale)  }}
+									</v-btn>
+
+									<v-card>
+
+										<v-card-title>
+											<span class="headline">
+												{{ $t( 'global.'+formTitle, $store.state.locale)  }}
+											</span>
+										</v-card-title>
+
+										<v-divider></v-divider>
+
+										<v-card-text>
+											<v-container grid-list-md>
+											<v-layout wrap>
+
+												<v-flex 
+													xs12
+													v-for="header in itemHeaders"
+													:key="itemHeaders.indexOf(header)"
+													>
+													<v-textarea 
+														v-model="editedItem[header.value]" 
+														:label="header.text"
+														auto-grow
+														:disabled="true"
+														:rows="1"
+													>
+													</v-textarea>
+												</v-flex>
+
+											</v-layout>
+											</v-container>
+										</v-card-text>
+
+										<v-card-actions>
+											<v-spacer></v-spacer>
+											<v-btn color="blue darken-1" flat @click="close">
+												{{ $t( 'global.cancel', $store.state.locale)  }}
+											</v-btn>
+											<v-btn color="blue darken-1" flat @click="save">
+												{{ $t( 'global.save', $store.state.locale)  }}
+											</v-btn>
+										</v-card-actions>
+									</v-card>
+
+								</v-dialog>
+
+
 								<!-- TO DO : edit button if not in DSI -->
-								<!-- <v-btn
+								<!-- MAPPING -->
+								<!-- 
+									<v-btn
 									icon
-									v-show="isPreview"
+									v-show="is_map"
 									flat
-									class="secondary"
+									class="secondary ml-2"
 									dark
 									small 
 									@click=""
 									>
 
 									<v-icon small>
-										{{ $store.state.mainIcons.edit.icon }}
+										{{ $store.state.mainIcons.map_doc.icon }}
 									</v-icon>
 								
-								</v-btn> -->
+								</v-btn> 
+								-->
 
-							</v-toolbar-title>
+
+
+								<!-- DELETE ITEM FROM PARENT MENU -->
+								<v-menu 
+									v-if="add_to_parent"
+									bottom 
+									left 
+									full-width
+									:nudge-bottom="10"
+									offset-y
+									>
+
+									<v-btn
+										icon
+										ml-2
+										slot="activator"
+										>
+
+										<v-icon>
+											{{ $store.state.mainIcons.options.icon }}
+										</v-icon>
+
+									</v-btn>
+
+									<v-list class="pa-0">
+
+										<!-- DELETE FROM PARENT BTN -->
+										<v-list-tile
+											v-if="$store.state.auth.isLogged"
+											>
+
+											<!-- BTN IN MENU -->
+											<v-list-tile-title 
+												class="pa-0 ma-0"
+												@click="dialog_del=true"
+												>
+												<v-icon small left class="pr-1 mb-1" color="error">
+													{{ $store.state.mainIcons.delete.icon }}
+												</v-icon>
+												<span>
+													{{ $t(`projects.del_dsi`, $store.state.locale) }}
+												</span>
+											</v-list-tile-title>
+												
+											<!-- CONFIRM DELETE DIALOG -->
+											<v-dialog 
+												v-model="dialog_del" 
+												max-width="500"
+												>
+												
+												<v-card>
+
+													<v-card-title class="headline text-xs-center pb-1">
+														<v-icon left class="pr-3" color="grey">
+															{{ $store.state.mainIcons.delete.icon }}
+														</v-icon>
+														{{ $t(`projects.del_dsi`, $store.state.locale) }}
+													</v-card-title>
+
+													<v-card-text class="subheading text-xs-center mb-2">
+														<v-icon large class="mb-1" color="error">
+															{{ $store.state.mainIcons.warning.icon }}
+														</v-icon>
+														<br>
+														{{ $t(`global.confirm_del`, $store.state.locale) }}
+													</v-card-text>
+													
+													
+													<v-card-actions>
+
+														<v-btn 
+															color="primary" 
+															dark
+															block
+															@click="dialog_del = false"
+															ma-2
+															>
+															<v-icon left>
+																{{ $store.state.mainIcons.cancel.icon }}
+															</v-icon>
+															{{ $t(`global.cancel`, $store.state.locale) }}
+														</v-btn>
+														
+														<!-- DELETE DMT FROM PARENT BTN -->
+														<v-btn 
+															color="error " 
+															dark
+															block
+															ma-2
+															@click="deleteChild( { 
+																item_id 		: item_doc_id, 
+																datasets_coll 	: 'dsi', 
+																parentDoc_coll 	: 'prj',
+																re_emit			: false,
+															} ) "
+															>
+															<v-icon left>
+																{{ $store.state.mainIcons.delete.icon }}
+															</v-icon>
+															{{ $t(`global.delete_i`, $store.state.locale) }}
+														</v-btn>
+
+													</v-card-actions>
+
+												</v-card>
+											
+											</v-dialog>
+
+										</v-list-tile>
+
+
+									</v-list>
+
+								</v-menu>
+
+
+							</v-toolbar>
+
+							<v-divider></v-divider>
 							
-							<v-spacer></v-spacer>
-
-							<!-- PROGRESS -->
-							<v-progress-circular 
-								v-show="loading" 
-								color="accent" 
-								indeterminate
+							<!-- DATA -->
+								<!-- :loading="loading" -->
+							<v-data-table
+								:ref="'datatable'"
+								:headers="itemHeaders_Actions"
+								:items="item_data"
+								:pagination.sync="pagination"
+								:total-items="total_items"
+								class="elevation-0 scroll_data"
+								:rows-per-page-items="[5, 10, 25]"
+								:hide-headers="isPreview"
 								>
-							</v-progress-circular>
+								<!-- v-scroll="onScroll" -->
 
-							<!-- DIALOG -->
-							<v-dialog 
-								v-show="!isPreview"
-								v-model="dialog" 
-								class="mx-2"
-								max-width="600px"
-								>
-
-								<!-- NEW ITEM -->
-								<v-btn 
-									slot="activator" 
+								<!-- <v-progress-linear 
+									slot="progress" 
 									color="accent" 
-									dark 
-									block
-									round
-									outline
-									class="text-lowercase"
+									indeterminate>
+								</v-progress-linear> -->
+
+								<!-- <scroll-sync horizontal></scroll-sync> -->
+
+								<template 
+									slot="items"
+									slot-scope="props"
 									>
-									<v-icon small class="mr-2">
-										{{ $store.state.mainIcons.add_to_parent.icon }}  
-									</v-icon>
-									{{ $t( 'global.item_new', $store.state.locale)  }}
-								</v-btn>
 
-								<v-card>
+									<td 
+										v-show="!isPreview"
+										class="justify-center layout px-0"
+										>
+										<v-icon
+											small
+											class="mr-1"
+											@click="editItem(props.item)"
+											>
+											{{ $store.state.mainIcons.edit.icon }}
+										</v-icon>
+										<v-icon
+											small
+											class="mr-1"
+											@click="editItem(props.item)"
+											>
+											{{ $store.state.mainIcons.view.icon }}
+										</v-icon>
+										<v-icon
+											small
+											@click="deleteItem(props.item)"
+											>
+											{{ $store.state.mainIcons.delete.icon }}
+										</v-icon>
+									</td>
 
-									<v-card-title>
-										<span class="headline">
-											{{ $t( 'global.'+formTitle, $store.state.locale)  }}
-										</span>
-									</v-card-title>
+									<td 
+										v-for="header in itemHeaders"
+										:key="itemHeaders.indexOf(header)">
+										<div class="col-values">
+											{{ props.item[header.value] | truncate(30, ' ...') }}
+										</div>
+									</td>
 
-									<v-divider></v-divider>
-
-									<v-card-text>
-										<v-container grid-list-md>
-										<v-layout wrap>
-
-											<v-flex 
-												xs12
-												v-for="header in itemHeaders"
-												:key="itemHeaders.indexOf(header)"
-												>
-												<v-textarea 
-													v-model="editedItem[header.value]" 
-													:label="header.text"
-													auto-grow
-													:disabled="true"
-													:rows="1"
-												>
-												</v-textarea>
-											</v-flex>
-
-										</v-layout>
-										</v-container>
-									</v-card-text>
-
-									<v-card-actions>
-										<v-spacer></v-spacer>
-										<v-btn color="blue darken-1" flat @click="close">
-											{{ $t( 'global.cancel', $store.state.locale)  }}
-										</v-btn>
-										<v-btn color="blue darken-1" flat @click="save">
-											{{ $t( 'global.save', $store.state.locale)  }}
-										</v-btn>
-									</v-card-actions>
-								</v-card>
-
-							</v-dialog>
-
-
-							<!-- TO DO : edit button if not in DSI -->
-							<!-- MAPPING -->
-							<v-btn
-								icon
-								v-show="is_map"
-								flat
-								class="secondary ml-2"
-								dark
-								small 
-								@click=""
-								>
-
-								<v-icon small>
-									{{ $store.state.mainIcons.map_doc.icon }}
-								</v-icon>
+								</template>
 							
-							</v-btn>
+								<!-- <template slot="pageText" slot-scope="props">
+									Lignes {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
+								</template> -->
 
-							<v-btn
-								v-if="add_to_parent"
-								icon
-								ml-2
-								>
-								<v-icon>
-									{{ $store.state.mainIcons.options.icon }}
-								</v-icon>
-							</v-btn>
+							</v-data-table>
 
-						</v-toolbar>
+						</v-card-text>
+					</v-card>
+				</v-flex>
 
-						<v-divider></v-divider>
-						
-						<!-- DATA -->
-							<!-- :loading="loading" -->
-						<v-data-table
-							:ref="'datatable'"
-							:headers="itemHeaders_Actions"
-							:items="item_data"
-							:pagination.sync="pagination"
-							:total-items="total_items"
-							class="elevation-0 scroll_data"
-							:rows-per-page-items="[5, 10, 25]"
-							:hide-headers="isPreview"
-							>
-							<!-- v-scroll="onScroll" -->
-
-							<!-- <v-progress-linear 
-								slot="progress" 
-								color="accent" 
-								indeterminate>
-							</v-progress-linear> -->
-
-							<!-- <scroll-sync horizontal></scroll-sync> -->
-
-							<template 
-								slot="items"
-								slot-scope="props"
-								>
-
-								<td 
-									v-show="!isPreview"
-									class="justify-center layout px-0"
-									>
-									<v-icon
-										small
-										class="mr-1"
-										@click="editItem(props.item)"
-										>
-										{{ $store.state.mainIcons.edit.icon }}
-									</v-icon>
-									<v-icon
-										small
-										class="mr-1"
-										@click="editItem(props.item)"
-										>
-										{{ $store.state.mainIcons.view.icon }}
-									</v-icon>
-									<v-icon
-										small
-										@click="deleteItem(props.item)"
-										>
-										{{ $store.state.mainIcons.delete.icon }}
-									</v-icon>
-								</td>
-
-								<td 
-									v-for="header in itemHeaders"
-									:key="itemHeaders.indexOf(header)">
-									<div class="col-values">
-										{{ props.item[header.value] | truncate(30, ' ...') }}
-									</div>
-								</td>
-
-							</template>
-						
-							<!-- <template slot="pageText" slot-scope="props">
-								Lignes {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
-							</template> -->
-
-						</v-data-table>
-
-					</v-card-text>
-				</v-card>
-			</v-flex>
-
-		</v-layout>
+			</v-layout>
 
 
 
-		<!-- COMPONENTS FOR COMMON DOCS USES -->		
-		<v-expansion-panel
-			v-show="!isPreview && !no_toolbar"
-			v-model="panel_uses"
-			expand
-			class="elevation-0 mt-3"
-			>
-
-			<v-expansion-panel-content>
-
-				<div 
-					slot="header"
-					>
-					<v-icon small class="mr-3">
-						{{ $store.state.mainIcons.parentFieldIcons.uses.icon }}
-					</v-icon>
-					<span>
-						{{ $t(`parentFields.uses`, $store.state.locale) }}
-					</span>
-				</div>
-
-				<ItemDocUses
-					:coll="coll"
-					:is_create="is_create"
-					:is_preview="isPreview"
-					:item_doc="itemDoc"
-					>
-				</itemDocUses>
-
-			</v-expansion-panel-content>
-		</v-expansion-panel>
-
-
-
-		<!-- DEBUG  -->
-		<v-layout 
-			v-if="$store.state.is_debug"
-			row wrap
-			>
-
-				<!-- :class="flex_vars" -->
-			<v-flex d-flex 
+			<!-- COMPONENTS FOR COMMON DOCS USES -->		
+			<v-expansion-panel
+				v-show="!isPreview && !no_toolbar"
+				v-model="panel_uses"
+				expand
+				class="elevation-0 mt-3"
 				>
 
-				<v-alert       
-					:value="true"
-					type="error"
-					class="text-xs-left"
-					>
-					---- DEBUG component - ItemViewEdit ----
-					<hr>
+				<v-expansion-panel-content>
 
-					-- itemDoc -- <br>
-					<code>{{ itemDoc }}</code>
-					<hr>
-
-					-- vars -- <br>
-					is_file : <code>{{ is_file }}</code> - 
-					coll : <code>{{ coll }}</code> - 
-					collName : <code>{{ collName }}</code> - 
-					is_create : <code>{{ is_create }}</code> - 
-					filetype : <code>{{ filetype }}</code> - 
-					itemId : <code>{{ itemId}}</code> - 
-					<!-- canEdit : <code>{{ canEdit }}</code> -->
-					<!-- flex_vars : <code>{{flex_vars}}</code> -  -->
-					<hr>
-
-					-- current_new in $store.state.{{coll}} -- <br>
-					{{coll}}.current_new : <br><code>{{ $store.state[coll].current_new }}</code>
-
-					<div v-if="is_file">
-						{{coll}}.csv_sep : <br><code>{{ $store.state[coll].csv_sep }}</code><br>
-						{{coll}}.current_filename : <br><code>{{ $store.state[coll].current_filename }}</code>
+					<div 
+						slot="header"
+						>
+						<v-icon small class="mr-3">
+							{{ $store.state.mainIcons.parentFieldIcons.uses.icon }}
+						</v-icon>
+						<span>
+							{{ $t(`parentFields.uses`, $store.state.locale) }}
+						</span>
 					</div>
-					<div v-if="is_file && $store.state[coll].current_file != '' ">
-						{{coll}}.current_file : <br><code>{{ $store.state[coll].current_file.name }}</code>
-					</div>				
-					
-				</v-alert>
 
-			</v-flex>
+					<ItemDocUses
+						:coll="coll"
+						:is_create="is_create"
+						:is_preview="isPreview"
+						:item_doc="itemDoc"
+						>
+					</itemDocUses>
 
-		</v-layout>
+				</v-expansion-panel-content>
+			</v-expansion-panel>
 
 
 
-	</v-container>
-	
+			<!-- DEBUG  -->
+			<v-layout 
+				v-if="$store.state.is_debug"
+				row wrap
+				>
+
+					<!-- :class="flex_vars" -->
+				<v-flex d-flex 
+					>
+
+					<v-alert       
+						:value="true"
+						type="error"
+						class="text-xs-left"
+						>
+						---- DEBUG component - ItemViewEdit ----
+						<hr>
+
+						-- itemDoc -- <br>
+						<code>{{ itemDoc }}</code>
+						<hr>
+
+						-- vars -- <br>
+						is_file : <code>{{ is_file }}</code> - 
+						coll : <code>{{ coll }}</code> - 
+						collName : <code>{{ collName }}</code> - 
+						is_create : <code>{{ is_create }}</code> - 
+						filetype : <code>{{ filetype }}</code> - 
+						itemId : <code>{{ itemId}}</code> - 
+						<!-- canEdit : <code>{{ canEdit }}</code> -->
+						<!-- flex_vars : <code>{{flex_vars}}</code> -  -->
+						<hr>
+
+						-- current_new in $store.state.{{coll}} -- <br>
+						{{coll}}.current_new : <br><code>{{ $store.state[coll].current_new }}</code>
+
+						<div v-if="is_file">
+							{{coll}}.csv_sep : <br><code>{{ $store.state[coll].csv_sep }}</code><br>
+							{{coll}}.current_filename : <br><code>{{ $store.state[coll].current_filename }}</code>
+						</div>
+						<div v-if="is_file && $store.state[coll].current_file != '' ">
+							{{coll}}.current_file : <br><code>{{ $store.state[coll].current_file.name }}</code>
+						</div>				
+						
+					</v-alert>
+
+				</v-flex>
+
+			</v-layout>
+
+
+
+		</v-container>
+		
+
+	</div>
+
 </template>
 
 
@@ -469,6 +660,8 @@
 
 import ObjectFormatterCreate from "~/utils/ObjectFormatterCreate.js"
 import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
+
+import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
 
 import ItemToolbar from '~/components/UI/itemToolbar.vue'
 import ItemDocUses from '~/components/UI/itemDocUses.vue'
@@ -507,9 +700,18 @@ export default {
 	components : {
 		ItemToolbar,
 		ItemDocInfos,
+		ItemsListDI,
 		ItemDocUses,
 		SettingsToolbar,
 		// ScrollSync
+	},
+
+	middleware : ["getListItems"],
+	meta : {
+		collection 	: [
+			'tag'
+		],
+		level : 'get_list',
 	},
 
 	created () {
@@ -538,6 +740,8 @@ export default {
 			console.log("- viewEditDSI / created OK ---> item_doc exists... " ) ;
 			this.itemDoc 		= this.item_doc ;
 			this.itemId 		= this.item_doc._id ;
+			this.list_TAG_oids 	= this.item_doc.datasets.tag_list ;
+
 			this.itemDoc_loaded = true ;
 
 			// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
@@ -565,16 +769,22 @@ export default {
 			no_subField : true,
 			isSettings 	: false,
 
-			panel_uses	: [false],
-			panel_infos	: [true],
+			dialog_del 	: false,
+
+			panel_uses		: [false],
+			panel_infos		: [true],
+			panel_lib_tag	: [false],
 			
 			collName 	: this.$store.state.collectionsNames[this.coll],
 
 			itemDoc_loaded	: false,
 			itemDoc			: this.item_doc,
 			itemId 			: '', 
+			list_TAG_oids	: [],
+
 			// item_data 		: this.item_doc.data_raw.f_data, 
 			// item_headers 	: this.item_doc.data_raw.f_col_headers, 
+
 
 			is_file 			: null,
 			filetype 			: null,
@@ -658,29 +868,24 @@ export default {
 	},
 
 
-	// mounted () {
-
-	// 	console.log("\n- viewEditDSI / mounted ... " ) ;
-
-	// 	// scroll event listener on datatable 
-	// 	var dataTable = this.$refs.datatable ;
-	// 	//"v-table__overflow") ;
-	// 	console.log("- viewEditDSI / mounted - dataTable : ", dataTable ) ;
-
-	// 	// dataTable[0].addEventListener('scroll', this.onScroll);
-
-	// },
-
-	// beforeDestroy () {
-		
-	// 	console.log("\n- viewEditDSI / beforeMount ... " ) ;
-
-	// 	var dataTable = document.getElementsByClassName("v-table__overflow") ;
-	// 	dataTable[0].removeEventListener('scroll', this.onScroll);
-	// },
-
-
 	watch: {
+
+		item_doc : {
+
+			immediate : true,
+			handler ( newVal, oldVal) {
+
+				console.log( "\nVE DSI / watch ~ item_doc / newVal : \n", newVal )
+				// console.log( "\nVE PRJ / watch ~ item_doc / oldVal : \n", oldVal )
+			
+				if (newVal) {
+					this.itemDoc 		= newVal
+					// update local TAG list 
+					this.list_TAG_oids = newVal.datasets.tag_list ; 
+				}
+
+			}
+		},
 
 		parent_scroll : {
 
@@ -729,7 +934,7 @@ export default {
 			}
 		},
 
-		// TO DO !!!!
+		// TO VERIFY !!!!
 		pagination: {
 
 			handler () {
@@ -779,6 +984,87 @@ export default {
 		// ----------------------------- //
 		// AXIOS CALL
 		// ----------------------------- //
+
+		deleteChild( item_infos ) {
+			console.log("\n...viewEditDSI - deleteChild / item_infos : \n ", item_infos)
+
+			var input = {
+				add_or_delete 	: "delete_from_list",
+				item_id_to_add 	: item_infos.item_id,
+				datasets_coll 	: item_infos.datasets_coll,
+				parentDoc_coll 	: item_infos.parentDoc_coll,
+				re_emit			: item_infos.re_emit,
+			}
+			console.log("viewEditDSI / input : ", input )
+
+			this.$emit('update_parent_dataset', input )
+		},
+
+		// ----------------------------- //
+		// AXIOS CALL
+		// ----------------------------- //
+
+		// ADD DELETE ITEM FROM
+		form ( input ) {
+
+			var datasets_coll 	= input.datasets_coll ;
+			var item_id_to_add 	= input.item_id_to_add ;
+			var add_or_delete 	= input.add_or_delete ;
+
+			return {
+				"field_to_update" 	: "datasets." + datasets_coll + "_list" ,
+				"field_value"		: item_id_to_add,
+				"add_to_list"		: add_or_delete,
+				"doc_type"			: datasets_coll 
+			}
+		},
+
+		// UPDATE PRJ DOCUMENT
+		update_parent_list ( input ) {
+
+			console.log("update_parent_list / input : ", input )
+
+			this.loading 		= true
+			// this.$emit('update_loading', true )
+
+			// load values as pseudoForm
+			var pseudoForm	= this.form( input ) ;
+			var pseudoFormData 	= [ pseudoForm ] ;
+			console.log("update_parent_list / pseudoFormData : ", pseudoFormData )
+
+			// dispatch action from store for update
+			this.$store.dispatch('updateItem', {
+				coll	: this.coll,
+				doc_id  : this.itemId,
+				form 	: pseudoFormData, 
+			})
+			
+			.then(result => {
+				this.alert 		= { type: 'success', message: result.msg }
+				this.loading 	= false
+				// this.$emit('update_loading', false )
+				
+				// update current in store
+				console.log("update_parent_list - result : ", result )
+				this.$store.commit(`${this.coll}/set_current`, result );
+
+			})
+			
+			.catch(error => {
+				console.log("submit / error... : ", error ) ; 
+				this.loading = false
+				// this.$emit('update_loading', false )
+				this.alert = {type: 'error', message: "login error" }
+				if (error.response && error.response.data) {
+					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+				}
+			})
+
+		},
+
+
+	
+
 		get_FData_fromApi (pag_params) {
 
 			console.log("\n...VDSI get_FData_fromApi ... ")
@@ -799,7 +1085,10 @@ export default {
 				console.log("VDSI get_FData_fromApi / result: ", result ) ; 
 				
 				this.itemDoc 		= result.data 
+				this.list_TAG_oids 	= result.data.datasets.tag_list 
+
 				this.total_items 	= result.data.data_raw.f_data_count
+
 
 				this.pagination.page 		= result.query.page_args.page
 				this.pagination.rowsPerPage = result.query.page_args.per_page

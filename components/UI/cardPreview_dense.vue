@@ -7,7 +7,8 @@
 		<v-card
 			flat
 			slot-scope="{ hover }"
-			:class="`pa-0 mr-4 elevation-${hover ? 5 : 0}`"
+			:class="`pa-0 mr-4 elevation-${hover ? 5 : 0 }`"
+			:color="`${is_in_parent ? 'grey lighten-2' : 'white' }`"
 			:style="{ cursor: 'pointer'}"
 			@click="itemClickBehaviour()"
 			>
@@ -24,7 +25,7 @@
 				<v-expand-transition>
 					<v-layout align-center fill-height ma-0
 						v-if="hover"
-						class="d-flex px-1 py-2 transition-fast-in-fast-out primary font-italic text-xs-center white--text"
+						:class="`${is_in_parent ? 'accent' : 'primary' } d-flex px-1 py-2 transition-fast-in-fast-out font-italic text-xs-center white--text`"
 						style="height: 100%;"
 						>
 
@@ -35,11 +36,29 @@
 
 						<!-- ADD TO PARENT -->
 						<strong v-else>
-							<v-icon dark>
+
+							<v-icon 
+								v-if="!is_in_parent" 
+								dark
+								>
 								{{ $store.state.mainIcons.create.icon }}
 							</v-icon>
+							<v-icon 
+								v-else 
+								dark
+								>
+								{{ $store.state.mainIcons.infos.icon }}
+							</v-icon>
+
 							<br>
-							{{ $t( `${tab}.singular` , $store.state.locale) }}
+
+							<span v-if="!is_in_parent">
+								{{ $t( `${tab}.singular` , $store.state.locale) }}
+							</span>
+							<span v-else>
+								{{ $t( `global.doc_used` , $store.state.locale) }}
+							</span>
+
 						</strong>
 
 					</v-layout>
@@ -65,13 +84,14 @@
 				fab
 				small
 				flat
-				:class="`${hover ? 'primary' : 'secondary' }`"
-				color=""
+				:class="`${hover ? ( is_in_parent ? 'accent' : 'primary') : ( is_in_parent ? 'grey lighten-1' : 'secondary') }`"
 				bottom
 				right
 				absolute
 				>
-				<v-icon>
+				<v-icon
+					:color="`${is_in_parent ? 'white' : '' }`"
+					>
 					{{ $store.state.mainIcons[tab].icon }}
 				</v-icon>
 			</v-btn>
@@ -81,11 +101,13 @@
 			<v-card-text 
 				v-if="$store.state.is_debug"
 				>
+				- item._id : <code> {{ item._id }} </code> <br>
 				- coll : <code> {{ coll }} </code> <br>
 				- addDeleteFromParentlist : <code> {{ addDeleteFromParentlist }} </code> <br>
 				- add_to_parent : <code> {{ add_to_parent }} </code> <br>
-				- parentDoc_id : <code> {{ parentDoc_id }} </code>
-				- parentDoc_coll : <code> {{ parentDoc_coll }} </code>
+				- parentDoc_id : <code> {{ parentDoc_id }} </code><br>
+				- parentDoc_coll : <code> {{ parentDoc_coll }} </code><br>
+				- is_in_parent : <code> {{ is_in_parent }} </code>
 				<v-divider ></v-divider>
 			</v-card-text >
 
@@ -175,6 +197,26 @@
 					v-if="coll=='prj'"
 					>
 
+					<!-- DMT NAME -->
+					<v-card-text 
+						class="pa-2 text-xs-center"
+						>
+						<v-icon 
+							small
+							left
+							>
+							{{$store.state.mainIcons.datamodels.icon}}
+						</v-icon>
+
+						<!-- <div class="caption"> -->
+							{{ findItemName( "dmt", item.datasets.dmt_list[0].oid_dmt ) | truncate( 12, '...') }}
+						<!-- </div> -->
+
+					</v-card-text>
+
+					<v-divider ></v-divider>
+
+					<!-- NUMBER OF DSI IN PRJ -->
 					<v-card-text 
 						class="pa-2 text-xs-center"
 						>
@@ -200,11 +242,13 @@
 					absolute
 					>
 
-					<v-card-text class="pa-0" >
+					<v-card-text 
+						class="pa-0" 
+						>
 
 						<!-- <v-container pa-0 ma-0 text-xs-center align-center> -->
 
-						<v-list dense two-line class="ma-0">
+						<v-list dense two-line class="ma-0 transparent">
 
 							<v-list-tile>
 
@@ -217,7 +261,7 @@
 										{{ $t(`global.f_code`, $store.state.locale) }}
 									</v-list-tile-sub-title>
 									<v-list-tile-title 
-										:class="`${hover ? 'primary' : 'black' }--text ${hover ? 'font-weight-black' : '' }`"
+										:class="`${hover ? ( is_in_parent ? 'accent' : 'primary') : 'black' }--text ${hover ? 'font-weight-black' : '' }`"
 										>
 										{{ item.data_raw.f_code}}
 									</v-list-tile-title>
@@ -315,6 +359,7 @@ export default {
 		"add_to_parent",
 		"parentDoc_coll",
 		"parentDoc_id",
+		"is_in_parent",
 
 	],
 
@@ -364,11 +409,31 @@ export default {
 
 	methods : {
 
+		findItemName ( coll, item_id) {
+
+			// console.log("\nfindItemName..." )
+			
+			var teamKey = this.inTeam == 'yes' ? 'docs_user_is_in_team' : 'docs_user_not_in_team' ; 
+			
+			const itemsArray = this.$store.state[coll].list[teamKey] ;
+			
+			if (itemsArray) {
+				// console.log("findItemName / itemsArray : \n", itemsArray )
+				var obj = itemsArray.find(o => o._id === item_id)
+				// console.log("findItemName / obj.infos.title :", obj.infos.title )
+				return obj.infos.title
+			}
+			else {
+				return "...loading..."
+			}
+
+		},
+
 		itemClickBehaviour () {
 
 			console.log("itemClickBehaviour..." )
 
-			if ( this.add_to_parent ) {
+			if ( this.add_to_parent && !this.is_in_parent ) {
 
 				console.log("itemClickBehaviour / add_to_parent..." )
 

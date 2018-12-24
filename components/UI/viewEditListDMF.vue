@@ -121,15 +121,124 @@
 
 							</v-btn>
 
-							<v-btn
+
+
+							<!-- DELETE ITEM FROM PARENT MENU -->
+							<v-menu 
 								v-if="add_to_parent"
-								icon
-								ml-2
+								bottom 
+								left 
+								full-width
+								:nudge-bottom="10"
+								offset-y
 								>
-								<v-icon>
-									{{ $store.state.mainIcons.options.icon }}
-								</v-icon>
-							</v-btn>
+
+								<v-btn
+									icon
+									ml-2
+									slot="activator"
+									>
+
+									<v-icon>
+										{{ $store.state.mainIcons.options.icon }}
+									</v-icon>
+
+								</v-btn>
+
+								<v-list class="pa-0">
+
+									<!-- DELETE FROM PARENT BTN -->
+									<v-list-tile
+										v-if="$store.state.auth.isLogged"
+										>
+
+										<!-- BTN IN MENU -->
+										<v-list-tile-title 
+											class="pa-0 ma-0"
+											@click="dialog_del=true"
+											>
+											<v-icon small left class="pr-1 mb-1" color="error">
+												{{ $store.state.mainIcons.delete.icon }}
+											</v-icon>
+											<span>
+												{{ $t(`projects.del_dmt`, $store.state.locale) }}
+											</span>
+										</v-list-tile-title>
+											
+										<!-- CONFIRM DELETE DIALOG -->
+										<v-dialog 
+											v-model="dialog_del" 
+											max-width="500"
+											>
+											
+											<v-card>
+
+												<v-card-title class="headline text-xs-center pb-1">
+													<v-icon left class="pr-3" color="grey">
+														{{ $store.state.mainIcons.delete.icon }}
+													</v-icon>
+													{{ $t(`projects.del_dmt`, $store.state.locale) }}
+												</v-card-title>
+
+												<v-card-text class="subheading text-xs-center mb-2">
+													<v-icon large class="mb-1" color="error">
+														{{ $store.state.mainIcons.warning.icon }}
+													</v-icon>
+													<br>
+													{{ $t(`global.confirm_del`, $store.state.locale) }}
+												</v-card-text>
+												
+												
+												<v-card-actions>
+
+													<v-btn 
+														color="primary" 
+														dark
+														block
+														@click="dialog_del = false"
+														ma-2
+														>
+														<v-icon left>
+															{{ $store.state.mainIcons.cancel.icon }}
+														</v-icon>
+														{{ $t(`global.cancel`, $store.state.locale) }}
+													</v-btn>
+													
+													<!-- DELETE DMT FROM PARENT BTN -->
+													<v-btn 
+														color="error " 
+														dark
+														block
+														ma-2
+														@click="deleteChild( { 
+															item_id 		: item_doc._id, 
+															datasets_coll 	: 'dmt', 
+															parentDoc_coll 	: 'prj',
+															re_emit			: true,
+														} ) "
+														>
+														<v-icon left>
+															{{ $store.state.mainIcons.delete.icon }}
+														</v-icon>
+														{{ $t(`global.delete_i`, $store.state.locale) }}
+													</v-btn>
+
+												</v-card-actions>
+
+											</v-card>
+										
+										</v-dialog>
+
+									</v-list-tile>
+
+
+								</v-list>
+
+							</v-menu>
+
+
+
+
 
 						</v-toolbar>
 
@@ -191,7 +300,12 @@
 											:disabled="!$store.state.auth.isLogged"
 											icon
 											small
-											@click="deleteChild( props.item[dmf._id] ) "
+											@click="deleteChild( { 
+												item_id 		: props.item[dmf._id], 
+												datasets_coll 	: 'dmf', 
+												parentDoc_coll 	: 'dmt', 
+												re_emit			: false,
+											} ) "
 											>
 											<v-icon
 												color="accent"
@@ -200,6 +314,7 @@
 											</v-icon>
 										</v-btn>
 
+										<!-- DEBUG -->
 										<span v-if="$store.state.is_debug">
 											<br>
 											- props.item[ dmf._id ] : <code>{{ props.item[ dmf._id ] }}</code>
@@ -335,6 +450,8 @@ export default {
 			paginationDMF : {
 				rowsPerPage: -1 
 			},
+
+			dialog_del 	: false,
 
 			offsetTop 	: 0,
 			offsetLeft 	: 0,
@@ -486,14 +603,15 @@ export default {
 			return this.$router.push(`/${this.item_doc.specs.doc_type}/${this.item_doc._id}`)
 		},
 
-		deleteChild(item_id) {
-			console.log("\n...viewEditListDMF - deleteChild / item_id : \n ", item_id)
+		deleteChild( item_infos ) {
+			console.log("\n...viewEditListDMF - deleteChild / item_infos : \n ", item_infos)
 
 			var input = {
 				add_or_delete 	: "delete_from_list",
-				item_id_to_add 	: item_id,
-				datasets_coll 	: "dmf",
-				parentDoc_coll 	: this.item_doc.specs.doc_type,
+				item_id_to_add 	: item_infos.item_id,
+				datasets_coll 	: item_infos.datasets_coll,
+				parentDoc_coll 	: item_infos.parentDoc_coll,
+				re_emit			: item_infos.re_emit,
 			}
 			console.log("deleteChild / input : ", input )
 

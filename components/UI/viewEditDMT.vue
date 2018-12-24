@@ -23,13 +23,21 @@
 			v-if="!is_itemDoc"
 			>
 			<v-flex xs12>
+
 				<v-card
 					flat
-					class="pa-0 ma-0"
+					class="pa-4 text-xs-center"
 					>
-					<v-card-text class="pa-0 text-xs-center">
-						no_DMT
-					</v-card-text>
+
+					<!-- <v-card-text>
+						no_DMT in VE DMT
+					</v-card-text> -->
+
+					<v-progress-circular
+					color="accent"
+					indeterminate
+					></v-progress-circular>
+					
 				</v-card>
 			</v-flex>
 
@@ -153,10 +161,55 @@
 							:coll="'dmf'"
 							:items_coll="$store.state.dmf.list"
 							:no_margin="true"
+
 							:add_to_parent="true"
 							:parentDoc_id="itemId"
 							:parentDoc_coll="coll"
-							@update_parent_dataset="updateDMF_list"
+							:items_in_parent="itemDoc.datasets.dmf_list"
+
+							@update_parent_dataset="update_parent_list"
+							>
+						</ItemsListDI>
+
+					</v-expansion-panel-content>
+				</v-expansion-panel>
+			
+				<v-divider></v-divider>
+
+				<!-- TAGS LIBRARY -->
+					<!-- v-show="!isPreview" -->
+				<v-expansion-panel
+					v-if="$store.state.auth.isLogged"
+					v-model="panel_lib_tag"
+					expand
+					class="elevation-0"
+					>
+					<v-expansion-panel-content >
+
+						<div 
+							class="accent--text"
+							slot="header"
+							>
+							<v-icon small color="accent" class="mr-3">
+								{{ $store.state.mainIcons.add_to_parent.icon }}  
+							</v-icon>
+							<span>
+								{{ $t(`global.manage_tag`, $store.state.locale) }}
+							</span>
+						</div>
+
+						<ItemsListDI
+							:tab="'tags'"
+							:coll="'tag'"
+							:items_coll="$store.state.tag.list"
+							:no_margin="true"
+
+							:add_to_parent="true"
+							:parentDoc_id="itemId"
+							:parentDoc_coll="coll"
+							:items_in_parent="list_TAG_oids"
+
+							@update_parent_dataset="update_parent_list"
 							>
 						</ItemsListDI>
 
@@ -191,7 +244,9 @@
 
 					@input="openDMF_lib"
 					@settings="switchSettings"
-					@update_parent_dataset="updateDMF_list"
+
+					@update_parent_dataset="update_parent_list"
+					
 					@update_loading="updateLoading"
 					@scrollTable="updateScroll"
 					>
@@ -298,7 +353,7 @@ export default {
 	middleware : ["getListItems"],
 	meta : {
 		collection 	: [
-			'dmf',
+			'dmf', 'tag',
 		],
 		level : 'get_list',
 	},
@@ -314,8 +369,9 @@ export default {
 			
 			this.is_itemDoc = true ;
 
-			this.itemDoc 	= this.item_doc ;
-			this.itemId		= this.item_doc._id ; 
+			this.itemDoc 		= this.item_doc ;
+			this.itemId			= this.item_doc._id ; 
+			this.list_TAG_oids 	= this.item_doc.datasets.tag_list ;
 
 			// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
 			// this.canEdit = this.checkUserAuth(this.parentFieldslist)
@@ -354,9 +410,10 @@ export default {
 			no_subField : true,
 			isSettings 	: false,
 
-			panel_infos	: [true],
-			panel_lib	: [true],
-			panel_uses	: [false],
+			panel_infos		: [true],
+			panel_lib		: [true],
+			panel_lib_tag	: [false],
+			panel_uses		: [false],
 
 			collName 	: this.$store.state.collectionsNames[this.coll],
 
@@ -366,6 +423,7 @@ export default {
 			itemId 			: '', 
 			// item_data 		: this.item_doc.data_raw.f_data, 
 			// item_headers 	: this.item_doc.data_raw.f_col_headers, 
+			list_TAG_oids 		: [],
 
 			is_file 			: null,
 			filetype 			: null,
@@ -500,7 +558,9 @@ export default {
 					console.log( "\nVE DMT / watch ~ item_doc / newVal.datasets.dmf_list : \n", newVal.datasets.dmf_list )
 					console.log( "\nVE DMT / watch ~ item_doc / oldVal.datasets.dmf_list : \n", oldVal.datasets.dmf_list )
 					this.itemDoc = newVal ;
-
+					if (newVal) {
+						this.list_TAG_oids 	= newVal.datasets.tag_list ;
+					}
 				}
 			}
 		},
@@ -591,6 +651,10 @@ export default {
 		},
 
 
+		// ----------------------------- //
+		// AXIOS CALL
+		// ----------------------------- //
+
 		// ADD DELETE ITEM FROM
 		form ( input ) {
 
@@ -605,46 +669,58 @@ export default {
 				"doc_type"			: datasets_coll 
 			}
 		},
+		
+		// UPDATE DMF DOCUMENT
+		update_parent_list ( input ) {
 
-		updateDMF_list ( input ) {
-
-			console.log("updateDMF_list / input : ", input )
+			console.log("update_parent_list / input : ", input )
 
 			this.loading 		= true
 			// this.$emit('update_loading', true )
 
-			// load values as pseudoForm
-			var pseudoForm	= this.form( input ) ;
-			var pseudoFormData 	= [ pseudoForm ] ;
-			console.log("updateDMF_list / pseudoFormData : ", pseudoFormData )
+			var re_emit = input.re_emit ; 
 
-			// dispatch action from store for update
-			this.$store.dispatch('updateItem', {
-				coll	: this.coll,
-				doc_id  : this.itemId,
-				form 	: pseudoFormData, 
-			})
-			
-			.then(result => {
-				this.alert 		= { type: 'success', message: result.msg }
-				this.loading 	= false
-				// this.$emit('update_loading', false )
+			if (re_emit) {
+				console.log("update_parent_list / re_emit... " )
+				this.$emit('update_parent_dataset', input )
+			}
+
+			else {
+
+				// load values as pseudoForm
+				var pseudoForm	= this.form( input ) ;
+				var pseudoFormData 	= [ pseudoForm ] ;
+				console.log("update_parent_list / pseudoFormData : ", pseudoFormData )
+	
+				// dispatch action from store for update
+				this.$store.dispatch('updateItem', {
+					coll	: this.coll,
+					doc_id  : this.itemId,
+					form 	: pseudoFormData, 
+				})
 				
-				// update current in store
-				console.log("updateDMF_list - result : ", result )
-				this.$store.commit(`${this.coll}/set_current`, result );
+				.then(result => {
+					this.alert 		= { type: 'success', message: result.msg }
+					this.loading 	= false
+					// this.$emit('update_loading', false )
+					
+					// update current in store
+					console.log("update_parent_list - result : ", result )
+					this.$store.commit(`${this.coll}/set_current`, result );
+	
+				})
+				
+				.catch(error => {
+					console.log("submit / error... : ", error ) ; 
+					this.loading = false
+					// this.$emit('update_loading', false )
+					this.alert = {type: 'error', message: "login error" }
+					if (error.response && error.response.data) {
+						this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+					}
+				})
 
-			})
-			
-			.catch(error => {
-				console.log("submit / error... : ", error ) ; 
-				this.loading = false
-				// this.$emit('update_loading', false )
-				this.alert = {type: 'error', message: "login error" }
-				if (error.response && error.response.data) {
-					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
-				}
-			})
+			}
 
 		},
 

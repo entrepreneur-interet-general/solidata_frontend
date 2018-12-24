@@ -22,7 +22,7 @@
 				<ItemToolbar
 					:coll="coll" 
 					:collName="tab" 
-					:itemDoc="itemDoc"
+					:itemDoc="item_doc"
 					:is_create="is_create" 
 					:isPreview="isPreview"
 					:isSettings="isSettings"
@@ -30,6 +30,7 @@
 					@input="switchPreview"
 					@settings="switchSettings"
 					>
+					<!-- :itemDoc="itemDoc" -->
 				</ItemToolbar>
 
 			</v-flex>
@@ -54,14 +55,13 @@
 			
 			- itemDoc / dmt_list : <code> {{ itemDoc.datasets.dmt_list }} </code> <br>
 			- list_DMT_oids : <code> {{ list_DMT_oids }} </code> <br>
-			- list_DMT_oids_test : <code> {{ list_DMT_oids_test }} </code> <br>
+			- list_DMT_oids_test : <code> {{ list_DMT_oids }} </code> <br>
 			<!-- - firstDMTinList : <code>{{ firstDMTinList() }}</code><br> -->
 
 			<v-divider class="my-2"></v-divider>
 
 			- itemDoc / dsi_list : <code> {{ itemDoc.datasets.dsi_list }} </code> <br>
 			- list_DSI_oids : <code> {{ list_DSI_oids }} </code> 
-			- list_DSI_oids_test : <code> {{ list_DSI_oids_test }} </code> 
 	
 		</v-card-text>
 
@@ -91,8 +91,9 @@
 				<ItemDocUses
 					:coll="coll"
 					:is_create="is_create"
-					:item_doc="itemDoc"
+					:item_doc="item_doc"
 					>
+					<!-- :item_doc="itemDoc" -->
 				</itemDocUses>
 
 			</v-expansion-panel-content>
@@ -111,9 +112,10 @@
 				
 				<!-- SETTINGS TOOLBAR -->
 				<SettingsToolbar
-					:itemDoc="itemDoc"
+					:itemDoc="item_doc"
 					@settings="switchSettings"
 					>
+					<!-- :itemDoc="itemDoc" -->
 				</SettingsToolbar>
 
 
@@ -142,8 +144,9 @@
 							:coll="coll"
 							:is_create="is_create"
 							:is_preview="false"
-							:item_doc="itemDoc"
+							:item_doc="item_doc"
 							>
+							<!-- :item_doc="itemDoc" -->
 						</itemDocInfos>
 
 					</v-expansion-panel-content>
@@ -179,18 +182,20 @@
 							:coll="'dmt'"
 							:items_coll="$store.state.dmt.list"
 							:no_margin="true"
+
 							:add_to_parent="true"
 							:parentDoc_id="itemId"
 							:parentDoc_coll="coll"
+							:items_in_parent="list_DMT_oids"
+
+							@update_parent_dataset="update_parent_list"
 							>
-							<!-- @update_parent_dataset="updateDMT_list" -->
 						</ItemsListDI>
 
 					</v-expansion-panel-content>
 				</v-expansion-panel>
 			
 				<v-divider></v-divider>
-
 
 				<!-- DSI LIBRARY -->
 					<!-- v-show="!isPreview" -->
@@ -219,11 +224,57 @@
 							:coll="'dsi'"
 							:items_coll="$store.state.dsi.list"
 							:no_margin="true"
+
 							:add_to_parent="true"
 							:parentDoc_id="itemId"
 							:parentDoc_coll="coll"
+							:items_in_parent="list_DSI_oids"
+
+							@update_parent_dataset="update_parent_list"
 							>
-							<!-- @update_parent_dataset="updateDMT_list" -->
+						</ItemsListDI>
+
+					</v-expansion-panel-content>
+				</v-expansion-panel>
+			
+				<v-divider></v-divider>
+
+				
+				<!-- TAGS LIBRARY -->
+					<!-- v-show="!isPreview" -->
+				<v-expansion-panel
+					v-if="$store.state.auth.isLogged"
+					v-model="panel_lib_tag"
+					expand
+					class="elevation-0"
+					>
+					<v-expansion-panel-content >
+
+						<div 
+							class="accent--text"
+							slot="header"
+							>
+							<v-icon small color="accent" class="mr-3">
+								{{ $store.state.mainIcons.add_to_parent.icon }}  
+							</v-icon>
+							<span>
+								{{ $t(`global.manage_tag`, $store.state.locale) }}
+							</span>
+						</div>
+
+						<ItemsListDI
+							:tab="'tags'"
+							:coll="'tag'"
+							:items_coll="$store.state.tag.list"
+							:no_margin="true"
+
+							:add_to_parent="true"
+							:parentDoc_id="itemId"
+							:parentDoc_coll="coll"
+							:items_in_parent="list_TAG_oids"
+
+							@update_parent_dataset="update_parent_list"
+							>
 						</ItemsListDI>
 
 					</v-expansion-panel-content>
@@ -248,14 +299,14 @@
 			<!-- PRJ's DMT  -->
 			<v-flex 
 				xs10
-				v-if="list_DMT_oids_test && list_DMT_oids_test.length != 0 "
+				v-if="list_DMT_oids && list_DMT_oids.length != 0 "
 				>
 				
 					<!-- :flex_vars="'xs8 offset-xs2'" -->
 				<ViewEditDMT
 
 					:item_doc="undefined"
-					:item_doc_id="list_DMT_oids_test"
+					:item_doc_id="list_DMT_oids"
 					
 					:coll="'dmt'"
 
@@ -266,10 +317,15 @@
 					:no_toolbar="true"
 
 					:add_to_parent="true"
+					:parentDoc_id="itemId"
+					:parentDoc_coll="coll"
+
 					:parent_scroll="scrollLeft"
 
 					@update_loading="updateLoading"
 					@scrollTable="updateScroll"
+
+					@update_parent_dataset="update_parent_list"
 					>
 				</ViewEditDMT> 
 
@@ -283,22 +339,23 @@
 
 				<v-card
 					flat
-					class="pa-5 text-xs-center"
+					class="px-5 py-3 text-xs-center"
 					>
 
-					no DMT in PRJ
-					list_DMT_oids_test empty
+					<v-card-text>
+						{{ $t(`projects.no_dmt`, $store.state.locale) }}
+					</v-card-text>
 
 				</v-card>
 				
 			</v-flex>
 
 
+			<!-- MANAGE DMT COLUMN -->
 			<v-flex xs2>
 
 				<v-layout row wrap>
 
-					<!-- MANAGE DMT -->
 					<v-flex xs12>
 
 						<v-card
@@ -337,7 +394,7 @@
 					<!-- RECIPES -->
 					<v-flex 
 						xs12
-						v-show="!loading"
+						v-show="!loading && list_DMT_oids.length != 0"
 						>
 						
 						<v-card
@@ -359,7 +416,7 @@
 
 
 		<!-- DSI LIST -->
-		<!-- ADD DSI IN PRJ DSI_LIST -->
+		<!-- BTN - ADD DSI IN PRJ DSI_LIST -->
 		<v-layout 
 			mt-3
 			row 
@@ -382,7 +439,7 @@
 						class="transparent ma-0 pa-2 text-lowercase accent--text"
 						block
 						flat
-						@click="isSettings=true"
+						@click="panel_lib_dsi=[true];panel_lib_dmt=[false];isSettings=true"
 						>
 
 							<!-- :color="`${ loading ? 'grey' : 'accent'} `" -->
@@ -407,14 +464,14 @@
 		<v-layout 
 			row 
 			wrap
-			v-if="list_DSI_oids_test || list_DSI_oids_test.length != 0 "
+			v-if="list_DSI_oids && list_DSI_oids.length != 0 "
 			>
-			<!-- v-if="list_DSI_oids_test" -->
+			<!-- v-if="list_DSI_oids" -->
 	
 			<!-- LOOP PRJ's DSI_LIST -->
 			<v-flex 
-				v-for="dsi in list_DSI_oids_test"
-				:key="list_DSI_oids_test.indexOf(dsi)"
+				v-for="dsi in list_DSI_oids"
+				:key="list_DSI_oids.indexOf(dsi)"
 				d-flex 
 				xs12
 				mt-3
@@ -454,8 +511,10 @@
 							:add_to_parent="true"
 							:parent_scroll="scrollLeft"
 
+
 							@update_loading="updateLoading"
 							@scrollTable="updateScroll"
+							@update_parent_dataset="update_parent_list"
 							>
 						</ViewEditDSI>
 
@@ -492,7 +551,7 @@
 
 		</v-layout>
 
-
+		<!-- NO DSI -->
 		<v-layout 
 			mt-3
 			row 
@@ -502,16 +561,13 @@
 
 			<v-flex 
 				xs10
-				class="text-xs-center"
 				>
 
 				<v-card
 					flat
-					class="pa-5"
+					class="px-5 py-4 text-xs-center"
 					>
-
-					no DSI in PRJ
-
+					{{ $t(`projects.no_dsi`, $store.state.locale) }}
 				</v-card>
 
 			</v-flex>
@@ -576,7 +632,7 @@ export default {
 	middleware : ["getListItems"],
 	meta : {
 		collection 	: [
-			'dmt', 'dsi',
+			'dmt', 'dsi', 'tag'
 		],
 		level : 'get_list',
 	},
@@ -584,44 +640,25 @@ export default {
 	created () {
 
 		console.log("\n- viewEditPRJ / created ---> item_doc : ", this.item_doc ) ;
-		this.itemDoc 	= this.item_doc ;
+		this.itemDoc 		= this.item_doc ;
 
 		this.list_DMT_oids 	= this.item_doc.datasets.dmt_list ;
 		this.list_DSI_oids 	= this.item_doc.datasets.dsi_list ;
+		this.list_TAG_oids 	= this.item_doc.datasets.tag_list ;
+		
+		// debug
+		// this.list_DMT_oids 	= [ 
+		// 	{"oid_dmt" : "5b98e4db0a8286332f4f1984" }
+		// ] ;
+		// this.list_DSI_oids 	= [ 
+		// 	{"oid_dsi" : "5c0810c60a8286214c863fb6" },
+		// 	{"oid_dsi" : "5c08f2da0a82868129391891" } 
+		// ] ;
+		
 		console.log("\n- viewEditPRJ / created ---> this.list_DMT_oids : ", this.list_DMT_oids ) ;
 		console.log("\n- viewEditPRJ / created ---> this.list_DSI_oids : ", this.list_DSI_oids ) ;
+		console.log("\n- viewEditPRJ / created ---> this.list_DTAGoids : ", this.list_TAG_oids ) ;
 
-
-		// TO DO !!!!
-		// ------------------------------------ //
-		// get DMT full infos infos
-		// ------------------------------------ //
-		// if ( !Array.isArray(listDMT) || listDMT.length ) {
-
-		// 	// map list DMT in order to list of DMF oids
-		// 	this.list_DMT_oids = this.listDMT.map( function (obj) {
-		// 		return obj.oid_dmt
-		// 	}); 
-		// 	console.log("- viewEditPRJ / list_DMT_oids : ", this.list_DMT_oids ) ;
-
-		// 	// get complete data for every DMF in list_DMF_oids => methods
-		// 	// this.get_docs_fromApi("dmt") ; 
-		// }
-	
-		// // ------------------------------------ //
-		// // get DSI full infos infos
-		// // ------------------------------------ //
-		// if ( !Array.isArray(listDSI) || listDSI.length ) {
-
-		// 	// map list DSI in order to list of DMF oids
-		// 	this.list_DSI_oids = this.listDSI.map( function (obj) {
-		// 		return obj.oid_dsi
-		// 	}); 
-		// 	console.log("- viewEditPRJ / list_DSI_oids : ", this.list_DSI_oids ) ;
-
-		// 	// get complete data for every DSI in list_DSI_oids => methods
-		// 	// this.get_docs_fromApi("dsi") ; 
-		// }
 
 	},
 
@@ -651,6 +688,7 @@ export default {
 			panel_infos		: [true],
 			panel_lib_dmt	: [false],
 			panel_lib_dsi	: [true],
+			panel_lib_tag	: [false],
 			panel_uses		: [false],
 
 			isPreview 	: this.is_preview,
@@ -665,15 +703,15 @@ export default {
 			// canEdit		: false ,
 
 			list_DMT_oids 		: [],
-			list_DMT_oids_test 	: [],
-			// list_DMT_oids_test 	: [ {"oid_dmt" : "5b98e4db0a8286332f4f1984" } ],
+			// list_DMT_oids 	: [ {"oid_dmt" : "5b98e4db0a8286332f4f1984" } ],
 
 			list_DSI_oids 		: [],
-			// list_DSI_oids_test 	: [],
-			list_DSI_oids_test 	: [ 
-				{"oid_dsi" : "5c0810c60a8286214c863fb6" },
-				{"oid_dsi" : "5c08f2da0a82868129391891" } 
-			],
+			// list_DSI_oids 	: [ 
+			// 	{"oid_dsi" : "5c0810c60a8286214c863fb6" },
+			// 	{"oid_dsi" : "5c08f2da0a82868129391891" } 
+			// ],
+
+			list_TAG_oids 		: [],
 
 			// ----------------------------- // 
 			// UI/UX variables 
@@ -701,7 +739,8 @@ export default {
 	computed : {
 
 		isLoading () {
-			if ( !this.loading_list.dsi && !this.loading_list.dmt ){
+
+			if ( Object.keys(this.loading_list.dsi).length == 0 && Object.keys(this.loading_list.dmt).length == 0 ){
 				return false
 			}
 			else {
@@ -743,9 +782,14 @@ export default {
 				console.log( "\nVE PRJ / watch ~ item_doc / newVal : \n", newVal )
 				// console.log( "\nVE PRJ / watch ~ item_doc / oldVal : \n", oldVal )
 
-				// update local DMT list and DSI list
-				this.list_DMT_oids = newVal.datasets.dmt_list ; 
-				this.list_DSI_oids = newVal.datasets.dsi_list ; 
+				if (newVal) {
+					// update local DMT list and DSI list
+					console.log( "VE PRJ / watch ~ item_doc / newVal.infos.title : \n", newVal.infos.title )
+					this.itenDoc		= newVal
+					this.list_DMT_oids 	= newVal.datasets.dmt_list ; 
+					this.list_DSI_oids 	= newVal.datasets.dsi_list ; 
+					this.list_TAG_oids 	= newVal.datasets.tag_list ; 
+				}
 
 			}
 		}
@@ -756,15 +800,13 @@ export default {
 		
 		//
 		// firstDMTinList () {
-		// 	return ( this.list_DSI_oids_test.length == 0 ? [] : this.list_DMT_oids_test[0] )
+		// 	return ( this.list_DSI_oids.length == 0 ? [] : this.list_DMT_oids_test[0] )
 		// },
 
 
 		updateScroll(input) {
-
 			// console.log("updateScroll / input : ", input )
 			this.scrollLeft = input.left
-
 		},
 
 		updateLoading(input) {
@@ -960,64 +1002,64 @@ export default {
 		// ----------------------------- //
 		// AXIOS CALL
 		// ----------------------------- //
-		// get_docs_fromApi (coll_target) {
 
-		// 	console.log("\n...viewEditPRJ - get_doc_fromApi ... ")
+		// ADD DELETE ITEM FROM
+		form ( input ) {
 
-		// 	this.loading 	= true
+			var datasets_coll 	= input.datasets_coll ;
+			var item_id_to_add 	= input.item_id_to_add ;
+			var add_or_delete 	= input.add_or_delete ;
 
-		// 	var oids_lists_dict = {
-		// 		dmf : this.list_DMF_oids , 
-		// 		dmt : this.list_DMT_oids , 
-		// 		dsi : this.list_DSI_oids , 
-		// 	} ; 
+			return {
+				"field_to_update" 	: "datasets." + datasets_coll + "_list" ,
+				"field_value"		: item_id_to_add,
+				"add_to_list"		: add_or_delete,
+				"doc_type"			: datasets_coll 
+			}
+		},
 
-		// 	var oids_list = { 
-		// 		oids 			: oids_lists_dict[ coll_target ].join(), 
-		// 		ignore_teams 	: true,
-		// 		// pivot_results	: true,
-		// 		// normalize		: true,
-		// 	}
+		// UPDATE PRJ DOCUMENT
+		update_parent_list ( input ) {
 
-		// 	// AXIOS CALL OR DISPATCH 
-		// 	var call_input = {
-		// 		coll 			: this.coll,
-		// 		level			: "get_datasets",
-		// 		q_params		: oids_list,
-		// 	}
-		// 	this.$store.dispatch('getListItems', call_input )
+			console.log("update_parent_list / input : ", input )
 
-		// 	.then( result => {
+			this.loading 		= true
+			// this.$emit('update_loading', true )
+
+			// load values as pseudoForm
+			var pseudoForm		= this.form( input ) ;
+			var pseudoFormData 	= [ pseudoForm ] ;
+			console.log("update_parent_list / pseudoFormData : ", pseudoFormData )
+
+			// dispatch action from store for update
+			this.$store.dispatch('updateItem', {
+				coll	: this.coll,
+				doc_id  : this.itemId,
+				form 	: pseudoFormData, 
+			})
+			
+			.then(result => {
+				this.alert 		= { type: 'success', message: result.msg }
+				this.loading 	= false
+				// this.$emit('update_loading', false )
 				
-		// 		console.log("viewEditPRJ get_doc_fromApi / result: ", result ) ; 
-				
-		// 		this.list_DMF_full 		= result.data ;
+				// update current in store
+				console.log("update_parent_list - result : ", result )
+				this.$store.commit(`${this.coll}/set_current`, result );
 
-		// 		if (coll_target == "dmf") {
+			})
+			
+			.catch(error => {
+				console.log("submit / error... : ", error ) ; 
+				this.loading = false
+				// this.$emit('update_loading', false )
+				this.alert = {type: 'error', message: "login error" }
+				if (error.response && error.response.data) {
+					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+				}
+			})
 
-		// 		}
-
-		// 		this.loading 			= false
-
-
-		// 		this.alert   			= {type: 'success', message: result.msg}
-
-		// 	})
-
-		// 	.catch( error => {
-				
-		// 		console.log("viewEditPRJ get_doc_fromApi / submit - error... : ", error ) ; 
-				
-		// 		this.loading = false
-		// 		// this.alert = {type: 'error', message: "login error" }
-
-		// 		if (error.response && error.response.data) {
-		// 			this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
-				
-		// 		}
-		// 	})
-
-		// },
+		},
 
 
 	}

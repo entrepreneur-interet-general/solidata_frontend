@@ -21,6 +21,17 @@
 
 		<v-spacer></v-spacer>
 
+		<v-switch 
+			label="debug"
+			v-model="$store.state.is_debug"
+			color="error"
+			:input-value="$store.state.is_debug"
+			hide-details
+			>
+		</v-switch>
+
+		<v-spacer></v-spacer>
+
 		<!-- CLOSE ICON -->
 		<v-toolbar-items>
 			<v-btn 

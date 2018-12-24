@@ -52,7 +52,7 @@
 		<nuxt-link 
 			
 			:to="'/'"
-			class="ml-5 mr-0 hidden-xs-only mt-0 pt-1"
+			class="ml-3 mr-0 hidden-xs-only mt-0 pt-1"
 			>
 				<!-- src="@/assets/images/logo_solidata_8a.png"  -->
 				<!-- src="/logos/logo_solidata_8a.png"  -->

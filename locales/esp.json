@@ -128,6 +128,8 @@
 		"resume" 		: "Resumen",
 		"preview" 		: "prevista",
 
+		"manage_tag" 	: "Administrar las etiquetas",
+
 		"open_level_edit" : "Open level para editar",
 		"open_level_show" : "Open level para prevista",
 
@@ -145,6 +147,8 @@
 		"team"			: "Equipo",
 		"inTeam"		: "usted hace parte del equipo",
 		"notTeam"		: "usted no hace parte del equipo",
+
+		"doc_used"		: "Documento ya està usado",
 
 		"cgu" 			: "Estoy de acuerdo con las CGU",
 
@@ -257,9 +261,16 @@
 		"resume" 		: "Resumen",
 
 		"dsi" 			: "Datos",
+		"no_dmt" 		: "Por favor seleccione un módelo",
+		"no_dsi" 		: "Por favor seleccione un o varios juegos de datos",
+
 		"manage_dsi" 	: "Administrar sus datos",
 		"manage_dmt" 	: "Administrar su módelo de datos",
-		"manage_rec" 	: "Administrar sus recetas"	
+		"manage_rec" 	: "Administrar sus recetas",
+
+		"del_dsi" 		: "Suprimir este juego de datos",
+		"del_dmt" 		: "Suprimir este módelos",
+		"del_rec" 		: "Suprimir esta receta"
 	
 	},
 

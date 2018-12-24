@@ -124,46 +124,55 @@
 				<v-divider></v-divider>
 
 
+				<!-- TAGS LIBRARY -->
+					<!-- v-show="!isPreview" -->
+				<v-expansion-panel
+					v-if="$store.state.auth.isLogged"
+					v-model="panel_lib_tag"
+					expand
+					class="elevation-0"
+					>
+					<v-expansion-panel-content >
+
+						<div 
+							class="accent--text"
+							slot="header"
+							>
+							<v-icon small color="accent" class="mr-3">
+								{{ $store.state.mainIcons.add_to_parent.icon }}  
+							</v-icon>
+							<span>
+								{{ $t(`global.manage_tag`, $store.state.locale) }}
+							</span>
+						</div>
+
+						<ItemsListDI
+							:tab="'tags'"
+							:coll="'tag'"
+							:items_coll="$store.state.tag.list"
+							:no_margin="true"
+
+							:add_to_parent="true"
+							:parentDoc_id="itemId"
+							:parentDoc_coll="coll"
+							:items_in_parent="list_TAG_oids"
+
+							@update_parent_dataset="update_parent_list"
+							>
+						</ItemsListDI>
+
+					</v-expansion-panel-content>
+				</v-expansion-panel>
+			
+				<v-divider></v-divider>
+
+
+
+
 			</v-card>
 		</v-dialog>
 
 
-		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
-		<!-- <v-flex d-flex :class="flex_vars">
-
-			<v-expansion-panel
-				v-show="!isPreview"
-				v-model="panel_infos"
-				expand
-				class="elevation-0"
-				>
-
-				<v-expansion-panel-content>
-
-					<div 
-						class="pb-0 mb-0"
-						slot="header"
-						>
-						<v-icon small class="mr-3">
-							{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
-						</v-icon>
-						<span>
-							{{ $t(`parentFields.infos`, $store.state.locale) }}
-						</span>
-					</div>
-
-					<ItemDocInfos
-						:coll="coll"
-						:is_create="is_create"
-						:is_preview="isPreview"
-						:item_doc="itemDoc"
-						>
-					</itemDocInfos>
-
-				</v-expansion-panel-content>
-			</v-expansion-panel>
-
-		</v-flex> -->
 
 
 		<!-- COMPONENTS FOR DOCS DATA_RAW -->		
@@ -301,6 +310,8 @@
 import ObjectFormatterCreate from "~/utils/ObjectFormatterCreate.js"
 import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
 
+import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
+
 import ItemToolbar from '~/components/UI/itemToolbar.vue'
 import ItemDocUses from '~/components/UI/itemDocUses.vue'
 import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
@@ -328,17 +339,27 @@ export default {
 
 		ItemToolbar,
 		ItemDocInfos,
+		ItemsListDI,
 		ItemDocUses,
 		ItemDocDataRaw,
 		SettingsToolbar,
 
 	},
-	
+
+	middleware : ["getListItems"],
+	meta : {
+		collection 	: [
+			'tag'
+		],
+		level : 'get_list',
+	},
+
 	created () {
 		console.log("\n- viewEditDMF / created ---> item_doc : ", this.item_doc ) ;
 		this.itemDoc = this.item_doc ;
 		// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
 		// this.canEdit = this.checkUserAuth(this.parentFieldslist)
+		this.list_TAG_oids 	= this.item_doc.datasets.tag_list ;
 
 		// this.is_file = ( this.coll == "dsi" ) ? true : false ; 
 		this.is_file = this.preloadIsFile() ; 
@@ -354,6 +375,7 @@ export default {
 			
 			panel_infos		: [true],
 			panel_data_raw	: [true],
+			panel_lib_tag	: [false],
 
 			isPreview 	: this.is_preview,
 			noToolbar	: this.no_toolbar,
@@ -363,8 +385,9 @@ export default {
 			tab 		: this.$store.state.collectionsNames[this.coll],
 			// tab 	: this.$store.state.collectionsNames[this.item_doc.specs.doc_type],
 			// canEdit		: false ,
-			itemId 		: this.item_doc._id, 
-			itemDoc		: this.item_doc,
+			itemId 			: this.item_doc._id, 
+			itemDoc			: this.item_doc,
+			list_TAG_oids 	: [] ,
 
 			is_file 			: null,
 			filetype 			: null,
@@ -384,6 +407,27 @@ export default {
 			createSize			: 12
 
 		}
+	},
+
+	watch : {
+
+		item_doc : {
+
+			immediate : true,
+			handler ( newVal, oldVal) {
+
+				console.log( "\nVE DMF / watch ~ item_doc / newVal : \n", newVal )
+				// console.log( "\nVE PRJ / watch ~ item_doc / oldVal : \n", oldVal )
+
+				if (newVal){
+					this.itemDoc = newVal ;
+					// update local DTAGI list
+					this.list_TAG_oids = newVal.datasets.tag_list ; 
+				}
+
+			}
+		}
+
 	},
 
 	computed : {
@@ -586,7 +630,72 @@ export default {
 			})
 		
 
-		}
+		},
+
+
+		
+		// ----------------------------- //
+		// AXIOS CALL
+		// ----------------------------- //
+
+		// ADD DELETE ITEM FROM
+		form ( input ) {
+
+			var datasets_coll 	= input.datasets_coll ;
+			var item_id_to_add 	= input.item_id_to_add ;
+			var add_or_delete 	= input.add_or_delete ;
+
+			return {
+				"field_to_update" 	: "datasets." + datasets_coll + "_list" ,
+				"field_value"		: item_id_to_add,
+				"add_to_list"		: add_or_delete,
+				"doc_type"			: datasets_coll 
+			}
+		},
+		
+		// UPDATE PRJ DOCUMENT
+		update_parent_list ( input ) {
+
+			console.log("update_parent_list / input : ", input )
+
+			this.loading 		= true
+			// this.$emit('update_loading', true )
+
+			// load values as pseudoForm
+			var pseudoForm	= this.form( input ) ;
+			var pseudoFormData 	= [ pseudoForm ] ;
+			console.log("update_parent_list / pseudoFormData : ", pseudoFormData )
+
+			// dispatch action from store for update
+			this.$store.dispatch('updateItem', {
+				coll	: this.coll,
+				doc_id  : this.itemId,
+				form 	: pseudoFormData, 
+			})
+			
+			.then(result => {
+				this.alert 		= { type: 'success', message: result.msg }
+				this.loading 	= false
+				// this.$emit('update_loading', false )
+				
+				// update current in store
+				console.log("update_parent_list - result : ", result )
+				this.$store.commit(`${this.coll}/set_current`, result );
+
+			})
+			
+			.catch(error => {
+				console.log("submit / error... : ", error ) ; 
+				this.loading = false
+				// this.$emit('update_loading', false )
+				this.alert = {type: 'error', message: "login error" }
+				if (error.response && error.response.data) {
+					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+				}
+			})
+
+		},
+
 
 	}
 

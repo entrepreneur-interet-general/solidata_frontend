@@ -128,6 +128,8 @@
 		"resume" 		: "Resume",
 		"preview" 		: "preview",
 
+		"manage_tag" 	: "Manage the tags",
+
 		"open_level_edit" : "Open level for edition",
 		"open_level_show" : "Open level for preview",
 
@@ -145,6 +147,8 @@
 		"team"			: "Team",
 		"inTeam"		: "you are part of the team",
 		"notTeam"		: "you are not part of the team",
+
+		"doc_used"		: "Document is already used",
 
 		"cgu" 			: "I agree with the CGU",
 
@@ -257,9 +261,16 @@
 		"resume" 		: "Resume",
 
 		"dsi" 			: "Datasets",
+		"no_dmt" 		: "Please choose a datamodel",
+		"no_dsi" 		: "Please choose one or several datsets",
+
 		"manage_dsi" 	: "Manage your datasets",
 		"manage_dmt" 	: "Manage your datamodel template",
-		"manage_rec" 	: "Manage your recipes"
+		"manage_rec" 	: "Manage your recipes",
+
+		"del_dsi" 		: "Delete this dataset",
+		"del_dmt" 		: "Delete this datamodel template",
+		"del_rec" 		: "Delete this recipe"
 	},
 
 	"datamodels" : {
