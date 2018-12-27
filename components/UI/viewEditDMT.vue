@@ -225,6 +225,7 @@
 		<!-- DMT / DMF DATA COMPONENT -->
 		<v-layout row>
 			
+			<!-- DMF LIST AS COLUMN -->
 			<v-flex xs12>
 				
 					<!-- :listDMF="[
@@ -236,8 +237,15 @@
 
 					:listDMF="itemDoc.datasets.dmf_list"
 					:item_doc="itemDoc"
+					:item_doc_id="item_doc_id"
+
 					:isPreview="isPreview"
 					:panel_open="panel_lib[0]"
+
+					:is_map="is_map"
+					:parent_map="parent_map"
+					:parentDoc_id="parentDoc_id"
+					:parentDoc_coll="parentDoc_coll"
 
 					:add_to_parent="add_to_parent"
 					:parent_scroll="parent_scroll"
@@ -254,6 +262,7 @@
 
 
 			</v-flex>
+
 
 		</v-layout>
 
@@ -321,13 +330,18 @@ export default {
 		// "flex_vars",			// 
 		"is_create",			// view | create
 		"is_preview",			// 
-		// "parentFieldslist",		// 
+
 		"coll",
 
 		"item_doc", 			// complete item infos
 		"item_doc_id",
 
-		// "is_debug",
+		"is_map",
+		"parent_map",
+
+		"parentDoc_id",
+		"parentDoc_coll",
+
 		"is_switch",
 		
 		"no_toolbar",

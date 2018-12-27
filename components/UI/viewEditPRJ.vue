@@ -302,7 +302,6 @@
 				v-if="list_DMT_oids && list_DMT_oids.length != 0 "
 				>
 				
-					<!-- :flex_vars="'xs8 offset-xs2'" -->
 				<ViewEditDMT
 
 					:item_doc="undefined"
@@ -315,6 +314,9 @@
 
 					:is_switch="true"
 					:no_toolbar="true"
+
+					:is_map="true"
+					:parent_map="item_doc.mapping.dmf_to_open_level"
 
 					:add_to_parent="true"
 					:parentDoc_id="itemId"
@@ -415,7 +417,12 @@
 
 
 
+
+
+
+
 		<!-- DSI LIST -->
+
 		<!-- BTN - ADD DSI IN PRJ DSI_LIST -->
 		<v-layout 
 			mt-3
@@ -459,7 +466,6 @@
 
 		</v-layout>
 
-
 		<!-- DSI COLUMN / IF ARRAY OF DSI IS NOT EMPTY -->
 		<v-layout 
 			row 
@@ -502,7 +508,9 @@
 
 							:is_create="false"
 							:is_preview="isPreview"
+
 							:is_map="true"
+							:parent_map="item_doc.mapping.dsi_to_dmf"
 
 							:coll="'dsi'"
 							:is_switch="true"
@@ -510,7 +518,6 @@
 
 							:add_to_parent="true"
 							:parent_scroll="scrollLeft"
-
 
 							@update_loading="updateLoading"
 							@scrollTable="updateScroll"

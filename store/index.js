@@ -689,12 +689,45 @@ export const actions = {
 			.then(response => {
 				console.log(`... $ updateItem : response OK... `);
 				// console.log(`... $ updateItem : response : `, response);
-				// commit(`${collection}/set_list`, response);
+				// commit(`${collection}/set_current`, response);
 				return response
 			})
 		
 			.catch(error => {
 				console.log("... $ updateItem / error : ", error ) ; 
+				return error
+			})
+
+	},
+
+	updateMapping ({commit, state, rootState}, input ) {
+		
+		console.log("\n... $ updateMapping : input : ", input);
+		
+		var collection 	= input.coll ;
+		var doc_id 		= input.doc_id ; 
+		var fields 		= input.form ; 
+		console.log("... $ updateMapping : fields : \n", fields );
+
+		// SET UP CONFIG
+		const config = { 
+			headers : { 'Authorization' : rootState.auth.access_token },
+			// params	: parameters
+		} ;
+		console.log("... $ updateMapping : config : ", config );
+
+		// API CALL
+		return this.$axios.$put(`${collection}/edit_mapping/${doc_id}`, fields, config )
+
+			.then(response => {
+				console.log(`... $ updateMapping : response OK... `);
+				// console.log(`... $ updateMapping : response : `, response);
+				// commit(`${collection}/set_current`, response);
+				return response
+			})
+		
+			.catch(error => {
+				console.log("... $ updateMapping / error : ", error ) ; 
 				return error
 			})
 

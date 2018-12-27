@@ -2,11 +2,11 @@
 
 	th, td {
 		border-right: thin dashed grey ;
-		max-width: 200px; 
+		max-width: 220px; 
 	}
 	td .col-values {
 		/* max-width: 190px;  */
-		width: 200px; 
+		width: 210px; 
 		overflow-y: hidden ;
 	}
 	td .col-titles {
@@ -677,8 +677,9 @@ export default {
 		// "flex_vars",			// 
 		"is_create",			// view | create
 		"is_preview",			// 
+
 		"is_map",
-		// "parentFieldslist",		// 
+		"parent_map",
 
 		"coll",
 

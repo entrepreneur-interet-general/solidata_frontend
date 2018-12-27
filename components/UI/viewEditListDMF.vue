@@ -7,20 +7,34 @@
 
 	th, td {
 		border-right: thin dashed grey ;
-		max-width: 200px !important; 
+		max-width: 220px !important; 
 	}
 	td .col-values {
-		width: 200px; 
+		width: 210px; 
 		overflow-y: hidden ;
 		text-align : center ;
 		display: inline-block;
+		vertical-align: middle;
 	}
 	td .col-titles {
 		/* max-width: 70px;  */
 		width: 90px; 
 		text-align : center ;
 		display: inline-block;
+		vertical-align: middle;
 		/* overflow-y: hidden; */
+	}
+
+	.dmf-title-btn {
+		max-width: 210px !important; 
+		width: 210px; 
+		overflow-y: hidden ;
+		text-align : center ;
+		/* display: inline-block; */
+	}
+
+	.hidden-scrollbar {
+		overflow: hidden;
 	}
 
 </style>
@@ -29,7 +43,38 @@
 
 	<div class="pa-0 ma-0">
 
-		<!-- CREATE EDIT DOC / DATA TABLE STYLE-->
+
+		<!-- DEBUG  -->
+		<v-layout 
+			v-if="$store.state.is_debug"
+			row 
+			>
+
+			<v-flex class="xs12">
+
+				<v-alert
+					:value="true"
+					type="error"
+					class="text-xs-left"
+					>
+
+					---- DEBUG component - viewEditListDMF ----
+					<hr>
+
+					list_DMF_full_pivoted - <code>{{ list_DMF_full_pivoted }}</code>
+					<hr>
+					list_DMF_full - <code>{{ list_DMF_full }}</code>
+					<hr> 
+					DMF_headers - <br> <code>{{ DMF_headers }}</code>
+
+				</v-alert>
+
+			</v-flex>
+
+		</v-layout>
+
+
+		<!-- LIST DMF AS DATA TABLE STYLE-->
 		<v-layout row wrap>
 			
 			<v-flex xs12 pt-0>
@@ -245,7 +290,6 @@
 						<v-divider></v-divider>
 
 						<!-- DATA TABLE -->
-						<scroll-sync>
 						<v-data-table
 							:ref="'datatable'"
 							:headers="list_headers_selector"
@@ -330,12 +374,34 @@
 										class="col-values"
 										>
 										
-										{{ props.item[ dmf["_id"] ] | truncate( 100, '...' ) }}
+										<v-btn
+											v-if="list_DMF_selector.indexOf(props.item) == 0"
+											flat
+											block
+											class="text-lowercase ma-0 dmf-title-btn"
+											:to="'/dmf/'+dmf._id"
+											>
+											<v-icon
+												left
+												color="primary"
+												small
+												>
+												{{ $store.state.mainIcons.datamodel_fields.icon }}
+											</v-icon>
+											{{ props.item[ dmf["_id"] ] | truncate( 20, '...' ) }}
+										</v-btn>
+
+										<span
+											v-else
+											>
+											{{ props.item[ dmf["_id"] ] | truncate( 100, '...' ) }}
+										</span>
 
 										<span v-if="$store.state.is_debug">
 											<br>
 											dmf id : <code>{{ dmf["_id"] }}</code>
 										</span>
+
 									</div>
 
 								</td>
@@ -345,45 +411,99 @@
 
 
 						</v-data-table>
-						</scroll-sync>
+
+					</v-card-text>
+				</v-card>
+			</v-flex>
+			
+
+			<!-- DMF_LIST vs OPEN_LEVEL MAPPING -->
+			<v-flex 
+				v-if="is_map"
+				xs12 
+				pt-4
+				>
+
+				<v-card 
+					flat
+					class=""
+					color=""
+					>
+					<v-card-text class="pa-0">
+
+						<!-- DATA TABLE -->
+						<v-data-table
+							:ref="'datatable_openlevel'"
+							:headers="list_headers_selector"
+							:items="list_DMF_first_row_pivoted"
+							class="elevation-1"
+							:loading="loading"
+							:pagination.sync="paginationDMF"
+							hide-actions
+							hide-headers
+							>
+				
+							<template
+								slot="items" 
+								slot-scope="props"
+								>
+							
+								<td
+									v-for="dmf in list_DMF_raw_selector"
+									:key="list_DMF_raw_selector.indexOf(dmf)"
+									:class="`px-1 ${ (list_DMF_first_row_pivoted.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
+									style="text-align: center;"
+									>
+
+									<!-- first column  -->
+									<div 
+										v-if=" dmf['_id'] == '_' && !isPreview"
+										class="col-titles font-weight-bold"
+										>
+										
+										open_level
+
+									</div>
+
+
+									<!-- columns for each entry in list_DMF_full_pivoted -->
+									<div 
+										v-else
+										class="col-values"
+										>
+
+										<ViewEditDMFol
+											:dmt_id="item_doc_id"
+											:dmf="dmf"
+											:parent_map="parent_map"
+											:parentDoc_id="parentDoc_id"
+											:parentDoc_coll="parentDoc_coll"
+											>
+										</ViewEditDMFol>
+
+									</div>
+
+								</td>
+								
+								
+							</template>
+
+
+						</v-data-table>
 
 					</v-card-text>
 				</v-card>
 			</v-flex>
 
+
+
+
+
 		</v-layout>
 
 
 
 
-		<!-- DEBUG  -->
-		<v-layout 
-			v-if="$store.state.is_debug"
-			row 
-			>
-
-			<v-flex class="xs12">
-
-				<v-alert
-					:value="true"
-					type="error"
-					class="text-xs-left"
-					>
-
-					---- DEBUG component - viewEditListDMF ----
-					<hr>
-
-					list_DMF_full_pivoted - <code>{{ list_DMF_full_pivoted }}</code>
-					<hr>
-					list_DMF_full - <code>{{ list_DMF_full }}</code>
-					<hr> 
-					DMF_headers - <br> <code>{{ DMF_headers }}</code>
-
-				</v-alert>
-
-			</v-flex>
-
-		</v-layout>
 
 
 
@@ -394,7 +514,7 @@
 
 
 <script>
-import ViewEditDMF from '~/components/UI/viewEditDoc.vue' 
+import ViewEditDMFol from '~/components/UI/viewEditDMF_openlevel.vue' 
 
 export default {
 
@@ -404,7 +524,15 @@ export default {
 		"isPreview",
 
 		"item_doc",
+		"item_doc_id",
+
 		"panel_open",
+		
+		"is_map",
+		"parent_map",
+
+		"parentDoc_id",
+		"parentDoc_coll",
 
 		"no_toolbar",
 
@@ -414,7 +542,7 @@ export default {
 	],
 
 	components : {
-		ViewEditDMF,
+		ViewEditDMFol,
 	},
 
 	created () {
@@ -453,9 +581,10 @@ export default {
 
 			dialog_del 	: false,
 
-			offsetTop 	: 0,
-			offsetLeft 	: 0,
-			dataTable 	: undefined,
+			offsetTop 		: 0,
+			offsetLeft 		: 0,
+			dataTable 		: undefined,
+			dataTable_ol 	: undefined,
 
 			// DMF references
 			DMF_list_loaded : false,
@@ -531,6 +660,9 @@ export default {
 			handler (newVal, oldVal ) {
 				if ( this.dataTable !== undefined ) {
 					this.dataTable.scrollLeft = newVal
+					if (this.is_map) {
+						this.dataTable_ol.scrollLeft = newVal
+					}
 				}
 			}
 
@@ -583,6 +715,16 @@ export default {
 
 	methods: {
 
+		getDMF_openlevel(dmf_id) {
+			
+			console.log("... getDMF_openlevel - dmf_id : ", dmf_id ) ;
+		
+			var DMF_ol = 'commons' ;
+
+
+			return DMF_ol
+		},
+
 		onScroll (e) {
 			// console.log("... onScroll - e.target : ", e.target ) ;
 			var scroll_data = e.target ;
@@ -602,6 +744,7 @@ export default {
 			// redirect to edit-preview page 
 			return this.$router.push(`/${this.item_doc.specs.doc_type}/${this.item_doc._id}`)
 		},
+
 
 		deleteChild( item_infos ) {
 			console.log("\n...viewEditListDMF - deleteChild / item_infos : \n ", item_infos)
@@ -761,16 +904,27 @@ export default {
 				// detect scroll : cf : https://forum.vuejs.org/t/how-to-detect-body-scroll/7057/5   
 				// sync scroll : cf : https://github.com/asvd/syncscroll/blob/master/syncscroll.js 
 				var dataTable = this.$refs.datatable ; //) ;
-				// console.log("- viewEditDSI / then 1 - dataTable : ", dataTable ) ;
+				// console.log("- viewEditListDMF / then 1 - dataTable : ", dataTable ) ;
 
 				if ( dataTable !== undefined ) {
-					console.log("- viewEditDSI / then 2 - dataTable : ", dataTable ) ;
+					console.log("- viewEditListDMF / then 2 - dataTable : ", dataTable ) ;
 					// component selector : https://forum.vuejs.org/t/help-with-selector/18652/11 
 					var dt = dataTable.$el.querySelector(".v-table__overflow") 
-					console.log("- viewEditDSI / then 3 - dt : ", dt ) ;
+					console.log("- viewEditListDMF / then 3 - dt : ", dt ) ;
 					dt.addEventListener('scroll', this.onScroll);
 					this.dataTable = dt
+
+					if (this.is_map) {
+						var dataTable_ol = this.$refs.datatable_openlevel ;
+						var dt_ol = dataTable_ol.$el.querySelector(".v-table__overflow") 
+						// dt_ol.addClass('hidden-scrollbar');
+						dt_ol.addEventListener('scroll', this.onScroll);
+						this.dataTable_ol = dt_ol
+					}
 				}
+
+
+
 
 			})
 
