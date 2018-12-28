@@ -18,7 +18,7 @@
 	}
 	td .col-titles {
 		/* max-width: 70px;  */
-		width: 90px; 
+		width: 100px; 
 		text-align : center ;
 		display: inline-block;
 		vertical-align: middle;
@@ -294,7 +294,7 @@
 							:ref="'datatable'"
 							:headers="list_headers_selector"
 							:items="list_DMF_selector"
-							class="elevation-1"
+							class="elevation-0"
 							:loading="loading"
 							:pagination.sync="paginationDMF"
 							hide-actions
@@ -421,7 +421,7 @@
 			<v-flex 
 				v-if="is_map"
 				xs12 
-				pt-4
+				pt-3
 				>
 
 				<v-card 
@@ -431,12 +431,50 @@
 					>
 					<v-card-text class="pa-0">
 
+						<!-- DATA TOOLBAR -->
+						<v-toolbar 
+							v-if="!isPreview "
+							class="elevation-0" 
+							color="white"
+							>
+							
+							<!-- title dataset -->
+							<v-toolbar-title
+								class="subheading grey--text"
+								dense
+								>
+
+								<v-btn
+									icon
+									v-show="isPreview || add_to_parent"
+									flat
+									class="grey"
+									dark
+									small 
+									:to="`/${item_doc.specs.doc_type}/${item_doc._id}`"
+									>
+
+									<v-icon small>
+										{{ $store.state.mainIcons.datamodels.icon }}
+									</v-icon>
+								
+								</v-btn>
+								
+								{{ $t(`global.open_level_show`, $store.state.locale ) }}
+
+							</v-toolbar-title>
+
+						</v-toolbar>
+
+						<v-divider></v-divider>
+
+
 						<!-- DATA TABLE -->
 						<v-data-table
 							:ref="'datatable_openlevel'"
 							:headers="list_headers_selector"
 							:items="list_DMF_first_row_pivoted"
-							class="elevation-1"
+							class="elevation-0"
 							:loading="loading"
 							:pagination.sync="paginationDMF"
 							hide-actions
@@ -461,7 +499,7 @@
 										class="col-titles font-weight-bold"
 										>
 										
-										open_level
+										open_level_show
 
 									</div>
 
@@ -472,12 +510,16 @@
 										class="col-values"
 										>
 
+										<!-- OPEN LEVEL CHOICE INPUT -->
 										<ViewEditDMFol
-											:dmt_id="item_doc_id"
+											:dmt="item_doc_id[0].oid_dmt"
 											:dmf="dmf"
+											:is_loading="is_loading"
 											:parent_map="parent_map"
+											:dmf_ol_val="getDMF_openlevel(dmf._id)"
 											:parentDoc_id="parentDoc_id"
 											:parentDoc_coll="parentDoc_coll"
+											:canEdit="checkUserAuth('mapping.dmf_to_open_level')"
 											>
 										</ViewEditDMFol>
 
@@ -514,6 +556,9 @@
 
 
 <script>
+
+import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
+
 import ViewEditDMFol from '~/components/UI/viewEditDMF_openlevel.vue' 
 
 export default {
@@ -522,6 +567,7 @@ export default {
 		
 		"listDMF",
 		"isPreview",
+		"is_loading",
 
 		"item_doc",
 		"item_doc_id",
@@ -717,12 +763,42 @@ export default {
 
 		getDMF_openlevel(dmf_id) {
 			
-			console.log("... getDMF_openlevel - dmf_id : ", dmf_id ) ;
-		
-			var DMF_ol = 'commons' ;
+			// console.log("... getDMF_openlevel - dmf_id : ", dmf_id ) ;
 
+			var dmf_ol_value = ''
+			var dmf_mapper = this.parent_map.find(obj => {
+				return obj.oid_dmf === dmf_id
+			})
+			// console.log(" getDMF_openlevel / dmf_mapper : ", dmf_mapper )
+			if (dmf_mapper != undefined) {
+				dmf_ol_value = dmf_mapper.open_level_show
+			}
 
-			return DMF_ol
+			return dmf_ol_value
+		},
+
+		//  USER AUTH  - checkUserAuth for an item --> /utils
+		checkUserAuth (field_name) {
+
+			console.log("\ncheckUserAuth / field_name : ", field_name ) ;
+			// console.log("checkUserAuth ...\n", this.item_doc.public_auth ) ;
+
+			var can_update_field 		= false  ;
+			
+			if (this.is_create) {
+				can_update_field 		= true  ;
+			}
+
+			else {
+				var isLogged 			= this.$store.state.auth.isLogged ;
+				var user_id 			= this.$store.state.auth.user_id ;
+
+				can_update_field 		= checkDocUserAuth(this.item_doc, field_name, isLogged, user_id)
+			}
+
+			console.log("checkUserAuth / can_update_field : ", can_update_field ) ;
+
+			return can_update_field
 		},
 
 		onScroll (e) {

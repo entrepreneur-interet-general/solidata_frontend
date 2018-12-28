@@ -8,6 +8,10 @@
 		/* display: inline-block; */
 	}
 
+	/* .ol-selector .v-select__selections {
+		text-align: center
+	} */
+
 </style>
 
 <template>
@@ -17,11 +21,12 @@
 		<span v-if="$store.state.is_debug">
 			parentDoc_id : <br> <code>{{ parentDoc_id }}</code><br>
 			parentDoc_coll : <code>{{ parentDoc_coll }}</code><br>
-			parent_map : <br> <code>{{ parent_map }}</code><br>
+			<!-- parent_map : <br> <code>{{ parent_map }}</code><br> -->
 
 			<v-divider></v-divider>
-
+			dmt : <br> <code>{{ dmt }}</code><br> 
 			dmf._id : <br> <code>{{ dmf._id }}</code><br>
+			dmf_ol_val : <br> <code>{{ dmf_ol_val }}</code><br> 
 			<!-- dmf : <br> <code>{{ dmf }}</code><br> -->
 
 			<v-divider></v-divider>
@@ -31,13 +36,14 @@
 			class="ol-selector ma-1 body-1 text-xs-center"
 			solo
 			dense
+			:prepend-inner-icon="$store.state.mainIcons.view.icon"
+			:disabled="!canEdit || is_loading"
 			v-model="dmf_ol_value"
 			:label="$t( 'projects.open_level_show', $store.state.locale )"
 			hide-details
 			:items="$store.state.subFieldsWithChoices['open_level_show']['choices']"
 			@change="update_mapping( { 
 				item_id 		: dmf._id, 
-				map_field 		: 'dmf_to_open_level', 
 			} ) "
 			>
 		</v-select>
@@ -55,16 +61,21 @@
 export default {
 
 	props : [
-		"dmt_id",
+		"dmt",
 		"dmf",
-		"parent_map",
+		"is_loading",
+		// "parent_map",
+		"dmf_ol_val",
 		"parentDoc_id",
 		"parentDoc_coll",
+		"canEdit"
 	],
 
 	created () {
 
-		console.log("\n viewEditDMF_openlevel / col : ", this.coll )
+		// console.log("\n viewEditDMF_openlevel created / parent_map : ", this.parent_map )
+
+		this.dmf_ol_value = this.dmf_ol_val
 
 	},
 
@@ -75,6 +86,23 @@ export default {
 			dmf_ol_value : '' ,
 
 		}
+
+	},
+
+	computed : {
+
+	},
+
+	watch : {
+
+		dmf_ol_val : {
+
+			immediate : true,
+			handler (newVal, oldVal ) {
+				this.dmf_ol_value = newVal
+			}
+
+		},
 
 	},
 
@@ -90,16 +118,18 @@ export default {
 				
 				form 	: [
 					{
-						mapping_field	: item_infos.map_field,
-						field_value		: this.dmf_ol_value,
-						item_id			: item_infos.item_id,
+						is_mapping		: true,
+						field_to_update	: "mapping.dmf_to_open_level",
+						open_level_show	: this.dmf_ol_value,
+						id_dmf			: item_infos.item_id,
+						// id_dmt			: this.dmt._id,
 					}
 				]
 
 			}
-			console.log("update_mapping / input : ", input )
+			console.log("viewEditDMF_openlevel - update_mapping / input : ", input )
 
-			// this.$store.dispatch('updateMapping', input )
+			this.$store.dispatch('updateMapping', input )
 
 		},
 

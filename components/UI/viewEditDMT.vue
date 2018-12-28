@@ -240,6 +240,7 @@
 					:item_doc_id="item_doc_id"
 
 					:isPreview="isPreview"
+					:is_loading="is_loading"
 					:panel_open="panel_lib[0]"
 
 					:is_map="is_map"
@@ -330,6 +331,7 @@ export default {
 		// "flex_vars",			// 
 		"is_create",			// view | create
 		"is_preview",			// 
+		"is_loading",
 
 		"coll",
 

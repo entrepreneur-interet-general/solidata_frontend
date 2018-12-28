@@ -717,12 +717,12 @@ export const actions = {
 		console.log("... $ updateMapping : config : ", config );
 
 		// API CALL
-		return this.$axios.$put(`${collection}/edit_mapping/${doc_id}`, fields, config )
+		return this.$axios.$put(`${collection}/mapping/${doc_id}`, fields, config )
 
 			.then(response => {
 				console.log(`... $ updateMapping : response OK... `);
 				// console.log(`... $ updateMapping : response : `, response);
-				// commit(`${collection}/set_current`, response);
+				commit(`${collection}/set_current`, response);
 				return response
 			})
 		

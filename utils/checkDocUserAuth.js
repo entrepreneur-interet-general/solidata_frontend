@@ -2,6 +2,8 @@ const checkDocUserAuth = function(item_doc, field_name, isLogged, user_id) {
 
 	// console.log("\nutils/checkDocUserAuth..." ) ;
 
+	// TO DO : check also by field_name
+
 	var can_update_field 	= false  ;
 	var doc_auth_edit 		= item_doc.public_auth.open_level_edit ; 
 

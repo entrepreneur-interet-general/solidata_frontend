@@ -11,8 +11,10 @@
 	}
 	td .col-titles {
 		/* max-width: 70px !important;  */
-		width: 90px; 
-		text-align : right ;
+		width: 100px; 
+		text-align : center ;
+		vertical-align: middle;
+		display: inline-block;
 		/* overflow-y: hidden; */
 	}
 </style>
@@ -238,6 +240,9 @@
 
 									
 									{{ itemDoc.infos.title | truncate(30, '...') }}
+									
+
+									<!-- -- parent_map : <br> <code>{{parent_map}}</code> -->
 
 									<!-- - ScT : {{ offsetTop }} -->
 									<!-- - ScL : {{ offsetLeft }}
@@ -512,28 +517,30 @@
 
 									<td 
 										v-show="!isPreview"
-										class="justify-center layout px-0"
+										class="px-1"
 										>
-										<v-icon
-											small
-											class="mr-1"
-											@click="editItem(props.item)"
-											>
-											{{ $store.state.mainIcons.edit.icon }}
-										</v-icon>
-										<v-icon
-											small
-											class="mr-1"
-											@click="editItem(props.item)"
-											>
-											{{ $store.state.mainIcons.view.icon }}
-										</v-icon>
-										<v-icon
-											small
-											@click="deleteItem(props.item)"
-											>
-											{{ $store.state.mainIcons.delete.icon }}
-										</v-icon>
+										<div class="col-titles">
+											<v-icon
+												small
+												class="mr-1"
+												@click="editItem(props.item)"
+												>
+												{{ $store.state.mainIcons.edit.icon }}
+											</v-icon>
+											<v-icon
+												small
+												class="mr-1"
+												@click="editItem(props.item)"
+												>
+												{{ $store.state.mainIcons.view.icon }}
+											</v-icon>
+											<v-icon
+												small
+												@click="deleteItem(props.item)"
+												>
+												{{ $store.state.mainIcons.delete.icon }}
+											</v-icon>
+										</div>
 									</td>
 
 									<td 
@@ -680,6 +687,7 @@ export default {
 
 		"is_map",
 		"parent_map",
+		"canEdit",
 
 		"coll",
 
@@ -1293,40 +1301,6 @@ export default {
 				// can_update_field 		= checkDocUserAuth(this.item_doc, field_name, isLogged, user_id)
 				can_update_field 		= checkDocUserAuth(this.itemDoc, field_name, isLogged, user_id)
 			}
-
-			// var doc_auth_edit 		= this.item_doc.public_auth.open_level_edit ; 
-
-			// if (doc_auth_edit == 'open_data' ){
-			// 	can_update_field = true
-			// }
-
-			// else if (doc_auth_edit == 'commons') {
-			// 	//  check if user is connected
-			// 	if ( this.$store.state.auth.isLogged ){
-			// 		can_update_field = true
-			// 	}
-			// } 
-
-			// else if (doc_auth_edit == 'collective') {
-			// 	//  check if user is part of the team
-			// 	var doc_creator 		= this.item_doc.log.created_by ; 
-			// 	var doc_auth_team 		= this.item_doc.team ; 
-			// 	doc_auth_team = doc_auth_team.filter(function(d) { return d.oid_usr == doc_creator ; });
-
-			// 	console.log("checkUserAuth ... doc_auth_team", doc_auth_team ) ;
-			// 	if ( this.$store.state.auth.user_id == doc_creator || doc_auth_team.lenght == 1 ){
-			// 		can_update_field = true
-			// 	}
-			// } 
-
-			// else if (doc_auth_edit == 'private') {
-			// 	//  check if user is the owner
-			// 	var doc_creator 		= this.item_doc.log.created_by ; 
-			// 	console.log("checkUserAuth ...", this.item_doc.public_auth ) ;
-			// 	if ( this.$store.state.auth.user_id == doc_creator ){
-			// 		can_update_field = true
-			// 	}
-			// } 
 
 			console.log("checkUserAuth / can_update_field : ", can_update_field ) ;
 

@@ -45,7 +45,7 @@ module.exports = {
 		'~/plugins/axios',
 		'~plugins/text_filters.js',
 		{ src:'@/plugins/vueParticles.js', ssr:false},
-		'~plugins/vue-scroll-sync',
+		// '~plugins/vue-scroll-sync',
 		// '~/api/init.js', 
 		// '~plugins/auth.js',
 		// '~plugins/uploadBtn.js',

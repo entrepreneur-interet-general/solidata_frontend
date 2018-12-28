@@ -311,6 +311,7 @@
 
 					:is_create="false"
 					:is_preview="isPreview"
+					:is_loading="loading"
 
 					:is_switch="true"
 					:no_toolbar="true"
@@ -508,9 +509,16 @@
 
 							:is_create="false"
 							:is_preview="isPreview"
+							:is_loading="loading"
 
+							:canEdit="checkUserAuth('mapping.dsi_to_dmf')"
+						
 							:is_map="true"
-							:parent_map="item_doc.mapping.dsi_to_dmf"
+							:parent_map="getDSI_map(dsi.oid_dsi)"
+							:parentDoc_id="itemId"
+							:parentDoc_coll="coll"
+							:parentDoc_dmt="list_DMT_oids[0].oid_dmt"
+							:parentDoc_dmf="undefined"
 
 							:coll="'dsi'"
 							:is_switch="true"
@@ -542,6 +550,12 @@
 							<v-card-text class="pa-0 text-xs-center">
 							
 								ACTIONS ON DSI
+
+								<br> parent_map : <code>{{ getDSI_map(dsi.oid_dsi) }}</code>
+								<br> parentDoc_id : <code>{{itemId}}</code>
+								<br> parentDoc_coll : <code>{{coll}}</code>
+								<br> parentDoc_dmt : <code>{{list_DMT_oids[0].oid_dmt}}</code>
+								<br> parentDoc_dmf : <code>{{undefined}}</code>
 							
 							</v-card-text>
 						</v-card>
@@ -810,6 +824,22 @@ export default {
 		// 	return ( this.list_DSI_oids.length == 0 ? [] : this.list_DMT_oids_test[0] )
 		// },
 
+		getDSI_map(dsi_id) {
+			
+			// console.log("... getDSI_map - dsi_id : ", dsi_id ) ;
+			var parent_map	= this.item_doc.mapping.dsi_to_dmf ;
+			var dsi_map 	= [] ;
+			
+			var dsi_mapper = parent_map.filter(obj => {
+				return obj.oid_dsi === dsi_id
+			})
+			// console.log(" getDSI_map / dsi_mapper : ", dsi_mapper )
+			if (dsi_mapper != undefined) {
+				dsi_map = dsi_mapper
+			}
+
+			return dsi_map
+		},
 
 		updateScroll(input) {
 			// console.log("updateScroll / input : ", input )
@@ -900,40 +930,6 @@ export default {
 
 				can_update_field = checkDocUserAuth(this.item_doc, field_name, isLogged, user_id)
 			}
-
-			// var doc_auth_edit 		= this.item_doc.public_auth.open_level_edit ; 
-
-			// if (doc_auth_edit == 'open_data' ){
-			// 	can_update_field = true
-			// }
-
-			// else if (doc_auth_edit == 'commons') {
-			// 	//  check if user is connected
-			// 	if ( this.$store.state.auth.isLogged ){
-			// 		can_update_field = true
-			// 	}
-			// } 
-
-			// else if (doc_auth_edit == 'collective') {
-			// 	//  check if user is part of the team
-			// 	var doc_creator 		= this.item_doc.log.created_by ; 
-			// 	var doc_auth_team 		= this.item_doc.team ; 
-			// 	doc_auth_team = doc_auth_team.filter(function(d) { return d.oid_usr == doc_creator ; });
-
-			// 	console.log("checkUserAuth ... doc_auth_team", doc_auth_team ) ;
-			// 	if ( this.$store.state.auth.user_id == doc_creator || doc_auth_team.lenght == 1 ){
-			// 		can_update_field = true
-			// 	}
-			// } 
-
-			// else if (doc_auth_edit == 'private') {
-			// 	//  check if user is the owner
-			// 	var doc_creator 		= this.item_doc.log.created_by ; 
-			// 	console.log("checkUserAuth ...", this.item_doc.public_auth ) ;
-			// 	if ( this.$store.state.auth.user_id == doc_creator ){
-			// 		can_update_field = true
-			// 	}
-			// } 
 
 			return can_update_field
 		},
