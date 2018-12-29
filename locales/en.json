@@ -270,7 +270,11 @@
 
 		"del_dsi" 		: "Delete this dataset",
 		"del_dmt" 		: "Delete this datamodel template",
-		"del_rec" 		: "Delete this recipe"
+		"del_rec" 		: "Delete this recipe",
+
+		"dsi_map" 		: "Map your dataset with your datamodel",
+		"dsi_to_dmf" 	: "Map this header"
+
 	},
 
 	"datamodels" : {

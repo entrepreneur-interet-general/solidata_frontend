@@ -76,6 +76,10 @@ export const state = () => ({
 		// }
 	},
 
+	// FOR MAPPING
+	current_list_DMF_list 			: [],
+	current_list_DMF_list_pivoted 	: [],
+
 	list_query 		: null,
 	list 			: [],
 	list_counts 	: null
@@ -102,6 +106,17 @@ export const mutations = {
 	set_current (store, data) {
 		console.log("\n... store/dmt : set_current...")
 		store.current 		= data.data
+	},
+
+	// FOR MAPPING
+	set_current_DMF_list (store, data) {
+		console.log("\n... store/dmt : set_current_DMF_list...")
+		store.current_list_DMF_list = data
+	},
+
+	set_current_DMF_list_pivoted (store, data) {
+		console.log("\n... store/dmt : set_current_DMF_list_pivoted...")
+		store.current_list_DMF_list_pivoted = data
 	},
 
 	// set a temporary new 

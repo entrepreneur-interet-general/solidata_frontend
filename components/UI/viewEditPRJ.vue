@@ -517,8 +517,7 @@
 							:parent_map="getDSI_map(dsi.oid_dsi)"
 							:parentDoc_id="itemId"
 							:parentDoc_coll="coll"
-							:parentDoc_dmt="list_DMT_oids[0].oid_dmt"
-							:parentDoc_dmf="undefined"
+							:parentDoc_dmf_list="$store.state.dmt.current_list_DMF_list"
 
 							:coll="'dsi'"
 							:is_switch="true"
@@ -532,6 +531,7 @@
 							@update_parent_dataset="update_parent_list"
 							>
 						</ViewEditDSI>
+							<!-- :parentDoc_dmt="list_DMT_oids[0].oid_dmt" -->
 
 					</v-flex>
 
@@ -551,11 +551,12 @@
 							
 								ACTIONS ON DSI
 
-								<br> parent_map : <code>{{ getDSI_map(dsi.oid_dsi) }}</code>
-								<br> parentDoc_id : <code>{{itemId}}</code>
-								<br> parentDoc_coll : <code>{{coll}}</code>
-								<br> parentDoc_dmt : <code>{{list_DMT_oids[0].oid_dmt}}</code>
-								<br> parentDoc_dmf : <code>{{undefined}}</code>
+								<!-- <br> parent_map : <code>{{ getDSI_map(dsi.oid_dsi) }}</code> -->
+								<!-- <br> parentDoc_id : <code>{{itemId}}</code> -->
+								<!-- <br> parentDoc_coll : <code>{{coll}}</code> -->
+								<!-- <br> parentDoc_dmt : <code>{{list_DMT_oids[0].oid_dmt}}</code> -->
+								<!-- <br> parentDoc_dmf_list : <code>{{$store.state.dmt.current_list_DMF_list}}</code> -->
+								<!-- <br> parentDoc_dmf_list_pivoted : <code>{{$store.state.dmt.current_list_DMF_list_pivoted}}</code> -->
 							
 							</v-card-text>
 						</v-card>
@@ -760,7 +761,6 @@ export default {
 	computed : {
 
 		isLoading () {
-
 			if ( Object.keys(this.loading_list.dsi).length == 0 && Object.keys(this.loading_list.dmt).length == 0 ){
 				return false
 			}

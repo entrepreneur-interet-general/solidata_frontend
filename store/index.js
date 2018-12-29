@@ -177,9 +177,12 @@ export const state = () => ({
 	app_logo_lg : '/logos/logo_solidata_15a.png',
 	app_codemos : '/logos/logo_codemos_01b.png',
 
-	is_debug : false ,
-
+	is_debug 	: false ,
+	
 	show_agreement_cgu : true , 
+	
+	alert 		: {},
+
 
 	// USER AUTH
 	auth 	: null, 
@@ -472,6 +475,11 @@ export const mutations = {
 		if (state.locales.indexOf(locale) !== -1) {
 			state.locale = locale
 		}
+	},
+
+	// alert
+	set_alert (state, alert) {
+		state.alert = alert
 	},
 
 	// navbar

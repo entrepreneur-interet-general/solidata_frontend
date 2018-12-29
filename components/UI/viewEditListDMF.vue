@@ -61,9 +61,9 @@
 					---- DEBUG component - viewEditListDMF ----
 					<hr>
 
-					list_DMF_full_pivoted - <code>{{ list_DMF_full_pivoted }}</code>
+					<!-- list_DMF_full_pivoted - <code>{{ list_DMF_full_pivoted }}</code> -->
 					<hr>
-					list_DMF_full - <code>{{ list_DMF_full }}</code>
+					<!-- list_DMF_full - <code>{{ list_DMF_full }}</code> -->
 					<hr> 
 					DMF_headers - <br> <code>{{ DMF_headers }}</code>
 
@@ -938,7 +938,10 @@ export default {
 			console.log("...viewEditListDMF - pivotData / data_pivoted : ", data_pivoted);
 			this.list_DMF_full_pivoted 		=  data_pivoted ;
 			this.list_DMF_first_row_pivoted = [ data_pivoted[0] ] ;
-			
+
+			// save in $store
+			this.$store.commit('dmt/set_current_DMF_list_pivoted', data_pivoted )
+
 		},
 
 		// AXIOS CALL
@@ -951,8 +954,8 @@ export default {
 			var oids_list = { 
 				oids 			: this.list_DMF_oids.join(), 
 				ignore_teams 	: true,
-				// pivot_results	: true,
 				normalize		: true,
+				// pivot_results	: true,
 			}
 
 			// AXIOS CALL OR DISPATCH 
@@ -969,6 +972,9 @@ export default {
 				
 				this.list_DMF_full 		= result.data ;
 
+				// save list_DMF_full in $store
+				this.$store.commit('dmt/set_current_DMF_list', result.data )
+
 				// pivot data
 				this.pivotData(result.data) ;
 
@@ -978,7 +984,7 @@ export default {
 
 				// add scroll event listener on datatable 
 				// detect scroll : cf : https://forum.vuejs.org/t/how-to-detect-body-scroll/7057/5   
-				// sync scroll : cf : https://github.com/asvd/syncscroll/blob/master/syncscroll.js 
+				// sync scroll   : cf : https://github.com/asvd/syncscroll/blob/master/syncscroll.js 
 				var dataTable = this.$refs.datatable ; //) ;
 				// console.log("- viewEditListDMF / then 1 - dataTable : ", dataTable ) ;
 
@@ -1009,7 +1015,7 @@ export default {
 				console.log("viewEditListDMF get_doc_fromApi / submit - error... : ", error ) ; 
 				
 				this.loading = false
-				// this.alert = {type: 'error', message: "login error" }
+				this.alert 		= {type: 'error', message: "login error" }
 
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}

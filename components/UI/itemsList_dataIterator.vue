@@ -269,8 +269,8 @@ export default {
 		return {
 			
 			// ITEMS 
-			itemsIn 	: this.items_coll['docs_user_is_in_team'],
-			itemsNot 	: this.items_coll['docs_user_not_in_team'],
+			// itemsIn 	: this.items_coll['docs_user_is_in_team'],
+			// itemsNot 	: this.items_coll['docs_user_not_in_team'],
 
 			// MAIN CARD SIZE 
 			with_margin 	: "grey lighten-3 elevation-0 mb-5 mx-5 px-3",
@@ -298,6 +298,26 @@ export default {
 
 	computed : {
 
+			itemsIn 	() { 
+				var inTeamList = this.items_coll['docs_user_is_in_team']
+				if( inTeamList != undefined && inTeamList.length != 0 ) {
+					return inTeamList//.sort((a, b) => a.infos.title.toUpperCase().localeCompare( b.infos.title.toUpperCase() ) )
+				}
+				else {
+					return inTeamList
+				}
+			},
+
+			itemsNot 	() { 
+				var notTeam = this.items_coll['docs_user_not_in_team']
+				if( notTeam != undefined && notTeam.length != 0 ) {
+					return notTeam//.sort((a, b) => a.infos.title.toUpperCase().localeCompare( b.infos.title.toUpperCase() ) )
+				}
+				else {
+					return notTeam
+				}
+			},
+
 			itemsTitlesList () {
 				// get all docs' titles to fill autoplete
 
@@ -316,7 +336,7 @@ export default {
 					}
 				};
 
-				return titlesList
+				return titlesList // .sort( (a,b) => a.localCompare(b) )
 
 			},
 
@@ -353,7 +373,7 @@ export default {
 
 		itemsList (in_out) {
 			
-			console.log("-- itemsInList ..." ) ; 
+			// console.log("-- itemsInList ..." ) ; 
 			// console.log("-- itemsInList / in_out : ", in_out) ; 
 
 			var searchStr 	= this.searchString ;
@@ -376,6 +396,12 @@ export default {
 				})
 
 			};
+
+			// NOT WORKING ...
+			// if ( items_list.length != 0 ) {
+			// 	console.log("-- itemsInList / items_list : ", items_list) ;
+			// 	items_list.sort((a, b) => a.infos.title.toUpperCase().localeCompare( b.infos.title.toUpperCase() ) )
+			// }
 
 			// console.log("-- itemsInList / items_list : ", items_list) ; 
 			return items_list

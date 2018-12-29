@@ -381,9 +381,9 @@ export default {
 		if ( this.item_doc != undefined ) {
 			
 			console.log("- viewEditDMT / created OK ---> item_doc exists... " ) ;
-			console.log("- viewEditDMT / created empty ---> item_doc.datasets.dmf_list : ", this.item_doc.datasets.dmf_list ) ;
+			console.log("- viewEditDMT / created  ---> item_doc.datasets.dmf_list : ", this.item_doc.datasets.dmf_list ) ;
 			
-			this.is_itemDoc = true ;
+			this.is_itemDoc 	= true ;
 
 			this.itemDoc 		= this.item_doc ;
 			this.itemId			= this.item_doc._id ; 
@@ -402,7 +402,7 @@ export default {
 			
 			this.is_itemDoc = false ;
 			this.itemId		= this.item_doc_id[0].oid_dmt ; 
-			console.log("- viewEditDMT / created OK ---> item_doc is undefined ... " ) ;
+			console.log("- viewEditDMT / created OK + empty ---> item_doc is undefined ... " ) ;
 			
 			// this.itemDoc 	= this.item_doc ;
 

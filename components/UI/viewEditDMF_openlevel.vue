@@ -83,7 +83,10 @@ export default {
 
 		return {
 
-			dmf_ol_value : '' ,
+			alert			: '' ,
+			loading			: false,
+
+			dmf_ol_value 	: '' ,
 
 		}
 
@@ -130,6 +133,20 @@ export default {
 			console.log("viewEditDMF_openlevel - update_mapping / input : ", input )
 
 			this.$store.dispatch('updateMapping', input )
+
+			.then(result => {
+				this.alert 		= { type: 'success', message: result.msg }
+				this.loading 	= false				
+			})
+			
+			.catch(error => {
+				console.log("submit / error... : ", error ) ; 
+				this.loading = false
+				this.alert = {type: 'error', message: "login error" }
+				if (error.response && error.response.data) {
+					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+				}
+			})
 
 		},
 

@@ -170,8 +170,20 @@
 								
 								<!-- PRJ -->
 								<v-divider class="my-3"></v-divider>
-								<div>prj.alert :<code>{{ $store.state.prj.alert.message}}</code></div>
-								
+								<!-- <div>prj.alert :<code>{{ $store.state.prj.alert.message}}</code></div> -->
+
+								<!-- DMT -->
+								<v-divider class="my-3"></v-divider>
+								<!-- <div>dmt.list : <br><code>{{ $store.state.dmt.list }}</code></div> -->
+								<div>dmt.current_list_DMF_list : <br><code>{{ $store.state.dmt.current_list_DMF_list }}</code></div>
+								<div>dmt.current_list_DMF_list_pivoted : <br><code>{{ $store.state.dmt.current_list_DMF_list_pivoted }}</code></div>
+								<!-- <div>dmt.current : <br>
+									<code>{{ $store.state.dmt.current | json }}</code>
+								</div>
+								<div>dmt.current_new : <br> 
+									<code>{{ $store.state.dmt.current_new | json }}</code>
+								</div> -->
+
 								<!-- DMF -->
 								<v-divider class="my-3"></v-divider>
 								<!-- <div>dmf.list : <br><code>{{ $store.state.dmf.list }}</code></div> -->

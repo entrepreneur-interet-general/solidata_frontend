@@ -209,7 +209,7 @@
 						</v-icon>
 
 						<!-- <div class="caption"> -->
-							{{ findItemName( "dmt", item.datasets.dmt_list[0].oid_dmt ) | truncate( 12, '...') }}
+							{{ findItemName( "dmt", item.datasets.dmt_list ) | truncate( 12, '...') }}
 						<!-- </div> -->
 
 					</v-card-text>
@@ -411,20 +411,30 @@ export default {
 
 		findItemName ( coll, item_id) {
 
-			// console.log("\nfindItemName..." )
+			console.log("\n findItemName - item_id : ", item_id )
 			
-			var teamKey = this.inTeam == 'yes' ? 'docs_user_is_in_team' : 'docs_user_not_in_team' ; 
-			
-			const itemsArray = this.$store.state[coll].list[teamKey] ;
-			
-			if (itemsArray) {
-				// console.log("findItemName / itemsArray : \n", itemsArray )
-				var obj = itemsArray.find(o => o._id === item_id)
-				// console.log("findItemName / obj.infos.title :", obj.infos.title )
-				return obj.infos.title
+			var item_id_ = undefined
+
+			if ( item_id.length == 0 || item_id == undefined ) {
+				return "no dmt"
 			}
+
 			else {
-				return "...loading..."
+
+				item_id_ = item_id[0].oid_dmt
+				var teamKey = this.inTeam == 'yes' ? 'docs_user_is_in_team' : 'docs_user_not_in_team' ; 
+				const itemsArray = this.$store.state[coll].list[teamKey] ;
+				
+				if ( itemsArray && item_id_ != undefined ) {
+					// console.log("findItemName / itemsArray : \n", itemsArray )
+					var obj = itemsArray.find(o => o._id === item_id_)
+					// console.log("findItemName / obj.infos.title :", obj.infos.title )
+					return obj.infos.title
+				}
+				
+				else {
+					return "...loading..."
+				}
 			}
 
 		},

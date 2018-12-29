@@ -270,7 +270,10 @@
 
 		"del_dsi" 		: "Suprimir este juego de datos",
 		"del_dmt" 		: "Suprimir este módelos",
-		"del_rec" 		: "Suprimir esta receta"
+		"del_rec" 		: "Suprimir esta receta",
+	
+		"dsi_map" 		: "Haz corresponder sus datos con su módelo de datos",
+		"dsi_to_dmf" 	: "Mapear este header"
 	
 	},
 
