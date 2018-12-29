@@ -122,40 +122,66 @@ For detailed explanation on how things work, check out the [Nuxt.js](https://git
 
 
 -------
-![alt text](./screenshots/login_en.png "login (en)")
+Home page with the side menu
 
--------
 ![alt text](./screenshots/home_en_menu.png "login & menu (en)")
 
 -------
+Login page
+
+![alt text](./screenshots/login_en.png "login (en)")
+
+-------
+Main dashboard 
+
 ![alt text](./screenshots/dashboard_en.png "dashboard (en)")
 
 -------
+Create a new project
+
 ![alt text](./screenshots/create_prj_en.png "create project (en)")
 
 -------
+Edit a project : add datasets, choose a datamodel, choose the visibiilty of each datamodel field for your project...
+
 ![alt text](./screenshots/edit_prj_en.png "edit project (en)")
 
 -------
+Map each of your project's datasets to your datamodel
+
 ![alt text](./screenshots/edit_prj_map_dsi_en.png "edit project (en)")
 
 -------
+Overview of all the datamodels shared and created by the community
+
 ![alt text](./screenshots/list_dmt_en.png "list datamodel templates (en)")
 
 -------
+Overview of all the datamodel fields created and shared by the community
+
 ![alt text](./screenshots/list_dmf_en.png "list datamodel fields (en)")
 
 -------
+Preview of a datasets uploaded by an user
+
 ![alt text](./screenshots/edit_dsi_en.png "edit dataset input fields (en)")
 
 -------
+Edit a datamodel 
+
 ![alt text](./screenshots/edit_dmt_en.png "list datamodel template (en)")
 
 -------
+View of all the settings of a datamodel
+
 ![alt text](./screenshots/edit_dmt_settings_en.png "settings datamodel teamplate (en)")
 
 -------
+Edit a datamodel field
+
 ![alt text](./screenshots/edit_dmf_en.png "settings datamodel fields (en)")
 
 -------
+View of all the settings of a datamodel field
+
 ![alt text](./screenshots/edit_dmf_settings_en.png "settings datamodel fields (en)")
