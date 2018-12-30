@@ -298,8 +298,7 @@ export default {
 		//  USER AUTH  - checkUserAuth for an item --> /utils
 		checkUserAuth (field_name) {
 
-			console.log("\ncheckUserAuth / field_name : ", field_name ) ;
-			// console.log("checkUserAuth ...\n", this.item_doc.public_auth ) ;
+			// console.log("\ncheckUserAuth / field_name : ", field_name ) ;
 
 			var can_update_field 		= false  ;
 			
@@ -314,7 +313,7 @@ export default {
 				can_update_field 		= checkDocUserAuth(this.item_doc, field_name, isLogged, user_id)
 			}
 
-			console.log("checkUserAuth / can_update_field : ", can_update_field ) ;
+			// console.log("checkUserAuth / can_update_field : ", can_update_field ) ;
 
 			return can_update_field
 		},

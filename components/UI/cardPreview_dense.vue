@@ -411,7 +411,7 @@ export default {
 
 		findItemName ( coll, item_id) {
 
-			console.log("\n findItemName - item_id : ", item_id )
+			// console.log("\n findItemName - item_id : ", item_id )
 			
 			var item_id_ = undefined
 

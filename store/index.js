@@ -637,14 +637,11 @@ export const actions = {
 		
 		console.log("\n... $ getListItems : input : ", input);
 		
-		// const parameters = this.$store.getters[`${collection}/get_params`]
-		// const parameters = rootState[`${collection}`].parameters
-		
 		var collection 	= input.coll ;
 		var parameters 	= input.q_params ;
 		var level 		= input.level ;
 
-		console.log("... $ getListItems : parameters : ", parameters);
+		// console.log("... $ getListItems : parameters : ", parameters);
 
 		// SET UP CONFIG FOR API CALL
 		const config = { 

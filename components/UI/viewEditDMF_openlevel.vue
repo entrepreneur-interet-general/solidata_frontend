@@ -38,6 +38,7 @@
 			dense
 			:prepend-inner-icon="$store.state.mainIcons.view.icon"
 			:disabled="!canEdit || is_loading"
+			:readonly="!canEdit"
 			v-model="dmf_ol_value"
 			:label="$t( 'projects.open_level_show', $store.state.locale )"
 			hide-details

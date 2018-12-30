@@ -358,10 +358,10 @@
 
 								<!-- MAPPING DIALOG BTN-->
 								<v-btn
-									
+									:disabled="!checkUserAuth('mapping.dsi_to_dmf')"
 									v-show="is_map"
 									flat
-									class="accent ml-2"
+									:class="`${ checkUserAuth('mapping.dsi_to_dmf') ? 'accent' : 'grey lighten-1' } ml-2`"
 									dark
 									small 
 									round
@@ -394,6 +394,7 @@
 									>
 
 									<v-btn
+										:disabled="!checkUserAuth('datasets.dsi_list')"
 										icon
 										ml-2
 										slot="activator"
@@ -409,7 +410,7 @@
 
 										<!-- DELETE FROM PARENT BTN -->
 										<v-list-tile
-											v-if="$store.state.auth.isLogged"
+											v-if="checkUserAuth('datasets.dsi_list')"
 											>
 
 											<!-- BTN IN MENU -->
@@ -500,8 +501,6 @@
 							</v-toolbar>
 
 
-
-
 							<!-- DSI DATA / MAPPING -->
 							<!-- DIALOG MAPPING -->
 							<v-dialog 
@@ -560,6 +559,7 @@
 
 									<!-- MAPPER AS DATATABLE -->
 									<v-card-text 
+
 										class="px-5 lighten--2"
 										>
 
@@ -637,7 +637,10 @@
 
 							<v-divider></v-divider>
 							
-							<!-- DATA -->
+							- itemHeaders_Actions : <code>{{itemHeaders_Actions}}</code> <br>
+							- parent_map : <code>{{parent_map}}</code> <br>
+
+							<!-- DSI DATA / CONTENTS -->
 								<!-- :loading="loading" -->
 							<v-data-table
 								:ref="'datatable'"
@@ -649,15 +652,6 @@
 								:rows-per-page-items="[5, 10, 25]"
 								:hide-headers="isPreview"
 								>
-								<!-- v-scroll="onScroll" -->
-
-								<!-- <v-progress-linear 
-									slot="progress" 
-									color="accent" 
-									indeterminate>
-								</v-progress-linear> -->
-
-								<!-- <scroll-sync horizontal></scroll-sync> -->
 
 								<template 
 									slot="items"
@@ -1003,9 +997,18 @@ export default {
 			return this.item_headers() ;
 		},
 
+		itemHeaders_mapped() {
+			if (this.is_map) {
+				return this.item_headers() ;
+			}
+			else {
+				return this.item_headers() ;
+			}
+		},
+
 		itemHeaders_Actions() {
 			// return this.item_headers(true) ;
-			return this.item_headers( !this.isPreview ) ;
+			return this.item_headers( !this.isPreview, this.is_map ) ;
 		},
 
 		parentPadding () {
@@ -1187,7 +1190,6 @@ export default {
 			this.$emit('update_parent_dataset', input )
 		},
 
-
 		// ADD DELETE ITEM FROM
 		form ( input ) {
 
@@ -1244,35 +1246,7 @@ export default {
 				}
 			})
 
-		},
-
-
-		// UPDATE PRJ DOCUMENT MAPPING
-		// update_mapping (item_infos) {
-			
-		// 	console.log("\n...viewEditDSI - update_mapping / item_infos : \n ", item_infos)
-		// 	var input = {
-
-		// 		doc_id	: this.parentDoc_id, 
-		// 		coll 	: this.parentDoc_coll, 
-				
-		// 		form 	: [
-		// 			{
-		// 				is_mapping		: true,
-		// 				field_to_update	: "mapping.dsi_to_dmf",
-		// 				id_dsi			: this.itemId,
-		// 				id_dmf			: item_infos.item_id,
-		// 				dsi_header		: item_infos.dsi_header,
-		// 			}
-		// 		]
-
-		// 	}
-		// 	console.log("viewEditDSI - update_mapping / input : ", input )
-
-		// 	this.$store.dispatch('updateMapping', input )
-
-		// },
-	
+		},	
 
 		get_FData_fromApi (pag_params) {
 
@@ -1357,7 +1331,7 @@ export default {
 		// ----------------------------- //
 		// HEADERS COLUMNS
 		// ----------------------------- //
-		item_headers (is_actions) {
+		item_headers ( is_actions, is_map ) {
 
 			var headers 	= [] ;
 			var top_head 	= { text: 'Actions', value: 'name', sortable: false }
@@ -1368,6 +1342,7 @@ export default {
 				const raw_headers = this.itemDoc.data_raw.f_col_headers ;
 				console.log("item_headers / raw_headers : ", raw_headers)
 
+				// make headers list from f_coll_header_val
 				for (let header in raw_headers ) {
 					// console.log("item_headers / header : ", header)
 					var header_ = {
@@ -1377,9 +1352,18 @@ export default {
 					headers.push(header_)
 				}
 
+				// if is_map reorder headers list to fit parent_map
+				if (is_map) {
+					console.log("item_headers / is_map : ", is_map)
+					console.log("item_headers / this.parent_map : ", this.parent_map)
+
+				}
+
+				// if is_actions unshift first column
 				if (is_actions){
 					headers.unshift(top_head)
 				}
+
 			}
 			return headers
 		},
@@ -1493,8 +1477,7 @@ export default {
 		//  USER AUTH  - checkUserAuth for an item --> /utils
 		checkUserAuth (field_name) {
 
-			console.log("\ncheckUserAuth / field_name : ", field_name ) ;
-			// console.log("checkUserAuth ...\n", this.item_doc.public_auth ) ;
+			// console.log("\ncheckUserAuth / field_name : ", field_name ) ;
 
 			var can_update_field 	= false  ;
 			
@@ -1506,11 +1489,10 @@ export default {
 				var isLogged 			= this.$store.state.auth.isLogged ;
 				var user_id 			= this.$store.state.auth.user_id ;
 
-				// can_update_field 		= checkDocUserAuth(this.item_doc, field_name, isLogged, user_id)
 				can_update_field 		= checkDocUserAuth(this.itemDoc, field_name, isLogged, user_id)
 			}
 
-			console.log("checkUserAuth / can_update_field : ", can_update_field ) ;
+			// console.log("checkUserAuth / can_update_field : ", can_update_field ) ;
 
 			return can_update_field
 		},

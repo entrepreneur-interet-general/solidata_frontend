@@ -33,8 +33,12 @@
 		/* display: inline-block; */
 	}
 
-	.hidden-scrollbar {
-		overflow: hidden;
+	.no-scroll {
+		-ms-overflow-style: none;  /* IE 10+ */
+		overflow: -moz-scrollbars-none;  /* Firefox */
+	}
+	.no-scroll::-webkit-scrollbar { 
+		display: none;  /* Safari and Chrome */
 	}
 
 </style>
@@ -77,6 +81,8 @@
 		<!-- LIST DMF AS DATA TABLE STYLE-->
 		<v-layout row wrap>
 			
+
+			<!-- DMF_LIST as DATA TABLE-->
 			<v-flex xs12 pt-0>
 
 				<v-card 
@@ -134,20 +140,6 @@
 							</v-progress-circular>
 
 							<!-- OPEN DMF LIBRARY -->
-							<!-- <v-btn 
-								:disabled="isPreview"
-								color="accent" 
-								dark 
-								round
-								:outline="!panel_open"
-								:flat="panel_open"
-								@click="openDMF_lib_parent"
-								>
-								<v-icon small class="mr-3">
-									{{ $store.state.mainIcons.add_to_parent.icon }}  
-								</v-icon>
-								{{ $t( 'global.dmf_add', $store.state.locale)  }}
-							</v-btn> -->
 							<v-btn 
 								v-show="!isPreview"
 								color="accent" 
@@ -179,6 +171,7 @@
 								>
 
 								<v-btn
+									:disabled="!checkUserAuth('delete_item')"
 									icon
 									ml-2
 									slot="activator"
@@ -300,13 +293,6 @@
 							hide-actions
 							hide-headers
 							>
-							
-							<!-- <v-progress-linear 
-								slot="progress" 
-								color="accent" 
-								indeterminate
-								>
-							</v-progress-linear> -->
 				
 							<template
 								slot="items" 
@@ -341,7 +327,7 @@
 										<!-- DELETE DMF BTN -->
 										<v-btn
 											v-if="!isPreview"
-											:disabled="!$store.state.auth.isLogged"
+											:disabled="!checkUserAuth('delete_item')"
 											icon
 											small
 											@click="deleteChild( { 
@@ -420,8 +406,7 @@
 			<!-- DMF_LIST vs OPEN_LEVEL MAPPING -->
 			<v-flex 
 				v-if="is_map"
-				xs12 
-				pt-3
+				class="xs12 pt-3"
 				>
 
 				<v-card 
@@ -431,20 +416,20 @@
 					>
 					<v-card-text class="pa-0">
 
-						<!-- DATA TOOLBAR -->
+						<!-- DATA DMF_LIST OPEN_LEVEL TOOLBAR -->
 						<v-toolbar 
-							v-if="!isPreview "
+							v-show="!isPreview "
 							class="elevation-0" 
 							color="white"
 							>
 							
-							<!-- title dataset -->
+							<!-- DMF_LIST OPEN_LEVEL title dataset -->
 							<v-toolbar-title
 								class="subheading grey--text"
 								dense
 								>
 
-								<v-btn
+								<!-- <v-btn
 									icon
 									v-show="isPreview || add_to_parent"
 									flat
@@ -452,13 +437,19 @@
 									dark
 									small 
 									:to="`/${item_doc.specs.doc_type}/${item_doc._id}`"
-									>
+									> -->
 
-									<v-icon small>
+									<v-icon small class="px-2">
 										{{ $store.state.mainIcons.datamodels.icon }}
 									</v-icon>
-								
-								</v-btn>
+									<v-icon small class="accent--text">
+										{{ $store.state.mainIcons.map_doc.icon }}
+									</v-icon>
+									<v-icon small class="px-2">
+										{{ $store.state.mainIcons.view.icon }}
+									</v-icon>
+
+								<!-- </v-btn> -->
 								
 								{{ $t(`global.open_level_show`, $store.state.locale ) }}
 
@@ -469,7 +460,7 @@
 						<v-divider></v-divider>
 
 
-						<!-- DATA TABLE -->
+						<!-- DMF_LIST OPEN_LEVEL DATA TABLE -->
 						<v-data-table
 							:ref="'datatable_openlevel'"
 							:headers="list_headers_selector"
@@ -519,7 +510,7 @@
 											:dmf_ol_val="getDMF_openlevel(dmf._id)"
 											:parentDoc_id="parentDoc_id"
 											:parentDoc_coll="parentDoc_coll"
-											:canEdit="checkUserAuth('mapping.dmf_to_open_level')"
+											:canEdit="canEdit_ol"
 											>
 										</ViewEditDMFol>
 
@@ -539,13 +530,7 @@
 
 
 
-
-
 		</v-layout>
-
-
-
-
 
 
 
@@ -576,6 +561,7 @@ export default {
 		
 		"is_map",
 		"parent_map",
+		"canEdit_ol",
 
 		"parentDoc_id",
 		"parentDoc_coll",
@@ -595,6 +581,7 @@ export default {
 
 		console.log("\n- viewEditListDMF / created ..." ) ;
 		console.log("- viewEditListDMF / listDMF : ", this.listDMF ) ;
+		console.log("- viewEditListDMF / canEdit_ol : ", this.canEdit_ol ) ;
 
 		if ( !Array.isArray(this.listDMF) || this.listDMF.length ) {
 
@@ -780,8 +767,7 @@ export default {
 		//  USER AUTH  - checkUserAuth for an item --> /utils
 		checkUserAuth (field_name) {
 
-			console.log("\ncheckUserAuth / field_name : ", field_name ) ;
-			// console.log("checkUserAuth ...\n", this.item_doc.public_auth ) ;
+			// console.log("\ncheckUserAuth / field_name : ", field_name ) ;
 
 			var can_update_field 		= false  ;
 			
@@ -796,7 +782,7 @@ export default {
 				can_update_field 		= checkDocUserAuth(this.item_doc, field_name, isLogged, user_id)
 			}
 
-			console.log("checkUserAuth / can_update_field : ", can_update_field ) ;
+			// console.log("checkUserAuth / can_update_field : ", can_update_field ) ;
 
 			return can_update_field
 		},
@@ -994,13 +980,14 @@ export default {
 					var dt = dataTable.$el.querySelector(".v-table__overflow") 
 					console.log("- viewEditListDMF / then 3 - dt : ", dt ) ;
 					dt.addEventListener('scroll', this.onScroll);
+					dt.classList.add("no-scroll");
 					this.dataTable = dt
 
 					if (this.is_map) {
 						var dataTable_ol = this.$refs.datatable_openlevel ;
 						var dt_ol = dataTable_ol.$el.querySelector(".v-table__overflow") 
-						// dt_ol.addClass('hidden-scrollbar');
 						dt_ol.addEventListener('scroll', this.onScroll);
+						// dt_ol.classList.add("no-scroll");
 						this.dataTable_ol = dt_ol
 					}
 				}

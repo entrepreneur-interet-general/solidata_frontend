@@ -318,6 +318,7 @@
 
 					:is_map="true"
 					:parent_map="item_doc.mapping.dmf_to_open_level"
+					:canEdit_ol="checkUserAuth('mapping.dmf_to_open_level')"
 
 					:add_to_parent="true"
 					:parentDoc_id="itemId"
@@ -369,7 +370,7 @@
 							<v-card-text class="pa-0 text-xs-center ">
 							
 								<v-btn 
-									:disabled="loading"
+									:disabled="loading || !checkUserAuth('mapping.dmf_to_open_level')"
 									class="ma-0 text-lowercase accent--text"
 									block
 									small
@@ -426,6 +427,7 @@
 
 		<!-- BTN - ADD DSI IN PRJ DSI_LIST -->
 		<v-layout 
+			v-if="checkUserAuth('datasets.dsi_list')"
 			mt-3
 			row 
 			wrap
@@ -452,11 +454,17 @@
 
 							<!-- :color="`${ loading ? 'grey' : 'accent'} `" -->
 						<v-icon 
+							samll
+							left
+							>
+							{{ $store.state.mainIcons.datasets.icon }}
+						</v-icon>
+						<!-- <v-icon 
 							left
 							>
 							{{ $store.state.mainIcons.create.icon }}
-						</v-icon>
-						
+						</v-icon> -->
+
 						{{ $t(`projects.manage_dsi`, $store.state.locale) }}
 
 					</v-btn>
@@ -915,8 +923,7 @@ export default {
 		//  checkUserAuth for an item --> /utils
 		checkUserAuth (field_name) {
 
-			console.log("checkUserAuth / field_name : ", field_name ) ;
-			// console.log("checkUserAuth ...\n", this.item_doc.public_auth ) ;
+			// console.log("checkUserAuth / field_name : ", field_name ) ;
 
 			var can_update_field 	= false  ;
 			

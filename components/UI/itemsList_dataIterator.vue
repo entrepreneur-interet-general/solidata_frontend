@@ -77,6 +77,7 @@
 					>
 
 					<BtnCreate
+						v-if="$store.state.auth.isLogged"
 						:is_icon="false"
 						:tab="tab"
 						:color="'primary'"

@@ -51,6 +51,7 @@
 			<!-- TEAM BTN -->
 			<v-btn 
 				v-if="!is_create"
+				:disabled="!checkUserAuth('team')"
 				icon
 				small
 				>
@@ -86,7 +87,7 @@
 				>
 
 				<v-btn 
-					:disabled="!$store.state.auth.isLogged"
+					:disabled="!checkUserAuth('delete_item')"
 					icon 
 					small
 					slot="activator"
@@ -314,6 +315,8 @@
 
 <script>
 
+import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
+
 export default {
 
 	props : [ 
@@ -422,6 +425,29 @@ export default {
 				}
 			})
 
+		},
+
+		//  USER AUTH  - checkUserAuth for an item --> /utils
+		checkUserAuth (field_name) {
+
+			// console.log("\ncheckUserAuth / field_name : ", field_name ) ;
+
+			var can_update_field 	= false  ;
+			
+			if (this.is_create) {
+				can_update_field 	= true  ;
+			}
+
+			else {
+				var isLogged 			= this.$store.state.auth.isLogged ;
+				var user_id 			= this.$store.state.auth.user_id ;
+
+				can_update_field 		= checkDocUserAuth(this.itemDoc, field_name, isLogged, user_id)
+			}
+
+			// console.log("checkUserAuth / can_update_field : ", can_update_field ) ;
+
+			return can_update_field
 		},
 
 	},

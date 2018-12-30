@@ -232,6 +232,7 @@
 						{'oid_dmf' : '5ba664030a82860745d51fdd'},
 						{'oid_dmf' : '5bf4183f0a8286180b53183c'}
 					]"  -->
+					
 				<ViewEditListDMF
 					v-if="is_itemDoc"
 
@@ -245,6 +246,8 @@
 
 					:is_map="is_map"
 					:parent_map="parent_map"
+					:canEdit_ol="canEdit_ol"
+					
 					:parentDoc_id="parentDoc_id"
 					:parentDoc_coll="parentDoc_coll"
 
@@ -340,6 +343,7 @@ export default {
 
 		"is_map",
 		"parent_map",
+		"canEdit_ol",
 
 		"parentDoc_id",
 		"parentDoc_coll",
@@ -871,8 +875,7 @@ export default {
 		//  USER AUTH  - checkUserAuth for an item --> /utils
 		checkUserAuth (field_name) {
 
-			console.log("\ncheckUserAuth DMT / field_name : ", field_name ) ;
-			// console.log("checkUserAuth ...\n", this.item_doc.public_auth ) ;
+			// console.log("\ncheckUserAuth DMT / field_name : ", field_name ) ;
 
 			var can_update_field 	= false  ;
 			
@@ -887,7 +890,6 @@ export default {
 				can_update_field 		= checkDocUserAuth(this.itemDoc, field_name, isLogged, user_id)
 			}
 
-			// console.log("checkUserAuth DMT / can_update_field : ", can_update_field ) ;
 
 			return can_update_field
 		},
