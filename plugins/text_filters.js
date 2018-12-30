@@ -22,12 +22,16 @@ Vue.filter('truncate', function(value, length, suffix, sep=" ") {
 
 	// console.log("\ntruncate filter / value : ", value) ;
 
+	if ( value == undefined ){
+		value = ""
+	}
+
 	var value_type = CheckValueType.getValType(value, sep) ; 
 	// console.log("truncate filter / value_type : ", value_type ) ;
 
 	var truncated = "" ; 
 
-	if (value === null ) {
+	if (value === null || value == undefined) {
 		truncated = ''
 	}
 	else if (value_type.type === 'number'){

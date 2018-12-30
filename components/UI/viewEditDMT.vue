@@ -34,9 +34,10 @@
 					</v-card-text> -->
 
 					<v-progress-circular
-					color="accent"
-					indeterminate
-					></v-progress-circular>
+						color="accent"
+						indeterminate
+						>
+					</v-progress-circular>
 					
 				</v-card>
 			</v-flex>
@@ -411,7 +412,6 @@ export default {
 			// this.itemDoc 	= this.item_doc ;
 
 		}
-
 
 
 	},

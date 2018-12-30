@@ -325,8 +325,8 @@
 
 												<v-flex 
 													xs12
-													v-for="header in itemHeaders"
-													:key="itemHeaders.indexOf(header)"
+													v-for="header in headers"
+													:key="headers.indexOf(header)"
 													>
 													<v-textarea 
 														v-model="editedItem[header.value]" 
@@ -565,7 +565,7 @@
 
 										<v-data-table
 											:ref="'datatable_mapping'"
-											:headers="itemHeaders_Actions"
+											:headers="headers_dsi_preview"
 											:items="['header', 'mapper']"
 											class="elevation-4 "
 											hide-actions
@@ -587,8 +587,8 @@
 												</td>
 
 												<td 
-													v-for="header in itemHeaders"
-													:key="itemHeaders.indexOf(header)"
+													v-for="header in headers_dsi_preview_but_first"
+													:key="headers_dsi_preview_but_first.indexOf(header)"
 													class="px-1"
 													>
 												
@@ -637,14 +637,14 @@
 
 							<v-divider></v-divider>
 							
-							- itemHeaders_Actions : <code>{{itemHeaders_Actions}}</code> <br>
-							- parent_map : <code>{{parent_map}}</code> <br>
+
+
 
 							<!-- DSI DATA / CONTENTS -->
 								<!-- :loading="loading" -->
 							<v-data-table
 								:ref="'datatable'"
-								:headers="itemHeaders_Actions"
+								:headers="headers_preview"
 								:items="item_data"
 								:pagination.sync="pagination"
 								:total-items="total_items"
@@ -658,6 +658,7 @@
 									slot-scope="props"
 									>
 
+									<!-- FIRST COLUMN -->
 									<td 
 										v-show="!isPreview"
 										class="px-1"
@@ -686,9 +687,12 @@
 										</div>
 									</td>
 
+									<!-- CONTENT COLUMNS -->
+									<!-- item_headers -->
+									<!-- itemHeaders_Actions(!isPreview) -->
 									<td 
-										v-for="header in itemHeaders"
-										:key="itemHeaders.indexOf(header)"
+										v-for="header in headers_preview_but_first"
+										:key="headers_preview_but_first.indexOf(header)"
 										class="px-1"
 										>
 										<div class="col-values">
@@ -703,6 +707,42 @@
 								</template> -->
 
 							</v-data-table>
+
+
+							<!-- DEBUG -->
+							<span v-if="$store.state.is_debug">
+
+								<!-- - item_headers : <br><code>{{ item_headers() }}</code> <br>
+								<v-divider></v-divider> -->
+								
+								- parentDoc_dmt : <br><code>{{parentDoc_dmt}}</code> <br>
+								<v-divider></v-divider>
+
+
+								- parent_map : <br><code>{{parent_map}}</code> <br>
+								<v-divider></v-divider>
+								
+								- parentDocDMFs : <br><code>{{ parentDocDMFs }}</code>
+								<v-divider></v-divider>
+
+								<!-- - itemHeaders_Actions(!isPreview) : <br><code>{{itemHeaders_Actions(!isPreview)}}</code> <br>
+								<v-divider></v-divider> -->
+
+								<!-- - parentDoc_dmf_list_pivoted : <br><code>{{ parentDoc_dmf_list_pivoted }}</code>
+								<v-divider></v-divider> -->
+								
+								<!-- - itemHeaders : <br><code>{{itemHeaders}}</code> <br>
+								<v-divider></v-divider> -->
+
+
+								- headers_preview : <br><code>{{headers_preview}}</code><br>
+								<v-divider></v-divider>
+
+								- headers_mapped : <br><code>{{headers_mapped}}</code><br>
+								<v-divider></v-divider>
+
+							</span>
+
 
 						</v-card-text>
 					</v-card>
@@ -840,6 +880,7 @@ export default {
 		"parentDoc_coll",
 		"parentDoc_dmt",
 		"parentDoc_dmf_list",
+		// "parentDoc_dmf_list_pivoted",
 
 		"coll",
 
@@ -879,6 +920,9 @@ export default {
 
 		console.log("\n- viewEditDSI / created ---> item_doc : ", this.item_doc ) ;
 		
+		// load and transform parentDoc_dmf_list
+		this.parentDocDMFs = this.parentDoc_dmf_list_reduc(this.parentDoc_dmf_list)
+
 		// get data
 		if ( this.find_item ) {
 
@@ -893,6 +937,8 @@ export default {
 
 			// load DSI data 
 			this.get_FData_fromApi( pagination_params ) ;
+
+
 
 		}
 
@@ -911,6 +957,8 @@ export default {
 			this.is_file 	= ( this.coll == "dsi" ) ? true : false ; 
 			this.is_file 	= this.preloadIsFile() ; 
 			this.filetype 	= this.preloadFileType() ; 
+
+			this.item_headers() ; 
 		}
 		
 	},
@@ -919,6 +967,7 @@ export default {
 	data () {
 
 		return {
+			
 			
 			alert		: null,
 
@@ -939,12 +988,19 @@ export default {
 			panel_infos		: [true],
 			panel_lib_tag	: [false],
 			
-			collName 	: this.$store.state.collectionsNames[this.coll],
+			collName 		: this.$store.state.collectionsNames[this.coll],
 
 			itemDoc_loaded	: false,
 			itemDoc			: this.item_doc,
 			itemId 			: '', 
 			list_TAG_oids	: [],
+
+			headers 		: [],
+			headers_dsi		: [],
+			parentMap 		: this.parent_map,
+			parentDocDMFs	: [],
+			headers_mapped 	: [],
+			
 
 			// item_data 		: this.item_doc.data_raw.f_data, 
 			// item_headers 	: this.item_doc.data_raw.f_col_headers, 
@@ -993,29 +1049,39 @@ export default {
 			return this.itemDoc.data_raw.f_data
 		},
 
-		itemHeaders() {
-			return this.item_headers() ;
-		},
-
-		itemHeaders_mapped() {
-			if (this.is_map) {
-				return this.item_headers() ;
-			}
-			else {
-				return this.item_headers() ;
-			}
-		},
-
-		itemHeaders_Actions() {
-			// return this.item_headers(true) ;
-			return this.item_headers( !this.isPreview, this.is_map ) ;
-		},
+		// itemHeaders() {
+		// 	return this.item_headers() ;
+		// },
 
 		parentPadding () {
 			return (this.isPreview) ? this.parentNoBotPadding : this.parentBotPadding ;
 		},
 
+		headers_preview () {
+			if ( this.isPreview  ){
+				return this.headers.slice(1)
+			}
+			else {
+				return this.headers
+			}
+		},
 
+		headers_preview_but_first () {
+			return this.headers_preview.slice(1)
+		},
+
+		headers_dsi_preview () {
+			if ( this.isPreview  ){
+				return this.headers_dsi.slice(1)
+			}
+			else {
+				return this.headers_dsi
+			}
+		},
+
+		headers_dsi_preview_but_first () {
+			return this.headers_dsi_preview.slice(1)
+		},
 
 		// SWITCH
 		valueSwitch () {
@@ -1041,6 +1107,24 @@ export default {
 
 
 	watch: {
+
+		parent_map : {
+			immediate : true,
+			handler ( newVal, oldVal) {
+				this.parentMap = newVal
+
+			}
+
+		},
+
+		parentDoc_dmf_list : {
+			immediate : true,
+			handler ( newVal, oldVal) {
+				this.parentDocDMFs = this.parentDoc_dmf_list_reduc(newVal)
+
+			}
+
+		},
 
 		item_doc : {
 
@@ -1137,6 +1221,24 @@ export default {
 
 	methods: {
 		
+		parentDoc_dmf_list_reduc ( parentDocDMFs ) {
+
+			if ( parentDocDMFs != undefined && parentDocDMFs.length != 0 ) {
+				return parentDocDMFs.map( obj => (
+					{ 
+						_id 	: obj["_id"], 
+						value 	: obj["infos.title"],
+						text 	: obj["infos.title"]
+					} 
+				))
+			}
+
+			else {
+				return []
+			}
+
+		},
+
 		onScroll (e) {
 			// console.log("... onScroll - e.target : ", e.target ) ;
 			var scroll_data = e.target ;
@@ -1270,8 +1372,10 @@ export default {
 				this.itemDoc 		= result.data 
 				this.list_TAG_oids 	= result.data.datasets.tag_list 
 
-				this.total_items 	= result.data.data_raw.f_data_count
+				// create headers
+				this.item_headers() ; 
 
+				this.total_items 	= result.data.data_raw.f_data_count
 
 				this.pagination.page 		= result.query.page_args.page
 				this.pagination.rowsPerPage = result.query.page_args.per_page
@@ -1281,7 +1385,7 @@ export default {
 				this.alert   		= {type: 'success', message: result.msg}
 
 				this.itemDoc_loaded	= true 
-		
+				
 
 				// add scroll event listener on datatable 
 				// detect scroll : cf : https://forum.vuejs.org/t/how-to-detect-body-scroll/7057/5   
@@ -1331,16 +1435,26 @@ export default {
 		// ----------------------------- //
 		// HEADERS COLUMNS
 		// ----------------------------- //
-		item_headers ( is_actions, is_map ) {
+
+		// itemHeaders_Actions(not_preview) {
+
+		// 	return this.item_headers( not_preview, this.is_map ) ;
+
+		// },
+
+		item_headers ( ) {
 
 			var headers 	= [] ;
-			var top_head 	= { text: 'Actions', value: 'name', sortable: false }
+			var top_head 	= { 
+				text: 'Actions', 
+				value: 'name', sortable: false 
+			}
 
 			// only create headers if item is loaded
 			if ( this.itemDoc_loaded ) {
 
 				const raw_headers = this.itemDoc.data_raw.f_col_headers ;
-				console.log("item_headers / raw_headers : ", raw_headers)
+				// console.log("item_headers _map / raw_headers : ", raw_headers)
 
 				// make headers list from f_coll_header_val
 				for (let header in raw_headers ) {
@@ -1352,20 +1466,91 @@ export default {
 					headers.push(header_)
 				}
 
-				// if is_map reorder headers list to fit parent_map
-				if (is_map) {
-					console.log("item_headers / is_map : ", is_map)
-					console.log("item_headers / this.parent_map : ", this.parent_map)
+				console.log("\item_headers / this.is_map : ", this.is_map)
+				console.log("item_headers / this.parentDoc_dmt : ", this.parentDoc_dmt)
+			
+				console.log("item_headers / this.parentMap : \n", this.parentMap)
+				// console.log("item_headers / this.parentDoc_dmf_list_reduc : \n", this.parentDoc_dmf_list_reduc)
+
+				// update original headers
+				console.log("item_headers / headers : ", headers)
+				this.headers_dsi = headers
+
+
+				// if this.is_map reorder headers list to fit parentMap
+				if ( this.is_map != undefined && this.is_map ) {
+					
+					console.log("item_headers + map / building temp_headers_mapped... ")
+
+					var temp_headers_mapped 	= [] ;
+					var temp_headers_map_dmf 	= [] ;
+					
+
+					if ( this.parentDoc_dmt.length != 0 && this.parentMap != undefined ) {
+
+						// headers present in this.parentDocDMFs
+
+						var dmf_list = this.parentDocDMFs.slice(1)
+						console.log("... item_headers + map / dmf_list : ", dmf_list )
+
+						// loop dmf_list
+						for (let header_i in dmf_list ) {
+							
+							var header_to_push = dmf_list[ header_i ]
+							console.log("... item_headers + map / header_to_push : ", header_to_push )
+
+							// check if header_to_push has a corresponding item in parent_map (a mapped header) 
+							var replacing_header = this.parentMap.find(obj => ( obj.oid_dmf == header_to_push._id ) )
+							console.log("... item_headers + map / replacing_header : ", replacing_header )
+
+							// replace value to push by mapped header
+							if ( replacing_header != undefined ) {
+								header_to_push = { 
+									value 	: replacing_header.dsi_header ,
+									text 	: replacing_header.dsi_header // + " - " + replacing_header.oid_dmf 
+								}
+							}
+
+							temp_headers_map_dmf.push( header_to_push )
+
+						}
+						this.headers_mapped = temp_headers_map_dmf
+						headers 			= temp_headers_map_dmf
+
+
+
+						// just headers present in this.parent_map
+						// for (let header_map in this.parentMap ) {
+						// 	// console.log("... item_headers / header_map : ", header_map)
+						
+						// 	var header_to_push = headers.find( obj => obj.value === this.parentMap[header_map].dsi_header )
+						// 	// console.log("... item_headers / header_to_push : ", header_to_push)
+
+						// 	if ( header_to_push != undefined ) {
+						// 		temp_headers_mapped.push(header_to_push)
+						// 	}
+
+						// }
+
+						// console.log("... item_headers / temp_headers_mapped : ", temp_headers_mapped)
+						// headers = temp_headers_mapped
+					
+					}
+
+					else {
+						headers = []
+					}
 
 				}
 
-				// if is_actions unshift first column
-				if (is_actions){
-					headers.unshift(top_head)
-				}
+				// unshift first column
+				headers.unshift(top_head)
 
 			}
-			return headers
+		
+			console.log("\nitem_headers / returning headers : \n", headers)
+			this.headers = headers
+			
 		},
 
 
@@ -1373,22 +1558,22 @@ export default {
 		//  ITEM FOR EDITION / CREATION
 		editedItem()  {
 
-			return {
-				name: '',
-				calories: 0,
-				fat: 0,
-				carbs: 0,
-				protein: 0
-			}
+			// return {
+			// 	name: '',
+			// 	calories: 0,
+			// 	fat: 0,
+			// 	carbs: 0,
+			// 	protein: 0
+			// }
 		},
 
 		defaultItem()  {
 
 			var emptyItem = {};
-			const headers = this.item_headers() ;
-			console.log("\nfill_defaultItem / headers : ", headers)
+			// const headers = this.item_headers() ;
+			console.log("\nfill_defaultItem / this.headers : ", this.headers)
 
-			for (header in headers){
+			for (header in this.headers){
 				emptyItem[header.value] = 'empty' ;
 			}
 

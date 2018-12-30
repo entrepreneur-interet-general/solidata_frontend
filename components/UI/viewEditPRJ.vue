@@ -326,11 +326,11 @@
 
 					:parent_scroll="scrollLeft"
 
-					@update_loading="updateLoading"
 					@scrollTable="updateScroll"
 
 					@update_parent_dataset="update_parent_list"
 					>
+					<!-- @update_loading="updateLoading" -->
 				</ViewEditDMT> 
 
 			</v-flex>
@@ -525,6 +525,7 @@
 							:parent_map="getDSI_map(dsi.oid_dsi)"
 							:parentDoc_id="itemId"
 							:parentDoc_coll="coll"
+							:parentDoc_dmt="list_DMT_oids"
 							:parentDoc_dmf_list="$store.state.dmt.current_list_DMF_list"
 
 							:coll="'dsi'"
@@ -534,17 +535,18 @@
 							:add_to_parent="true"
 							:parent_scroll="scrollLeft"
 
-							@update_loading="updateLoading"
 							@scrollTable="updateScroll"
 							@update_parent_dataset="update_parent_list"
 							>
+							<!-- @update_loading="updateLoading" -->
 						</ViewEditDSI>
 							<!-- :parentDoc_dmt="list_DMT_oids[0].oid_dmt" -->
+							<!-- :parentDoc_dmf_list_pivoted="$store.state.dmt.current_list_DMF_list_pivoted" -->
 
 					</v-flex>
 
 
-					<!-- TO DO :  DIALOG MAPPER DSI -->
+					<!-- TO DO :  ACTIONS ON DSI -->
 					<v-flex 
 						xs2
 						class="pa-0"
@@ -685,9 +687,9 @@ export default {
 		// 	{"oid_dsi" : "5c08f2da0a82868129391891" } 
 		// ] ;
 		
-		console.log("\n- viewEditPRJ / created ---> this.list_DMT_oids : ", this.list_DMT_oids ) ;
-		console.log("\n- viewEditPRJ / created ---> this.list_DSI_oids : ", this.list_DSI_oids ) ;
-		console.log("\n- viewEditPRJ / created ---> this.list_DTAGoids : ", this.list_TAG_oids ) ;
+		// console.log("\n- viewEditPRJ / created ---> this.list_DMT_oids : ", this.list_DMT_oids ) ;
+		// console.log("\n- viewEditPRJ / created ---> this.list_DSI_oids : ", this.list_DSI_oids ) ;
+		// console.log("\n- viewEditPRJ / created ---> this.list_DTAGoids : ", this.list_TAG_oids ) ;
 
 
 	},
@@ -733,15 +735,15 @@ export default {
 			// canEdit		: false ,
 
 			list_DMT_oids 		: [],
+			list_DSI_oids 		: [],
+			list_TAG_oids 		: [],
+
 			// list_DMT_oids 	: [ {"oid_dmt" : "5b98e4db0a8286332f4f1984" } ],
 
-			list_DSI_oids 		: [],
 			// list_DSI_oids 	: [ 
 			// 	{"oid_dsi" : "5c0810c60a8286214c863fb6" },
 			// 	{"oid_dsi" : "5c08f2da0a82868129391891" } 
 			// ],
-
-			list_TAG_oids 		: [],
 
 			// ----------------------------- // 
 			// UI/UX variables 
@@ -798,6 +800,16 @@ export default {
 		valuePadding () {
 			return (this.is_preview) ? this.valueNoPadding : this.valueLeftPadding ;
 		},
+
+		// list_DMT_oids () {
+		// 	return this.itenDoc.datasets.dmt_list
+		// },
+		// list_DSI_oids () {
+		// 	return this.itenDoc.datasets.dsi_list
+		// },
+		// list_TAG_oids () {
+		// 	return this.itenDoc.datasets.tag_list
+		// },
 
 	},
 

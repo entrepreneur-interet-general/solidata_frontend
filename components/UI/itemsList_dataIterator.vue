@@ -297,6 +297,18 @@ export default {
 
 	},
 
+	watch : {
+
+		// items_in_parent : {
+
+		// 	immediate : true,
+		// 	handler (newVal, oldVal ) {
+		// 		console.log("~ watch ItemsList_DI / items_in_parent - newVal : ", newVal )
+		// 	}
+
+		// }
+	},
+
 	computed : {
 
 			itemsIn 	() { 
@@ -356,7 +368,7 @@ export default {
 		
 		is_in_parent (item_id) {
 
-			// console.log("\n-- is_in_parent ..." ) ; 
+			console.log("\n-- is_in_parent ..." ) ; 
 			var is_in_array = false ;
 			const coll 		= this.coll ; 
 
