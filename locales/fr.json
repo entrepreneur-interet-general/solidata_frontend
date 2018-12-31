@@ -271,6 +271,8 @@
 		"del_dmt" 		: "Supprimer ce modèle de données",
 		"del_rec" 		: "Supprimer cette recette",
 
+		"dsi_headers"	: "titre de colonne original",
+		"map_with_dmf"	: "associer le titre de colonne avec un champ de votre modèle de données",
 		"dsi_map" 		: "Faites correspondre votre jeu de données avec votre modèle de données",
 		"dsi_to_dmf" 	: "Map cette colonne"
 

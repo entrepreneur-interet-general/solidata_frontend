@@ -272,6 +272,8 @@
 		"del_dmt" 		: "Delete this datamodel template",
 		"del_rec" 		: "Delete this recipe",
 
+		"dsi_headers"	: "your original headers",
+		"map_with_dmf"	: "associate the original header with one of the fields from the datamodel",
 		"dsi_map" 		: "Map your dataset with your datamodel",
 		"dsi_to_dmf" 	: "Map this header"
 

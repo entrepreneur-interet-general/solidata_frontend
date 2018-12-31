@@ -563,9 +563,16 @@
 										class="px-5 lighten--2"
 										>
 
+										<!-- DEBUG -->
+										<span v-if="$store.state.is_debug">
+											- headers_dsi : <code>{{ headers_dsi }}</code><br>
+											- headers_dsi_preview : <code>{{ headers_dsi_preview }}</code><br>
+											- headers_dsi_but_first : <code>{{ headers_dsi_but_first }}</code><br>
+										</span>
+
 										<v-data-table
 											:ref="'datatable_mapping'"
-											:headers="headers_dsi_preview"
+											:headers="headers_dsi"
 											:items="['header', 'mapper']"
 											class="elevation-4 "
 											hide-actions
@@ -577,18 +584,43 @@
 												slot-scope="props"
 												>
 
+													<!-- v-show="!isPreview" -->
 												<td 
-													v-show="!isPreview"
 													class="px-1"
 													>
-													<div class="col-titles">
-														mapping
+													<div 
+														v-if="props.item == 'header'"
+														class="col-titles"
+														>
+														<v-tooltip right>
+															<span slot="activator">
+																h_dsi_headers
+															</span>
+															<span>
+																{{ $t(`projects.dsi_headers`, $store.state.locale) }}
+															</span>
+														</v-tooltip>
 													</div>
+
+													<div 
+														v-else
+														class="col-titles"
+														>
+														<v-tooltip right>
+															<span slot="activator">
+																h_map_with_dmf
+															</span>
+															<span>
+																{{ $t(`projects.map_with_dmf`, $store.state.locale) }}
+															</span>
+														</v-tooltip>
+													</div>
+
 												</td>
 
 												<td 
-													v-for="header in headers_dsi_preview_but_first"
-													:key="headers_dsi_preview_but_first.indexOf(header)"
+													v-for="header in headers_dsi_but_first"
+													:key="headers_dsi_but_first.indexOf(header)"
 													class="px-1"
 													>
 												
@@ -1079,8 +1111,8 @@ export default {
 			}
 		},
 
-		headers_dsi_preview_but_first () {
-			return this.headers_dsi_preview.slice(1)
+		headers_dsi_but_first () {
+			return this.headers_dsi.slice(1)
 		},
 
 		// SWITCH
@@ -1112,7 +1144,7 @@ export default {
 			immediate : true,
 			handler ( newVal, oldVal) {
 				this.parentMap = newVal
-
+				this.item_headers()
 			}
 
 		},
@@ -1121,6 +1153,7 @@ export default {
 			immediate : true,
 			handler ( newVal, oldVal) {
 				this.parentDocDMFs = this.parentDoc_dmf_list_reduc(newVal)
+				this.item_headers()
 
 			}
 
@@ -1449,6 +1482,10 @@ export default {
 				text: 'Actions', 
 				value: 'name', sortable: false 
 			}
+			var top_head_dsi 	= { 
+				text: 'Mapping', 
+				value: 'mapping', sortable: false 
+			}
 
 			// only create headers if item is loaded
 			if ( this.itemDoc_loaded ) {
@@ -1467,14 +1504,19 @@ export default {
 				}
 
 				console.log("\item_headers / this.is_map : ", this.is_map)
-				console.log("item_headers / this.parentDoc_dmt : ", this.parentDoc_dmt)
+				// console.log("item_headers / this.parentDoc_dmt : ", this.parentDoc_dmt)
 			
-				console.log("item_headers / this.parentMap : \n", this.parentMap)
+				// console.log("item_headers / this.parentMap : \n", this.parentMap)
 				// console.log("item_headers / this.parentDoc_dmf_list_reduc : \n", this.parentDoc_dmf_list_reduc)
 
+				// console.log("item_headers / headers : ", headers)
+
+				// copy original headers for DSI purposes
+				var headers_dsi  = headers.slice() ; 
+				// append top_head_dsi at the the beginning
+				headers_dsi.unshift(top_head_dsi) ; 
 				// update original headers
-				console.log("item_headers / headers : ", headers)
-				this.headers_dsi = headers
+				this.headers_dsi = headers_dsi
 
 
 				// if this.is_map reorder headers list to fit parentMap
@@ -1497,11 +1539,11 @@ export default {
 						for (let header_i in dmf_list ) {
 							
 							var header_to_push = dmf_list[ header_i ]
-							console.log("... item_headers + map / header_to_push : ", header_to_push )
+							// console.log("... item_headers + map / header_to_push : ", header_to_push )
 
 							// check if header_to_push has a corresponding item in parent_map (a mapped header) 
 							var replacing_header = this.parentMap.find(obj => ( obj.oid_dmf == header_to_push._id ) )
-							console.log("... item_headers + map / replacing_header : ", replacing_header )
+							// console.log("... item_headers + map / replacing_header : ", replacing_header )
 
 							// replace value to push by mapped header
 							if ( replacing_header != undefined ) {

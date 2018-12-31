@@ -271,7 +271,9 @@
 		"del_dsi" 		: "Suprimir este juego de datos",
 		"del_dmt" 		: "Suprimir este módelos",
 		"del_rec" 		: "Suprimir esta receta",
-	
+
+		"dsi_headers"	: "el título de columna original",
+		"map_with_dmf"	: "asociar el título con un campo del módelo de datos",	
 		"dsi_map" 		: "Haz corresponder sus datos con su módelo de datos",
 		"dsi_to_dmf" 	: "Mapear este header"
 	
