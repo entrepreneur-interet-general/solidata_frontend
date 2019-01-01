@@ -1,6 +1,10 @@
 <template>
 
-	<v-toolbar dark color="primary">
+	<v-toolbar 
+		class="mt-5"
+		dark 
+		color="primary"
+		>
 
 		<!-- SETTINGS ICON -->
 		<v-icon>

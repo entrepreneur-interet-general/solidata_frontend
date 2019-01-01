@@ -33,7 +33,7 @@
 		</span>
 
 		<v-select
-			class="ol-selector ma-1 body-1 text-xs-center"
+			class="ol-selector ma-2 body-1 text-xs-center"
 			solo
 			dense
 			:prepend-inner-icon="$store.state.mainIcons.view.icon"

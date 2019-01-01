@@ -76,6 +76,7 @@
 		"off"			: "off",
 		"and"			: "et",
 		"lang"			: "Langage",
+		"what_is"		: "Qu'est-ce que ce document?",
 
 		"validate"		: "Valider",
 		"search"		: "Chercher",
@@ -150,6 +151,9 @@
 
 		"cgu" 			: "Je suis d'accord avec les CGU",
 
+		"open_options"	: "Voir les options pour ce document",
+		"open_team"		: "Gérer l'équipe du document",
+		"open_settings"	: "Ouvrir les préférences du document",
 		"settings"		: "Préférences"
 
 	},
@@ -259,9 +263,13 @@
 		"f_is_required"	: "Champ requis" ,
 		"resume"		: "Résumé",
 
+		"export" 		: "Exporter les données du projet",
+		"geoloc" 		: "Géolocaliser les données du projet",
+
 		"dsi" 			: "Jeux de données",
 		"no_dmt" 		: "Merci de sélectionner un modèle de données",
 		"no_dsi" 		: "Merci de sélectionner un ou plusieurs jeux de données",
+		"no_dsi_map" 	: "Ce jeux de données n'est pas associé au modèle de données",
 
 		"manage_dsi" 	: "Gérer ses jeux de données",
 		"manage_dmt" 	: "Gérer le modèle de données",
@@ -272,7 +280,7 @@
 		"del_rec" 		: "Supprimer cette recette",
 
 		"dsi_headers"	: "titre de colonne original",
-		"map_with_dmf"	: "associer le titre de colonne avec un champ de votre modèle de données",
+		"map_with_dmf"	: "associer chaque titre de colonne avec un champ de votre modèle de données",
 		"dsi_map" 		: "Faites correspondre votre jeu de données avec votre modèle de données",
 		"dsi_to_dmf" 	: "Map cette colonne"
 
@@ -350,7 +358,9 @@
 		"src_link" 		: "Valeur", 
 		"src_sep" 		: "Séparateur", 
 		"src_parser" 	: "Source parser",
-		
+
+		"go_to" 		: "Voir ce jeu de données",
+
 		"file" 			: "Choisissez un fichier",
 		"f_col_headers" : "Colonnes", 
 		"f_data" 		: "Lignes de données" 

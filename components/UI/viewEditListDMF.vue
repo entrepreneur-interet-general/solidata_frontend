@@ -169,19 +169,25 @@
 								:nudge-bottom="10"
 								offset-y
 								>
-
-								<v-btn
-									:disabled="!checkUserAuth('delete_item')"
-									icon
-									ml-2
+								
+								<v-tooltip 
 									slot="activator"
+									top 
 									>
-
-									<v-icon>
-										{{ $store.state.mainIcons.options.icon }}
-									</v-icon>
-
-								</v-btn>
+									<v-btn
+										:disabled="!checkUserAuth('delete_item')"
+										icon
+										ml-2
+										slot="activator"
+										>
+										<v-icon>
+											{{ $store.state.mainIcons.options.icon }}
+										</v-icon>
+									</v-btn>
+									<span>
+										{{ $t(`global.open_options`, $store.state.locale) }}
+									</span>
+								</v-tooltip>
 
 								<v-list class="pa-0">
 
@@ -406,126 +412,172 @@
 			<!-- DMF_LIST vs OPEN_LEVEL MAPPING -->
 			<v-flex 
 				v-if="is_map"
-				class="xs12 pt-3"
+				class="xs12"
 				>
 
-				<v-card 
-					flat
-					class=""
-					color=""
+
+				<!-- COMPONENTS FOR COMMON DOCS USES -->		
+				<v-expansion-panel
+					v-model="panel_map"
+					expand
+					class="elevation-0 mt-2"
 					>
-					<v-card-text class="pa-0">
+					<v-expansion-panel-content>
 
 						<!-- DATA DMF_LIST OPEN_LEVEL TOOLBAR -->
-						<v-toolbar 
-							v-show="!isPreview "
-							class="elevation-0" 
-							color="white"
+						<v-toolbar-title 
+							class="subheading grey--text"
+							slot="header"
 							>
-							
-							<!-- DMF_LIST OPEN_LEVEL title dataset -->
-							<v-toolbar-title
-								class="subheading grey--text"
-								dense
-								>
 
-								<!-- <v-btn
-									icon
-									v-show="isPreview || add_to_parent"
-									flat
-									class="grey"
-									dark
-									small 
-									:to="`/${item_doc.specs.doc_type}/${item_doc._id}`"
-									> -->
+							<v-icon small class="px-2">
+								{{ $store.state.mainIcons.datamodels.icon }}
+							</v-icon>
+							<v-icon small class="accent--text">
+								{{ $store.state.mainIcons.map_doc.icon }}
+							</v-icon>
+							<v-icon small class="px-2">
+								{{ $store.state.mainIcons.view.icon }}
+							</v-icon>
 
-									<v-icon small class="px-2">
-										{{ $store.state.mainIcons.datamodels.icon }}
-									</v-icon>
-									<v-icon small class="accent--text">
-										{{ $store.state.mainIcons.map_doc.icon }}
-									</v-icon>
-									<v-icon small class="px-2">
-										{{ $store.state.mainIcons.view.icon }}
-									</v-icon>
-
-								<!-- </v-btn> -->
-								
+							<span>
 								{{ $t(`global.open_level_show`, $store.state.locale ) }}
-
-							</v-toolbar-title>
-
-						</v-toolbar>
-
-						<v-divider></v-divider>
-
-
-						<!-- DMF_LIST OPEN_LEVEL DATA TABLE -->
-						<v-data-table
-							:ref="'datatable_openlevel'"
-							:headers="list_headers_selector"
-							:items="list_DMF_first_row_pivoted"
-							class="elevation-0"
-							:loading="loading"
-							:pagination.sync="paginationDMF"
-							hide-actions
-							hide-headers
-							>
-				
-							<template
-								slot="items" 
-								slot-scope="props"
-								>
+							</span>
 							
-								<td
-									v-for="dmf in list_DMF_raw_selector"
-									:key="list_DMF_raw_selector.indexOf(dmf)"
-									:class="`px-1 ${ (list_DMF_first_row_pivoted.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
-									style="text-align: center;"
+						</v-toolbar-title>
+
+						<v-card 
+							flat
+							class=""
+							color=""
+							>
+							<v-card-text class="pa-0">
+
+
+								<!-- DMF_LIST OPEN_LEVEL title dataset -->
+								<!-- <v-divider></v-divider>
+
+								<v-toolbar 
+									v-show="!isPreview "
+									class="elevation-0" 
+									color="white"
 									>
-
-									<!-- first column  -->
-									<div 
-										v-if=" dmf['_id'] == '_' && !isPreview"
-										class="col-titles font-weight-bold"
+									
+									<v-toolbar-title
+										class="subheading grey--text"
+										dense
 										>
+
+										<v-icon small class="px-2">
+											{{ $store.state.mainIcons.datamodels.icon }}
+										</v-icon>
+										<v-icon small class="accent--text">
+											{{ $store.state.mainIcons.map_doc.icon }}
+										</v-icon>
+										<v-icon small class="px-2">
+											{{ $store.state.mainIcons.view.icon }}
+										</v-icon>
 										
-										open_level_show
+										{{ $t(`global.open_level_show`, $store.state.locale ) }}
 
-									</div>
+									</v-toolbar-title>
+
+								</v-toolbar> -->
 
 
-									<!-- columns for each entry in list_DMF_full_pivoted -->
-									<div 
-										v-else
-										class="col-values"
+								<v-divider></v-divider>
+
+
+								<!-- DMF_LIST OPEN_LEVEL DATA TABLE -->
+								<v-data-table
+									:ref="'datatable_openlevel'"
+									:headers="list_headers_selector"
+									:items="list_DMF_first_row_pivoted"
+									class="elevation-0"
+									:loading="loading"
+									:pagination.sync="paginationDMF"
+									hide-actions
+									hide-headers
+									>
+						
+									<template
+										slot="items" 
+										slot-scope="props"
 										>
-
-										<!-- OPEN LEVEL CHOICE INPUT -->
-										<ViewEditDMFol
-											:dmt="item_doc_id[0].oid_dmt"
-											:dmf="dmf"
-											:is_loading="is_loading"
-											:parent_map="parent_map"
-											:dmf_ol_val="getDMF_openlevel(dmf._id)"
-											:parentDoc_id="parentDoc_id"
-											:parentDoc_coll="parentDoc_coll"
-											:canEdit="canEdit_ol"
+									
+										<td
+											v-for="dmf in list_DMF_raw_selector"
+											:key="list_DMF_raw_selector.indexOf(dmf)"
+											:class="`px-1 ${ (list_DMF_first_row_pivoted.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
+											style="text-align: center;"
 											>
-										</ViewEditDMFol>
 
-									</div>
+											<!-- first column  -->
+											<!-- open_level_show -->
+											<div 
+												v-if=" dmf['_id'] == '_' && !isPreview"
+												class="col-titles font-weight-bold"
+												>
+												
+												<v-icon 
+													small
+													color="primary" 
+													>
+													{{ $store.state.mainIcons.view.icon }}
+												</v-icon>
+												<v-tooltip right>
+													<span slot="activator">
+														<v-icon 
+															small
+															dark
+															class="pl-2"
+															color="grey"
+															>
+															{{ $store.state.mainIcons.question.icon }}
+														</v-icon>
+													</span>
+													<span>
+														{{ $t(`projects.open_level_show`, $store.state.locale) }}
+													</span>
+												</v-tooltip>
 
-								</td>
-								
-								
-							</template>
+											</div>
 
 
-						</v-data-table>
+											<!-- columns for each entry in list_DMF_full_pivoted -->
+											<div 
+												v-else
+												class="col-values pl-0 pr-2 "
+												>
 
-					</v-card-text>
-				</v-card>
+												<!-- OPEN LEVEL CHOICE INPUT -->
+												<ViewEditDMFol
+													:dmt="item_doc_id[0].oid_dmt"
+													:dmf="dmf"
+													:is_loading="is_loading"
+													:parent_map="parent_map"
+													:dmf_ol_val="getDMF_openlevel(dmf._id)"
+													:parentDoc_id="parentDoc_id"
+													:parentDoc_coll="parentDoc_coll"
+													:canEdit="canEdit_ol"
+													>
+												</ViewEditDMFol>
+
+											</div>
+
+										</td>
+										
+										
+									</template>
+
+								</v-data-table>
+
+							</v-card-text>
+						</v-card>
+
+					</v-expansion-panel-content>
+				</v-expansion-panel>
+
 			</v-flex>
 
 
@@ -613,6 +665,7 @@ export default {
 			},
 
 			dialog_del 	: false,
+			panel_map	: [true], 
 
 			offsetTop 		: 0,
 			offsetLeft 		: 0,
@@ -873,14 +926,14 @@ export default {
 			};
 
 			// send datatable_headers back
-			console.log("\n...viewEditListDMF - pivotData / data_new_headers : ", data_new_headers);
+			// console.log("\n...viewEditListDMF - pivotData / data_new_headers : ", data_new_headers);
 			this.DMF_headers 		=  data_new_headers ;
 
 			var temp_DMF_light		=  data_new_headers.slice(0) ;
 			temp_DMF_light.shift() ; 
 			// console.log("\n...viewEditListDMF - pivotData / temp_DMF_light : ", temp_DMF_light);
 			this.DMF_headers_light	= temp_DMF_light ; 
-			console.log("\n...viewEditListDMF - pivotData / this.DMF_headers_light : ", this.DMF_headers_light);
+			// console.log("...viewEditListDMF - pivotData / this.DMF_headers_light : ", this.DMF_headers_light);
 
 
 			// --------------------------------------------- //
@@ -908,7 +961,7 @@ export default {
 
 					else {
 						for (var dmf in data_from_API ) {
-							console.log("...viewEditListDMF - pivotData / dmf : ", dmf);
+							// console.log("...viewEditListDMF - pivotData / dmf : ", dmf);
 							temp_field[ data_from_API[dmf]["_id"] ] = data_from_API[dmf][ "_id" ] ; 
 						};
 					}
@@ -975,10 +1028,10 @@ export default {
 				// console.log("- viewEditListDMF / then 1 - dataTable : ", dataTable ) ;
 
 				if ( dataTable !== undefined ) {
-					console.log("- viewEditListDMF / then 2 - dataTable : ", dataTable ) ;
+					// console.log("- viewEditListDMF / then 2 - dataTable : ", dataTable ) ;
 					// component selector : https://forum.vuejs.org/t/help-with-selector/18652/11 
 					var dt = dataTable.$el.querySelector(".v-table__overflow") 
-					console.log("- viewEditListDMF / then 3 - dt : ", dt ) ;
+					// console.log("- viewEditListDMF / then 3 - dt : ", dt ) ;
 					dt.addEventListener('scroll', this.onScroll);
 					dt.classList.add("no-scroll");
 					this.dataTable = dt

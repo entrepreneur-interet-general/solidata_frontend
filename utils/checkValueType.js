@@ -4,7 +4,7 @@ const CheckValueType = {
 	// cf : https://webbjocke.com/javascript-check-data-types/
 	getValType (value_raw, sep="|") {
 
-		// console.log("getValType / value_raw : ", value_raw ) ;
+		// console.log("\ngetValType / value_raw : ", value_raw ) ;
 		
 		var val_concat = value_raw ;
 		var val_type = typeof value_raw ; 

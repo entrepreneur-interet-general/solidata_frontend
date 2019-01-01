@@ -18,15 +18,21 @@
 				{{ itemDoc.infos.title }}
 			</v-toolbar-title>
 
-			<v-btn 
-				icon
-				@click="switchSettings()"
-				>
-				<v-icon
+			<v-tooltip top>
+				<v-btn 
+					slot="activator"
+					icon
+					@click="switchSettings()"
 					>
-					{{ $store.state.mainIcons.settings.icon }}
-				</v-icon>
-			</v-btn>
+					<v-icon
+						>
+						{{ $store.state.mainIcons.settings.icon }}
+					</v-icon>
+				</v-btn>
+				<span>
+					{{ $t(`global.open_settings`, $store.state.locale) }}
+				</span>
+			</v-tooltip>
 
 
 			<v-spacer></v-spacer>
@@ -49,32 +55,43 @@
 
 
 			<!-- TEAM BTN -->
-			<v-btn 
-				v-if="!is_create"
-				:disabled="!checkUserAuth('team')"
-				icon
-				small
-				>
-				<v-icon 
-					color=""
+			<v-tooltip top>
+				<v-btn 
+					slot="activator"
+					v-if="!is_create"
+					:disabled="!checkUserAuth('team')"
+					icon
+					small
 					>
-					{{ $store.state.mainIcons.parentFieldIcons.team.icon }}
-				</v-icon>
-			</v-btn>
+					<v-icon 
+						color=""
+						>
+						{{ $store.state.mainIcons.parentFieldIcons.team.icon }}
+					</v-icon>
+				</v-btn>
+				<span>
+					{{ $t(`global.open_team`, $store.state.locale) }}
+				</span>
+			</v-tooltip>
 
 			<!-- QUESTION BTN -->
-			<v-btn 
-				icon
-				small
-				>
-				<v-icon 
+			<v-tooltip top>
+				<v-btn 
+					slot="activator"
+					icon
 					small
-					color=""
 					>
-					{{ $store.state.mainIcons.question.icon }}
-				</v-icon>
-			</v-btn>
-
+					<v-icon 
+						small
+						color=""
+						>
+						{{ $store.state.mainIcons.question.icon }}
+					</v-icon>
+				</v-btn>
+				<span>
+					{{ $t(`global.open_options`, $store.state.locale ) }}
+				</span>
+			</v-tooltip>
 
 			<!-- RESET / DELETE ITEM MENU -->
 			<v-menu 
@@ -85,17 +102,24 @@
 				:nudge-bottom="10"
 				offset-y
 				>
-
-				<v-btn 
-					:disabled="!checkUserAuth('delete_item')"
-					icon 
-					small
+				<v-tooltip 
 					slot="activator"
+					top
 					>
-					<v-icon>
-						{{ $store.state.mainIcons.options.icon }}
-					</v-icon>
-				</v-btn>
+					<v-btn 
+						:disabled="!checkUserAuth('delete_item')"
+						icon 
+						small
+						slot="activator"
+						>
+						<v-icon>
+							{{ $store.state.mainIcons.options.icon }}
+						</v-icon>
+					</v-btn>
+					<span>
+						{{ $t(`global.open_options`, $store.state.locale ) }}
+					</span>
+				</v-tooltip>
 
 				<v-list class="pa-0">
 

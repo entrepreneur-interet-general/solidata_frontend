@@ -152,6 +152,9 @@
 
 		"cgu" 			: "Estoy de acuerdo con las CGU",
 
+		"open_options"	: "Ver las opciones para este documento",
+		"open_team"		: "Administrar el équipo del documento",
+		"open_settings"	: "Abrir los ajustes del documento",
 		"settings"		: "Ajustes"
 
 	},
@@ -260,9 +263,13 @@
 		"f_is_required"	: "Campo está necesario" ,
 		"resume" 		: "Resumen",
 
+		"export" 		: "Exportar los datos del proyecto",
+		"geoloc" 		: "Añadir datos de geolocalización al proyecto",
+
 		"dsi" 			: "Datos",
 		"no_dmt" 		: "Por favor seleccione un módelo",
 		"no_dsi" 		: "Por favor seleccione un o varios juegos de datos",
+		"no_dsi_map" 	: "Este juego de datos no está asociado con el módelo",
 
 		"manage_dsi" 	: "Administrar sus datos",
 		"manage_dmt" 	: "Administrar su módelo de datos",
@@ -273,7 +280,7 @@
 		"del_rec" 		: "Suprimir esta receta",
 
 		"dsi_headers"	: "el título de columna original",
-		"map_with_dmf"	: "asociar el título con un campo del módelo de datos",	
+		"map_with_dmf"	: "asociar cada título con un campo del módelo de datos",	
 		"dsi_map" 		: "Haz corresponder sus datos con su módelo de datos",
 		"dsi_to_dmf" 	: "Mapear este header"
 	
@@ -351,6 +358,8 @@
 		"src_sep" 		: "Separador", 
 		"src_parser" 	: "Fuente parser",
 		
+		"go_to" 		: "Ver este juego de datos",
+
 		"file" 			: "Elejir un archivo",
 		"f_col_headers" : "Columnas", 
 		"f_data" 		: "Linea de datos" 

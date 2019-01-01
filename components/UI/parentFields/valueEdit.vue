@@ -386,13 +386,13 @@ export default {
 	// cf : https://stackoverflow.com/questions/45813347/difference-between-the-created-and-mounted-events-in-vue-js
 
 	created () {
-		console.log("- valueEdit / created ---> subField / item_data : ", this.subField + ' / ' + this.item_data ) ;
+		// console.log("- valueEdit / created ---> subField / item_data : ", this.subField + ' / ' + this.item_data ) ;
 		this.itemData = this.item_data ;
 		this.fileExt = this.filetype ;
 	},
 	mounted () {
 		if (this.subfield == 'src_type'){
-			console.log("- valueEdit / mounted ---> this.filetype : ", this.filetype ) ;
+			// console.log("- valueEdit / mounted ---> this.filetype : ", this.filetype ) ;
 			this.fileExt = this.filetype ;
 		}
 	},

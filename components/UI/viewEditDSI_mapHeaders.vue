@@ -19,7 +19,14 @@
 	<div>
 
 		<!-- DEBUG -->
+		
+			parent_map : <br> <code>{{ parent_map }}</code><br>
+			<v-divider></v-divider>
+			dmf_value : <br> <code>{{ dmf_value }}</code><br>
+			<v-divider></v-divider>
+			
 		<span v-if="$store.state.is_debug">
+
 
 			dsi_id : <br> <code>{{ dsi_id }}</code><br>
 			dsi_header : <br> <code>{{ dsi_header }}</code><br>
@@ -27,12 +34,7 @@
 			<v-divider></v-divider>
 			<!-- parentDoc_id : <br> <code>{{ parentDoc_id }}</code><br>
 			parentDoc_coll : <code>{{ parentDoc_coll }}</code><br> -->
-			parent_map : <br> <code>{{ parent_map }}</code><br>
 
-			<v-divider></v-divider>
-			dmf_value : <br> <code>{{ dmf_value }}</code><br>
-
-			<v-divider></v-divider>
 			<!-- parentDoc_dmt : <br> <code>{{ parentDoc_dmt }}</code><br> -->
 			<!-- parentDoc_dmf_list : <br> <code>{{ parentDoc_dmf_list }}</code><br> -->
 
@@ -51,9 +53,9 @@
 			item-text="title"
 			item-value="'_id'"
 			return-object
+			:disabled="!canEdit || is_loading"
 			@change="update_mapping() "
 			>
-			<!-- :disabled="!canEdit || is_loading" -->
 		</v-select>
 
 
@@ -183,17 +185,17 @@ export default {
 				if (newVal != undefined ) {
 
 					// get corresponding header in parent_map & update dmf_value
-					console.log("\n~ watch / parent_map - this.dsi_header : ", this.dsi_header )
-					console.log("~ watch / parent_map - newVal : \n", newVal )
+					// console.log("\n~ watch / parent_map - this.dsi_header : ", this.dsi_header )
+					// console.log("~ watch / parent_map - newVal : \n", newVal )
 				
 					if ( newVal.oid_dmf != null ) {
-						this.dmf_value._id 		= newVal.oid_dmf
+						this.dmf_value._id 	= newVal.oid_dmf
 					}
 					else {
-						this.dmf_value._id 		= "_ignore_"
+						this.dmf_value 		= this.dmf_value_dft
 					}
 
-					console.log("~ watch / parent_map - this.dmf_choices : ", this.dmf_choices )
+					// console.log("~ watch / parent_map - this.dmf_choices : ", this.dmf_choices )
 
 					if (this.dmf_choices.length != 0 ){
 						var dmf_value_title 	= this.dmf_choices.find( obj => { return obj._id === newVal.oid_dmf } ) 
@@ -215,6 +217,10 @@ export default {
 		update_mapping () {
 			
 			console.log("\n...viewEditDSI_mapHeaders - update_mapping... ")
+
+			this.loading = true	
+			this.$emit("update_loading", true)
+
 			var input = {
 
 				doc_id	: this.parentDoc_id, 
@@ -239,11 +245,13 @@ export default {
 			.then(result => {
 				this.alert 		= { type: 'success', message: result.msg }
 				this.loading 	= false	
+				this.$emit("update_loading", false)
 			})
 			
 			.catch(error => {
 				console.log("submit / error... : ", error ) ; 
 				this.loading = false
+				this.$emit("update_loading", false)
 				this.alert = {type: 'error', message: "login error" }
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}

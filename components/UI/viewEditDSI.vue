@@ -198,7 +198,7 @@
 
 
 
-			<!-- DSI DATA -->
+			<!-- DSI DATA + MAPPING -->
 			<v-layout 
 				row 
 				wrap
@@ -215,7 +215,7 @@
 							class="pa-0"
 							>
 
-							<!-- DATA TOOLBAR -->
+							<!-- DATA TOOLBAR + MAPPING BTN -->
 							<v-toolbar class="elevation-0" color="white">
 								
 								<!-- title dataset -->
@@ -297,9 +297,11 @@
 									<v-btn 
 										slot="activator" 
 										color="accent" 
+										:diabled="loading"
 										dark 
 										block
 										round
+										
 										outline
 										class="text-lowercase"
 										>
@@ -357,31 +359,35 @@
 
 
 								<!-- MAPPING DIALOG BTN-->
-								<v-btn
-									:disabled="!checkUserAuth('mapping.dsi_to_dmf')"
-									v-show="is_map"
-									flat
-									:class="`${ checkUserAuth('mapping.dsi_to_dmf') ? 'accent' : 'grey lighten-1' } ml-2`"
-									dark
-									small 
-									round
-									@click="dialog_mapping = !dialog_mapping"
-									>
+								<v-tooltip top>
+									<v-btn
+										slot="activator"
+										v-show="is_map"
+										:class="`${ checkUserAuth('mapping.dsi_to_dmf') ? ( loading ? 'grey lighten-1' : 'accent') : 'grey lighten-1' } ml-2`"
+										:disabled="!checkUserAuth('mapping.dsi_to_dmf') || loading"
+										flat
+										dark
+										small 
+										round
+										@click="dialog_mapping = !dialog_mapping"
+										>
 
-									<v-icon small right left>
-										{{ $store.state.mainIcons.datasets.icon }}
-									</v-icon>
-									<v-icon small left>
-										{{ $store.state.mainIcons.map_doc.icon }}
-									</v-icon>
-									<v-icon small left>
-										{{ $store.state.mainIcons.datamodels.icon }}
-									</v-icon>
+										<v-icon small right left>
+											{{ $store.state.mainIcons.datasets.icon }}
+										</v-icon>
+										<v-icon small left>
+											{{ $store.state.mainIcons.map_doc.icon }}
+										</v-icon>
+										<v-icon small left>
+											{{ $store.state.mainIcons.datamodels.icon }}
+										</v-icon>
 
-								</v-btn> 
+									</v-btn> 
+									<span>
+										{{ $t(`projects.map_with_dmf`, $store.state.locale) }}
+									</span>
+								</v-tooltip>
 								
-
-
 
 								<!-- DELETE ITEM FROM PARENT MENU -->
 								<v-menu 
@@ -392,19 +398,26 @@
 									:nudge-bottom="10"
 									offset-y
 									>
-
-									<v-btn
-										:disabled="!checkUserAuth('datasets.dsi_list')"
-										icon
-										ml-2
+									<v-tooltip 
+										top
 										slot="activator"
 										>
+										<v-btn
+											:disabled="!checkUserAuth('datasets.dsi_list') || loading "
+											icon
+											ml-2
+											slot="activator"
+											>
 
-										<v-icon>
-											{{ $store.state.mainIcons.options.icon }}
-										</v-icon>
+											<v-icon>
+												{{ $store.state.mainIcons.options.icon }}
+											</v-icon>
 
-									</v-btn>
+										</v-btn>
+										<span>
+											{{ $t(`global.open_options`, $store.state.locale ) }}
+										</span>
+									</v-tooltip>
 
 									<v-list class="pa-0">
 
@@ -501,8 +514,7 @@
 							</v-toolbar>
 
 
-							<!-- DSI DATA / MAPPING -->
-							<!-- DIALOG MAPPING -->
+							<!-- DSI DATA / DIALOG MAPPING -->
 							<v-dialog 
 								v-if="is_map"
 								v-model="dialog_mapping" 
@@ -512,7 +524,7 @@
 								transition="dialog-bottom-transition"
 								>
 
-								<!-- SETTINGS TOOLBAR -->
+								<!-- MAPPER SETTINGS TOOLBAR -->
 								<SettingsToolbar
 									:itemDoc="itemDoc"
 									@settings="dialog_mapping = false "
@@ -570,11 +582,13 @@
 											- headers_dsi_but_first : <code>{{ headers_dsi_but_first }}</code><br>
 										</span>
 
+										<v-divider class=""></v-divider>
+
 										<v-data-table
-											:ref="'datatable_mapping'"
+											:ref="'datatable_mapper'"
 											:headers="headers_dsi"
 											:items="['header', 'mapper']"
-											class="elevation-4 "
+											class="elevation-1 "
 											hide-actions
 											hide-headers
 											>
@@ -586,15 +600,30 @@
 
 													<!-- v-show="!isPreview" -->
 												<td 
-													class="px-1"
+													class="px-1 py-4"
 													>
+
+													<!-- h_dsi_headers -->
 													<div 
 														v-if="props.item == 'header'"
-														class="col-titles"
+														class="col-titles pl-2"
 														>
+														<v-icon 
+															small
+															color="primary" 
+															>
+															{{ $store.state.mainIcons.datasets.icon }}
+														</v-icon>
 														<v-tooltip right>
 															<span slot="activator">
-																h_dsi_headers
+																<v-icon 
+																	small
+																	dark
+																	class="pl-2"
+																	color="grey"
+																	>
+																	{{ $store.state.mainIcons.question.icon }}
+																</v-icon>
 															</span>
 															<span>
 																{{ $t(`projects.dsi_headers`, $store.state.locale) }}
@@ -602,13 +631,27 @@
 														</v-tooltip>
 													</div>
 
+													<!-- h_map_with_dmf -->
 													<div 
 														v-else
-														class="col-titles"
+														class="col-titles pl-2"
 														>
+														<v-icon 
+															small
+															color="primary" 
+															>
+															{{ $store.state.mainIcons.datamodels.icon }}
+														</v-icon>
 														<v-tooltip right>
 															<span slot="activator">
-																h_map_with_dmf
+																<v-icon 
+																	small
+																	dark
+																	class="pl-2"
+																	color="grey"
+																	>
+																	{{ $store.state.mainIcons.question.icon }}
+																</v-icon>
 															</span>
 															<span>
 																{{ $t(`projects.map_with_dmf`, $store.state.locale) }}
@@ -626,7 +669,7 @@
 												
 													<div 
 														v-if="props.item == 'header'"
-														class="col-values"
+														class="col-values font-weight-bold"
 														>
 														{{ header.value | truncate(30, ' ...') }}
 													</div>
@@ -650,6 +693,7 @@
 															:parentDoc_dmf_list="parentDoc_dmf_list"
 
 															:canEdit="canEdit"
+															@update_loading="updateLoading"
 															>
 														</ViewEditDSIMapHeaders>
 													</div>
@@ -658,8 +702,72 @@
 
 											</template>
 										
-
 										</v-data-table>
+
+
+										<v-divider class="mt-3"></v-divider>
+
+
+										<!-- REPEAT DATATABLE CONTENT FOR HELP -->
+										<v-data-table
+											:ref="'datatable_mapped'"
+											:headers="headers_dsi"
+											:items="item_data"
+											:pagination.sync="pagination"
+											:total-items="total_items"
+											class="elevation-1 scroll_data"
+											:rows-per-page-items="[5, 10, 25]"
+											hide-headers
+											>
+
+											<template 
+												slot="items"
+												slot-scope="props"
+												>
+
+												<!-- FIRST COLUMN -->
+												<td 
+													class="px-1"
+													>
+													<div class="col-titles">
+														<!-- <v-icon
+															small
+															class="mr-1"
+															@click="editItem(props.item)"
+															>
+															{{ $store.state.mainIcons.edit.icon }}
+														</v-icon> -->
+														<v-icon
+															small
+															class="mr-1"
+															@click="editItem(props.item)"
+															>
+															{{ $store.state.mainIcons.view.icon }}
+														</v-icon>
+														<!-- <v-icon
+															small
+															@click="deleteItem(props.item)"
+															>
+															{{ $store.state.mainIcons.delete.icon }}
+														</v-icon> -->
+													</div>
+												</td>
+
+												<!-- CONTENT COLUMNS -->
+												<td 
+													v-for="header in headers_dsi_but_first"
+													:key="headers_dsi_but_first.indexOf(header)"
+													class="px-1"
+													>
+													<div class="col-values">
+														{{ props.item[header.value] | truncate(30, ' ...') }}
+													</div>
+												</td>
+
+											</template>
+
+										</v-data-table> 
+
 									</v-card-text>
 
 								</v-card>
@@ -670,11 +778,28 @@
 							<v-divider></v-divider>
 							
 
-
-
 							<!-- DSI DATA / CONTENTS -->
+
+							<!-- - item_data : <code>{{ item_data }} </code> <br> -->
+
+							<!-- <ViewEditDSITable
+								v-if="is_parent_map"
+								:isPreview="isPreview"
+								:item_data="item_data",
+								:headers_preview="headers_preview",
+								:headers_preview_but_first="headers_preview_but_first",
+								:pagination="pagination",
+								:total_items="total_items",
+								:parent_scroll="parent_scroll",
+								>
+							</ViewEditDSITable> -->
+
+								<!-- - headers_preview_but_first : <br><code>{{headers_preview_but_first}}</code><br>
+								<v-divider></v-divider> -->
+
 								<!-- :loading="loading" -->
 							<v-data-table
+								v-if="is_parent_map"
 								:ref="'datatable'"
 								:headers="headers_preview"
 								:items="item_data"
@@ -720,8 +845,6 @@
 									</td>
 
 									<!-- CONTENT COLUMNS -->
-									<!-- item_headers -->
-									<!-- itemHeaders_Actions(!isPreview) -->
 									<td 
 										v-for="header in headers_preview_but_first"
 										:key="headers_preview_but_first.indexOf(header)"
@@ -733,12 +856,30 @@
 									</td>
 
 								</template>
-							
-								<!-- <template slot="pageText" slot-scope="props">
-									Lignes {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
-								</template> -->
 
-							</v-data-table>
+							</v-data-table> 
+
+
+
+							<!--  -->
+							<v-alert 
+								v-else 
+								class="mt-0 pa-4 text-xs-center"
+								:value="true"
+								color="accent"
+								>
+								<v-icon
+									dark
+									class="pr-2"
+									>
+									{{ $store.state.mainIcons.warning.icon }}
+								</v-icon>
+								<br>
+								<span 
+									>
+									{{ $t( `projects.no_dsi_map`, $store.state.locale ) }}
+								</span>
+							</v-alert>
 
 
 							<!-- DEBUG -->
@@ -894,6 +1035,7 @@ import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
 import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
 
 import ViewEditDSIMapHeaders from '~/components/UI/viewEditDSI_mapHeaders.vue' 
+import ViewEditDSITable from '~/components/UI/viewEditDSI_table.vue' 
 
 
 export default {
@@ -937,6 +1079,7 @@ export default {
 		ItemsListDI,
 		ItemDocUses,
 		SettingsToolbar,
+		ViewEditDSITable,
 		ViewEditDSIMapHeaders,
 	},
 
@@ -970,8 +1113,6 @@ export default {
 			// load DSI data 
 			this.get_FData_fromApi( pagination_params ) ;
 
-
-
 		}
 
 		else {
@@ -991,6 +1132,7 @@ export default {
 			this.filetype 	= this.preloadFileType() ; 
 
 			this.item_headers() ; 
+			this.addMapOnScroll() ; 
 		}
 		
 	},
@@ -1002,11 +1144,16 @@ export default {
 			
 			
 			alert		: null,
+			loading 	: false,
 
-			offsetTop 		: 0,
-			offsetLeft 		: 0,
-			dataTable 		: undefined,
-			// dataTable_map 	: undefined,
+			offsetTop 			: 0,
+			offsetLeft 			: 0,
+			dataTable 			: undefined,
+
+			offsetTop_ 			: 0,
+			offsetLeft_ 		: 0,
+			dataTable_mapper	: undefined,
+			dataTable_mapped	: undefined,
 
 			isPreview 	: this.is_preview,
 			no_subField : true,
@@ -1037,12 +1184,10 @@ export default {
 			// item_data 		: this.item_doc.data_raw.f_data, 
 			// item_headers 	: this.item_doc.data_raw.f_col_headers, 
 
-
 			is_file 			: null,
 			filetype 			: null,
 
 			// data table : loading, pagination 
-			loading 		: false,
 			pagination 		: {
 
 			},
@@ -1089,6 +1234,18 @@ export default {
 			return (this.isPreview) ? this.parentNoBotPadding : this.parentBotPadding ;
 		},
 
+
+		// PARENT MAP & HEADERS
+
+		is_parent_map () {
+			if ( this.is_map ) {
+				return this.parent_map.length != 0 ? true : false
+			}
+			else {
+				return true
+			}
+		},
+
 		headers_preview () {
 			if ( this.isPreview  ){
 				return this.headers.slice(1)
@@ -1099,7 +1256,7 @@ export default {
 		},
 
 		headers_preview_but_first () {
-			return this.headers_preview.slice(1)
+			return this.headers.slice(1)
 		},
 
 		headers_dsi_preview () {
@@ -1177,7 +1334,6 @@ export default {
 		},
 
 		parent_scroll : {
-
 			immediate : true,
 			handler (newVal, oldVal ) {
 				if ( this.dataTable !== undefined ) {
@@ -1187,7 +1343,16 @@ export default {
 					// }
 				}
 			}
+		},
 
+		offsetLeft_ : {
+			immediate : true,
+			handler (newVal, oldVal ) {
+				if ( this.dataTable_mapper != undefined && this.dataTable_mapped != undefined ) {
+					this.dataTable_mapper.scrollLeft = newVal
+					this.dataTable_mapped.scrollLeft = newVal
+				}
+			}
 		},
 
 		loading : {
@@ -1254,6 +1419,11 @@ export default {
 
 	methods: {
 		
+		updateLoading(input) {
+			console.log("updateLoading / input : ", input )
+			this.loading = input
+		},
+
 		parentDoc_dmf_list_reduc ( parentDocDMFs ) {
 
 			if ( parentDocDMFs != undefined && parentDocDMFs.length != 0 ) {
@@ -1280,6 +1450,36 @@ export default {
 			this.$emit('scrollTable', { 
 				left : scroll_data.scrollLeft 
 			}) 
+		},
+
+		onScroll_map (e) {
+			// console.log("... onScroll_mapper - e.target : ", e.target ) ;
+			var scroll_data = e.target ;
+			this.offsetLeft_ = scroll_data.scrollLeft ;
+		},
+		
+		addMapOnScroll () {
+
+			if ( this.is_map ) { 
+
+				var dataTable_mapper = this.$refs.datatable_mapper ; 
+				var dataTable_mapped = this.$refs.datatable_mapped ; 
+				// console.log("- viewEditDSI / then 4 - dataTable_mapper : ", dataTable_mapper ) ;
+				// console.log("- viewEditDSI / then 5 - dataTable_mapped : ", dataTable_mapped ) ;
+
+				if ( dataTable_mapped !== undefined ) {
+
+					var dt_mapper = dataTable_mapper.$el.querySelector(".v-table__overflow") 
+					var dt_mapped = dataTable_mapped.$el.querySelector(".v-table__overflow") 
+					dt_mapper.addEventListener('scroll', this.onScroll_map);
+					dt_mapped.addEventListener('scroll', this.onScroll_map);
+					this.dataTable_mapper = dt_mapper
+					this.dataTable_mapped = dt_mapped
+					
+				}
+
+			}
+
 		},
 
 		// TOOLBAR SWITCH
@@ -1427,21 +1627,16 @@ export default {
 				// console.log("- viewEditDSI / then 1 - dataTable : ", dataTable ) ;
 
 				if ( dataTable !== undefined ) {
-					console.log("- viewEditDSI / then 2 - dataTable : ", dataTable ) ;
+					// console.log("- viewEditDSI / then 2 - dataTable : ", dataTable ) ;
 					// component selector : https://forum.vuejs.org/t/help-with-selector/18652/11 
 					var dt = dataTable.$el.querySelector(".v-table__overflow") 
-					console.log("- viewEditDSI / then 3 - dt : ", dt ) ;
+					// console.log("- viewEditDSI / then 3 - dt : ", dt ) ;
 					dt.addEventListener('scroll', this.onScroll);
 					this.dataTable = dt
 
-					// if ( this.is_map ){
-					// 	var dataTable_map = this.$refs.datatable_mapping ; //) ;
-					// 	var dt_map = dataTable_map.$el.querySelector(".v-table__overflow") 
-					// 	console.log("- viewEditDSI / then 4 - dt_map : ", dt_map ) ;
-					// 	dt_map.addEventListener('scroll', this.onScroll);
-					// 	this.dataTable_map = dt_map
-					// }
 				}
+
+				this.addMapOnScroll() 
 
 				return "ok"
 
@@ -1503,7 +1698,7 @@ export default {
 					headers.push(header_)
 				}
 
-				console.log("\item_headers / this.is_map : ", this.is_map)
+				// console.log("\item_headers / this.is_map : ", this.is_map)
 				// console.log("item_headers / this.parentDoc_dmt : ", this.parentDoc_dmt)
 			
 				// console.log("item_headers / this.parentMap : \n", this.parentMap)
@@ -1522,7 +1717,7 @@ export default {
 				// if this.is_map reorder headers list to fit parentMap
 				if ( this.is_map != undefined && this.is_map ) {
 					
-					console.log("item_headers + map / building temp_headers_mapped... ")
+					// console.log("item_headers + map / building temp_headers_mapped... ")
 
 					var temp_headers_mapped 	= [] ;
 					var temp_headers_map_dmf 	= [] ;
@@ -1533,7 +1728,7 @@ export default {
 						// headers present in this.parentDocDMFs
 
 						var dmf_list = this.parentDocDMFs.slice(1)
-						console.log("... item_headers + map / dmf_list : ", dmf_list )
+						// console.log("... item_headers + map / dmf_list : ", dmf_list )
 
 						// loop dmf_list
 						for (let header_i in dmf_list ) {
@@ -1558,24 +1753,6 @@ export default {
 						}
 						this.headers_mapped = temp_headers_map_dmf
 						headers 			= temp_headers_map_dmf
-
-
-
-						// just headers present in this.parent_map
-						// for (let header_map in this.parentMap ) {
-						// 	// console.log("... item_headers / header_map : ", header_map)
-						
-						// 	var header_to_push = headers.find( obj => obj.value === this.parentMap[header_map].dsi_header )
-						// 	// console.log("... item_headers / header_to_push : ", header_to_push)
-
-						// 	if ( header_to_push != undefined ) {
-						// 		temp_headers_mapped.push(header_to_push)
-						// 	}
-
-						// }
-
-						// console.log("... item_headers / temp_headers_mapped : ", temp_headers_mapped)
-						// headers = temp_headers_mapped
 					
 					}
 
@@ -1590,7 +1767,7 @@ export default {
 
 			}
 		
-			console.log("\nitem_headers / returning headers : \n", headers)
+			// console.log("\nitem_headers / returning headers : \n", headers)
 			this.headers = headers
 			
 		},

@@ -78,6 +78,7 @@
 		"off"			: "off",
 		"and"			: "and",
 		"lang"			: "Language",
+		"what_is"		: "What is this document?",
 
 		"validate"		: "Validate",
 		"search"		: "Search",
@@ -152,6 +153,9 @@
 
 		"cgu" 			: "I agree with the CGU",
 
+		"open_options"	: "See the document's options",
+		"open_team"		: "Open the document's team preferences",
+		"open_settings"	: "Open the document's settings",
 		"settings"		: "Settings"
 
 	},
@@ -260,9 +264,13 @@
 		"f_is_required"	: "Field is required" ,
 		"resume" 		: "Resume",
 
+		"export" 		: "Export the project's data",
+		"geoloc" 		: "Geolocalize the project's data",
+
 		"dsi" 			: "Datasets",
 		"no_dmt" 		: "Please choose a datamodel",
 		"no_dsi" 		: "Please choose one or several datsets",
+		"no_dsi_map" 	: "This dataset is not assoxiated with the datamodel",
 
 		"manage_dsi" 	: "Manage your datasets",
 		"manage_dmt" 	: "Manage your datamodel template",
@@ -273,7 +281,7 @@
 		"del_rec" 		: "Delete this recipe",
 
 		"dsi_headers"	: "your original headers",
-		"map_with_dmf"	: "associate the original header with one of the fields from the datamodel",
+		"map_with_dmf"	: "associate each original header with one of the fields from the datamodel",
 		"dsi_map" 		: "Map your dataset with your datamodel",
 		"dsi_to_dmf" 	: "Map this header"
 
@@ -350,7 +358,9 @@
 		"src_link" 		: "Value", 
 		"src_sep" 		: "Separator", 
 		"src_parser" 	: "Source parser",
-		
+
+		"go_to" 		: "See this dataset",
+
 		"file" 			: "Choose a file",
 		"f_col_headers" : "Columns", 
 		"f_data" 		: "Data entries" 

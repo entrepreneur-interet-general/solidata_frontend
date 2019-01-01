@@ -139,6 +139,8 @@ const mainIconsConst = {
 	close				: { icon : "close" },
 	export				: { icon : "get_app" },
 
+	geoloc				: { icon : "pin_drop" },
+
 	back				: { icon : "arrow_back" },
 
 	infos				: { icon : "info" },

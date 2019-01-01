@@ -355,47 +355,42 @@
 			</v-flex>
 
 
-			<!-- MANAGE DMT COLUMN -->
+			<!-- MANAGE PRJ COLUMN -->
 			<v-flex xs2>
 
 				<v-layout row wrap>
 
+					<!-- DMT MANAGE -->
 					<v-flex xs12>
-
 						<v-card
 							flat
-							class="pa-1 ml-3"
+							class="pa-2 ml-3"
 							>
-
 							<v-card-text class="pa-0 text-xs-center ">
-							
-								<v-btn 
-									:disabled="loading || !checkUserAuth('mapping.dmf_to_open_level')"
-									class="ma-0 text-lowercase accent--text"
-									block
-									small
-									flat
-									@click="panel_lib_dmt=[true]; panel_infos=[false]; isSettings=true"
-									>
-
-										<!-- :color="`${ loading ? 'grey' : 'accent'} `" -->
-									<v-icon 
-										small
-										color="accent"
+								<v-tooltip top>
+									<v-btn 
+										slot="activator"
+										:disabled="loading || !checkUserAuth('mapping.dmf_to_open_level')"
+										:class="`ma-0 text-lowercase ${ loading ? 'grey--text' : 'accent--text'}`"
+										block
+										flat
+										@click="panel_lib_dmt=[true]; panel_infos=[false]; isSettings=true"
 										>
-										{{ $store.state.mainIcons.datamodels.icon }}
-									</v-icon>
-									
-									<!-- {{ $t(`projects.manage_dmt`, $store.state.locale) }} -->
-
-								</v-btn>
-
+										<v-icon 
+											color="accent"
+											>
+											{{ $store.state.mainIcons.datamodels.icon }}
+										</v-icon>
+									</v-btn>
+									<span>
+										{{ $t(`projects.manage_dmt` , $store.state.locale) }}
+									</span>
+								</v-tooltip>
 							</v-card-text>
-
 						</v-card>
 					</v-flex>
 
-					<!-- RECIPES -->
+					<!-- EXPORT -->
 					<v-flex 
 						xs12
 						v-show="!loading && list_DMT_oids.length != 0"
@@ -406,11 +401,64 @@
 							class="pa-2 ml-3 mt-2"
 							>
 							<v-card-text class="pa-0 text-xs-center">
-								REC list btns
+								<v-tooltip top>
+									<!-- :disabled="loading || !checkUserAuth('mapping.dmf_to_open_level')" -->
+									<v-btn 
+										slot="activator"
+										:class="`ma-0 text-lowercase ${ loading ? 'grey--text' : 'accent--text'}`"
+										disabled
+										block
+										flat
+										>
+										<v-icon 
+											large
+											color="accent"
+											>
+											{{ $store.state.mainIcons.export.icon }}
+										</v-icon>
+									</v-btn>
+									<span>
+										{{ $t(`projects.export`, $store.state.locale) }}
+									</span>
+								</v-tooltip>
 							</v-card-text>
 						</v-card>
-					
 					</v-flex>
+
+
+					<!-- GEOLOC -->
+					<v-flex 
+						xs12
+						v-show="!loading && list_DMT_oids.length != 0"
+						>
+						<v-card
+							flat
+							class="pa-2 ml-3 mt-2"
+							>
+							<v-card-text class="pa-0 text-xs-center">
+								<v-tooltip top>
+									<v-btn 
+										slot="activator"
+										:disabled="loading || !checkUserAuth('mapping.dmf_to_open_level')"
+										:class="`ma-0 text-lowercase ${ loading ? 'grey--text' : 'accent--text'}`"
+										block
+										flat
+										>
+										<v-icon 
+											large
+											color="accent"
+											>
+											{{ $store.state.mainIcons.geoloc.icon }}
+										</v-icon>
+									</v-btn>
+									<span>
+										{{ $t(`projects.geoloc`, $store.state.locale) }}
+									</span>
+								</v-tooltip>
+							</v-card-text>
+						</v-card>
+					</v-flex>
+
 
 				</v-layout>
 			</v-flex>
@@ -428,7 +476,7 @@
 		<!-- BTN - ADD DSI IN PRJ DSI_LIST -->
 		<v-layout 
 			v-if="checkUserAuth('datasets.dsi_list')"
-			mt-3
+			mt-5 mb-3
 			row 
 			wrap
 			>
@@ -481,22 +529,19 @@
 			wrap
 			v-if="list_DSI_oids && list_DSI_oids.length != 0 "
 			>
-			<!-- v-if="list_DSI_oids" -->
-	
+
 			<!-- LOOP PRJ's DSI_LIST -->
 			<v-flex 
 				v-for="dsi in list_DSI_oids"
 				:key="list_DSI_oids.indexOf(dsi)"
 				d-flex 
 				xs12
-				mt-3
+				mb-3
 				>
 
 				<v-layout row >
 
-					<!-- <v-flex d-flex>
-						<v-layout row wrap> -->
-
+					<!-- DSI DATA -->
 					<v-flex 
 						xs10
 						class="pa-0"
@@ -545,21 +590,44 @@
 
 					</v-flex>
 
-
 					<!-- TO DO :  ACTIONS ON DSI -->
 					<v-flex 
 						xs2
 						class="pa-0"
 						v-show="!loading"
 						>
-
 						<v-card
 							flat
-							class="pa-3 ml-3"
+							class="pa-2 ml-3"
 							>
 							<v-card-text class="pa-0 text-xs-center">
 							
-								ACTIONS ON DSI
+								<!-- ACTIONS ON DSI -->
+								<v-tooltip 
+									top
+									>
+
+									<v-btn 
+										slot="activator"
+										:disabled="loading"
+										class="ma-0 text-lowercase accent--text"
+										block
+										flat
+										:to="'/dsi/'+dsi.oid_dsi"
+										>
+										<v-icon 
+											color="accent"
+											>
+											{{ $store.state.mainIcons.datasets.icon }}
+										</v-icon>
+									</v-btn>
+
+									<span>
+										{{ $t(`datasets.go_to`, $store.state.locale) }}
+									</span>
+
+								</v-tooltip>
+
 
 								<!-- <br> parent_map : <code>{{ getDSI_map(dsi.oid_dsi) }}</code> -->
 								<!-- <br> parentDoc_id : <code>{{itemId}}</code> -->
@@ -570,11 +638,7 @@
 							
 							</v-card-text>
 						</v-card>
-
 					</v-flex>
-
-						<!-- </v-layout>
-					</v-flex> -->
 					
 				</v-layout>
 
