@@ -144,6 +144,7 @@ const mainIconsConst = {
 	back				: { icon : "arrow_back" },
 
 	infos				: { icon : "info" },
+	link				: { icon : "arrow_forward" },
 	data				: { icon : "data_usage" },
 	add_to_parent		: { icon : "library_add" },
 

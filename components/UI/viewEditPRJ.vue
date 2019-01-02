@@ -293,74 +293,125 @@
 		<!-- DMT / DMF DATA COMPONENT -->
 		<v-layout 
 			row 
-			mt-3
+			:class="`${ isPreview  ? 'mt3' : 'mt-5'}`"
 			>
 			
-			<!-- PRJ's DMT  -->
-			<v-flex 
-				xs10
-				v-if="list_DMT_oids && list_DMT_oids.length != 0 "
-				>
-				
-				<ViewEditDMT
+			<!-- MANAGE DMT -->
+			<v-flex xs10>
 
-					:item_doc="undefined"
-					:item_doc_id="list_DMT_oids"
-					
-					:coll="'dmt'"
+				<v-layout row wrap>
 
-					:is_create="false"
-					:is_preview="isPreview"
-					:is_loading="loading"
+					<!-- MANAGE PRJ's DMT -->
+					<v-flex 
+						v-if="!isPreview"
+						xs12
+						pb-2
+						class="text-xs-center"
+						>
 
-					:is_switch="true"
-					:no_toolbar="true"
+						<v-card
+							flat
+							class="pa-2"
+							>
 
-					:is_map="true"
-					:parent_map="item_doc.mapping.dmf_to_open_level"
-					:canEdit_ol="checkUserAuth('mapping.dmf_to_open_level')"
+								<!-- :class="`${ loading ? 'grey' : 'accent'} ma-0 pa-2`" -->
+							<v-btn 
+								:disabled="loading"
+								class="transparent ma-0 pa-2 text-lowercase accent--text"
+								block
+								flat
+								@click="panel_infos=[false];panel_lib_dsi=[false];panel_lib_dmt=[true];isSettings=true"
+								>
 
-					:add_to_parent="true"
-					:parentDoc_id="itemId"
-					:parentDoc_coll="coll"
+									<!-- :color="`${ loading ? 'grey' : 'accent'} `" -->
+								<v-icon 
+									left
+									>
+									{{ $store.state.mainIcons.datamodels.icon }}
+								</v-icon>
+								<!-- <v-icon 
+									left
+									>
+									{{ $store.state.mainIcons.create.icon }}
+								</v-icon> -->
 
-					:parent_scroll="scrollLeft"
+								{{ $t(`projects.manage_dmt`, $store.state.locale) }}
 
-					@scrollTable="updateScroll"
+							</v-btn>
 
-					@update_parent_dataset="update_parent_list"
-					>
-					<!-- @update_loading="updateLoading" -->
-				</ViewEditDMT> 
+						</v-card>
 
+					</v-flex>
+
+					<!-- PRJ's DMT  -->
+					<v-flex 
+						v-if="list_DMT_oids && list_DMT_oids.length != 0 "
+						xs12
+						>
+						
+						<ViewEditDMT
+
+							:item_doc="undefined"
+							:item_doc_id="list_DMT_oids"
+							
+							:coll="'dmt'"
+
+							:is_create="false"
+							:is_preview="isPreview"
+							:is_loading="loading"
+
+							:is_switch="true"
+							:no_toolbar="true"
+
+							:is_map="true"
+							:parent_map="item_doc.mapping.dmf_to_open_level"
+							:canEdit_ol="checkUserAuth('mapping.dmf_to_open_level')"
+
+							:add_to_parent="true"
+							:parentDoc_id="itemId"
+							:parentDoc_coll="coll"
+
+							:parent_scroll="scrollLeft"
+
+							@scrollTable="updateScroll"
+
+							@update_parent_dataset="update_parent_list"
+							>
+							<!-- @update_loading="updateLoading" -->
+						</ViewEditDMT> 
+
+					</v-flex>
+
+
+					<!-- NO DMT -->
+					<v-flex 
+						v-else
+						xs12
+						>
+
+						<v-card
+							flat
+							class="px-5 py-3 text-xs-center"
+							>
+
+							<v-card-text>
+								{{ $t(`projects.no_dmt`, $store.state.locale) }}
+							</v-card-text>
+
+						</v-card>
+						
+					</v-flex>
+
+				</v-layout>
+	
 			</v-flex>
-
-			<!-- NO DMT -->
-			<v-flex 
-				xs10
-				v-else
-				>
-
-				<v-card
-					flat
-					class="px-5 py-3 text-xs-center"
-					>
-
-					<v-card-text>
-						{{ $t(`projects.no_dmt`, $store.state.locale) }}
-					</v-card-text>
-
-				</v-card>
-				
-			</v-flex>
-
 
 			<!-- MANAGE PRJ COLUMN -->
 			<v-flex xs2>
 
 				<v-layout row wrap>
 
-					<!-- DMT MANAGE -->
+					<!-- DMT MANAGE / GOT TO DMT SELECTED -->
 					<v-flex xs12>
 						<v-card
 							flat
@@ -370,7 +421,52 @@
 								<v-tooltip top>
 									<v-btn 
 										slot="activator"
-										:disabled="loading || !checkUserAuth('mapping.dmf_to_open_level')"
+										:disabled="loading"
+										:class="`ma-0 text-lowercase ${ loading ? 'grey--text' : 'accent--text'}`"
+										block
+										flat
+										:to="'/dmt/'+list_DMT_oids[0].oid_dmt"
+										>
+										<!-- @click="panel_lib_dmt=[true]; panel_infos=[false]; isSettings=true" -->
+										<v-badge
+											overlap
+											color="grey lighten-1"
+											>
+											<v-icon
+												slot="badge"
+												dark
+												small
+												>
+												{{ $store.state.mainIcons.link.icon }}
+											</v-icon>
+											<v-icon 
+												color="accent"
+												class="pr-1"
+												>
+												{{ $store.state.mainIcons.datamodels.icon }}
+											</v-icon>
+										</v-badge>
+									</v-btn>
+									<span>
+										{{ $t(`datamodels.go_to` , $store.state.locale) }}
+									</span>
+								</v-tooltip>
+							</v-card-text>
+						</v-card>
+					</v-flex>
+
+					<!-- DMT MANAGE / OPEN LIST -->
+					<v-flex xs12>
+						<v-card
+							flat
+							class="pa-2 ml-3 mt-2"
+							>
+							<!-- - list_DMT_oids : {{ list_DMT_oids }} -->
+							<v-card-text class="pa-0 text-xs-center ">
+								<v-tooltip top>
+									<v-btn 
+										slot="activator"
+										:disabled="loading || !checkUserAuth('datasets.dmt_list')"
 										:class="`ma-0 text-lowercase ${ loading ? 'grey--text' : 'accent--text'}`"
 										block
 										flat
@@ -461,6 +557,7 @@
 
 
 				</v-layout>
+
 			</v-flex>
 
 		</v-layout>
@@ -501,19 +598,31 @@
 						>
 
 							<!-- :color="`${ loading ? 'grey' : 'accent'} `" -->
-						<v-icon 
-							samll
-							left
+						<v-badge
+							overlap
+							color="grey lighten-1"
 							>
-							{{ $store.state.mainIcons.datasets.icon }}
-						</v-icon>
-						<!-- <v-icon 
-							left
-							>
-							{{ $store.state.mainIcons.create.icon }}
-						</v-icon> -->
+							<v-icon
+								slot="badge"
+								dark
+								>
+								{{ $store.state.mainIcons.create.icon }}
+							</v-icon>
+							<v-icon 
+								class="pr-1"
+								>
+								{{ $store.state.mainIcons.datasets.icon }}
+							</v-icon>
+							<!-- <v-icon 
+								left
+								>
+								{{ $store.state.mainIcons.create.icon }}
+							</v-icon> -->
+						</v-badge>
 
-						{{ $t(`projects.manage_dsi`, $store.state.locale) }}
+						<span class="pl-3">
+							{{ $t(`projects.manage_dsi`, $store.state.locale) }}
+						</span>
 
 					</v-btn>
 
@@ -590,7 +699,7 @@
 
 					</v-flex>
 
-					<!-- TO DO :  ACTIONS ON DSI -->
+					<!-- ACTIONS ON DSI -->
 					<v-flex 
 						xs2
 						class="pa-0"
@@ -606,7 +715,6 @@
 								<v-tooltip 
 									top
 									>
-
 									<v-btn 
 										slot="activator"
 										:disabled="loading"
@@ -615,11 +723,24 @@
 										flat
 										:to="'/dsi/'+dsi.oid_dsi"
 										>
-										<v-icon 
-											color="accent"
+										<v-badge
+											overlap
+											color="grey lighten-1"
 											>
-											{{ $store.state.mainIcons.datasets.icon }}
-										</v-icon>
+											<v-icon
+												slot="badge"
+												dark
+												small
+												>
+												{{ $store.state.mainIcons.link.icon }}
+											</v-icon>
+											<v-icon 
+												color="accent"
+												class="pr-1"
+												>
+												{{ $store.state.mainIcons.datasets.icon }}
+											</v-icon>
+										</v-badge>
 									</v-btn>
 
 									<span>
@@ -785,7 +906,7 @@ export default {
 			panel_lib_dmt	: [false],
 			panel_lib_dsi	: [true],
 			panel_lib_tag	: [false],
-			panel_uses		: [false],
+			panel_uses		: [true],
 
 			isPreview 	: this.is_preview,
 			noToolbar	: this.no_toolbar,
@@ -1074,7 +1195,7 @@ export default {
 				console.log("VE createItem / submit / error... : ", error ) ; 
 
 				this.loading = false
-				// this.alert = {type: 'error', message: "login error" }
+				this.alert = {type: 'error', message: "login error" }
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
 				}
@@ -1110,7 +1231,6 @@ export default {
 			console.log("update_parent_list / input : ", input )
 
 			this.loading 		= true
-			// this.$emit('update_loading', true )
 
 			// load values as pseudoForm
 			var pseudoForm		= this.form( input ) ;
@@ -1127,7 +1247,6 @@ export default {
 			.then(result => {
 				this.alert 		= { type: 'success', message: result.msg }
 				this.loading 	= false
-				// this.$emit('update_loading', false )
 				
 				// update current in store
 				console.log("update_parent_list - result : ", result )
@@ -1138,7 +1257,6 @@ export default {
 			.catch(error => {
 				console.log("submit / error... : ", error ) ; 
 				this.loading = false
-				// this.$emit('update_loading', false )
 				this.alert = {type: 'error', message: "login error" }
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}

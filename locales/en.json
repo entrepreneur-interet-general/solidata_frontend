@@ -270,10 +270,10 @@
 		"dsi" 			: "Datasets",
 		"no_dmt" 		: "Please choose a datamodel",
 		"no_dsi" 		: "Please choose one or several datsets",
-		"no_dsi_map" 	: "This dataset is not assoxiated with the datamodel",
+		"no_dsi_map" 	: "This dataset is not associated with the datamodel",
 
 		"manage_dsi" 	: "Manage your datasets",
-		"manage_dmt" 	: "Manage your datamodel template",
+		"manage_dmt" 	: "Choose a datamodel template",
 		"manage_rec" 	: "Manage your recipes",
 
 		"del_dsi" 		: "Delete this dataset",
@@ -308,6 +308,8 @@
 		"f_is_required"	: "Field is required" ,
 		"resume" 		: "Resume",
 
+		"delete" 		: "Delete this field",
+		"go_to" 		: "See this datamodel",
 		"manage_dmf"	: "Add a datamodel field"
 	},
 
@@ -330,7 +332,10 @@
 		"f_type" 		: "Define the field type" ,
 		"f_comments" 	: "Precise the field by adding some comments" ,
 		"f_is_required"	: "Define if the field is required" ,
-		"resume" 		: "Resume"
+		"resume" 		: "Resume",
+
+		"go_to" 		: "See this datamodel field"
+
 	},
 
 	"datasets" : {

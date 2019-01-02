@@ -331,24 +331,30 @@
 										>
 										
 										<!-- DELETE DMF BTN -->
-										<v-btn
-											v-if="!isPreview"
-											:disabled="!checkUserAuth('delete_item')"
-											icon
-											small
-											@click="deleteChild( { 
-												item_id 		: props.item[dmf._id], 
-												datasets_coll 	: 'dmf', 
-												parentDoc_coll 	: 'dmt', 
-												re_emit			: false,
-											} ) "
-											>
-											<v-icon
-												color="accent"
+										<v-tooltip top>
+											<v-btn
+												slot="activator"
+												v-if="!isPreview"
+												:disabled="!checkUserAuth('delete_item')"
+												icon
+												small
+												@click="deleteChild( { 
+													item_id 		: props.item[dmf._id], 
+													datasets_coll 	: 'dmf', 
+													parentDoc_coll 	: 'dmt', 
+													re_emit			: false,
+												} ) "
 												>
-												{{ $store.state.mainIcons.delete.icon }}
-											</v-icon>
-										</v-btn>
+												<v-icon
+													color="accent"
+													>
+													{{ $store.state.mainIcons.delete.icon }}
+												</v-icon>
+											</v-btn>
+											<span>
+												{{ $t(`datamodels.delete`, $store.state.locale) }}
+											</span>
+										</v-tooltip>
 
 										<!-- DEBUG -->
 										<span v-if="$store.state.is_debug">
@@ -366,22 +372,30 @@
 										class="col-values"
 										>
 										
-										<v-btn
+										<v-tooltip 
+											top
 											v-if="list_DMF_selector.indexOf(props.item) == 0"
-											flat
-											block
-											class="text-lowercase ma-0 dmf-title-btn"
-											:to="'/dmf/'+dmf._id"
 											>
-											<v-icon
-												left
-												color="primary"
-												small
+											<v-btn
+												slot="activator"
+												flat
+												block
+												class="text-lowercase ma-0 dmf-title-btn"
+												:to="'/dmf/'+dmf._id"
 												>
-												{{ $store.state.mainIcons.datamodel_fields.icon }}
-											</v-icon>
-											{{ props.item[ dmf["_id"] ] | truncate( 20, '...' ) }}
-										</v-btn>
+												<v-icon
+													left
+													color="primary"
+													small
+													>
+													{{ $store.state.mainIcons.datamodel_fields.icon }}
+												</v-icon>
+												{{ props.item[ dmf["_id"] ] | truncate( 20, '...' ) }}
+											</v-btn>
+											<span>
+												{{ $t(`datamodel_fields.go_to`, $store.state.locale) }}
+											</span>
+										</v-tooltip>
 
 										<span
 											v-else

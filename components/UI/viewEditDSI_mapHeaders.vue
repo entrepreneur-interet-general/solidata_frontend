@@ -20,13 +20,13 @@
 
 		<!-- DEBUG -->
 		
+			
+		<span v-if="$store.state.is_debug">
+
 			parent_map : <br> <code>{{ parent_map }}</code><br>
 			<v-divider></v-divider>
 			dmf_value : <br> <code>{{ dmf_value }}</code><br>
 			<v-divider></v-divider>
-			
-		<span v-if="$store.state.is_debug">
-
 
 			dsi_id : <br> <code>{{ dsi_id }}</code><br>
 			dsi_header : <br> <code>{{ dsi_header }}</code><br>

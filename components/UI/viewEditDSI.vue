@@ -776,9 +776,23 @@
 
 
 							<v-divider></v-divider>
-							
+							<v-card-title
+								class="pt-0"
+								>
+								<v-spacer></v-spacer>
+								<v-text-field
+									class=""
+									v-model="search"
+									append-icon="search"
+									:label="$t(`global.search`, $store.state.locale)"
+									single-line
+									hide-details
+								></v-text-field>
+							</v-card-title>
+
 
 							<!-- DSI DATA / CONTENTS -->
+							<v-divider></v-divider>
 
 							<!-- - item_data : <code>{{ item_data }} </code> <br> -->
 
@@ -794,12 +808,19 @@
 								>
 							</ViewEditDSITable> -->
 
-								<!-- - headers_preview_but_first : <br><code>{{headers_preview_but_first}}</code><br>
-								<v-divider></v-divider> -->
+
+							<!-- DEBUG -->
+							<span v-if="$store.state.is_debug">
+								- parentDoc_dmt : <br><code>{{parentDoc_dmt}}</code><br>
+								<v-divider></v-divider>
+								- headers_preview_but_first : <br><code>{{headers_preview_but_first}}</code><br>
+								<v-divider></v-divider>
+							</span>
+
 
 								<!-- :loading="loading" -->
 							<v-data-table
-								v-if="is_parent_map"
+								v-if="is_parent_map && is_parent_dmt"
 								:ref="'datatable'"
 								:headers="headers_preview"
 								:items="item_data"
@@ -808,6 +829,7 @@
 								class="elevation-0 scroll_data"
 								:rows-per-page-items="[5, 10, 25]"
 								:hide-headers="isPreview"
+								:search="search"
 								>
 
 								<template 
@@ -874,10 +896,15 @@
 									>
 									{{ $store.state.mainIcons.warning.icon }}
 								</v-icon>
-								<br>
 								<span 
+									v-if="!is_parent_dmt"
 									>
-									{{ $t( `projects.no_dsi_map`, $store.state.locale ) }}
+									<br>{{ $t( `projects.no_dmt`, $store.state.locale ) }}
+								</span>
+								<span 
+									v-if="!is_parent_map"
+									>
+									<br>{{ $t( `projects.no_dsi_map`, $store.state.locale ) }}
 								</span>
 							</v-alert>
 
@@ -1180,6 +1207,7 @@ export default {
 			parentDocDMFs	: [],
 			headers_mapped 	: [],
 			
+			search			: '',
 
 			// item_data 		: this.item_doc.data_raw.f_data, 
 			// item_headers 	: this.item_doc.data_raw.f_col_headers, 
@@ -1240,6 +1268,15 @@ export default {
 		is_parent_map () {
 			if ( this.is_map ) {
 				return this.parent_map.length != 0 ? true : false
+			}
+			else {
+				return true
+			}
+		},
+
+		is_parent_dmt () {
+			if ( this.is_map) {
+				return this.parentDoc_dmt.length != 0 ? true : false
 			}
 			else {
 				return true

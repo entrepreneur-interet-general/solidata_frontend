@@ -78,6 +78,7 @@
 		"off"			: "off",
 		"and"			: "y",
 		"lang"			: "Idioma",
+		"what_is"		: "¿Que es este documento?",
 
 		"validate"		: "Validar",
 		"search"		: "Buscar",
@@ -272,7 +273,7 @@
 		"no_dsi_map" 	: "Este juego de datos no está asociado con el módelo",
 
 		"manage_dsi" 	: "Administrar sus datos",
-		"manage_dmt" 	: "Administrar su módelo de datos",
+		"manage_dmt" 	: "Elejir un módelo de datos",
 		"manage_rec" 	: "Administrar sus recetas",
 
 		"del_dsi" 		: "Suprimir este juego de datos",
@@ -306,7 +307,9 @@
 		"f_comments" 	: "Comentarios sobre el campo" ,
 		"f_is_required"	: "Campo está necesario" ,
 		"resume" 		: "Resumen",
-
+		
+		"delete" 		: "Suprimir este campo",
+		"go_to" 		: "Ver este módelo de datos",
 		"manage_dmf"	: "Añadir un campo de módelo de datos"
 	},
 
@@ -329,7 +332,10 @@
 		"f_type" 		: "Tipo de campo" ,
 		"f_comments" 	: "Comentarios sobre el campo" ,
 		"f_is_required"	: "Campo está necesario" ,
-		"resume" 		: "Resumen"
+		"resume" 		: "Resumen",
+
+		"go_to" 		: "Ver este campo de módelo de datos"
+
 	},
 
 	"datasets" : {

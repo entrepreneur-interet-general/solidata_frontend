@@ -272,7 +272,7 @@
 		"no_dsi_map" 	: "Ce jeux de données n'est pas associé au modèle de données",
 
 		"manage_dsi" 	: "Gérer ses jeux de données",
-		"manage_dmt" 	: "Gérer le modèle de données",
+		"manage_dmt" 	: "Choisir un modèle de données",
 		"manage_rec" 	: "Gérer ses recettes",
 
 		"del_dsi" 		: "Supprimer ce jeux de données",
@@ -307,6 +307,8 @@
 		"f_is_required"	: "Champ requis" ,
 		"resume"		: "Résumé",
 
+		"delete" 		: "Supprimer ce champ",
+		"go_to" 		: "Voir ce modèle de données",
 		"manage_dmf"	: "Ajouter un champ de modèle de donnée"
 
 	},
@@ -330,7 +332,10 @@
 		"f_type" 		: "Précisez le type du champ" ,
 		"f_comments" 	: "Ajoutez des commentaires sur le champ" ,
 		"f_is_required"	: "Précisez si le champ est requis" ,
-		"resume"		: "Résumé"
+		"resume"		: "Résumé",
+
+		"go_to" 		: "Voir ce champ de modèle de données"
+
 	},
 
 	"datasets" : {
