@@ -45,7 +45,6 @@
 			<v-card-actions class="grey darken-3 justify-center">
 				
 				<span v-html="$store.state.title"></span> 
-				
 				&nbsp; 
 				&nbsp; 
 				<span v-html="$store.state.version"></span> 
@@ -53,13 +52,14 @@
 				<v-divider vertical class="mx-3" ></v-divider>
 
 				<span> {{ $t('home.project_by', $store.state.locale ) }} </span>
+				
 				<img 
 					:src="$store.state.app_codemos" 
 					height="25px"
 					>
 				</img> 
 				
-				<v-divider vertical class="mx-3" ></v-divider>
+				<v-divider vertical class="mr-3" ></v-divider>
 
 				<span v-html="$store.state.year"></span>
 

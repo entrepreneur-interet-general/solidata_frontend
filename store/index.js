@@ -174,7 +174,7 @@ export const state = () => ({
 	//  APP TITLE
 	title	 : '<span>SOLI</span><i><strong>DATA</strong></i>',
 	version	 : '<span>v.0.1</span>',
-	year	 : '2018',
+	year	 : '2018-2019',
 
 	app_logo 	: '/logos/logo_solidata_15a_lg.png',
 	app_logo_lg : '/logos/logo_solidata_15a.png',
