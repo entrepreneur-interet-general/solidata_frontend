@@ -112,7 +112,7 @@
 							class="pb-0 mb-0"
 							slot="header"
 							>
-							<v-icon small class="mr-3">
+							<v-icon small color="accent" class="mr-3">
 								{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
 							</v-icon>
 							<span>
@@ -149,10 +149,28 @@
 							class="accent--text"
 							slot="header"
 							>
-							<v-icon small color="accent" class="mr-3">
+							<!-- <v-icon small color="accent" class="mr-3">
 								{{ $store.state.mainIcons.add_to_parent.icon }}  
-							</v-icon>
-							<span>
+							</v-icon> -->
+							<v-badge
+								overlap
+								color="grey lighten-1"
+								>
+								<v-icon
+									slot="badge"
+									dark
+									>
+									{{ $store.state.mainIcons.create.icon }}
+								</v-icon>
+								<v-icon 
+									small
+									class="pr-2"
+									color="accent"
+									>
+									{{ $store.state.mainIcons.datamodel_fields.icon }}
+								</v-icon>
+							</v-badge>
+							<span class="ml-3">
 								{{ $t(`datamodels.manage_dmf`, $store.state.locale) }}
 							</span>
 						</div>
@@ -191,10 +209,25 @@
 							class="accent--text"
 							slot="header"
 							>
-							<v-icon small color="accent" class="mr-3">
-								{{ $store.state.mainIcons.add_to_parent.icon }}  
-							</v-icon>
-							<span>
+							<v-badge
+								overlap
+								color="grey lighten-1"
+								>
+								<v-icon
+									slot="badge"
+									dark
+									>
+									{{ $store.state.mainIcons.create.icon }}
+								</v-icon>
+								<v-icon 
+									small
+									class="pr-2"
+									color="accent"
+									>
+									{{ $store.state.mainIcons.tags.icon }}
+								</v-icon>
+							</v-badge>
+							<span class="ml-3 ">
 								{{ $t(`global.manage_tag`, $store.state.locale) }}
 							</span>
 						</div>
@@ -443,7 +476,7 @@ export default {
 			collName 	: this.$store.state.collectionsNames[this.coll],
 
 			is_itemDoc		: false,
-			// itemDoc			: this.item_doc,
+			// itemDoc		: this.item_doc,
 			itemDoc			: '',
 			itemId 			: '', 
 			// item_data 		: this.item_doc.data_raw.f_data, 
@@ -560,7 +593,7 @@ export default {
 			handler( newVal, oldVal) {
 
 				console.log( "\nVE DMT / watch ~ item_doc_id / newVal : \n", newVal )
-				console.log( "\nVE DMT / watch ~ item_doc_id / oldVal : \n", oldVal )
+				// console.log( "VE DMT / watch ~ item_doc_id / oldVal : \n", oldVal )
 
 				// update itemId
 				if (newVal != undefined && newVal.length ){
@@ -575,13 +608,13 @@ export default {
 			immediate : true,
 			handler( newVal, oldVal) {
 
-				console.log( "\nVE DMT / watch ~ item_doc / newVal : \n", newVal )
-				console.log( "\nVE DMT / watch ~ item_doc / oldVal : \n", oldVal )
+				// console.log( "\nVE DMT / watch ~ item_doc / newVal : \n", newVal )
+				// console.log( "VE DMT / watch ~ item_doc / oldVal : \n", oldVal )
 
 				// update itemDoc
 				if (oldVal != undefined ){
-					console.log( "\nVE DMT / watch ~ item_doc / newVal.datasets.dmf_list : \n", newVal.datasets.dmf_list )
-					console.log( "\nVE DMT / watch ~ item_doc / oldVal.datasets.dmf_list : \n", oldVal.datasets.dmf_list )
+					console.log( "VE DMT / watch ~ item_doc / newVal.datasets.dmf_list : \n", newVal.datasets.dmf_list )
+					// console.log( "\nVE DMT / watch ~ item_doc / oldVal.datasets.dmf_list : \n", oldVal.datasets.dmf_list )
 					this.itemDoc = newVal ;
 					if (newVal) {
 						this.list_TAG_oids 	= newVal.datasets.tag_list ;
@@ -593,7 +626,7 @@ export default {
 		is_preview : {
 			immediate : true,
 			handler( newVal, oldVal) {
-				console.log( "\nVE DMT / watch ~ is_preview / newVal : \n", newVal )
+				// console.log( "\nVE DMT / watch ~ is_preview / newVal : \n", newVal )
 				this.isPreview = newVal ;
 			}
 		},
@@ -734,6 +767,7 @@ export default {
 					
 					// update current in store
 					console.log("update_parent_list - result : ", result )
+					this.itemDoc = result.data ;
 					this.$store.commit(`${this.coll}/set_current`, result );
 	
 				})

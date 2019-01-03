@@ -14,7 +14,10 @@
 			mb-3
 			>
 
-			<v-flex d-flex :class="flex_vars">
+			<v-flex 
+				xs12 
+				>
+				<!-- d-flex :class="flex_vars" -->
 
 				<ItemToolbar
 					:coll="coll" 
@@ -129,116 +132,141 @@
 
 
 		<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
-		<v-flex d-flex :class="flex_vars">
-
-			<v-expansion-panel
-				v-show="!isPreview"
-				v-model="panel_infos"
-				expand
-				class="elevation-0"
+		<v-layout 	
+			:class="`${ isPreview ? 'justify-center' : '' }`"
+			>
+			<v-flex 
+				:class="`${ isPreview ? 'sm6 md4 lg3 pb-4' : 'xs12' }`"
 				>
 
-				<v-expansion-panel-content>
+				<!-- d-flex :class="flex_vars" -->
 
-					<div 
-						class="pb-0 mb-0"
-						slot="header"
-						>
-						<v-icon small class="mr-3">
-							{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
-						</v-icon>
-						<span>
-							{{ $t(`parentFields.infos`, $store.state.locale) }}
-						</span>
-					</div>
+				<v-expansion-panel
+					v-show="!isPreview"
+					v-model="panel_infos"
+					expand
+					class="elevation-0"
+					>
+					<v-expansion-panel-content>
 
-					<ItemDocInfos
-						:coll="coll"
-						:is_create="is_create"
-						:is_preview="isPreview"
-						:item_doc="itemDoc"
-						>
-					</itemDocInfos>
+						<div 
+							class="pb-0 mb-0"
+							slot="header"
+							>
+							<v-icon small class="mr-3">
+								{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
+							</v-icon>
+							<span>
+								{{ $t(`parentFields.infos`, $store.state.locale) }}
+							</span>
+						</div>
 
-				</v-expansion-panel-content>
-			</v-expansion-panel>
+						<ItemDocInfos
+							:coll="coll"
+							:is_create="is_create"
+							:is_preview="isPreview"
+							:item_doc="itemDoc"
+							>
+						</itemDocInfos>
 
-		</v-flex>
+					</v-expansion-panel-content>
+				</v-expansion-panel>
 
+				<CardPreviewDense 
+					v-show="isPreview"
+					:coll="'dmf'"
+					:tab="tab"
+					:item="itemDoc"
+					:no_hover="true"
+					>
+				</CardPreviewDense>
 
-		<!-- COMPONENTS FOR DOCS DATA_RAW -->		
-		<v-flex d-flex :class="flex_vars">
+			<!-- </v-flex>
 
-			<v-expansion-panel
-				v-show="!isPreview"
-				v-model="panel_data_raw"
-				expand
-				class="elevation-0"
-				>
-				
-				<v-expansion-panel-content>
-
-					<div 
-						class="pb-0 mb-0"
-						slot="header"
-						>
-						<v-icon small class="mr-3">
-							{{ $store.state.mainIcons.parentFieldIcons.data_raw.icon }}  
-						</v-icon>
-						<span>
-							{{ $t(`parentFields.data_raw`, $store.state.locale) }}
-						</span>
-					</div>
-
-					<ItemDocDataRaw
-						:coll="coll"
-						:is_create="is_create"
-						:is_preview="isPreview"
-						:item_doc="itemDoc"
-						>
-					</itemDocDataRaw>
-
-				</v-expansion-panel-content>
-			</v-expansion-panel>
-
-		</v-flex>
+		</v-layout> -->
 
 
-		<!-- COMPONENTS FOR COMMON DOCS USES -->		
-		<v-flex d-flex :class="flex_vars">
+			<!-- COMPONENTS FOR DOCS DATA_RAW -->		
+			<!-- <v-flex 
+				xs12
+				> -->
+				<!-- d-flex :class="flex_vars" -->
 
-			<v-expansion-panel
-				v-show="!isPreview"
-				class="elevation-0"
-				expand
-				>
+				<v-expansion-panel
+					v-show="!isPreview"
+					v-model="panel_data_raw"
+					expand
+					class="elevation-0"
+					>
+					
+					<v-expansion-panel-content>
 
-				<v-expansion-panel-content>
+						<div 
+							class="pb-0 mb-0"
+							slot="header"
+							>
+							<v-icon small class="mr-3">
+								{{ $store.state.mainIcons.parentFieldIcons.data_raw.icon }}  
+							</v-icon>
+							<span>
+								{{ $t(`parentFields.data_raw`, $store.state.locale) }}
+							</span>
+						</div>
 
-					<div 
-						class="pb-0 mb-0"
-						slot="header"
-						>
-						<v-icon small class="mr-3">
-							{{ $store.state.mainIcons.parentFieldIcons.uses.icon }}
-						</v-icon>
-						<span>
-							{{ $t(`parentFields.uses`, $store.state.locale) }}
-						</span>
-					</div>
+						<ItemDocDataRaw
+							:coll="coll"
+							:is_create="is_create"
+							:is_preview="isPreview"
+							:item_doc="itemDoc"
+							>
+						</itemDocDataRaw>
 
-					<ItemDocUses
-						:coll="coll"
-						:is_create="is_create"
-						:is_preview="isPreview"
-						:item_doc="itemDoc"
-						>
-					</itemDocUses>
+					</v-expansion-panel-content>
+				</v-expansion-panel>
 
-				</v-expansion-panel-content>
-			</v-expansion-panel>
+			<!-- </v-flex> -->
 
-		</v-flex>
+
+			<!-- COMPONENTS FOR COMMON DOCS USES -->		
+			<!-- <v-flex 
+				xs12
+				> -->
+				<!-- d-flex :class="flex_vars" -->
+
+				<v-expansion-panel
+					v-show="!isPreview"
+					class="elevation-0"
+					expand
+					>
+
+					<v-expansion-panel-content>
+
+						<div 
+							class="pb-0 mb-0"
+							slot="header"
+							>
+							<v-icon small class="mr-3">
+								{{ $store.state.mainIcons.parentFieldIcons.uses.icon }}
+							</v-icon>
+							<span>
+								{{ $t(`parentFields.uses`, $store.state.locale) }}
+							</span>
+						</div>
+
+						<ItemDocUses
+							:coll="coll"
+							:is_create="is_create"
+							:is_preview="isPreview"
+							:item_doc="itemDoc"
+							>
+						</itemDocUses>
+
+					</v-expansion-panel-content>
+				</v-expansion-panel>
+
+			</v-flex>
+
+		</v-layout>
 
 		
 		<!-- DEBUG  -->
@@ -247,7 +275,10 @@
 			row wrap
 			>
 
-			<v-flex d-flex :class="flex_vars">
+			<v-flex 
+				xs12
+				>
+				<!-- d-flex :class="flex_vars" -->
 
 				<v-alert       
 					:value="true"
@@ -269,7 +300,7 @@
 					filetype : <code>{{ filetype }}</code> - 
 					itemId : <code>{{ itemId}}</code> - 
 					<!-- canEdit : <code>{{ canEdit }}</code> -->
-					flex_vars : <code>{{flex_vars}}</code> - 
+					<!-- flex_vars : <code>{{flex_vars}}</code> -  -->
 					<hr>
 
 					-- current_new in $store.state.{{coll}} -- <br>
@@ -308,11 +339,13 @@ import ItemDocDataRaw from '~/components/UI/itemDocDataRaw.vue'
 
 import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
 
+import CardPreviewDense from '~/components/UI/cardPreview_dense.vue'
+
 
 export default {
 
 	props : [ 
-		"flex_vars",			// 
+		// "flex_vars",			// 
 		"is_create",			// view | create
 		"is_preview",			// 
 		// "parentFieldslist",		// 
@@ -331,6 +364,7 @@ export default {
 		ItemDocUses,
 		ItemDocDataRaw,
 		SettingsToolbar,
+		CardPreviewDense,
 
 	},
 	

@@ -28,7 +28,7 @@
 					:isSettings="isSettings"
 					:is_loading="isLoading"
 					@input="switchPreview"
-					@settings="switchSettings"
+					@settings="panel_lib_dsi=[false];panel_lib_dmt=[false];panel_lib_tag=[true];panel_infos=[true];isSettings=true"
 					>
 					<!-- :itemDoc="itemDoc" -->
 				</ItemToolbar>
@@ -132,7 +132,7 @@
 						<div 
 							slot="header"
 							>
-							<v-icon small class="mr-3">
+							<v-icon small color="accent" class="mr-3">
 								{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
 							</v-icon>
 							<span>
@@ -165,12 +165,13 @@
 					>
 					<v-expansion-panel-content >
 
+						<!-- ICON + TITLE -->
 						<div 
 							class="accent--text"
 							slot="header"
 							>
 							<v-icon small color="accent" class="mr-3">
-								{{ $store.state.mainIcons.add_to_parent.icon }}  
+								{{ $store.state.mainIcons.datamodels.icon }}  
 							</v-icon>
 							<span>
 								{{ $t(`projects.manage_dmt`, $store.state.locale) }}
@@ -211,10 +212,29 @@
 							class="accent--text"
 							slot="header"
 							>
-							<v-icon small color="accent" class="mr-3">
-								{{ $store.state.mainIcons.add_to_parent.icon }}  
-							</v-icon>
-							<span>
+
+							<!-- <v-icon small color="accent" class="mr-3">
+								{{ $store.state.mainIcons.datasets.icon }}  
+							</v-icon> -->
+							<v-badge
+								overlap
+								color="grey lighten-1"
+								>
+								<v-icon
+									slot="badge"
+									dark
+									>
+									{{ $store.state.mainIcons.create.icon }}
+								</v-icon>
+								<v-icon 
+									small
+									class="pr-2"
+									color="accent"
+									>
+									{{ $store.state.mainIcons.datasets.icon }}
+								</v-icon>
+							</v-badge>
+							<span class="ml-3">
 								{{ $t(`projects.manage_dsi`, $store.state.locale) }}
 							</span>
 						</div>
@@ -254,10 +274,25 @@
 							class="accent--text"
 							slot="header"
 							>
-							<v-icon small color="accent" class="mr-3">
-								{{ $store.state.mainIcons.add_to_parent.icon }}  
-							</v-icon>
-							<span>
+							<v-badge
+								overlap
+								color="grey lighten-1"
+								>
+								<v-icon
+									slot="badge"
+									dark
+									>
+									{{ $store.state.mainIcons.create.icon }}
+								</v-icon>
+								<v-icon 
+									small
+									class="pr-2"
+									color="accent"
+									>
+									{{ $store.state.mainIcons.tags.icon }}
+								</v-icon>
+							</v-badge>
+							<span class="ml-3">
 								{{ $t(`global.manage_tag`, $store.state.locale) }}
 							</span>
 						</div>
@@ -343,7 +378,7 @@
 			>
 			
 			<!-- MANAGE DMT -->
-			<v-flex xs10>
+			<v-flex xs8 sm9 md10>
 
 				<v-layout row wrap>
 
@@ -453,12 +488,15 @@
 			</v-flex>
 
 			<!-- MANAGE PRJ COLUMN -->
-			<v-flex xs2>
+			<v-flex xs4 sm3 md2 >
 
 				<v-layout row wrap>
 
 					<!-- BTN - DMT MANAGE / GOT TO DMT SELECTED -->
-					<v-flex xs12>
+					<v-flex 
+						v-if="list_DMT_oids.length != 0"
+						xs12
+						>
 						<v-card
 							flat
 							class="pa-2 ml-3"
@@ -467,11 +505,11 @@
 								<v-tooltip top>
 									<v-btn 
 										slot="activator"
-										:disabled="loading"
+										:disabled="loading || list_DMT_oids.length == 0"
 										:class="`ma-0 text-lowercase ${ loading ? 'grey--text' : 'accent--text'}`"
 										block
 										flat
-										:to="'/dmt/'+list_DMT_oids[0].oid_dmt"
+										:to="`${ list_DMT_oids.length != 0 ? '/dmt/'+list_DMT_oids[0].oid_dmt : '' }`"
 										>
 										<!-- @click="panel_lib_dmt=[true]; panel_infos=[false]; isSettings=true" -->
 										<v-badge
@@ -505,7 +543,7 @@
 					<v-flex xs12>
 						<v-card
 							flat
-							class="pa-2 ml-3 mt-2"
+							:class="`pa-2 ml-3 ${ list_DMT_oids.length != 0 ? 'mt-2' : '' }`"
 							>
 							<!-- - list_DMT_oids : {{ list_DMT_oids }} -->
 							<v-card-text class="pa-0 text-xs-center ">
@@ -516,7 +554,7 @@
 										:class="`ma-0 text-lowercase ${ loading ? 'grey--text' : 'accent--text'}`"
 										block
 										flat
-										@click="panel_lib_dmt=[true]; panel_infos=[false]; isSettings=true"
+										@click="panel_lib_dmt=[true];panel_lib_dsi=[false];panel_infos=[false];isSettings=true"
 										>
 										<v-icon 
 											color="accent"
@@ -626,7 +664,7 @@
 			>
 
 			<v-flex 
-				xs10
+				xs8 sm9 md10
 				class="text-xs-center"
 				>
 
@@ -641,7 +679,7 @@
 						class="transparent ma-0 pa-2 text-lowercase accent--text"
 						block
 						flat
-						@click="panel_lib_dsi=[true];panel_lib_dmt=[false];isSettings=true"
+						@click="panel_lib_dsi=[true];panel_infos=[false];panel_lib_dmt=[false];isSettings=true"
 						>
 
 							<!-- :color="`${ loading ? 'grey' : 'accent'} `" -->
@@ -677,6 +715,45 @@
 
 			</v-flex>
 
+			<!-- CREATE NEW DSI BTN -->
+			<v-flex 
+				xs4 sm3 md2
+				class="text-xs-center"
+				>
+
+				<v-card
+					flat
+					class="pa-2 ml-3 "
+					>
+
+					<v-tooltip top>
+						<v-btn 
+							slot="activator"
+							class="transparent ma-0 pa-0 text-lowercase accent--text"
+							block
+							flat
+							:to="'/dsi/create'"
+							>
+							<v-icon 
+								>
+								{{ $store.state.mainIcons.create.icon }}
+							</v-icon>
+
+							<v-icon 
+								>
+								{{ $store.state.mainIcons.datasets.icon }}
+							</v-icon>
+						</v-btn>
+						<span>
+							{{ $t(`datasets.create`, $store.state.locale ) }}
+						</span>
+					</v-tooltip>
+
+				</v-card>
+
+			</v-flex>
+
+
 		</v-layout>
 
 		<!-- DSI COLUMN / IF ARRAY OF DSI IS NOT EMPTY -->
@@ -699,7 +776,7 @@
 
 					<!-- DSI DATA -->
 					<v-flex 
-						xs10
+						xs8 sm9 md10
 						class="pa-0"
 						>
 
@@ -748,7 +825,7 @@
 
 					<!-- ACTIONS ON DSI -->
 					<v-flex 
-						xs2
+						xs4 sm3 md2
 						class="pa-0"
 						v-show="!loading"
 						>
@@ -824,7 +901,7 @@
 			>
 
 			<v-flex 
-				xs10
+				x8 sm9 md10
 				>
 
 				<v-card

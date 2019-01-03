@@ -313,7 +313,10 @@
 		
 		"delete" 		: "Suprimir este campo",
 		"go_to" 		: "Ver este módelo de datos",
-		"manage_dmf"	: "Añadir un campo de módelo de datos"
+		"manage_dmf"	: "Añadir un campo de módelo de datos",
+
+		"preview" 		: "Previsualizar el módelo de datos"
+
 	},
 
 	"datamodel_fields" : {
@@ -368,6 +371,7 @@
 		"src_parser" 	: "Fuente parser",
 		
 		"go_to" 		: "Ver este juego de datos",
+		"preview" 		: "Previsualizar los datos",
 
 		"file" 			: "Elejir un archivo",
 		"f_col_headers" : "Columnas", 

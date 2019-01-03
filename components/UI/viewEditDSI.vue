@@ -1,5 +1,9 @@
 <style scoped>
 
+	/* .v-expansion-panel__header {
+		padding:0; 
+	} */
+
 	th, td {
 		border-right: thin solid #eee ;
 		max-width: 220px; 
@@ -45,9 +49,10 @@
 					</v-card-text> -->
 
 					<v-progress-circular
-					color="accent"
-					indeterminate
-					></v-progress-circular>
+						color="accent"
+						indeterminate
+						>
+					</v-progress-circular>
 					
 				</v-card>
 			</v-flex>
@@ -128,7 +133,7 @@
 							<div 
 								slot="header"
 								>
-								<v-icon small class="mr-3">
+								<v-icon small color="accent" class="mr-3">
 									{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
 								</v-icon>
 								<span>
@@ -164,10 +169,25 @@
 								class="accent--text"
 								slot="header"
 								>
-								<v-icon small color="accent" class="mr-3">
-									{{ $store.state.mainIcons.add_to_parent.icon }}  
-								</v-icon>
-								<span>
+								<v-badge
+									overlap
+									color="grey lighten-1"
+									>
+									<v-icon
+										slot="badge"
+										dark
+										>
+										{{ $store.state.mainIcons.create.icon }}
+									</v-icon>
+									<v-icon 
+										small
+										class="pr-2"
+										color="accent"
+										>
+										{{ $store.state.mainIcons.tags.icon }}
+									</v-icon>
+								</v-badge>
+								<span class="ml-3">
 									{{ $t(`global.manage_tag`, $store.state.locale) }}
 								</span>
 							</div>
@@ -215,35 +235,51 @@
 							class="pa-0"
 							>
 
+
 							<!-- DATA TOOLBAR + MAPPING BTN -->
-							<v-toolbar class="elevation-0" color="white">
+							<v-toolbar 
+								class="elevation-0" 
+								color="white"
+								>
 								
 								<!-- title dataset -->
 								<v-toolbar-title
 									class="subheading grey--text"
 									>
 
-									<v-btn
-										icon
-										v-show="isPreview || add_to_parent"
-										flat
-										class="grey"
-										dark
-										small 
-										:to="`/${itemDoc.specs.doc_type}/${itemDoc._id}`"
+									<v-tooltip top>
+
+										<v-btn
+											slot="activator"
+											icon
+											v-show="isPreview || add_to_parent"
+											flat
+											class="grey"
+											dark
+											small 
+											@click="show_dsi_table=!show_dsi_table"
+											>
+											<!-- :to="`/${itemDoc.specs.doc_type}/${itemDoc._id}`" -->
+											<!-- @click="goToItem()" -->
+
+											<v-icon small>
+												{{ $store.state.mainIcons[collName].icon }}
+											</v-icon>
+											
+										</v-btn>
+
+										<span>
+											{{ $t(`datasets.preview`, $store.state.locale) }}
+										</span>
+									</v-tooltip>
+
+
+
+									<span
 										>
-										<!-- @click="goToItem()" -->
-
-										<v-icon small>
-											{{ $store.state.mainIcons[collName].icon }}
-										</v-icon>
+										{{ itemDoc.infos.title | truncate(30, '...') }}
+									</span>
 									
-									</v-btn>
-
-									
-									{{ itemDoc.infos.title | truncate(30, '...') }}
-									
-
 									<!-- -- parent_map : <br> <code>{{parent_map}}</code> -->
 
 									<!-- - ScT : {{ offsetTop }} -->
@@ -252,9 +288,6 @@
 									
 
 									<v-spacer></v-spacer>
-
-
-
 
 									<!-- TO DO : edit button if not in DSI -->
 									<!-- <v-btn
@@ -509,6 +542,27 @@
 									</v-list>
 
 								</v-menu>
+
+								<v-tooltip top>
+									<v-btn 
+										slot="activator"
+										flat
+										icon
+										small
+										@click="show_dsi_table=!show_dsi_table"
+										>
+										<v-icon v-if="show_dsi_table">
+											{{ $store.state.mainIcons.arr_up.icon}}
+										</v-icon>
+										<v-icon v-else>
+											{{ $store.state.mainIcons.arr_down.icon}}
+										</v-icon>
+									</v-btn>
+
+									<span>
+										{{ $t(`datasets.preview`, $store.state.locale) }}
+									</span>
+								</v-tooltip>
 
 
 							</v-toolbar>
@@ -775,117 +829,130 @@
 							</v-dialog>
 
 
-							<v-divider></v-divider>
-							<v-card-title
-								class="pt-0"
-								>
-								<v-spacer></v-spacer>
-								<v-text-field
-									class=""
-									v-model="search"
-									append-icon="search"
-									:label="$t(`global.search`, $store.state.locale)"
-									single-line
-									hide-details
-								></v-text-field>
-							</v-card-title>
-
-
-							<!-- DSI DATA / CONTENTS -->
-							<v-divider></v-divider>
-
-							<!-- - item_data : <code>{{ item_data }} </code> <br> -->
-
-							<!-- <ViewEditDSITable
-								v-if="is_parent_map"
-								:isPreview="isPreview"
-								:item_data="item_data",
-								:headers_preview="headers_preview",
-								:headers_preview_but_first="headers_preview_but_first",
-								:pagination="pagination",
-								:total_items="total_items",
-								:parent_scroll="parent_scroll",
-								>
-							</ViewEditDSITable> -->
-
-
-							<!-- DEBUG -->
-							<span v-if="$store.state.is_debug">
-								- parentDoc_dmt : <br><code>{{parentDoc_dmt}}</code><br>
-								<v-divider></v-divider>
-								- headers_preview_but_first : <br><code>{{headers_preview_but_first}}</code><br>
-								<v-divider></v-divider>
-							</span>
-
-
-								<!-- :loading="loading" -->
-							<v-data-table
-								v-if="is_parent_map && is_parent_dmt"
-								:ref="'datatable'"
-								:headers="headers_preview"
-								:items="item_data"
-								:pagination.sync="pagination"
-								:total-items="total_items"
-								class="elevation-0 scroll_data"
-								:rows-per-page-items="[5, 10, 25]"
-								:hide-headers="isPreview"
-								:search="search"
-								>
-
-								<template 
-									slot="items"
-									slot-scope="props"
+							<v-expand-transition>
+								<div
+									v-if="show_dsi_table"
 									>
 
-									<!-- FIRST COLUMN -->
-									<td 
-										v-show="!isPreview"
-										class="px-1"
+									<v-divider></v-divider>
+
+									<!-- SEARCH BAR -->
+									<v-card-title
+										class="pt-0"
 										>
-										<div class="col-titles">
-											<v-icon
-												small
-												class="mr-1"
-												@click="editItem(props.item)"
-												>
-												{{ $store.state.mainIcons.edit.icon }}
-											</v-icon>
-											<v-icon
-												small
-												class="mr-1"
-												@click="editItem(props.item)"
-												>
-												{{ $store.state.mainIcons.view.icon }}
-											</v-icon>
-											<v-icon
-												small
-												@click="deleteItem(props.item)"
-												>
-												{{ $store.state.mainIcons.delete.icon }}
-											</v-icon>
-										</div>
-									</td>
+										<v-spacer></v-spacer>
+										<v-text-field
+											class=""
+											v-model="search"
+											append-icon="search"
+											:label="$t(`global.search`, $store.state.locale)"
+											single-line
+											hide-details
+										></v-text-field>
+									</v-card-title>
 
-									<!-- CONTENT COLUMNS -->
-									<td 
-										v-for="header in headers_preview_but_first"
-										:key="headers_preview_but_first.indexOf(header)"
-										class="px-1"
+
+									<!-- DSI DATA / CONTENTS -->
+									<v-divider></v-divider>
+
+									<!-- - item_data : <code>{{ item_data }} </code> <br> -->
+
+									<!-- <ViewEditDSITable
+										v-if="is_parent_map"
+										:isPreview="isPreview"
+										:item_data="item_data",
+										:headers_preview="headers_preview",
+										:headers_preview_but_first="headers_preview_but_first",
+										:pagination="pagination",
+										:total_items="total_items",
+										:parent_scroll="parent_scroll",
 										>
-										<div class="col-values">
-											{{ props.item[header.value] | truncate(30, ' ...') }}
-										</div>
-									</td>
-
-								</template>
-
-							</v-data-table> 
+									</ViewEditDSITable> -->
 
 
+									<!-- DEBUG -->
+									<span v-if="$store.state.is_debug">
+										- parentDoc_dmt : <br><code>{{parentDoc_dmt}}</code><br>
+										<v-divider></v-divider>
+										- headers_preview_but_first : <br><code>{{headers_preview_but_first}}</code><br>
+										<v-divider></v-divider>
+									</span>
 
-							<!--  -->
+
+									<!-- DSI DATA / CONTENTS -->
+										<!-- :loading="loading" -->
+									<v-data-table
+										v-if="is_parent_map && is_parent_dmt"
+										:ref="'datatable'"
+										:headers="headers_preview"
+										:items="item_data"
+										:pagination.sync="pagination"
+										:total-items="total_items"
+										class="elevation-0 scroll_data"
+										:rows-per-page-items="[5, 10, 25]"
+										:search="search"
+										>
+										<!-- :hide-headers="isPreview" -->
+
+										<template 
+											slot="items"
+											slot-scope="props"
+											>
+
+											<!-- FIRST COLUMN -->
+											<td 
+												v-show="!isPreview"
+												class="px-1"
+												>
+												<div class="col-titles">
+													<v-icon
+														small
+														class="mr-1"
+														@click="editItem(props.item)"
+														>
+														{{ $store.state.mainIcons.edit.icon }}
+													</v-icon>
+													<v-icon
+														small
+														class="mr-1"
+														@click="editItem(props.item)"
+														>
+														{{ $store.state.mainIcons.view.icon }}
+													</v-icon>
+													<v-icon
+														small
+														@click="deleteItem(props.item)"
+														>
+														{{ $store.state.mainIcons.delete.icon }}
+													</v-icon>
+												</div>
+											</td>
+
+											<!-- CONTENT COLUMNS -->
+											<td 
+												v-for="header in headers_preview_but_first"
+												:key="headers_preview_but_first.indexOf(header)"
+												class="px-1"
+												>
+												<div class="col-values">
+													{{ props.item[header.value] | truncate(30, ' ...') }}
+												</div>
+											</td>
+
+										</template>
+
+									</v-data-table> 
+
+								</div>
+							</v-expand-transition>
+
+
+
+
+
+							<!-- NO MAP && NO PARENT DMT -->
 							<v-alert 
-								v-else 
+								v-if=" !is_parent_map && !is_parent_dmt "
 								class="mt-0 pa-4 text-xs-center"
 								:value="true"
 								color="accent"
@@ -1190,9 +1257,10 @@ export default {
 			dialog_del 		: false,
 			dialog_mapping 	: false,
 
+			show_dsi_table	: true,
 			panel_uses		: [false],
 			panel_infos		: [true],
-			panel_lib_tag	: [false],
+			panel_lib_tag	: [true],
 			
 			collName 		: this.$store.state.collectionsNames[this.coll],
 
@@ -1348,7 +1416,6 @@ export default {
 			handler ( newVal, oldVal) {
 				this.parentDocDMFs = this.parentDoc_dmf_list_reduc(newVal)
 				this.item_headers()
-
 			}
 
 		},
@@ -1423,7 +1490,7 @@ export default {
 		is_preview : {
 			immediate : true,
 			handler( newVal, oldVal) {
-				console.log( "\nVE DMT / watch ~ is_preview / newVal : \n", newVal )
+				// console.log( "\nVE DSI / watch ~ is_preview / newVal : \n", newVal )
 				this.isPreview = newVal ;
 			}
 		},
@@ -1433,8 +1500,8 @@ export default {
 
 			handler () {
 
-				console.log("\n...VDSI pagination handler ... ")
-				console.log("...VDSI pagination - this.pagination : ", this.pagination)
+				// console.log("\n...VE DSI pagination handler ... ")
+				// console.log("...VE DSI pagination - this.pagination : ", this.pagination)
 
 				// change pagination params in store[coll]
 				var pagination_params 	= {
@@ -1444,7 +1511,7 @@ export default {
 					sort_by 	: this.pagination.sortBy,
 					descending 	: this.pagination.descending,
 				}
-				console.log("...VDSI pagination - pagination_params : ", pagination_params)
+				// console.log("...VE DSI pagination - pagination_params : ", pagination_params)
 
 				// call method for dispatch from main store
 				this.get_FData_fromApi(pagination_params)
@@ -1455,7 +1522,7 @@ export default {
 	},
 
 	methods: {
-		
+
 		updateLoading(input) {
 			console.log("updateLoading / input : ", input )
 			this.loading = input
@@ -1763,7 +1830,6 @@ export default {
 					if ( this.parentDoc_dmt.length != 0 && this.parentMap != undefined ) {
 
 						// headers present in this.parentDocDMFs
-
 						var dmf_list = this.parentDocDMFs.slice(1)
 						// console.log("... item_headers + map / dmf_list : ", dmf_list )
 
@@ -1781,8 +1847,11 @@ export default {
 							if ( replacing_header != undefined ) {
 								header_to_push = { 
 									value 	: replacing_header.dsi_header ,
-									text 	: replacing_header.dsi_header // + " - " + replacing_header.oid_dmf 
+									text 	: replacing_header.dsi_header // + "(" + header_to_push.text + ")" // + " - " + replacing_header.oid_dmf 
 								}
+							}
+							else {
+								header_to_push.text = "* not mapped" 
 							}
 
 							temp_headers_map_dmf.push( header_to_push )

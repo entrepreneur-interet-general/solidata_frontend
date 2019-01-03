@@ -422,142 +422,168 @@
 							</v-menu>
 
 
+							<v-tooltip top>
+								<v-btn 
+									slot="activator"
+									flat
+									icon
+									small
+									@click="show_dmf_table=!show_dmf_table"
+									>
+									<v-icon v-if="show_dmf_table">
+										{{ $store.state.mainIcons.arr_up.icon}}
+									</v-icon>
+									<v-icon v-else>
+										{{ $store.state.mainIcons.arr_down.icon}}
+									</v-icon>
+								</v-btn>
 
-
+								<span>
+									{{ $t(`datamodels.preview`, $store.state.locale) }}
+								</span>
+							</v-tooltip>
 
 						</v-toolbar>
 
-						<v-divider></v-divider>
 
-						<!-- DATA TABLE -->
-						<v-data-table
-							:ref="'datatable'"
-							:headers="list_headers_selector"
-							:items="list_DMF_selector"
-							class="elevation-0"
-							:loading="loading"
-							:pagination.sync="paginationDMF"
-							hide-actions
-							hide-headers
-							>
-				
-							<template
-								slot="items" 
-								slot-scope="props"
+						<v-expand-transition>
+							<div
+								v-if="show_dmf_table"
 								>
-							
-								<td
-									v-for="dmf in list_DMF_raw_selector"
-									:key="list_DMF_raw_selector.indexOf(dmf)"
-									:class="`px-1 ${ (list_DMF_selector.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
-									style="text-align: center;"
+								<v-divider></v-divider>
+
+								<!-- DATA TABLE -->
+								<v-data-table
+									:ref="'datatable'"
+									:headers="list_headers_selector"
+									:items="list_DMF_selector"
+									class="elevation-0"
+									:loading="loading"
+									:pagination.sync="paginationDMF"
+									hide-actions
+									hide-headers
 									>
-
-									<!-- first column  -->
-									<div 
-										v-if=" dmf['_id'] == '_' && !isPreview"
-										class="col-titles font-weight-bold"
+						
+									<template
+										slot="items" 
+										slot-scope="props"
 										>
-										<!-- {{ dmf }} -->
-										<!-- {{ dmf["_id"] }} -->
-
-										{{ props.item[ dmf["_id"] ] }}
-
-									</div>
-
-									<!-- delete row -->
-									<div 
-										v-else-if="list_DMF_selector.indexOf(props.item) == 1"
-										class="col-values"
-										>
-										
-										<!-- DELETE DMF BTN -->
-										<v-tooltip top>
-											<v-btn
-												slot="activator"
-												v-if="!isPreview"
-												:disabled="!checkUserAuth('delete_item')"
-												icon
-												small
-												@click="deleteChild( { 
-													item_id 		: props.item[dmf._id], 
-													datasets_coll 	: 'dmf', 
-													parentDoc_coll 	: 'dmt', 
-													re_emit			: false,
-												} ) "
-												>
-												<v-icon
-													color="accent"
-													>
-													{{ $store.state.mainIcons.delete.icon }}
-												</v-icon>
-											</v-btn>
-											<span>
-												{{ $t(`datamodels.delete`, $store.state.locale) }}
-											</span>
-										</v-tooltip>
-
-										<!-- DEBUG -->
-										<span v-if="$store.state.is_debug">
-											<br>
-											- props.item[ dmf._id ] : <code>{{ props.item[ dmf._id ] }}</code>
-											- item_doc.specs.doc_type : <code>{{ item_doc.specs.doc_type }}</code>
-											- item_doc._id : <code>{{ item_doc._id }}</code>
-										</span>
-
-									</div>
-
-									<!-- columns for each entry in list_DMF_full_pivoted -->
-									<div 
-										v-else
-										class="col-values"
-										>
-										
-										<v-tooltip 
-											top
-											v-if="list_DMF_selector.indexOf(props.item) == 0"
+									
+										<td
+											v-for="dmf in list_DMF_raw_selector"
+											:key="list_DMF_raw_selector.indexOf(dmf)"
+											:class="`px-1 ${ (list_DMF_selector.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
+											style="text-align: center;"
 											>
-											<v-btn
-												slot="activator"
-												flat
-												block
-												class="text-lowercase ma-0 dmf-title-btn"
-												:to="'/dmf/'+dmf._id"
+
+											<!-- first column  -->
+											<div 
+												v-if=" dmf['_id'] == '_' && !isPreview"
+												class="col-titles font-weight-bold"
 												>
-												<v-icon
-													left
-													color="primary"
-													small
+												<!-- {{ dmf }} -->
+												<!-- {{ dmf["_id"] }} -->
+
+												{{ props.item[ dmf["_id"] ] }}
+
+											</div>
+
+											<!-- delete row -->
+											<div 
+												v-else-if="list_DMF_selector.indexOf(props.item) == 1"
+												class="col-values"
+												>
+												
+												<!-- DELETE DMF BTN -->
+												<v-tooltip top>
+													<v-btn
+														slot="activator"
+														v-if="!isPreview"
+														:disabled="!checkUserAuth('delete_item')"
+														icon
+														small
+														@click="deleteChild( { 
+															item_id 		: props.item[dmf._id], 
+															datasets_coll 	: 'dmf', 
+															parentDoc_coll 	: 'dmt', 
+															re_emit			: false,
+														} ) "
+														>
+														<v-icon
+															color="accent"
+															>
+															{{ $store.state.mainIcons.delete.icon }}
+														</v-icon>
+													</v-btn>
+													<span>
+														{{ $t(`datamodels.delete`, $store.state.locale) }}
+													</span>
+												</v-tooltip>
+
+												<!-- DEBUG -->
+												<span v-if="$store.state.is_debug">
+													<br>
+													- props.item[ dmf._id ] : <code>{{ props.item[ dmf._id ] }}</code>
+													- item_doc.specs.doc_type : <code>{{ item_doc.specs.doc_type }}</code>
+													- item_doc._id : <code>{{ item_doc._id }}</code>
+												</span>
+
+											</div>
+
+											<!-- columns for each entry in list_DMF_full_pivoted -->
+											<div 
+												v-else
+												class="col-values"
+												>
+												
+												<v-tooltip 
+													top
+													v-if="list_DMF_selector.indexOf(props.item) == 0"
 													>
-													{{ $store.state.mainIcons.datamodel_fields.icon }}
-												</v-icon>
-												{{ props.item[ dmf["_id"] ] | truncate( 20, '...' ) }}
-											</v-btn>
-											<span>
-												{{ $t(`datamodel_fields.go_to`, $store.state.locale) }}
-											</span>
-										</v-tooltip>
+													<v-btn
+														slot="activator"
+														flat
+														block
+														class="text-lowercase ma-0 dmf-title-btn"
+														:to="'/dmf/'+dmf._id"
+														>
+														<v-icon
+															left
+															color="primary"
+															small
+															>
+															{{ $store.state.mainIcons.datamodel_fields.icon }}
+														</v-icon>
+														{{ props.item[ dmf["_id"] ] | truncate( 20, '...' ) }}
+													</v-btn>
+													<span>
+														{{ $t(`datamodel_fields.go_to`, $store.state.locale) }}
+													</span>
+												</v-tooltip>
 
-										<span
-											v-else
-											>
-											{{ props.item[ dmf["_id"] ] | truncate( 100, '...' ) }}
-										</span>
+												<span
+													v-else
+													>
+													{{ props.item[ dmf["_id"] ] | truncate( 100, '...' ) }}
+												</span>
 
-										<span v-if="$store.state.is_debug">
-											<br>
-											dmf id : <code>{{ dmf["_id"] }}</code>
-										</span>
+												<span v-if="$store.state.is_debug">
+													<br>
+													dmf id : <code>{{ dmf["_id"] }}</code>
+												</span>
 
-									</div>
+											</div>
 
-								</td>
-								
-								
-							</template>
+										</td>
+										
+										
+									</template>
 
 
-						</v-data-table>
+								</v-data-table>
+
+							</div>
+						</v-expand-transition>
 
 					</v-card-text>
 				</v-card>
@@ -827,6 +853,7 @@ export default {
 
 			dialog_del 	: false,
 			panel_map	: [true], 
+			show_dmf_table : true,
 
 			offsetTop 		: 0,
 			offsetLeft 		: 0,

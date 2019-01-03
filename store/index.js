@@ -142,6 +142,8 @@ const mainIconsConst = {
 	geoloc				: { icon : "pin_drop" },
 
 	back				: { icon : "arrow_back" },
+	arr_up				: { icon : "keyboard_arrow_up" },
+	arr_down			: { icon : "keyboard_arrow_down" },
 
 	infos				: { icon : "info" },
 	link				: { icon : "arrow_forward" },

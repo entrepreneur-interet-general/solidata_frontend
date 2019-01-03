@@ -2,12 +2,14 @@
 
 	<div>
 
-		<v-hover>
+		<v-hover
+			:disabled="no_hover"
+			>
 
 			<v-card
 				flat
 				slot-scope="{ hover }"
-				:class="`pa-0 mr-4 elevation-${hover ? 5 : 0 }`"
+				:class="`${ no_hover ? '': 'pa-0 mr-4'} elevation-${hover ? 5 : 0 }`"
 				:color="`${is_in_parent ? 'grey lighten-2' : 'white' }`"
 				:style="{ cursor: 'pointer'}"
 				@click="itemClickBehaviour()"
@@ -83,7 +85,7 @@
 					fab
 					small
 					flat
-					:class="`${hover ? ( is_in_parent ? 'accent' : 'primary') : ( is_in_parent ? 'grey lighten-1' : 'secondary') }`"
+					:class="`${ hover ? ( is_in_parent ? 'accent' : 'primary') : ( is_in_parent ? 'grey lighten-1' : 'secondary') } `"
 					bottom
 					right
 					absolute
@@ -338,6 +340,8 @@ export default {
 		"parentDoc_coll",
 		"parentDoc_id",
 		"is_in_parent",
+
+		"no_hover"
 
 	],
 

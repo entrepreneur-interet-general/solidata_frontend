@@ -312,7 +312,9 @@
 
 		"delete" 		: "Supprimer ce champ",
 		"go_to" 		: "Voir ce modèle de données",
-		"manage_dmf"	: "Ajouter un champ de modèle de donnée"
+		"manage_dmf"	: "Ajouter un champ de modèle de donnée",
+
+		"preview" 		: "Prévisualiser le modèle de données"
 
 	},
 	
@@ -368,6 +370,7 @@
 		"src_parser" 	: "Source parser",
 
 		"go_to" 		: "Voir ce jeu de données",
+		"preview" 		: "Prévisualiser le jeu de données",
 
 		"file" 			: "Choisissez un fichier",
 		"f_col_headers" : "Colonnes", 

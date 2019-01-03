@@ -22,8 +22,9 @@
 			
 			color="white"
 			class="headline ml-2 "
-			:to='to_link'
+			:to="'/dashboard#'+tab"
 			>
+			<!-- :to='to_link' -->
 			<v-icon 
 					
 				:color="icon_color"
@@ -77,8 +78,9 @@
 			v-if="!isDashboard"
 			icon
 			nuxt
-			:to="'/dashboard#'+tab"
+			@click="$router.go(-1)"
 			>
+			<!-- :to="'/dashboard#'+tab" -->
 			<v-icon>
 				{{ $store.state.mainIcons.back.icon }}  
 			</v-icon>
