@@ -1,7 +1,7 @@
 <style scoped>
 
 	th, td {
-		border-right: thin dashed grey ;
+		border-right: thin solid #eee ;
 		max-width: 220px; 
 	}
 	td .col-values {

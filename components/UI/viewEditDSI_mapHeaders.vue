@@ -19,8 +19,6 @@
 	<div>
 
 		<!-- DEBUG -->
-		
-			
 		<span v-if="$store.state.is_debug">
 
 			parent_map : <br> <code>{{ parent_map }}</code><br>

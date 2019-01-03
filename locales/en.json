@@ -283,7 +283,10 @@
 		"dsi_headers"	: "your original headers",
 		"map_with_dmf"	: "associate each original header with one of the fields from the datamodel",
 		"dsi_map" 		: "Map your dataset with your datamodel",
-		"dsi_to_dmf" 	: "Map this header"
+		"dsi_to_dmf" 	: "Map this header",
+
+		"geoloc"		: "Geocode your data",
+		"geo_select_dmf": "Choose the datamodel's columns allowing to geocode"
 
 	},
 

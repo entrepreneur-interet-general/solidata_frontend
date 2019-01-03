@@ -1,12 +1,19 @@
 <style scoped>
 
+	.thin-border {
+		border-style: solid;
+		border-width: thin;
+		border-color: #eee;
+	}
+
 	tr th {
 		/* text-align : center ; */
 		/* border-left: thin dashed grey ; */
 	}
 
 	th, td {
-		border-right: thin dashed grey ;
+		border-left: thin solid #eee ;
+		border-right: thin solid #eee ;
 		max-width: 220px !important; 
 	}
 	td .col-values {
@@ -31,6 +38,11 @@
 		overflow-y: hidden ;
 		text-align : center ;
 		/* display: inline-block; */
+	}
+
+	.v-input--checkbox {
+		align-items: center;
+		justify-content: center;
 	}
 
 	.no-scroll {
@@ -82,8 +94,11 @@
 		<v-layout row wrap>
 			
 
-			<!-- DMF_LIST as DATA TABLE-->
-			<v-flex xs12 pt-0>
+			<!-- DMF_LIST vs GEOLOC MAPPING -->
+			<v-flex 
+				v-if="is_geoloc"
+				class="xs12"
+				>
 
 				<v-card 
 					flat
@@ -91,6 +106,132 @@
 					color=""
 					>
 					<v-card-text class="pa-0">
+
+
+						<v-divider></v-divider>
+
+
+						<!-- DMF_LIST OPEN_LEVEL DATA TABLE -->
+						<v-data-table
+							:ref="'datatable_geoloc'"
+							:headers="list_headers_selector"
+							:items="list_DMF_first_row_pivoted"
+							class="elevation-0"
+							:loading="loading"
+							:pagination.sync="paginationDMF"
+							hide-actions
+							hide-headers
+							>
+				
+							<template
+								slot="items" 
+								slot-scope="props"
+								>
+							
+								<td
+									v-for="dmf in list_DMF_raw_selector"
+									:key="list_DMF_raw_selector.indexOf(dmf)"
+									:class="`px-1 ${ (list_DMF_first_row_pivoted.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
+									style="text-align: center;"
+									>
+
+									<!-- first column  -->
+									<!-- open_level_show -->
+									<div 
+										v-if=" dmf['_id'] == '_' && !isPreview"
+										class="col-titles font-weight-bold"
+										>
+										
+										<v-icon 
+											small
+											color="primary" 
+											>
+											{{ $store.state.mainIcons.view.icon }}
+										</v-icon>
+										<v-tooltip right>
+											<span slot="activator">
+												<v-icon 
+													small
+													dark
+													class="pl-2"
+													color="grey"
+													>
+													{{ $store.state.mainIcons.question.icon }}
+												</v-icon>
+											</span>
+											<span>
+												{{ $t(`projects.open_level_show`, $store.state.locale) }}
+											</span>
+										</v-tooltip>
+
+									</div>
+
+
+									<!-- columns for each entry in list_DMF_full_pivoted -->
+									<div 
+										v-else
+										class="col-values px-2 py-2 text-xs-center"
+										>
+
+										<!-- GEOLOC CHOICE INPUT -->
+										<!-- <ViewEditDMFol
+											:dmt="item_doc_id[0].oid_dmt"
+											:dmf="dmf"
+											:is_loading="is_loading"
+											:parent_map="parent_map"
+											:dmf_ol_val="getDMF_openlevel(dmf._id)"
+											:parentDoc_id="parentDoc_id"
+											:parentDoc_coll="parentDoc_coll"
+											:canEdit="canEdit_ol"
+											>
+										</ViewEditDMFol> -->
+
+										<!-- <code>{{ dmf }}</code> -->
+
+										<span >
+											{{ dmf["infos.title"] }}
+										</span>
+
+										<v-checkbox 
+											class="mt-2"
+											v-model="selected_geoloc" 
+											:value="dmf._id"
+											hide-details
+											@change="updateGeolocListDMF"
+											>
+										</v-checkbox>
+
+									</div>
+
+								</td>
+								
+								
+							</template>
+
+						</v-data-table>
+
+					</v-card-text>
+				</v-card>
+
+
+			</v-flex>
+
+
+			<!-- DMF_LIST as DATA TABLE-->
+			<v-flex 
+				v-if="!is_geoloc"
+				xs12 
+				pt-0
+				>
+
+				<v-card 
+					flat
+					class=""
+					color=""
+					>
+					<v-card-text 
+						class="pa-0 thin-border"
+						>
 
 						<!-- DATA TOOLBAR -->
 						<v-toolbar 
@@ -430,7 +571,7 @@
 				>
 
 
-				<!-- COMPONENTS FOR COMMON DOCS USES -->		
+				<!-- EXPANSION PANEL FOR DATA DMF_LIST OPEN_LEVEL -->		
 				<v-expansion-panel
 					v-model="panel_map"
 					expand
@@ -440,6 +581,7 @@
 
 						<!-- DATA DMF_LIST OPEN_LEVEL TOOLBAR -->
 						<v-toolbar-title 
+							v-if="!no_toolbar"
 							class="subheading grey--text"
 							slot="header"
 							>
@@ -596,6 +738,9 @@
 
 
 
+
+
+
 		</v-layout>
 
 
@@ -625,6 +770,8 @@ export default {
 
 		"panel_open",
 		
+		"is_geoloc",
+
 		"is_map",
 		"parent_map",
 		"canEdit_ol",
@@ -683,8 +830,13 @@ export default {
 
 			offsetTop 		: 0,
 			offsetLeft 		: 0,
+
 			dataTable 		: undefined,
 			dataTable_ol 	: undefined,
+			dataTable_geo 	: undefined,
+
+			// for geoloc only
+			selected_geoloc : [], 
 
 			// DMF references
 			DMF_list_loaded : false,
@@ -763,6 +915,9 @@ export default {
 					if (this.is_map) {
 						this.dataTable_ol.scrollLeft = newVal
 					}
+					// if (this.is_geoloc) {
+					// 	this.dataTable_geo.scrollLeft = newVal
+					// }
 				}
 			}
 
@@ -859,9 +1014,15 @@ export default {
 			var scroll_data = e.target ;
 			// this.offsetTop 	= scroll_data.scrollTop ;
 			this.offsetLeft = scroll_data.scrollLeft ;
-			this.$emit('scrollTable', { 
-				left : scroll_data.scrollLeft 
-			}) 
+			if (!this.is_geoloc) {
+				this.$emit('scrollTable', { 
+					left : scroll_data.scrollLeft 
+				}) 
+			}
+			// else {
+			// 	this.dataTable.scrollLeft = this.offsetLeft
+			// 	this.dataTable_geo.scrollLeft = this.offsetLeft
+			// }
 		},
 
 		switchSettings() {
@@ -874,6 +1035,10 @@ export default {
 			return this.$router.push(`/${this.item_doc.specs.doc_type}/${this.item_doc._id}`)
 		},
 
+		updateGeolocListDMF () {
+			// update parent RPJ's list of dmf to use to geolocalize 
+			this.$emit('updateGeoloc', this.selected_geoloc ) 
+		},
 
 		deleteChild( item_infos ) {
 			console.log("\n...viewEditListDMF - deleteChild / item_infos : \n ", item_infos)
@@ -1057,6 +1222,15 @@ export default {
 						// dt_ol.classList.add("no-scroll");
 						this.dataTable_ol = dt_ol
 					}
+
+					// if (this.is_geoloc) {
+					// 	var dataTable_geo = this.$refs.datatable_geoloc ;
+					// 	var dt_geo = dataTable_geo.$el.querySelector(".v-table__overflow") 
+					// 	dt_geo.addEventListener('scroll', this.onScroll);
+					// 	// dt_ol.classList.add("no-scroll");
+					// 	this.dataTable_geo = dt_geo
+					// }
+
 				}
 
 

@@ -283,8 +283,11 @@
 		"dsi_headers"	: "el título de columna original",
 		"map_with_dmf"	: "asociar cada título con un campo del módelo de datos",	
 		"dsi_map" 		: "Haz corresponder sus datos con su módelo de datos",
-		"dsi_to_dmf" 	: "Mapear este header"
-	
+		"dsi_to_dmf" 	: "Mapear este header",
+
+		"geoloc"		: "Geo-localizar sus datos",
+		"geo_select_dmf": "Elejir las columnas del módelo de datos que permiten geo-localizar"
+
 	},
 
 	"datamodels" : {

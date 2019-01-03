@@ -106,7 +106,7 @@ const mainIconsConst = {
 	
 	projects			: { icon : "fas fa-project-diagram",	to:"/prj",			abr:"prj" },
 	datamodels			: { icon : "fas fa-table",				to:"/dmt",			abr:"dmt" },
-	datamodel_fields	: { icon : "far fa-square",				to:"/dmf",			abr:"dmf" },
+	datamodel_fields	: { icon : "fas fa-asterisk",			to:"/dmf",			abr:"dmf" },
 	datasets			: { icon : "fas fa-database",			to:"/dsi",			abr:"dsi" },
 	recipes				: { icon : "fas fa-magic",				to:"/rec",			abr:"rec" },
 	tags				: { icon : "fas fa-tag",				to:"/tag",			abr:"tag" },

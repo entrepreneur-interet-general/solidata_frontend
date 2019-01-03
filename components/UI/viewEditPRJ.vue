@@ -286,6 +286,52 @@
 		</v-dialog>
 
 
+		<!-- PRJ / RECIPES - GEOLOC -->
+		<v-dialog 
+			v-model="isRecipes" 
+			fullscreen 
+			hide-overlay 
+			transition="dialog-bottom-transition"
+			>
+
+			<v-card>
+
+				<!-- SETTINGS TOOLBAR -->
+				<SettingsToolbar
+					:itemDoc="item_doc"
+					@settings="switchRecipes"
+					>
+					<!-- :itemDoc="itemDoc" -->
+				</SettingsToolbar>
+				
+
+				<!-- TO DO : RECIPES / GEOLOC COMPONENT-->
+				<RecipesGeoloc
+
+					:item_doc="item_doc"
+					:parentDoc_id="itemId"
+					:parentDoc_coll="coll"
+
+					:parent_REC_oids="list_REC_oids"
+					:parent_DMT_oids="list_DMT_oids"
+					:itemId="itemId"
+					
+					:isPreview="isPreview"
+					:isLoading="loading"
+					:canEdit_ol="checkUserAuth('mapping.dmf_to_open_level')"
+
+					>
+				</RecipesGeoloc>
+
+
+			</v-card>
+
+		</v-dialog>
+
+
+
+
+
 
 
 		<!-- PRJ DATA : DMT -->
@@ -411,7 +457,7 @@
 
 				<v-layout row wrap>
 
-					<!-- DMT MANAGE / GOT TO DMT SELECTED -->
+					<!-- BTN - DMT MANAGE / GOT TO DMT SELECTED -->
 					<v-flex xs12>
 						<v-card
 							flat
@@ -455,7 +501,7 @@
 						</v-card>
 					</v-flex>
 
-					<!-- DMT MANAGE / OPEN LIST -->
+					<!-- BTN - DMT MANAGE / OPEN LIST -->
 					<v-flex xs12>
 						<v-card
 							flat
@@ -486,7 +532,7 @@
 						</v-card>
 					</v-flex>
 
-					<!-- EXPORT -->
+					<!-- BTN - EXPORT -->
 					<v-flex 
 						xs12
 						v-show="!loading && list_DMT_oids.length != 0"
@@ -522,7 +568,7 @@
 					</v-flex>
 
 
-					<!-- GEOLOC -->
+					<!-- BTN - RECIPES / GEOLOC -->
 					<v-flex 
 						xs12
 						v-show="!loading && list_DMT_oids.length != 0"
@@ -539,6 +585,7 @@
 										:class="`ma-0 text-lowercase ${ loading ? 'grey--text' : 'accent--text'}`"
 										block
 										flat
+										@click="isRecipes=true"
 										>
 										<v-icon 
 											large
@@ -813,6 +860,8 @@ import ViewEditDMT from '~/components/UI/viewEditDMT.vue'
 import ViewEditListDMF from '~/components/UI/viewEditListDMF.vue'
 import ViewEditDSI from '~/components/UI/viewEditDSI.vue' 
 
+import RecipesGeoloc from '~/components/Forms/recipes_geoloc.vue' 
+
 import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
 
 
@@ -842,6 +891,8 @@ export default {
 		ViewEditListDMF,
 		ViewEditDSI,
 
+		RecipesGeoloc,
+
 		SettingsToolbar,
 	},
 
@@ -862,6 +913,7 @@ export default {
 		this.list_DMT_oids 	= this.item_doc.datasets.dmt_list ;
 		this.list_DSI_oids 	= this.item_doc.datasets.dsi_list ;
 		this.list_TAG_oids 	= this.item_doc.datasets.tag_list ;
+		this.list_REC_oids 	= this.item_doc.datasets.rec_list ;
 		
 		// debug
 		// this.list_DMT_oids 	= [ 
@@ -911,6 +963,7 @@ export default {
 			isPreview 	: this.is_preview,
 			noToolbar	: this.no_toolbar,
 			isSettings 	: false,
+			isRecipes 	: false,
 
 			// ----------------------------- // 
 			// DMT - DMF - DSI references
@@ -922,6 +975,7 @@ export default {
 			list_DMT_oids 		: [],
 			list_DSI_oids 		: [],
 			list_TAG_oids 		: [],
+			list_REC_oids 		: [],
 
 			// list_DMT_oids 	: [ {"oid_dmt" : "5b98e4db0a8286332f4f1984" } ],
 
@@ -1015,6 +1069,7 @@ export default {
 					this.list_DMT_oids 	= newVal.datasets.dmt_list ; 
 					this.list_DSI_oids 	= newVal.datasets.dsi_list ; 
 					this.list_TAG_oids 	= newVal.datasets.tag_list ; 
+					this.list_REC_oids 	= newVal.datasets.rec_list ; 
 				}
 
 			}
@@ -1078,6 +1133,10 @@ export default {
 
 		switchSettings() {
 			this.isSettings = !this.isSettings ;
+		},
+
+		switchRecipes() {
+			this.isRecipes = !this.isRecipes ;
 		},
 
 		preloadIsFile () {
