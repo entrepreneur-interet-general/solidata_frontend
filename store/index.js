@@ -186,8 +186,13 @@ export const state = () => ({
 	
 	show_agreement_cgu : true , 
 	
+	is_alert	: false,
 	alert 		: {},
+	alert_timeout : 2000,
 
+	is_error	: false,
+	error 		: {},
+	error_timeout : 7000,
 
 	// USER AUTH
 	auth 	: null, 
@@ -484,7 +489,13 @@ export const mutations = {
 
 	// alert
 	set_alert (state, alert) {
+		state.is_alert = true
 		state.alert = alert
+	},
+	// error
+	set_error (state, error) {
+		state.is_error = true
+		state.error = error
 	},
 
 	// navbar
@@ -586,12 +597,15 @@ export const actions = {
 				// retrieve item id
 				const new_item_id = response.data._id
 
+				commit(`set_alert`, response.msg)
+
 				// redirect to edit-preview page 
 				return this.$router.push(`/${payload.collection}/${new_item_id}`)
 
 			})
 			.catch(error => {
 				console.log("... $ createItem / error : ", error ) ; 
+				commit(`set_error`, error)
 				return error
 			})
 
@@ -627,11 +641,14 @@ export const actions = {
 				console.log(`... $ getOneItem : response OK... `);
 				// console.log(`... $ getOneItem : response : `, response);
 				// commit(`${collection}/set_current`, response.data);
+				
+				// commit(`set_alert`, response.msg)
 				return response
 			})
 
 			.catch(error => {
 				console.log("... $ getOneItem / error : ", error ) ; 
+				commit(`set_error`, error)
 				return error
 			})
 
@@ -665,6 +682,8 @@ export const actions = {
 				if ( level != "get_datasets") {
 					commit(`${collection}/set_list`, response);
 				}
+
+				// commit(`set_alert`, response.msg)
 				return response
 			})
 
@@ -672,6 +691,7 @@ export const actions = {
 				console.log("... $ getListItems / error..." ) ; 
 				console.log("... $ getListItems / error.response.status : ", error.response.status ) ; 
 				// console.log("... $ getListItems / error : ", error ) ; 
+				commit(`set_error`, error)
 				return error
 			})
 
@@ -700,11 +720,14 @@ export const actions = {
 				console.log(`... $ updateItem : response OK... `);
 				// console.log(`... $ updateItem : response : `, response);
 				// commit(`${collection}/set_current`, response);
+				
+				// commit(`set_alert`, response.msg)
 				return response
 			})
 		
 			.catch(error => {
 				console.log("... $ updateItem / error : ", error ) ; 
+				commit(`set_error`, error)
 				return error
 			})
 
@@ -733,11 +756,14 @@ export const actions = {
 				console.log(`... $ updateMapping : response OK... `);
 				// console.log(`... $ updateMapping : response : `, response);
 				commit(`${collection}/set_current`, response);
+				
+				// commit(`set_alert`, response.msg)
 				return response
 			})
 		
 			.catch(error => {
 				console.log("... $ updateMapping / error : ", error ) ; 
+				commit(`set_error`, error)
 				return error
 			})
 
@@ -761,11 +787,14 @@ export const actions = {
 			.then(response => {
 				// console.log(`... $ deleteItem : response : `, response);
 				// commit(`${collection}/set_list`, response);
+				
+				commit(`set_alert`, response.msg)
 				return response
 				// return this.$router.push(`/${this.coll}`)
 			})
 			.catch(error => {
 				console.log("... $ deleteItem / error : ", error ) ; 
+				commit(`set_error`, error)
 				return error
 			})
 

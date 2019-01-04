@@ -947,12 +947,13 @@
 							</v-expand-transition>
 
 
-
-
+<!-- 
+							- is_parent_map : {{ is_parent_map }}
+							- is_parent_dmt : {{ is_parent_dmt }} -->
 
 							<!-- NO MAP && NO PARENT DMT -->
 							<v-alert 
-								v-if=" !is_parent_map && !is_parent_dmt "
+								v-if=" !is_parent_map || !is_parent_dmt "
 								class="mt-0 pa-4 text-xs-center"
 								:value="true"
 								color="accent"

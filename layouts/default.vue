@@ -34,13 +34,15 @@
 
 
 
+
 		<Toolbar 
 			@toggleClipped="change_clipped" 
 			@toggleDrawer="change_drawer" 
 			@toggleMiniVariant="change_miniVariant" 
 			@toggleFixed="change_fixedNav" 
 			@toggleRightDrawer="change_rightDrawer" 
-		/>
+			>
+		</Toolbar>
 		<!-- <v-toolbar :fixed="$store.state.fixed" app :clipped-left="$store.state.clipped">
 			
 			<v-toolbar-side-icon @click="change_drawer"></v-toolbar-side-icon>
@@ -110,8 +112,59 @@
 		</v-toolbar> -->
 
 
+		<!-- <v-alert
+			v-model="$store.state.is_alert"
+			dismissible
+			type="success"
+			>
+			This is a success alert that is closable.
+			{{ $store.state.alert }}
+		</v-alert> -->
 
 
+		<!-- ALERT MESSAGES -->
+		<v-snackbar
+			v-model="$store.state.is_alert"
+			multi-line
+			color="info"
+			top
+			:timeout="$store.state.alert_timeout"
+			>
+				{{ $store.state.alert }}
+			<v-btn
+				dark
+				icon
+				flat
+				@click="$store.state.is_alert = false"
+				>
+				<v-icon
+					>
+					{{ $store.state.mainIcons.close.icon }}
+				</v-icon>
+			</v-btn>
+		</v-snackbar>
+
+		<!-- ERROR MESSAGES -->
+		<v-snackbar
+			v-model="$store.state.is_error"
+			multi-line
+			color="error"
+			top
+			:timeout="$store.state.error_timeout"
+			>
+				{{ $store.state.error.message }}
+			<v-btn
+				dark
+				icon
+				flat
+				@click="$store.state.is_error = false"
+				>
+				<v-icon
+					>
+					{{ $store.state.mainIcons.close.icon }}
+				</v-icon>
+			</v-btn>
+		</v-snackbar>
 
 
 		<v-content>
