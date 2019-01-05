@@ -29,6 +29,10 @@
 		background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 72px);
 	}
 
+	.diag-gradient {
+		background-image: linear-gradient(to top right, #116565, #22C9C9);
+	}
+
 	.repeating-gradient {
 		background-image: repeating-linear-gradient(
 			-45deg,
@@ -43,11 +47,11 @@
 
 <template>
 
-	<v-jumbotron 
-		class="pa-0" 
-		:gradient="gradient_jumbo"
+		<!-- :gradient="gradient_jumbo" -->
+	<v-responsive  
+		class="pt-1 pb-0 px-0 diag-gradient"
 		dark
-		height="100%"
+		:height="user_height"
 		>
 
 
@@ -71,7 +75,7 @@
 						<div class="fill-height bottom-gradient"></div>
 					</img> 
 
-					
+					<!-- user_height: {{ user_height }} -->
 
 					<h4 
 						class="display-2 font-weight-thin mb-2 white--text"
@@ -229,8 +233,10 @@
 		</v-container>
 
 		<!-- cf : https://vue-particles.netlify.com/?ref=madewithvuejs.com  -->
-		<template
+		<v-flex  
 			v-if="is_particles"
+			class="pt-1 pb-0 px-0"
+			:height="user_height"
 			>
 			<vue-particles
 
@@ -258,9 +264,9 @@
 				>
 			</vue-particles>
 		
-		</template>
+		</v-flex>
 
-	</v-jumbotron>
+	</v-responsive>
 
 </template>
 
@@ -276,15 +282,29 @@ export default {
 		// particlesJS.load('particles-js', '~/assets/particles.json', function() {});
 	},
 
+	mounted () {
+		console.log("dashboard / mounted ---> items... ", this.items ) ;
+		this.onResize() ; 
+		window.addEventListener('resize', this.onResize, { passive: true })
+	},
+
+	beforeDestroy () {
+		if (typeof window !== 'undefined') {
+			window.removeEventListener('resize', this.onResize, { passive: true })
+		}
+	},
+
 	data() {
 		return {
 
-			is_particles 	: true,
-			is_flat_background : false,
+			is_particles 		: true,
+			is_flat_background 	: false,
 
-			is_outline 		: true,
+			is_outline 			: true,
 
-			gradient_jumbo 	: 'to top right, #116565, #22C9C9',
+			gradient_jumbo 		: 'to top right, #116565, #22C9C9',
+
+			user_height			: null,
 
 			btns_connected : [
 				{ icon :"dashboard", to:"/dashboard", text:"links.dashboard" },
@@ -310,6 +330,12 @@ export default {
 
 		is_white () { return (this.is_outline)? "" : "white primary--text" },
 		
+	},
+
+	methods : {
+		onResize () {
+			this.user_height = window.innerHeight - this.$store.state.toolbar_h
+		},
 	}
 
 

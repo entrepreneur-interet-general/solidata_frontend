@@ -1,3 +1,21 @@
+<style scoped>
+
+	a {
+		text-decoration: none;
+		color: white;
+	}
+
+	a:hover{
+		font-weight: bold;
+	}
+
+	.no-bullets {
+		/* list-style-type:none */
+	}
+
+</style>
+
+
 <template>
 
 	<!-- <v-footer :fixed="$store.state.fixedNav" app>
@@ -15,6 +33,9 @@
 			flat
 			tile
 			>
+
+
+			<!-- SOCIAL -->
 			<v-card-title 
 				class="primary justify-center py-2"
 				
@@ -42,6 +63,90 @@
 				</v-btn>
 			</v-card-title>
 
+
+
+			<!-- LINKS -->
+			<v-card-actions class="grey darken-1">
+				
+				<v-layout row justify-center>
+
+					<!-- FAQ -->
+					<v-flex sm4 md3 lg2>
+						<v-card-title class="subheading justify-center font-weight-bold">
+							{{ $t('links.faq', $store.state.locale ) }}
+						</v-card-title>
+						<v-card-text class="pt-0 justify-center">
+							<ul class="no-bullets">
+								<li>
+									<nuxt-link to="/">documentation</nuxt-link>
+								</li>
+								<li>
+									<nuxt-link to="/">lexicon</nuxt-link>
+								</li>
+								<li>
+									<nuxt-link to="/">tutos</nuxt-link>
+								</li>
+								
+							</ul>
+						</v-card-text>
+					</v-flex>
+
+					<!-- ABOUT -->
+					<v-flex sm4 md3 lg2>
+						<v-card-title class="subheading justify-center font-weight-bold">
+							{{ $t('links.about', $store.state.locale ) }}
+						</v-card-title>
+						<v-card-text class="pt-0 justify-center">
+							<ul class="no-bullets">
+								<li>
+									<nuxt-link to="/">why_solidata</nuxt-link>
+								</li>
+								<li>
+									<nuxt-link to="/">co_demos</nuxt-link>
+								</li>
+								<li>
+									<nuxt-link to="/">values</nuxt-link>
+								</li>
+								<li>
+									<nuxt-link to="/">stack</nuxt-link>
+								</li>
+							</ul>
+						</v-card-text>
+					</v-flex>
+					
+					<!-- LEGAL -->
+					<v-flex sm4 md3 lg2>
+						<v-card-title class="subheading justify-center font-weight-bold">
+							{{ $t('links.legal', $store.state.locale ) }}
+						</v-card-title>
+						<v-card-text class="pt-0 justify-center">
+							<ul class="no-bullets">
+								<li>
+									<nuxt-link to="/">legal</nuxt-link>
+								</li>
+								<li>
+									<nuxt-link to="/">cgu</nuxt-link>
+								</li>
+								<li>
+									<nuxt-link to="/">confidentiality</nuxt-link>
+								</li>
+								<li>
+									<nuxt-link to="/">contact</nuxt-link>
+								</li>
+							</ul>
+						</v-card-text>
+					</v-flex>
+
+
+				</v-layout>
+
+			</v-card-actions>
+
+
+			<v-divider></v-divider>
+
+
+			<!-- INFOS -->
 			<v-card-actions class="grey darken-3 justify-center">
 				
 				<span v-html="$store.state.title"></span> 
@@ -65,6 +170,7 @@
 
 
 			</v-card-actions>
+
 
 		</v-card>
 

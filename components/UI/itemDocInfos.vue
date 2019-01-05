@@ -13,7 +13,7 @@
 			<!-- infos - {{ item_doc.infos }} -->
 
 			<!-- DOC INFOS -->
-			<v-flex xs7>
+			<v-flex xs6 px-2>
 				<v-layout row wrap>
 
 					<!-- DOC TITLE -->
@@ -70,7 +70,7 @@
 
 
 			<!-- DOC PUBLIC_AUTH + LICENCE -->
-			<v-flex xs5>
+			<v-flex xs6 px-2>
 				<v-layout row wrap >
 
 					<!-- DOC LICENCE -->
@@ -173,7 +173,7 @@
 			<!-- specs - {{ item_doc.specs }} -->
 
 			<!-- DOC SRC_LINK -->
-			<v-flex xs12 v-if="coll=='dsi'">
+			<v-flex xs6 v-if="coll=='dsi'">
 				<ValueEdit
 					:coll="coll"
 					:collName="collName"
@@ -194,8 +194,13 @@
 				</ValueEdit>
 			</v-flex>
 
+		</v-layout>
+
+		<!-- DOC SPECS -->
+		<v-layout row wrap>
+
 			<!-- DOC SRC_TYPE -->
-			<v-flex xs4 v-if="coll=='dsi'">
+			<v-flex xs6 px-2 v-if="coll=='dsi'">
 				src_type - {{ itemDoc['specs']['src_type'] }} / 
 				filetype - {{ filetype }}
 				<ValueEdit
@@ -219,7 +224,7 @@
 			</v-flex>
 
 			<!-- DOC SRC_SEP -->
-			<v-flex xs4 v-if="coll=='dsi'">
+			<v-flex xs6 px-2 v-if="coll=='dsi'">
 				src_sep - {{ itemDoc['specs']['src_sep'] }}
 				<ValueEdit
 					:coll="coll"
@@ -242,7 +247,7 @@
 			</v-flex>
 
 			<!-- DOC SRC_PARSER -->
-			<v-flex xs4 v-if="coll=='dsi'">
+			<v-flex xs6 px-2 v-if="coll=='dsi'">
 				<ValueEdit
 					:coll="coll"
 					:collName="collName"

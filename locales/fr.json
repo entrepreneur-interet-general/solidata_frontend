@@ -2,8 +2,13 @@
 	"links": {
 		"home"			: "Accueil",
 		"dashboard"		: "Vue d'ensemble",
+
 		"about"			: "À propos",
 		"tutos"			: "Tutoriels",
+		"lexicon"		: "Lexique",
+		"faq"			: "Questions",
+		"legal"			: "Mentions légales",
+
 		"github"		: "Github",
 		"english"		: "Version Anglaise",
 		"french"		: "Version Française",
@@ -285,7 +290,8 @@
 		"dsi_to_dmf" 	: "Map cette colonne",
 
 		"geoloc"		: "Géo-localiser vos données",
-		"geo_select_dmf": "Choisir les colonnes de votre modèle de données permettant la géolocalisation"
+		"geo_select_dmf": "Choisir les colonnes de votre modèle de données permettant la géolocalisation",
+		"add_compl"		: "Informations complémentaires sur les adresses"
 
 	},
 

@@ -10,21 +10,20 @@
 				v-if="!is_preview && !no_subField || only_subfields"
 				:class="subFields_size"
 				>
-				<v-btn 
-					class="pa-0 ma-0 caption"
-					disabled 
-					small
-					block 
-					color="grey" 
+				<v-card 
+					class="pa-1 ma-0 caption text-xs-center elevation-0"
+					dark 
+					color="primary" 
 					style="text-transform: none !important;"
 					>
-					<span>
-						{{ subField }} 
+					<span class="">
+						{{ $t(`global.`+subField, $store.state.locale) }} 
+						<!-- {{ subField }}  -->
 						<!-- <br> - {{ filetype }} -->
 						<!-- <br> - {{ is_file }} -->
 						<!-- <br> - {{ loading }} -->
 					</span>
-				</v-btn>
+				</v-card>
 			</v-flex>
 
 
@@ -32,9 +31,9 @@
 			<v-flex
 				v-if="!only_subfields"
 				ValEdit_field
-				:class="valueBlockSize"
-				class="pa-0 my-0 mx-2"
+				class="pa-0 my-0 mx-0"
 				>
+				<!-- :class="valueBlockSize" -->
 					
 					<!-- DEBUG -->
 					<span
@@ -421,10 +420,10 @@ export default {
 			textAreaRows 	: 3,
 
 			valueFullSize 	: "xs12 ma-0 pa-0",
-			valuePartSize 	: "xs12 sm9 ma-0 pa-2",
-			subFieldsSize 	: "xs12 sm3 ma-0 pa-0",
+			valuePartSize 	: "xs8 sm8 md9 ma-0 pa-2",
+			subFieldsSize 	: "xs4 sm4 md3 ma-0 pa-2",
 
-			checkBoxNoPadding 	: " mt-0 pl-2",
+			checkBoxNoPadding 	: " mt-0 pl-0",
 
 			is_req 			: ['yes','no'],
 			errorMessages	: '',

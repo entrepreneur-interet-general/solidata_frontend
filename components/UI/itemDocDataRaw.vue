@@ -13,12 +13,12 @@
 			<!-- infos - {{ item_doc.infos }} -->
 
 			<!-- DOC DATA RAW -->
-			<v-flex xs7>
+			<v-flex xs6>
 				<v-layout row wrap>
 
 					<!-- DOC DATA_RAW / TEXTS -->
 					<v-flex 
-						xs12
+						xs12 px-2
 						>
 						<!-- <br>- {{ itemId }} -->
 						<ValueEdit
@@ -42,7 +42,7 @@
 					</v-flex>
 
 					<v-flex 
-						xs12
+						xs12 px-2
 						>
 						<ValueEdit
 							:coll="coll"
@@ -69,12 +69,12 @@
 
 
 			<!-- DOC DATA RAW / CHOICES-->
-			<v-flex xs5>
+			<v-flex xs6>
 				<v-layout row wrap>
 
 					<!-- DOC F_TYPE -->					
 					<v-flex 
-						xs12
+						xs12 px-2
 						>
 						<ValueEdit
 							:coll="coll"
@@ -98,7 +98,7 @@
 
 					<!-- DOC F_TYPE -->					
 					<v-flex 
-						xs12
+						xs12 px-2
 						>
 						<ValueEdit
 							:coll="coll"

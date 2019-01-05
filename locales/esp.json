@@ -2,8 +2,13 @@
 	"links": {
 		"home"			: "Hogar",
 		"dashboard"		: "Tablero",
+
 		"about"			: "Acerca de",
 		"tutos"			: "Tutoriales",
+		"lexicon"		: "Léxico",
+		"faq"			: "Preguntas",
+		"legal"			: "Menciones legales",
+
 		"github"		: "Github",
 		"english"		: "Versión inglesa",
 		"french"		: "Versión francesa",
@@ -286,7 +291,8 @@
 		"dsi_to_dmf" 	: "Mapear este header",
 
 		"geoloc"		: "Geo-localizar sus datos",
-		"geo_select_dmf": "Elejir las columnas del módelo de datos que permiten geo-localizar"
+		"geo_select_dmf": "Elejir las columnas del módelo de datos que permiten geo-localizar",
+		"add_compl"		: "Informaciones complementarias a propócito de la dirección"
 
 	},
 

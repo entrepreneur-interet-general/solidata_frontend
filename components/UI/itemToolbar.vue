@@ -18,7 +18,11 @@
 				{{ itemDoc.infos.title }}
 			</v-toolbar-title>
 
-			<v-tooltip top>
+			<!-- ACCESS SETTINGS -->
+			<v-tooltip 
+				v-if="!is_create"
+				top
+				>
 				<v-btn 
 					slot="activator"
 					icon

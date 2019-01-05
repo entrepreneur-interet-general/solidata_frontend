@@ -9,7 +9,7 @@
 			app 
 			:fixed="$store.state.fixedNav" 
 			:clipped-left="$store.state.clipped"
-			height="50px"
+			:height="$store.state.toolbar_h"
 			>
 			
 			<!-- DRAWER -->
@@ -117,6 +117,16 @@
 					to="/tutos"
 					>
 					{{ $t(`links.tutos`, $store.state.locale )}}
+				</v-btn>
+
+				<v-btn 
+					disabled
+					class="text-lowercase"
+					flat 
+					nuxt 
+					to="/lexicon"
+					>
+					{{ $t(`links.lexicon`, $store.state.locale )}}
 				</v-btn>
 
 				<v-btn 

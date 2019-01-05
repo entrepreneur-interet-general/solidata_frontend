@@ -57,6 +57,7 @@
 					d-flex 
 					>
 					<v-card 
+						class="text-xs-center"
 						color="grey" 
 						flat
 						dark
@@ -327,7 +328,7 @@ export default {
 			parentNoBotPadding	: " py-0",
 
 			valueNoPadding 		: " ma-0 pa-0",
-			valueLeftPadding 	: " ma-0 py-0 pr-0 pl-2",
+			valueLeftPadding 	: " ma-0 py-0 pr-0 pl-0",
 
 			createHeight  		: "",
 			createSize			: 12

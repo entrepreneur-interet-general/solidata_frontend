@@ -35,7 +35,7 @@
 						<!-- :flex_vars="'xs12'" -->
 					<ViewEditDMF
 						:is_create="false"
-						:is_preview="false"
+						:is_preview="true"
 						:coll="coll"
 						:parentFieldslist="parentFieldsList"
 						:item_doc="$store.state[coll].current"

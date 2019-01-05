@@ -2,8 +2,13 @@
 	"links": {
 		"home"			: "Home",
 		"dashboard"		: "Dashboard",
+
 		"about"			: "About",
 		"tutos"			: "Tutorials",
+		"lexicon"		: "Lexicon",
+		"faq"			: "Questions",
+		"legal"			: "Legal mentions",
+
 		"github"		: "Github",
 		"english"		: "English version",
 		"french"		: "French version",
@@ -286,7 +291,8 @@
 		"dsi_to_dmf" 	: "Map this header",
 
 		"geoloc"		: "Geocode your data",
-		"geo_select_dmf": "Choose the datamodel's columns allowing to geocode"
+		"geo_select_dmf": "Choose the datamodel's columns allowing to geocode",
+		"add_compl"		: "Complementary info about the address"
 
 	},
 

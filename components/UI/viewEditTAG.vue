@@ -45,7 +45,7 @@
 			transition="dialog-bottom-transition"
 			>
 
-			<v-card>
+			<v-card color="grey">
 				
 				<!-- SETTINGS TOOLBAR -->
 				<SettingsToolbar
@@ -54,80 +54,87 @@
 					>
 				</SettingsToolbar>
 
+				<v-layout row justify-center>
 
-				<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
-				<v-expansion-panel
-					v-show="!isPreview"
-					v-model="panel_infos"
-					expand
-					class="elevation-0"
-					>
+					<v-flex class="xs12 sm10 md8 justify-center py-5">
 
-					<v-expansion-panel-content>
-
-						<div 
-							class="pb-0 mb-0"
-							slot="header"
+						<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
+							<!-- v-show="!isPreview" -->
+						<v-expansion-panel
+							v-model="panel_infos"
+							expand
+							class="elevation-0"
 							>
-							<v-icon small class="mr-3">
-								{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
-							</v-icon>
-							<span>
-								{{ $t(`parentFields.infos`, $store.state.locale) }}
-							</span>
-						</div>
 
-						<ItemDocInfos
-							:coll="coll"
-							:is_create="is_create"
-							:is_preview="isPreview"
-							:item_doc="itemDoc"
+							<v-expansion-panel-content>
+
+								<div 
+									class="pb-0 mb-0"
+									slot="header"
+									>
+									<v-icon small class="mr-3">
+										{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
+									</v-icon>
+									<span>
+										{{ $t(`parentFields.infos`, $store.state.locale) }}
+									</span>
+								</div>
+
+								<ItemDocInfos
+									:coll="coll"
+									:is_create="is_create"
+									:is_preview="false"
+									:item_doc="itemDoc"
+									>
+								</itemDocInfos>
+
+							</v-expansion-panel-content>
+						</v-expansion-panel>
+
+						<v-divider></v-divider>
+
+
+						<!-- COMPONENTS FOR DOCS DATA_RAW -->		
+							<!-- v-show="!isPreview" -->
+						<v-expansion-panel
+							v-model="panel_data_raw"
+							expand
+							class="elevation-0"
 							>
-						</itemDocInfos>
+							
+							<v-expansion-panel-content>
 
-					</v-expansion-panel-content>
-				</v-expansion-panel>
+								<div 
+									class="pb-0 mb-0"
+									slot="header"
+									>
+									<v-icon small class="mr-3">
+										{{ $store.state.mainIcons.parentFieldIcons.data_raw.icon }}  
+									</v-icon>
+									<span>
+										{{ $t(`parentFields.data_raw`, $store.state.locale) }}
+									</span>
+								</div>
 
-				<v-divider></v-divider>
+								<ItemDocDataRaw
+									:coll="coll"
+									:is_create="is_create"
+									:is_preview="false"
+									:item_doc="itemDoc"
+									>
+								</itemDocDataRaw>
 
+							</v-expansion-panel-content>
+						</v-expansion-panel>
 
-				<!-- COMPONENTS FOR DOCS DATA_RAW -->		
-				<v-expansion-panel
-					v-show="!isPreview"
-					v-model="panel_data_raw"
-					expand
-					class="elevation-0"
-					>
-					
-					<v-expansion-panel-content>
+						<v-divider></v-divider>
 
-						<div 
-							class="pb-0 mb-0"
-							slot="header"
-							>
-							<v-icon small class="mr-3">
-								{{ $store.state.mainIcons.parentFieldIcons.data_raw.icon }}  
-							</v-icon>
-							<span>
-								{{ $t(`parentFields.data_raw`, $store.state.locale) }}
-							</span>
-						</div>
+					</v-flex>
 
-						<ItemDocDataRaw
-							:coll="coll"
-							:is_create="is_create"
-							:is_preview="isPreview"
-							:item_doc="itemDoc"
-							>
-						</itemDocDataRaw>
-
-					</v-expansion-panel-content>
-				</v-expansion-panel>
-
-				<v-divider></v-divider>
-
+				</v-layout>
 
 			</v-card>
+			
 		</v-dialog>
 
 
@@ -139,8 +146,6 @@
 				:class="`${ isPreview ? 'sm6 md4 lg3 pb-4' : 'xs12' }`"
 				>
 
-				<!-- d-flex :class="flex_vars" -->
-
 				<v-expansion-panel
 					v-show="!isPreview"
 					v-model="panel_infos"
@@ -172,6 +177,8 @@
 					</v-expansion-panel-content>
 				</v-expansion-panel>
 
+
+
 				<CardPreviewDense 
 					v-show="isPreview"
 					:coll="'dmf'"
@@ -181,16 +188,9 @@
 					>
 				</CardPreviewDense>
 
-			<!-- </v-flex>
-
-		</v-layout> -->
 
 
-			<!-- COMPONENTS FOR DOCS DATA_RAW -->		
-			<!-- <v-flex 
-				xs12
-				> -->
-				<!-- d-flex :class="flex_vars" -->
+				<!-- COMPONENTS FOR DOCS DATA_RAW -->		
 
 				<v-expansion-panel
 					v-show="!isPreview"
@@ -227,12 +227,7 @@
 			<!-- </v-flex> -->
 
 
-			<!-- COMPONENTS FOR COMMON DOCS USES -->		
-			<!-- <v-flex 
-				xs12
-				> -->
-				<!-- d-flex :class="flex_vars" -->
-
+				<!-- COMPONENTS FOR COMMON DOCS USES -->		
 				<v-expansion-panel
 					v-show="!isPreview"
 					class="elevation-0"

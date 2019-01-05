@@ -107,11 +107,9 @@
 					>
 					<v-card-text class="pa-0">
 
-
 						<v-divider></v-divider>
 
-
-						<!-- DMF_LIST OPEN_LEVEL DATA TABLE -->
+						<!-- DMF_LIST GEOLOC DATA TABLE -->
 						<v-data-table
 							:ref="'datatable_geoloc'"
 							:headers="list_headers_selector"
@@ -209,6 +207,8 @@
 							</template>
 
 						</v-data-table>
+
+						<v-divider></v-divider>
 
 					</v-card-text>
 				</v-card>

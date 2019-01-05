@@ -1,7 +1,7 @@
 <template>
 
 	<v-toolbar 
-		class="mt-5"
+		class="mt-0"
 		dark 
 		color="primary"
 		>

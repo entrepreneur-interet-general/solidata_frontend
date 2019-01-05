@@ -75,6 +75,7 @@ export default {
 	created () {
 
 		// console.log("\n viewEditDMF_openlevel created / parent_map : ", this.parent_map )
+		// console.log("\n viewEditDMF_openlevel created / dmf_ol_val : ", this.dmf_ol_val )
 
 		this.dmf_ol_value = this.dmf_ol_val
 
@@ -87,7 +88,8 @@ export default {
 			alert			: '' ,
 			loading			: false,
 
-			dmf_ol_value 	: '' ,
+			dmf_ol_value 		: '' ,
+			// dmf_ol_dft_value 	: 'private'
 
 		}
 
@@ -142,6 +144,8 @@ export default {
 			
 			.catch(error => {
 				console.log("submit / error... : ", error ) ; 
+				this.$store.commit('set_error', error )
+
 				this.loading = false
 				this.alert = {type: 'error', message: "login error" }
 				if (error.response && error.response.data) {

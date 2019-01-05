@@ -89,6 +89,7 @@
 					bottom
 					right
 					absolute
+					style="z-index:0"
 					>
 					<v-icon
 						:color="`${is_in_parent ? 'white' : '' }`"

@@ -124,6 +124,11 @@ const mainIconsConst = {
 	language			: { icon : "language" },
 	video				: { icon : "play_circle_outline" },
 
+	about				: { icon : "fas fa-question" },
+	faq					: { icon : "fas fa-question" },
+	lexicon				: { icon : "fas fa-question" },
+	tutos				: { icon : "fas fa-question" },
+
 	list				: { icon : "list" },
 	favorites			: { icon : "favorite" },
 	create				: { icon : "add" },
@@ -181,6 +186,8 @@ export const state = () => ({
 	app_logo 	: '/logos/logo_solidata_15a_lg.png',
 	app_logo_lg : '/logos/logo_solidata_15a.png',
 	app_codemos : '/logos/logo_codemos_01b.png',
+
+	toolbar_h 	: 50, // in pixels
 
 	is_debug 	: false ,
 	
@@ -341,6 +348,8 @@ export const state = () => ({
 		{ icon: mainIconsConst.dashboard.icon, title: 'links.dashboard', to: '/dashboard' },
 
 		{ divider : true },
+
+		// PROJECTS
 		{
 			icon: 'keyboard_arrow_down',
 			'icon-alt': mainIconsConst.projects.icon,
@@ -353,6 +362,8 @@ export const state = () => ({
 				// { title: 'global.export', icon : mainIconsConst.export.icon, to: '/prj/export', needLogged:true	},
 			]
 		},
+
+		// DATAMODELS
 		{
 			icon: 'keyboard_arrow_up',
 			'icon-alt': mainIconsConst.datamodels.icon,
@@ -365,6 +376,8 @@ export const state = () => ({
 				// { title: 'global.export', icon : mainIconsConst.export.icon, to: '/', needLogged:true	},
 			]
 		},
+
+		// DATAMODEL FIELDS
 		{
 			icon: 'keyboard_arrow_up',
 			'icon-alt': mainIconsConst.datamodel_fields.icon,
@@ -377,6 +390,8 @@ export const state = () => ({
 				// { title: 'global.export', icon : mainIconsConst.export.icon, to: '/', needLogged:true	},
 			]
 		},
+
+		// DATASETS
 		{
 			icon: 'keyboard_arrow_up',
 			'icon-alt': mainIconsConst.datasets.icon,
@@ -389,18 +404,8 @@ export const state = () => ({
 				// { title: 'global.export', icon : mainIconsConst.export.icon, to: '/dsi/export',needLogged:true	},
 			]
 		},
-		{
-			icon: 'keyboard_arrow_up',
-			'icon-alt': mainIconsConst.recipes.icon,
-			title: 'links.allrecipes',
-			model: false,
-			children: [
-				{ title: 'global.list', icon : mainIconsConst.recipes.icon, to: '/rec' },
-				{ title: 'links.myrecipes', icon : mainIconsConst.favorites.icon, to: '/usr/rec', needLogged:true },
-				{ title: 'global.create', icon : mainIconsConst.create.icon, to: '/rec/create', needLogged:true },
-				// { title: 'global.export', icon : mainIconsConst.export.icon, to: '/rec/export', needLogged:true	},
-			]
-		},
+
+		// TAGS
 		{
 			icon: 'keyboard_arrow_up',
 			'icon-alt': mainIconsConst.tags.icon,
@@ -414,6 +419,23 @@ export const state = () => ({
 			]
 		},
 		{ divider : true },
+
+		// RECIPES
+		{
+			icon: 'keyboard_arrow_up',
+			'icon-alt': mainIconsConst.recipes.icon,
+			title: 'links.allrecipes',
+			model: false,
+			children: [
+				{ title: 'global.list', icon : mainIconsConst.recipes.icon, to: '/rec' },
+				{ title: 'links.myrecipes', icon : mainIconsConst.favorites.icon, to: '/usr/rec', needLogged:true },
+				{ title: 'global.create', icon : mainIconsConst.create.icon, to: '/rec/create', needLogged:true },
+				// { title: 'global.export', icon : mainIconsConst.export.icon, to: '/rec/export', needLogged:true	},
+			]
+		},
+		{ divider : true },
+
+		// USER RELATED
 		{
 			icon: 'keyboard_arrow_up',
 			'icon-alt': mainIconsConst.users.icon,
@@ -424,6 +446,8 @@ export const state = () => ({
 			]
 		},
 		{ divider : true },
+
+		// SETTINGS
 		{
 			icon: 'keyboard_arrow_up',
 			'icon-alt': mainIconsConst.settings.icon,
@@ -437,7 +461,21 @@ export const state = () => ({
 				{ title: 'home.logoutPage',	 	icon: mainIconsConst.logout.icon, to: '/logout', needLogged:true },
 			]
 		},
+		{ divider : true },
 
+		// FAQ HELP
+		{
+			icon: 'keyboard_arrow_up',
+			'icon-alt': mainIconsConst.question.icon,
+			title: 'links.faq',
+			model: false,
+			children: [
+				{ title: 'links.faq',		 	icon: mainIconsConst.faq.icon, 		to: '/faq', needLogged:false },
+				{ title: 'links.lexicon',	 	icon: mainIconsConst.lexicon.icon, 	to: '/lexicon',	needLogged:false },
+				{ title: 'links.tutos',		 	icon: mainIconsConst.tutos.icon, 	to: '/tutos', needLogged:false },
+				{ title: 'links.about',		 	icon: mainIconsConst.about.icon, 	to: '/about', needLogged:false },
+			]
+		},
 
 	],
 

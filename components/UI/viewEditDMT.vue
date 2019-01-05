@@ -88,7 +88,7 @@
 			transition="dialog-bottom-transition"
 			>
 
-			<v-card>
+			<v-card color="grey">
 				
 				<!-- SETTINGS TOOLBAR -->
 				<SettingsToolbar
@@ -97,162 +97,168 @@
 					>
 				</SettingsToolbar>
 
+				<v-layout row justify-center>
 
-				<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
-				<v-expansion-panel
-					v-show="!isPreview"
-					v-model="panel_infos"
-					expand
-					class="elevation-0"
-					>
+					<v-flex class="xs12 sm10 md8 justify-center py-5">
 
-					<v-expansion-panel-content>
-
-						<div 
-							class="pb-0 mb-0"
-							slot="header"
+						<!-- COMPONENTS FOR COMMON DOCS INFOS -->		
+						<v-expansion-panel
+							v-model="panel_infos"
+							expand
+							class="elevation-0"
 							>
-							<v-icon small color="accent" class="mr-3">
-								{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
-							</v-icon>
-							<span>
-								{{ $t(`parentFields.infos`, $store.state.locale) }}
-							</span>
-						</div>
 
-							<!-- :is_preview="isPreview" -->
-						<ItemDocInfos
-							:coll="coll"
-							:is_create="is_create"
-							:item_doc="itemDoc"
+							<v-expansion-panel-content>
+
+								<div 
+									class="pb-0 mb-0"
+									slot="header"
+									>
+									<v-icon small color="accent" class="mr-3">
+										{{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
+									</v-icon>
+									<span>
+										{{ $t(`parentFields.infos`, $store.state.locale) }}
+									</span>
+								</div>
+
+									<!-- :is_preview="isPreview" -->
+								<ItemDocInfos
+									:coll="coll"
+									:is_create="is_create"
+									:item_doc="itemDoc"
+									>
+								</itemDocInfos>
+
+							</v-expansion-panel-content>
+							
+						</v-expansion-panel>
+
+						<v-divider></v-divider>
+
+
+						<!-- DMF LIBRARY -->
+						<v-expansion-panel
+							v-if="$store.state.auth.isLogged"
+							v-model="panel_lib"
+							expand
+							class="elevation-0"
 							>
-						</itemDocInfos>
+							<v-expansion-panel-content >
 
-					</v-expansion-panel-content>
+								<div 
+									class="accent--text"
+									slot="header"
+									>
+									<!-- <v-icon small color="accent" class="mr-3">
+										{{ $store.state.mainIcons.add_to_parent.icon }}  
+									</v-icon> -->
+									<v-badge
+										overlap
+										color="grey lighten-1"
+										>
+										<v-icon
+											slot="badge"
+											dark
+											>
+											{{ $store.state.mainIcons.create.icon }}
+										</v-icon>
+										<v-icon 
+											small
+											class="pr-2"
+											color="accent"
+											>
+											{{ $store.state.mainIcons.datamodel_fields.icon }}
+										</v-icon>
+									</v-badge>
+									<span class="ml-3">
+										{{ $t(`datamodels.manage_dmf`, $store.state.locale) }}
+									</span>
+								</div>
+
+								<ItemsListDI
+									:tab="'datamodel_fields'"
+									:coll="'dmf'"
+									:items_coll="$store.state.dmf.list"
+									:no_margin="true"
+
+									:add_to_parent="true"
+									:parentDoc_id="itemId"
+									:parentDoc_coll="coll"
+									:items_in_parent="itemDoc.datasets.dmf_list"
+
+									@update_parent_dataset="update_parent_list"
+									>
+								</ItemsListDI>
+
+							</v-expansion-panel-content>
+						</v-expansion-panel>
 					
-				</v-expansion-panel>
+						<v-divider></v-divider>
 
-				<v-divider></v-divider>
-
-
-				<!-- DMF LIBRARY -->
-				<v-expansion-panel
-					v-if="$store.state.auth.isLogged"
-					v-show="!isPreview"
-					v-model="panel_lib"
-					expand
-					class="elevation-0"
-					>
-					<v-expansion-panel-content >
-
-						<div 
-							class="accent--text"
-							slot="header"
+						<!-- TAGS LIBRARY -->
+							<!-- v-show="!isPreview" -->
+						<v-expansion-panel
+							v-if="$store.state.auth.isLogged"
+							v-model="panel_lib_tag"
+							expand
+							class="elevation-0"
 							>
-							<!-- <v-icon small color="accent" class="mr-3">
-								{{ $store.state.mainIcons.add_to_parent.icon }}  
-							</v-icon> -->
-							<v-badge
-								overlap
-								color="grey lighten-1"
-								>
-								<v-icon
-									slot="badge"
-									dark
+							<v-expansion-panel-content >
+
+								<div 
+									class="accent--text"
+									slot="header"
 									>
-									{{ $store.state.mainIcons.create.icon }}
-								</v-icon>
-								<v-icon 
-									small
-									class="pr-2"
-									color="accent"
+									<v-badge
+										overlap
+										color="grey lighten-1"
+										>
+										<v-icon
+											slot="badge"
+											dark
+											>
+											{{ $store.state.mainIcons.create.icon }}
+										</v-icon>
+										<v-icon 
+											small
+											class="pr-2"
+											color="accent"
+											>
+											{{ $store.state.mainIcons.tags.icon }}
+										</v-icon>
+									</v-badge>
+									<span class="ml-3 ">
+										{{ $t(`global.manage_tag`, $store.state.locale) }}
+									</span>
+								</div>
+
+								<ItemsListDI
+									:tab="'tags'"
+									:coll="'tag'"
+									:items_coll="$store.state.tag.list"
+									:no_margin="true"
+
+									:add_to_parent="true"
+									:parentDoc_id="itemId"
+									:parentDoc_coll="coll"
+									:items_in_parent="list_TAG_oids"
+
+									@update_parent_dataset="update_parent_list"
 									>
-									{{ $store.state.mainIcons.datamodel_fields.icon }}
-								</v-icon>
-							</v-badge>
-							<span class="ml-3">
-								{{ $t(`datamodels.manage_dmf`, $store.state.locale) }}
-							</span>
-						</div>
+								</ItemsListDI>
 
-						<ItemsListDI
-							:tab="'datamodel_fields'"
-							:coll="'dmf'"
-							:items_coll="$store.state.dmf.list"
-							:no_margin="true"
+							</v-expansion-panel-content>
+						</v-expansion-panel>
+					
+						<v-divider></v-divider>
 
-							:add_to_parent="true"
-							:parentDoc_id="itemId"
-							:parentDoc_coll="coll"
-							:items_in_parent="itemDoc.datasets.dmf_list"
+					</v-flex>
 
-							@update_parent_dataset="update_parent_list"
-							>
-						</ItemsListDI>
-
-					</v-expansion-panel-content>
-				</v-expansion-panel>
-			
-				<v-divider></v-divider>
-
-				<!-- TAGS LIBRARY -->
-					<!-- v-show="!isPreview" -->
-				<v-expansion-panel
-					v-if="$store.state.auth.isLogged"
-					v-model="panel_lib_tag"
-					expand
-					class="elevation-0"
-					>
-					<v-expansion-panel-content >
-
-						<div 
-							class="accent--text"
-							slot="header"
-							>
-							<v-badge
-								overlap
-								color="grey lighten-1"
-								>
-								<v-icon
-									slot="badge"
-									dark
-									>
-									{{ $store.state.mainIcons.create.icon }}
-								</v-icon>
-								<v-icon 
-									small
-									class="pr-2"
-									color="accent"
-									>
-									{{ $store.state.mainIcons.tags.icon }}
-								</v-icon>
-							</v-badge>
-							<span class="ml-3 ">
-								{{ $t(`global.manage_tag`, $store.state.locale) }}
-							</span>
-						</div>
-
-						<ItemsListDI
-							:tab="'tags'"
-							:coll="'tag'"
-							:items_coll="$store.state.tag.list"
-							:no_margin="true"
-
-							:add_to_parent="true"
-							:parentDoc_id="itemId"
-							:parentDoc_coll="coll"
-							:items_in_parent="list_TAG_oids"
-
-							@update_parent_dataset="update_parent_list"
-							>
-						</ItemsListDI>
-
-					</v-expansion-panel-content>
-				</v-expansion-panel>
-			
-				<v-divider></v-divider>
-
+				</v-layout>
+				
 			</v-card>
+
 		</v-dialog>
 
 
