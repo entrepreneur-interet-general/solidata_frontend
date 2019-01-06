@@ -73,7 +73,7 @@
 
 		middleware : ["getListItems"],
 		meta : {
-			collection 	: ['dmf'],
+			collection 	: ['dmf', 'tag'],
 			level 		: 'get_list',
 		},
 		

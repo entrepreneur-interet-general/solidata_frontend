@@ -42,23 +42,6 @@
 
 			</v-card-title>
 
-			<!-- HELP TEXT -->
-			<v-card-text
-				class="px-5 pb-2"
-				>
-
-				<v-alert 
-					v-if="alert" 
-					:type="alert.type" 
-					value="true"
-					ma-2
-					>
-					{{ alert.msg }}
-				</v-alert>
-
-				{{ $t(`projects.geo_select_dmf`, $store.state.locale) }}
-
-			</v-card-text>
 
 
 			<!-- CHOICES FOR GEOLOCALIZATION -->
@@ -67,58 +50,135 @@
 				class="px-5 pb-2"
 				>
 
-				<!-- PRJ's DMT  -->
-
 				<!-- SELECT COLUMNS TO GEOLOCALIZE -->
 				<v-flex
-					xs12
+					class="xs12"
 					>
 
-					<ViewEditDMT
+					<!-- HELP TEXT -->
+					<span>
 
-						:item_doc="undefined"
-						:item_doc_id="parent_DMT_oids"
-						
-						:coll="'dmt'"
+						<v-icon 
+							color="grey"
+							small
+							>
+							{{ $store.state.mainIcons.infos.icon }}
+						</v-icon>
 
-						:is_create="false"
-						:is_preview="true"
-						:is_loading="isLoading"
+						{{ $t(`projects.geo_select_dmf`, $store.state.locale) }}
 
-						:is_switch="true"
-						:no_toolbar="true"
+					</span>
 
-						:is_geoloc="true"
+					<!-- PRJ's DMT  -->
+					<v-flex class="pt-3">
+				
+						<ViewEditDMT
 
-						:is_map="false"
-						:parent_map="item_doc.mapping.dmf_to_open_level"
-						:canEdit_ol="canEdit_ol"
+							:item_doc="undefined"
+							:item_doc_id="parent_DMT_oids"
+							
+							:coll="'dmt'"
 
-						:add_to_parent="false"
-						:parentDoc_id="itemId"
-						:parentDoc_coll="parentDoc_coll"
+							:is_create="false"
+							:is_preview="true"
+							:is_loading="isLoading"
 
-						:parent_scroll="0"
+							:is_switch="true"
+							:no_toolbar="true"
 
-						@updateGeoloc="updateGeoloc"
-						>
-						<!-- @update_loading="updateLoading" -->
-					</ViewEditDMT> 
+							:is_geoloc="true"
+
+							:is_map="false"
+							:parent_map="item_doc.mapping.dmf_to_open_level"
+							:canEdit_ol="canEdit_ol"
+
+							:add_to_parent="false"
+							:parentDoc_id="parentDoc_id"
+							:parentDoc_coll="parentDoc_coll"
+
+							:parent_scroll="0"
+
+							@updateGeoloc="updateGeoloc"
+							>
+							<!-- @update_loading="updateLoading" -->
+						</ViewEditDMT> 
+
+					</v-flex>
+
+
+				</v-flex>
+
+
+				<!-- COMBOBOX - COLUMNS TO CREATE -->
+				<v-flex
+					class="mt-5 xs12"
+					>
+
+					<!-- HELP TEXT -->
+					<span>
+						<v-icon 
+							color="grey"
+							small
+							>
+							{{ $store.state.mainIcons.infos.icon }}
+						</v-icon>
+						{{ $t(`projects.new_dmfs`, $store.state.locale) }}
+					</span>
+
+					<!-- NEW COLUMNS -->
+					<v-layout row justify-center> 
+						<v-flex class="pt-3 xs12 sm10 md8">
+
+							<NewColumns
+
+								:parentDoc_id="parentDoc_id"
+								:parentDoc_coll="parentDoc_coll"
+								:parent_DMT_oids="parent_DMT_oids"
+
+								:new_col_preselected="default_geoloc_dmf_preselect"
+								:new_col_choices="default_geoloc_dmf"
+
+								@updateNewColumns="update_new_columns"
+								>
+							</NewColumns>
+
+							<span class="caption">
+								{{ $t(`global.mandatory`, $store.state.locale) }}
+							</span>
+
+						</v-flex>
+					</v-layout>
 
 				</v-flex>
 
 
 				<!-- ADDRESS COMPLEMENT -->
 				<v-flex
-					xs12 sm8 md6
+					class="mt-5 xs12"
 					>
 
-					<v-text-field
-						class="mt-4"
-						v-model="add_complement"
-						:label="$t(`projects.add_compl`, $store.state.locale)"
-						prepend-icon="place"
-					></v-text-field>
+					<!-- HELP TEXT -->
+					<span>
+						<v-icon 
+							color="grey"
+							small
+							>
+							{{ $store.state.mainIcons.infos.icon }}
+						</v-icon>
+						{{ $t(`projects.add_compl`, $store.state.locale) }}
+					</span>
+
+					<!-- INPUT ADDRESS COMPLEMENT -->
+					<v-layout row justify-center> 
+						<v-flex class="pt-3 xs12 sm10 md8">
+							<v-text-field
+								v-model="add_complement"
+								:label="$t(`projects.add_compl`, $store.state.locale)"
+								prepend-icon="place"
+								>
+							</v-text-field>
+						</v-flex>
+					</v-layout> 
 
 				</v-flex>
 
@@ -143,11 +203,12 @@
 					@click="geolocalize()"
 					>
 					<v-icon 
+						left
 						>
 						{{ $store.state.mainIcons.geoloc.icon }}
 					</v-icon>
 
-					geolocalize
+					{{ $t(`projects.geoloc`, $store.state.locale)  }}
 
 				</v-btn>
 
@@ -159,14 +220,30 @@
 			<!-- <v-divider class="my-5"></v-divider> -->
 
 			<!-- DEBUG -->
-			<!-- <span v-if="$store.state.is_debug"> -->
+			<v-flex 
+				class="mt-5"
+				> 
+				<!-- v-if="$store.state.is_debug" -->
 
-				<v-divider></v-divider>
+				<v-divider class="my-2"></v-divider>
+				<span>
+					from within 'components/Forms/recipes_geoloc.vue' component
+				</span>
+				<v-divider class="my-2"></v-divider>
 
 				<!-- - parentDoc_id : <code>{{ parentDoc_id }}</code><br> -->
 				<!-- - parentDoc_coll : <code>{{ parentDoc_coll }}</code><br> -->
 				<!-- - selected_dmfs : <code>{{ selected_dmfs }}</code><br> -->
 				<!-- - add_complement : <code>{{ add_complement }}</code><br> -->
+
+				<!-- - new_dmfs : <code> {{ new_dmfs }} </code><br>
+				<v-divider></v-divider> -->
+				
+				- default_geoloc_dmf : <code> {{ default_geoloc_dmf }} </code><br>
+				<v-divider></v-divider>
+
+				- default_geoloc_dmf_preselect: <code> {{ default_geoloc_dmf_preselect }} </code><br>
+				<v-divider></v-divider>
 
 				- pseudoForm : <code> {{ pseudoForm() }} </code><br>
 				<v-divider></v-divider>
@@ -179,7 +256,7 @@
 
 				- item_doc.mapping.dmf_to_rec : <code>{{ item_doc.mapping.dmf_to_rec }}</code><br>
 
-			<!-- </span> -->
+			</v-flex>
 
 
 		</v-flex>
@@ -193,6 +270,9 @@
 
 import ViewEditDMT from '~/components/UI/viewEditDMT.vue' 
 
+import NewColumns from '~/components/Forms/combobox_new_columns.vue' 
+
+
 export default {
 
 	props 		: [
@@ -200,8 +280,6 @@ export default {
 		"item_doc",
 		"parentDoc_id",
 		"parentDoc_coll",
-
-		"itemId",
 
 		"isPreview",
 		"isLoading",
@@ -215,9 +293,17 @@ export default {
 	components 	: {
 
 		ViewEditDMT,
+		NewColumns,
 	
 	},
 
+	// middleware : ["getListItems"],
+	// meta : {
+	// 	collection 	: [
+	// 		'dmf'
+	// 	],
+	// 	level : 'get_list',
+	// },
 
 	created () {
 
@@ -235,14 +321,115 @@ export default {
 			tab				: 'recipes',
 			coll			: 'rec',
 
-			selected_dmfs 	: [],
-			add_complement	: '',
 
+			// PSEUDO FORM
+			selected_dmfs 	: [],
+			new_dmfs		: [],
+			add_complement	: '',
+			
+
+			// CHOICES AND PRESELECTION NEW COLUMNS
+			col_preselected		: [
+				'longitude',
+				'latitude',
+			],
+			col_choices		: [
+				'address',
+				'longitude',
+				'latitude',
+				'altitude',
+				'point',
+				'raw'
+			],
+
+			new_col_preselected : [
+				{
+					text		: 'longitude',
+					color		: 'primary',
+					can_delete 	: false
+				},
+				{
+					text		: 'latitude',
+					color		: 'primary',
+					can_delete 	: false
+				}
+			],
+
+			new_col_choices 	: [
+				{ header: this.$t(`projects.choose_col`, this.$store.state.locale) },
+				{
+					text		: 'address',
+					color		: 'accent',
+					can_delete 	: true
+				},
+				{
+					text		: 'longitude',
+					color		: 'primary',
+					can_delete 	: false
+				},
+				{
+					text		: 'latitude',
+					color		: 'primary',
+					can_delete 	: false
+				},
+				{
+					text		: 'altitude',
+					color		: 'accent',
+					can_delete 	: true
+				},
+				{
+					text		: 'point',
+					color		: 'accent',
+					can_delete 	: true
+				},
+				{
+					text		: 'raw',
+					color		: 'accent',
+					can_delete 	: true
+				},
+			],
 
 		}
 	},
 
 	computed : {
+
+		default_geoloc_dmf () {
+			
+			// BASED ON SYSTEM'S STANDARD DMFS
+
+			var dmf_geoloc_related = this.col_choices ;
+
+			var all_dmf	= this.$store.getters['dmf/ConcatList'] ; 
+			
+			// filter out wanted dmf
+			var filtered_dmf ;
+			if ( this.col_choices != undefined ) {
+				filtered_dmf = all_dmf.filter(function(el) {
+					return dmf_geoloc_related.includes(el.infos.title )
+				})
+			}
+
+			// remap filtered
+			var remapped = []
+			if ( filtered_dmf != undefined ) {
+				remapped = filtered_dmf.map(dmf => ({
+					text 		: dmf.infos.title,
+					color 		: this.col_preselected.includes(dmf.infos.title ) ? 'primary' : 'accent' ,
+					_id			: dmf._id,
+					can_delete 	: this.col_preselected.includes(dmf.infos.title ) ? false : true 
+				}))
+			}
+
+			return remapped
+
+		},
+
+		default_geoloc_dmf_preselect () {
+			return this.default_geoloc_dmf.filter(function(el) {
+				return el.can_delete == false
+			})
+		},
 
 	},
 
@@ -277,6 +464,10 @@ export default {
 			this.selected_dmfs = input
 		},
 
+		update_new_columns(input) {
+			this.new_dmfs = input
+		},
+
 		pseudoForm() {
 
 			var input = {
@@ -289,6 +480,7 @@ export default {
 						is_mapping		: true,
 						field_to_update	: "mapping.dmf_to_rec",
 						dmf_list		: this.selected_dmfs,
+						new_dmf_list	: this.new_dmfs,
 						add_complement	: this.add_complement,
 					}
 				]
@@ -322,7 +514,7 @@ export default {
 			this.$store.dispatch('updateMapping', input )
 
 			.then(result => {
-				this.alert 		= { type: 'success', message: result.msg }
+				// this.alert 		= { type: 'success', message: result.msg }
 				this.loading 	= false				
 			})
 			
@@ -331,7 +523,9 @@ export default {
 				this.$store.commit('set_error', error )
 
 				this.loading = false
-				this.alert = {type: 'error', message: "login error" }
+
+				this.$store.commit(`set_error`, error)
+
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
 				}

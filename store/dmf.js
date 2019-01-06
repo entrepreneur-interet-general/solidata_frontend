@@ -95,6 +95,35 @@ export const state = () => ({
 
 export const getters = {
 
+	WholeList : state => {
+		return state.list
+	},
+
+	InTeamList : state => {
+		return state.list['docs_user_is_in_team']
+	},
+
+	NotTeamList : state => {
+		return state.list['docs_user_not_in_team']
+	},
+
+	ConcatList : state => {
+
+		var concat		= []
+		var in_team 	= state.list['docs_user_is_in_team']
+		var not_team 	= state.list['docs_user_not_in_team']
+		
+		if ( in_team != undefined ) {
+			var concat 	= concat.concat(in_team);
+		}
+		if ( not_team != undefined ) {
+			var concat 	= concat.concat(not_team);
+		}
+		// Array.prototype.push(concat, in_team, not_team)
+		return concat
+
+	},
+
 }
 
 export const mutations = {
@@ -102,6 +131,8 @@ export const mutations = {
 	set_list (store, data) {
 		
 		console.log("\n... store/dmf : set_list...")
+		console.log("... store/dmf : data.data['docs_user_is_in_team']", data.data['docs_user_is_in_team'])
+		console.log("... store/dmf : data.data['docs_user_is_in_team']", data.data['docs_user_not_in_team'])
 
 		store.msg 			= data.msg
 		store.list 			= data.data

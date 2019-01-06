@@ -105,6 +105,8 @@
 		"next" 			: "Suivant",
 		"back" 			: "Précédent",
 
+		"mandatory" 	: "(*) ces éléments sont obligatoires",
+
 		"see_this"		: "Voir",
 
 		"item_infos"	: "Informations",
@@ -269,7 +271,7 @@
 		"resume"		: "Résumé",
 
 		"export" 		: "Exporter les données du projet",
-		"geoloc" 		: "Géolocaliser les données du projet",
+		"geoloc_infos" 	: "Géolocaliser les données du projet",
 
 		"dsi" 			: "Jeux de données",
 		"no_dmt" 		: "Merci de sélectionner un modèle de données",
@@ -285,9 +287,13 @@
 		"del_rec" 		: "Supprimer cette recette",
 
 		"dsi_headers"	: "titre de colonne original",
-		"map_with_dmf"	: "associer chaque titre de colonne avec un champ de votre modèle de données",
+		"map_with_dmf"	: "Associer chaque titre de colonne avec un champ de votre modèle de données",
 		"dsi_map" 		: "Faites correspondre votre jeu de données avec votre modèle de données",
 		"dsi_to_dmf" 	: "Map cette colonne",
+		
+		"new_dmfs"		: "Choisir les nouvelles colonnes que vous allez créer",
+		"choose_col"	: "Choisir une colonne",
+		"new_col"		: "Choisir une colonne ou écrire le titre de la nouvelle colonne",
 
 		"geoloc"		: "Géo-localiser vos données",
 		"geo_select_dmf": "Choisir les colonnes de votre modèle de données permettant la géolocalisation",

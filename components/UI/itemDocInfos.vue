@@ -201,8 +201,8 @@
 
 			<!-- DOC SRC_TYPE -->
 			<v-flex xs6 px-2 v-if="coll=='dsi'">
-				src_type - {{ itemDoc['specs']['src_type'] }} / 
-				filetype - {{ filetype }}
+				<!-- src_type - {{ itemDoc['specs']['src_type'] }} / -->
+				<!-- filetype - {{ filetype }} -->
 				<ValueEdit
 					:coll="coll"
 					:collName="collName"
@@ -225,7 +225,7 @@
 
 			<!-- DOC SRC_SEP -->
 			<v-flex xs6 px-2 v-if="coll=='dsi'">
-				src_sep - {{ itemDoc['specs']['src_sep'] }}
+				<!-- src_sep - {{ itemDoc['specs']['src_sep'] }} -->
 				<ValueEdit
 					:coll="coll"
 					:collName="collName"

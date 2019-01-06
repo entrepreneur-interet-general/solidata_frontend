@@ -96,7 +96,7 @@
 
 						<!-- COMPONENTS FOR DOCS DATA_RAW -->		
 							<!-- v-show="!isPreview" -->
-						<v-expansion-panel
+						<!-- <v-expansion-panel
 							v-model="panel_data_raw"
 							expand
 							class="elevation-0"
@@ -127,7 +127,7 @@
 							</v-expansion-panel-content>
 						</v-expansion-panel>
 
-						<v-divider></v-divider>
+						<v-divider></v-divider> -->
 
 					</v-flex>
 
@@ -181,7 +181,7 @@
 
 				<CardPreviewDense 
 					v-show="isPreview"
-					:coll="'dmf'"
+					:coll="'tag'"
 					:tab="tab"
 					:item="itemDoc"
 					:no_hover="true"
@@ -192,7 +192,7 @@
 
 				<!-- COMPONENTS FOR DOCS DATA_RAW -->		
 
-				<v-expansion-panel
+				<!-- <v-expansion-panel
 					v-show="!isPreview"
 					v-model="panel_data_raw"
 					expand
@@ -222,9 +222,8 @@
 						</itemDocDataRaw>
 
 					</v-expansion-panel-content>
-				</v-expansion-panel>
+				</v-expansion-panel> -->
 
-			<!-- </v-flex> -->
 
 
 				<!-- COMPONENTS FOR COMMON DOCS USES -->		
@@ -566,6 +565,9 @@ export default {
 
 				this.loading = false
 				// this.alert = {type: 'error', message: "login error" }
+
+				this.$store.commit(`set_error`, error)
+				
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
 				}

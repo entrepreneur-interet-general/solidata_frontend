@@ -1272,6 +1272,8 @@ export default {
 				this.loading = false
 				this.alert 		= {type: 'error', message: "login error" }
 
+				this.$store.commit(`set_error`, error)
+				
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
 				

@@ -170,7 +170,7 @@
 
 								<!-- ICON + TITLE -->
 								<div 
-									class="accent--text"
+									class="black--text"
 									slot="header"
 									>
 									<v-icon small color="accent" class="mr-3">
@@ -212,7 +212,7 @@
 							<v-expansion-panel-content >
 
 								<div 
-									class="accent--text"
+									class="black--text"
 									slot="header"
 									>
 
@@ -274,7 +274,7 @@
 							<v-expansion-panel-content >
 
 								<div 
-									class="accent--text"
+									class="black--text"
 									slot="header"
 									>
 									<v-badge
@@ -357,7 +357,6 @@
 
 					:parent_REC_oids="list_REC_oids"
 					:parent_DMT_oids="list_DMT_oids"
-					:itemId="itemId"
 					
 					:isPreview="isPreview"
 					:isLoading="loading"
@@ -981,18 +980,29 @@ export default {
 		SettingsToolbar,
 	},
 
-	// middlewares to populate DMT and DSI catalogs
-	middleware : ["getListItems"],
-	meta : {
-		collection 	: [
-			'dmt', 'dsi', 'tag'
-		],
-		level : 'get_list',
-	},
+	// // middlewares to populate DMT and DSI catalogs
+	// middleware : ["getListItems"],
+	// meta : {
+	// 	collection 	: [
+	// 		'dmt', 
+	// 		'dsi', 
+	// 		'tag', 
+	// 		'dmf',
+	// 	],
+	// 	level : 'get_list',
+	// },
 
 	created () {
 
 		console.log("\n- viewEditPRJ / created ---> item_doc : ", this.item_doc ) ;
+		
+		// RESET SOME COLLECTIONS IN STORE
+		// var input = {
+		// 	collections : ['tag', 'dmf', 'dmt'],
+		// 	level		: 'get_list'
+		// }
+		// this.$store.dispatch('resetListsItems', input ) ;
+
 		this.itemDoc 		= this.item_doc ;
 
 		this.list_DMT_oids 	= this.item_doc.datasets.dmt_list ;
@@ -1401,6 +1411,9 @@ export default {
 			.catch(error => {
 				console.log("submit / error... : ", error ) ; 
 				this.loading = false
+
+				this.$store.commit(`set_error`, error)
+
 				this.alert = {type: 'error', message: "login error" }
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
@@ -1409,6 +1422,39 @@ export default {
 
 		},
 
+
+		// reset_lists_fromApi(collections, level) {
+
+		// 	console.log("reset_lists_fromApi ..." )
+		// 	const collections_list		= collections ;
+		// 	const current_level 		= level ;
+
+		// 	var promises_list 	= [] ;
+			
+		// 	collections_list.forEach ( function (coll, index, initial_array ){
+
+		// 		console.log("- - - coll : ", coll ) ; 
+
+		// 		// create parameters vars for later request in $store
+		// 		var parameters = this.$store.state[coll].parameters
+		// 		var input = {
+		// 			coll 		: coll,
+		// 			level		: current_level,
+		// 			q_params	: parameters,
+		// 		} ;
+
+		// 		var temp_dispatch = this.$store.dispatch('getListItems', input ) ;
+
+		// 		promises_list.push(temp_dispatch) ;
+
+		// 	}) ;
+			
+		// 	/// return promises to allow page to render
+		// 	return Promise.all (
+		// 		promises_list 
+		// 	) ;
+			
+		// }
 
 	}
 

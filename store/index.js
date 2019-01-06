@@ -20,9 +20,8 @@ const dmf_types_list = [
 	'integer',
 	'date',
 	'price',
-	'adress',
-	'latitude',
-	'longitude',
+	'address',
+	'geoloc',
 	'tag',
 	'other'
 ]
@@ -135,6 +134,7 @@ const mainIconsConst = {
 	question			: { icon : "fas fa-question" },
 	view				: { icon : "remove_red_eye" },
 	edit				: { icon : "edit" },
+	check				: { icon : "check" },
 	map_doc				: { icon : "fas fa-exchange-alt" },
 	upload				: { icon : "fas fa-file-upload" },
 	reset				: { icon : "fas fa-redo" },
@@ -701,7 +701,7 @@ export const actions = {
 		var parameters 	= input.q_params ;
 		var level 		= input.level ;
 
-		// console.log("... $ getListItems : parameters : ", parameters);
+		console.log("... $ getListItems : parameters : ", parameters);
 
 		// SET UP CONFIG FOR API CALL
 		const config = { 
@@ -733,6 +733,39 @@ export const actions = {
 				return error
 			})
 
+	},
+
+	resetListsItems({commit, dispatch, state, rootState},input) {
+
+		console.log("reset_lists_fromApi ..." )
+		const collections_list		= input.collections ;
+		const current_level 		= input.level ;
+
+		var promises_list 	= [] ;
+		
+		collections_list.forEach ( function (coll, index, initial_array ){
+
+			console.log("- - - coll : ", coll ) ; 
+
+			// create parameters vars for later request in $store
+			var parameters = state[coll].parameters
+			var input = {
+				coll 		: coll,
+				level		: current_level,
+				q_params	: parameters,
+			} ;
+
+			var temp_dispatch = dispatch('getListItems', input ) ;
+
+			promises_list.push(temp_dispatch) ;
+
+		}) ;
+		
+		/// return promises to allow page to render
+		return Promise.all (
+			promises_list 
+		) ;
+		
 	},
 
 	updateItem ({commit, state, rootState}, input ) {

@@ -69,7 +69,7 @@ export default {
 
 	middleware : ["getListItems"],
 	meta : {
-		collection 	: ['dsi'],
+		collection 	: ['dsi', 'tag'],
 		level 		: 'get_list',
 	},
 	

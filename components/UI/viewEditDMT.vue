@@ -147,7 +147,7 @@
 							<v-expansion-panel-content >
 
 								<div 
-									class="accent--text"
+									class="black--text"
 									slot="header"
 									>
 									<!-- <v-icon small color="accent" class="mr-3">
@@ -207,7 +207,7 @@
 							<v-expansion-panel-content >
 
 								<div 
-									class="accent--text"
+									class="black--text"
 									slot="header"
 									>
 									<v-badge
@@ -415,17 +415,23 @@ export default {
 		// ValueEdit,
 	},
 
-	middleware : ["getListItems"],
-	meta : {
-		collection 	: [
-			'dmf', 'tag',
-		],
-		level : 'get_list',
-	},
+	// middleware : ["getListItems"],
+	// meta : {
+	// 	collection 	: [
+	// 		'dmf', 'tag',
+	// 	],
+	// 	level : 'get_list',
+	// },
 
 	created () {
 
 		console.log("\n- viewEditDMT / created ---> item_doc : ", this.item_doc ) ;
+
+		// var input = {
+		// 	collections : ['tag', 'dmf'],
+		// 	level		: 'get_list'
+		// }
+		// this.$store.dispatch('resetListsItems', input ) ;
 
 		if ( this.item_doc != undefined ) {
 			
@@ -782,6 +788,9 @@ export default {
 					console.log("submit / error... : ", error ) ; 
 					this.loading = false
 					// this.$emit('update_loading', false )
+					
+					this.$store.commit(`set_error`, error)
+
 					this.alert = {type: 'error', message: "login error" }
 					if (error.response && error.response.data) {
 						this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
@@ -834,6 +843,8 @@ export default {
 				
 				this.loading = false
 				// this.$emit('update_loading', false )
+
+				this.$store.commit(`set_error`, error)
 
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}

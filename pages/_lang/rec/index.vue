@@ -95,7 +95,7 @@ export default {
 
 	middleware : ["getListItems"],
 	meta : {
-		collection 	: ['rec'],
+		collection 	: ['rec', 'tag'],
 		level 		: 'get_list',
 	},
 	

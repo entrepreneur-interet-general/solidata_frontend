@@ -107,6 +107,8 @@
 		"next" 			: "Siguiente",
 		"back" 			: "Anterior",
 
+		"mandatory" 	: "(*) estos elementos son obligatorios",
+
 		"see_this"		: "Ver",
 
 		"item_infos"	: "Informaciones",
@@ -270,7 +272,7 @@
 		"resume" 		: "Resumen",
 
 		"export" 		: "Exportar los datos del proyecto",
-		"geoloc" 		: "Añadir datos de geolocalización al proyecto",
+		"geoloc_infos" 	: "Añadir datos de geolocalización al proyecto",
 
 		"dsi" 			: "Datos",
 		"no_dmt" 		: "Por favor seleccione un módelo",
@@ -286,9 +288,13 @@
 		"del_rec" 		: "Suprimir esta receta",
 
 		"dsi_headers"	: "el título de columna original",
-		"map_with_dmf"	: "asociar cada título con un campo del módelo de datos",	
+		"map_with_dmf"	: "Asociar cada título con un campo del módelo de datos",	
 		"dsi_map" 		: "Haz corresponder sus datos con su módelo de datos",
 		"dsi_to_dmf" 	: "Mapear este header",
+
+		"new_dmfs"		: "Elejir las nuevas columnas que se quiere añadir",
+		"choose_col"	: "Elejir el título de la nueva columna",
+		"new_col"		: "Elejir el título de la nueva columna o escribe el título de la nueva columna",
 
 		"geoloc"		: "Geo-localizar sus datos",
 		"geo_select_dmf": "Elejir las columnas del módelo de datos que permiten geo-localizar",

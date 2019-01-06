@@ -107,6 +107,8 @@
 		"next" 			: "Next",
 		"back" 			: "Previous",
 
+		"mandatory" 	: "(*) those elements are mandatory",
+
 		"see_this"		: "See",
 
 		"item_infos"	: "Informations",
@@ -270,7 +272,7 @@
 		"resume" 		: "Resume",
 
 		"export" 		: "Export the project's data",
-		"geoloc" 		: "Geolocalize the project's data",
+		"geoloc_infos" 	: "Geolocalize the project's data",
 
 		"dsi" 			: "Datasets",
 		"no_dmt" 		: "Please choose a datamodel",
@@ -286,9 +288,13 @@
 		"del_rec" 		: "Delete this recipe",
 
 		"dsi_headers"	: "your original headers",
-		"map_with_dmf"	: "associate each original header with one of the fields from the datamodel",
+		"map_with_dmf"	: "Associate each original header with one of the fields from the datamodel",
 		"dsi_map" 		: "Map your dataset with your datamodel",
 		"dsi_to_dmf" 	: "Map this header",
+		
+		"new_dmfs"		: "Choose the new columns you want to create",
+		"choose_col"	: "Choose a column's title",
+		"new_col"		: "Choose a column's title or write the title of a new one",
 
 		"geoloc"		: "Geocode your data",
 		"geo_select_dmf": "Choose the datamodel's columns allowing to geocode",

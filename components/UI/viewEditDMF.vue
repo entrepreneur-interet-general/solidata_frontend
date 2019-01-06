@@ -141,7 +141,7 @@
 							<v-expansion-panel-content >
 
 								<div 
-									class="accent--text"
+									class="black--text"
 									slot="header"
 									>
 									<v-badge
@@ -397,16 +397,23 @@ export default {
 
 	},
 
-	middleware : ["getListItems"],
-	meta : {
-		collection 	: [
-			'tag'
-		],
-		level : 'get_list',
-	},
+	// middleware : ["getListItems"],
+	// meta : {
+	// 	collection 	: [
+	// 		'tag'
+	// 	],
+	// 	level : 'get_list',
+	// },
 
 	created () {
 		console.log("\n- viewEditDMF / created ---> item_doc : ", this.item_doc ) ;
+
+		// var input = {
+		// 	collections : ['tag'],
+		// 	level		: 'get_list'
+		// }
+		// this.$store.dispatch('resetListsItems', input ) ;
+
 		this.itemDoc = this.item_doc ;
 		// this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
 		// this.canEdit = this.checkUserAuth(this.parentFieldslist)
@@ -639,6 +646,9 @@ export default {
 
 				this.loading = false
 				// this.alert = {type: 'error', message: "login error" }
+
+				this.$store.commit(`set_error`, error)
+
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
 				}
@@ -704,6 +714,9 @@ export default {
 				console.log("submit / error... : ", error ) ; 
 				this.loading = false
 				// this.$emit('update_loading', false )
+
+				this.$store.commit(`set_error`, error)
+
 				this.alert = {type: 'error', message: "login error" }
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}

@@ -75,6 +75,7 @@
 						v-model="itemData"
 						:color="fieldColor"
 						:disabled="!canEdit || loading "
+						:readonly="subField == 'open_level_show' && ['tag','dmf'].indexOf(coll)!=-1"
 						:label="$t( collName+'.'+subField, $store.state.locale )"
 						:items="$store.state.subFieldsWithChoices[subField]['choices']"
 						@change="submitValue () ; save()"

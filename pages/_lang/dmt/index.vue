@@ -72,7 +72,7 @@ export default {
 
 	middleware : ["getListItems"],
 	meta : {
-		collection 	: ['dmt'],
+		collection 	: ['dmt', 'tag', 'dmf'],
 		level 		: 'get_list',
 	},
 	

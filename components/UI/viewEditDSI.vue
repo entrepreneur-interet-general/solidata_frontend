@@ -170,7 +170,7 @@
 								<v-expansion-panel-content >
 
 									<div 
-										class="accent--text"
+										class="black--text"
 										slot="header"
 										>
 										<v-badge
@@ -632,9 +632,19 @@
 
 									</v-card-title>
 
+									<!-- - alert : {{ alert }} -->
+
+									<!-- HELP TEXT -->
+									<v-card-text
+										class="px-5 pb-2"
+										>
+
+										{{ $t(`projects.map_with_dmf`, $store.state.locale) }}
+
+									</v-card-text>
+
 									<!-- MAPPER AS DATATABLE -->
 									<v-card-text 
-
 										class="px-5 lighten--2"
 										>
 
@@ -857,6 +867,7 @@
 											:label="$t(`global.search`, $store.state.locale)"
 											single-line
 											hide-details
+											disabled
 										></v-text-field>
 									</v-card-title>
 
@@ -956,9 +967,10 @@
 							</v-expand-transition>
 
 
-<!-- 
+							<!-- 
 							- is_parent_map : {{ is_parent_map }}
-							- is_parent_dmt : {{ is_parent_dmt }} -->
+							- is_parent_dmt : {{ is_parent_dmt }} 
+							-->
 
 							<!-- NO MAP && NO PARENT DMT -->
 							<v-alert 
@@ -1187,18 +1199,24 @@ export default {
 		ViewEditDSIMapHeaders,
 	},
 
-	middleware : ["getListItems"],
-	meta : {
-		collection 	: [
-			'tag'
-		],
-		level : 'get_list',
-	},
+	// middleware : ["getListItems"],
+	// meta : {
+	// 	collection 	: [
+	// 		'tag'
+	// 	],
+	// 	level : 'get_list',
+	// },
 
 	created () {
 
 		console.log("\n- viewEditDSI / created ---> item_doc : ", this.item_doc ) ;
-		
+
+		// var input = {
+		// 	collections : ['tag'],
+		// 	level		: 'get_list'
+		// }
+		// this.$store.dispatch('resetListsItems', input ) ;
+
 		// load and transform parentDoc_dmf_list
 		this.parentDocDMFs = this.parentDoc_dmf_list_reduc(this.parentDoc_dmf_list)
 
@@ -1675,10 +1693,12 @@ export default {
 			})
 			
 			.then(result => {
-				this.alert 		= { type: 'success', message: result.msg }
+				// this.alert 		= { type: 'success', message: result.msg }
 				this.loading 	= false
 				// this.$emit('update_loading', false )
 				
+				// this.$store.commit(`set_alert`, result.msg)
+
 				// update current in store
 				console.log("update_parent_list - result : ", result )
 				this.$store.commit(`${this.coll}/set_current`, result );
@@ -1689,7 +1709,10 @@ export default {
 				console.log("submit / error... : ", error ) ; 
 				this.loading = false
 				// this.$emit('update_loading', false )
-				this.alert = {type: 'error', message: "login error" }
+				// this.alert = {type: 'error', message: error }
+
+				this.$store.commit(`set_error`, error)
+
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
 				}
@@ -1729,10 +1752,11 @@ export default {
 				this.pagination.sortBy 		= result.query.query_args.sort_by
 
 				this.loading 		= false
-				this.alert   		= {type: 'success', message: result.msg}
+				// this.alert   		= {type: 'success', message: result.msg}
 
 				this.itemDoc_loaded	= true 
 				
+				// this.$store.commit(`set_alert`, result.msg)
 
 				// add scroll event listener on datatable 
 				// detect scroll : cf : https://forum.vuejs.org/t/how-to-detect-body-scroll/7057/5   
@@ -1763,6 +1787,9 @@ export default {
 				this.loading = false
 
 				// this.alert = {type: 'error', message: "login error" }
+				
+				this.$store.commit(`set_error`, error)
+				
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
 				}
