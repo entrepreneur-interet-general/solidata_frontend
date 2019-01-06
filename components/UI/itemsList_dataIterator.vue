@@ -194,7 +194,8 @@
 				<v-flex
 					slot="item"
 					slot-scope="props"
-					:class="'pa-3 ' + cardSizes"
+					:class="cardSizes"
+					mb-4
 					>
 
 					<CardPreviewDense 

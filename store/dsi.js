@@ -14,7 +14,7 @@ export const state = () => ({
 
 	rowsPerPageItems: [ 4, 8, 12 ],
 	pagination: {
-		rowsPerPage: 4
+		rowsPerPage: 8
 	},
 
 

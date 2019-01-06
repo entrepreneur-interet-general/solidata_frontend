@@ -196,8 +196,9 @@
 				flat
 				block
 				outline
-				@click="$store.state.show_agreement_cgu = false"
+				@click="change_agreement()"
 				>
+				<!-- @click="$store.state.show_agreement_cgu = false" -->
 				
 				<v-icon
 					dark
@@ -230,6 +231,9 @@ export default {
 
 	data: () => ({
 
+		loading : false,
+		alert	: null,
+
 		icons: [
 			{ 	
 				label : "frontend", 
@@ -254,7 +258,60 @@ export default {
 			// {label : "", href : "/", icon : 'fab fa-linkedin'} , 
 			// {label : "", href : "/", icon : 'fab fa-instagram' }
 		]
-	})
+	}),
+
+	methods : {
+		
+		change_agreement() {
+
+			console.log("change_agreement / : " ) ; 
+
+			// change locale in store
+			this.$store.commit('set_see_agreement_cgu', false ) ;
+
+			// update user in API if user is logged
+			if ( this.$store.state.auth.isLogged ){
+				
+				console.log("change_agreement / updating user... " ) ; 
+
+				this.loading = true ;
+
+				var input = {
+					coll 	: "usr",
+					doc_id	: this.$store.state.auth.user_id, 
+					form	: [{ 
+						"field_to_update" 	: "profile.agreement",
+						"field_value" 		: true 
+					}]
+				}; 
+
+				// dispatch action from store for update
+				this.$store.dispatch('updateItem', input )
+				
+				.then(result => {
+
+					console.log("change_agreement / success ... " ) ; 
+					this.alert 		= { type: 'success', message: result.msg }
+					this.loading 	= false
+
+				})
+				
+				.catch(error => {
+					console.log("change_agreement / submit / error... : ", error ) ; 
+					this.loading = false
+
+					this.$store.commit(`set_error`, error)
+
+					this.alert = {type: 'error', message: "login error" }
+					if (error.response && error.response.data) {
+						this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+					}
+				})
+
+			}
+
+		},
+	}
 }
 </script>
 

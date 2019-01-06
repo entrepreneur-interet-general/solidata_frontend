@@ -36,12 +36,14 @@ const src_fileTypes_list = [
 	'csv',
 	// 'API',
 ]
+// TO DO : try to find automatically the separator
 const src_csvSeparators_list = [
 	';',
 	',',
 	'|',
 ]
 
+// TO DO : list must comme from a collection and from a backend endpoint
 const licences_list = [
 	'CC BY',
 	'CC BY-SA',
@@ -67,6 +69,8 @@ const openlevel_edit_list 			= [
 	'collective', 
 	'private'
 ]
+
+// TEAM MANAGEMENT
 const user_edit_auth_list 			= [
 	'owner', 
 	'manager', 
@@ -96,6 +100,7 @@ const user_edit_auth_rights_list	= {
 	}
 }
 
+// MAIN ICONS
 const mainIconsConst = {
 
 	home				: { icon : "home",				 		to:"/" },
@@ -127,6 +132,7 @@ const mainIconsConst = {
 	faq					: { icon : "fas fa-question" },
 	lexicon				: { icon : "fas fa-question" },
 	tutos				: { icon : "fas fa-question" },
+	legal				: { icon : "fas fa-balance-scale" },
 
 	list				: { icon : "list" },
 	favorites			: { icon : "favorite" },
@@ -183,6 +189,7 @@ export const state = () => ({
 	version	 : '<span>v.0.1</span>',
 	year	 : '2018-2019',
 
+	// APP LOGO
 	app_logo 	: '/logos/logo_solidata_15a_lg.png',
 	app_logo_lg : '/logos/logo_solidata_15a.png',
 	app_codemos : '/logos/logo_codemos_01b.png',
@@ -473,10 +480,23 @@ export const state = () => ({
 				{ title: 'links.faq',		 	icon: mainIconsConst.faq.icon, 		to: '/faq', needLogged:false },
 				{ title: 'links.lexicon',	 	icon: mainIconsConst.lexicon.icon, 	to: '/lexicon',	needLogged:false },
 				{ title: 'links.tutos',		 	icon: mainIconsConst.tutos.icon, 	to: '/tutos', needLogged:false },
-				{ title: 'links.about',		 	icon: mainIconsConst.about.icon, 	to: '/about', needLogged:false },
 			]
 		},
-
+		{ divider : true },
+		
+		// LEGAL & CONTACT
+		{
+			icon: 'keyboard_arrow_up',
+			'icon-alt': mainIconsConst.legal.icon,
+			title: 'links.legal',
+			model: false,
+			children: [
+				{ title: 'links.about',		 	icon: mainIconsConst.about.icon, 		to: '/about', needLogged:false },
+				{ title: 'links.cgu',		 	icon: mainIconsConst.legal.icon, 		to: '/legal/cgu', needLogged:false },
+				{ title: 'links.confid',	 	icon: mainIconsConst.legal.icon, 		to: '/legal/confid', needLogged:false },
+				{ title: 'links.legal',		 	icon: mainIconsConst.legal.icon, 		to: '/legal/legal', needLogged:false },
+			]
+		},
 	],
 
 	// FOR DRAWERS CONTROLS
@@ -534,6 +554,10 @@ export const mutations = {
 	set_error (state, error) {
 		state.is_error = true
 		state.error = error
+	},
+
+	set_see_agreement_cgu (state, agreement) {
+		state.show_agreement_cgu = agreement
 	},
 
 	// navbar

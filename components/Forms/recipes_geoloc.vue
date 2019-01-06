@@ -239,11 +239,11 @@
 				<!-- - new_dmfs : <code> {{ new_dmfs }} </code><br>
 				<v-divider></v-divider> -->
 				
-				- default_geoloc_dmf : <code> {{ default_geoloc_dmf }} </code><br>
-				<v-divider></v-divider>
+				<!-- - default_geoloc_dmf : <code> {{ default_geoloc_dmf }} </code><br>
+				<v-divider></v-divider> -->
 
-				- default_geoloc_dmf_preselect: <code> {{ default_geoloc_dmf_preselect }} </code><br>
-				<v-divider></v-divider>
+				<!-- - default_geoloc_dmf_preselect: <code> {{ default_geoloc_dmf_preselect }} </code><br>
+				<v-divider></v-divider> -->
 
 				- pseudoForm : <code> {{ pseudoForm() }} </code><br>
 				<v-divider></v-divider>
@@ -416,7 +416,7 @@ export default {
 				remapped = filtered_dmf.map(dmf => ({
 					text 		: dmf.infos.title,
 					color 		: this.col_preselected.includes(dmf.infos.title ) ? 'primary' : 'accent' ,
-					_id			: dmf._id,
+					oid_dmf		: dmf._id,
 					can_delete 	: this.col_preselected.includes(dmf.infos.title ) ? false : true 
 				}))
 			}

@@ -7,7 +7,10 @@
 		"tutos"			: "Tutoriels",
 		"lexicon"		: "Lexique",
 		"faq"			: "Questions",
+
 		"legal"			: "Mentions légales",
+		"cgu"			: "CGU",
+		"confid"		: "Confidentialité",
 
 		"github"		: "Github",
 		"english"		: "Version Anglaise",

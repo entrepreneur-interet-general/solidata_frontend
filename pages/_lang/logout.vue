@@ -3,7 +3,7 @@
 
 	<v-container fluid fill-height>
 		<v-layout align-center justify-center>
-			<v-flex xs10 sm8 md6 lg-4>
+			<v-flex xs10 sm8 md6 lg4>
 				<v-card class="elevation-12 pa-3">
 
 
@@ -110,12 +110,18 @@ export default {
 				.then(result => {
 					console.log("submitLogout after then..." ) ; 
 					this.loading = false
+
+					this.$store.commit(`set_alert`, 'you are now loged out' )
+
 					this.$router.push('/')
 				})
 				.catch(error => {
 					console.log("submit / error..." ) ; 
 					this.loading = false
 					this.alert = {type: 'error', message: "logout failed" }
+
+					this.$store.commit(`set_error`, error)
+
 			})
 		},
 

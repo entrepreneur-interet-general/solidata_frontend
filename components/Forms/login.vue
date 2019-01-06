@@ -9,20 +9,19 @@
 
 		<v-card-text>
 
-
 			<v-form 
 				@submit.prevent="submitLogin" 
 				id="login-form"
 				>
 
-				<v-alert 
+				<!-- <v-alert 
 					v-if="alert" 
 					:type="alert.type" 
 					value="true"
 					ma-2
 					>
 					{{alert.message}}
-				</v-alert>
+				</v-alert> -->
 
 				<!-- ANTI-SPAMS -->
 				<v-text-field 
@@ -238,6 +237,9 @@ export default {
 				.then(result => {
 					this.alert 		= {type: 'success', message: result.msg}
 					this.loading 	= false
+
+					this.$store.commit(`set_alert`, result.msg)
+
 					this.$router.push('/dashboard') 
 				})
 				
@@ -245,6 +247,9 @@ export default {
 					console.log("submit / error... : ", error ) ; 
 					this.loading 	= false
 					this.alert 		= {type: 'error', message: "login error" }
+
+					this.$store.commit(`set_error`, error)
+
 					if (error.response && error.response.data) {
 						this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
 					}

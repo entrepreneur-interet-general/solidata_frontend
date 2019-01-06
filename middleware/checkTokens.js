@@ -32,15 +32,19 @@ export default function ({ req, store, app, redirect }) {
 				
 				refreshToken 	= parsed.refresh_token;
 				// console.log("- - - checkTokens / refreshToken :", refreshToken) ; 
-
 				
+				var agreement_cookie = parsed.agreement;
+				console.log("- - - checkTokens / agreement_cookie :", agreement_cookie) ; 
+
 				// set store auth tokens
 				store.commit('auth/set_tokens', 
-				{ 	
-					access_token 	: accessToken, 
-					refresh_token 	: refreshToken
-				} 
+					{ 	
+						access_token 	: accessToken, 
+						refresh_token 	: refreshToken
+					} 
 				) ;
+
+				store.commit('set_see_agreement_cgu', !agreement_cookie, { root: true }) ;
 				
 			}
 			catch(error) {
@@ -86,6 +90,9 @@ export default function ({ req, store, app, redirect }) {
 			var lang_cookie = parsed.lang;
 			console.log("- - - checkTokens / lang_cookie :", lang_cookie) ; 
 
+			var agreement_cookie = parsed.agreement;
+			console.log("- - - checkTokens / agreement_cookie :", agreement_cookie) ; 
+
 			// set store auth tokens
 			store.commit('auth/set_tokens', 
 				{ 	
@@ -93,7 +100,11 @@ export default function ({ req, store, app, redirect }) {
 					refresh_token 	: refreshToken
 				} 
 			) ;
-			// store.commit('SET_LANG', lang_cookie, { root: true }) ;
+			
+			if ( store.state.isLogged ) {
+				// store.commit('SET_LANG', lang_cookie, { root: true }) ;
+				store.commit('set_see_agreement_cgu', !agreement_cookie, { root: true }) ;
+			}
 
 		}
 		

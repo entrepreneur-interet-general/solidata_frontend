@@ -312,74 +312,75 @@
 
 <script>
 
-	import axios from 'axios'
+import axios from 'axios'
 
-	// import components
-	import MainDrawer from '~/components/Navigation/MainDrawer.vue'
-	import SecondaryDrawer from '~/components/Navigation/SecondaryDrawer.vue'
-	import Toolbar from '~/components/Navigation/Toolbar.vue'
-	import Footer from '~/components/Footer/Footer.vue'
+// import components
+import MainDrawer from '~/components/Navigation/MainDrawer.vue'
+import SecondaryDrawer from '~/components/Navigation/SecondaryDrawer.vue'
+import Toolbar from '~/components/Navigation/Toolbar.vue'
+import Footer from '~/components/Footer/Footer.vue'
 
-	export default {
+export default {
 
-		// load components
-		components : {
-			Toolbar, 
-			MainDrawer,
-			SecondaryDrawer,
-			Footer,
-		},
+	// load components
+	components : {
+		Toolbar, 
+		MainDrawer,
+		SecondaryDrawer,
+		Footer,
+	},
 
-		// middleware : ["checkTokens"],
+	// middleware : ["checkTokens"],
+	
+	data () {
+		return {
+			// items: [
+			//   { icon: 'apps', title: 'Welcome', to: '/' },
+			//   { icon: 'input', title: 'Login', to: '/login' },
+			//   { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' }
+			// ],
+			// miniVariant: true,
+			// clipped: true,
+			// drawer: true,
+			// fixed: true,
+			// right: true,
+			// rightDrawer: false,
+			// title: 'Solidata'
+		}
+	},
+
+	methods: {
 		
-		data () {
-			return {
-				// items: [
-				//   { icon: 'apps', title: 'Welcome', to: '/' },
-				//   { icon: 'input', title: 'Login', to: '/login' },
-				//   { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' }
-				// ],
-				// miniVariant: true,
-				// clipped: true,
-				// drawer: true,
-				// fixed: true,
-				// right: true,
-				// rightDrawer: false,
-				// title: 'Solidata'
-			}
+		change_lang(new_locale) {
+			// console.log("change_lang / new_locale : ", new_locale ) ; 
+			this.$store.commit('SET_LANG', new_locale )
+		},
+		change_miniVariant() {
+			this.$store.commit('set_miniVariant' )
+		},
+		change_clipped() {
+			this.$store.commit('set_clipped' )
+		},
+		change_drawer() {
+			this.$store.commit('set_drawer' )
+		},
+		change_fixedNav() {
+			this.$store.commit('set_fixedNav' )
+		},
+		change_right() {
+			this.$store.commit('set_right' )
+		},
+		change_rightDrawer() {
+			this.$store.commit('set_rightDrawer' )
 		},
 
-		methods: {
-			
-			change_lang(new_locale) {
-				// console.log("change_lang / new_locale : ", new_locale ) ; 
-				this.$store.commit('SET_LANG', new_locale )
-			},
-			change_miniVariant() {
-				this.$store.commit('set_miniVariant' )
-			},
-			change_clipped() {
-				this.$store.commit('set_clipped' )
-			},
-			change_drawer() {
-				this.$store.commit('set_drawer' )
-			},
-			change_fixedNav() {
-				this.$store.commit('set_fixedNav' )
-			},
-			change_right() {
-				this.$store.commit('set_right' )
-			},
-			change_rightDrawer() {
-				this.$store.commit('set_rightDrawer' )
-			},
-		},
+	},
 
-		// async asyncData ({ params }) {
-		//   let { data } = await axios.get(`https://my-api/posts/${params.id}`)
-		//   return { title: data.title }
-		// }
-	}
+	// async asyncData ({ params }) {
+	//   let { data } = await axios.get(`https://my-api/posts/${params.id}`)
+	//   return { title: data.title }
+	// }
+}
 
 
 

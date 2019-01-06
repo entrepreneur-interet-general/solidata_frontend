@@ -178,12 +178,14 @@ export const actions = {
 						commit('set_isLogged',    true);
 						commit('set_user',        user_login_infos) ;
 						commit('SET_LANG',        user_login_infos.profile.lang, { root: true }) ;
+						commit('set_see_agreement_cgu', !user_login_infos.profile.agreement, { root: true }) ;
 						commit('set_tokens',      response.tokens)
 						
 						// cf documentation js-cookie : https://github.com/js-cookie/js-cookie 
 						Cookie.set("access_token",		response.tokens.access_token )
 						Cookie.set("refresh_token",		response.tokens.refresh_token )
-						Cookie.set("lang",        		user_login_infos.profile.lang ) // saving lang in cookie for server rendering
+						Cookie.set("lang",				user_login_infos.profile.lang ) // saving lang in cookie for server rendering
+						Cookie.set("agreement",			!user_login_infos.profile.agreement ) // saving agreement in cookie for server rendering
 						
 						return response 
 					})
@@ -204,6 +206,7 @@ export const actions = {
 
 			console.log("\n...store/auth/logout : logout / promise...");
 			commit('reset_user');
+			commit('set_see_agreement_cgu', true, { root: true }) ;
 
 			dispatch('loginAnonymous');
 
@@ -214,6 +217,7 @@ export const actions = {
 			// cf documentation js-cookie : https://github.com/js-cookie/js-cookie 
 			Cookie.remove('access_token');
 			Cookie.remove('refresh_token');
+			Cookie.remove("agreement");
 			// Cookie.remove("lang");
 
 			// localStorage.removeItem("lang");
