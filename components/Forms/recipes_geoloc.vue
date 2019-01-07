@@ -1,267 +1,261 @@
 <template>
 
-	<v-layout row justify-center>
+	<div>
 
-		<v-flex
-			class="xs12 sm10 md8 justify-center"
+		<!-- TITLE GEOLOC -->
+		<v-card-title
+			class="pa-5"
 			>
 
-			<!-- TITLE GEOLOC -->
-			<v-card-title
-				class="pa-5"
+			<v-icon 
+				class="mr-2"
+				color="primary"
+				>
+				{{ $store.state.mainIcons.projects.icon }}
+			</v-icon>
+
+			<v-icon 
+				class="mr-2"
+				color="accent"
+				>
+				{{ $store.state.mainIcons.map_doc.icon }}
+			</v-icon>
+
+			<v-icon 
+				class="mr-4"
+				large
+				color="primary"
+				>
+				{{ $store.state.mainIcons.geoloc.icon }}
+			</v-icon>
+
+			<span 
+				class="title "
 				>
 
-				<v-icon 
-					class="mr-2"
-					color="primary"
-					>
-					{{ $store.state.mainIcons.projects.icon }}
-				</v-icon>
+				{{ $t(`projects.geoloc`, $store.state.locale ) }} 
+			</span>
 
-				<v-icon 
-					class="mr-2"
-					color="accent"
-					>
-					{{ $store.state.mainIcons.map_doc.icon }}
-				</v-icon>
-
-				<v-icon 
-					class="mr-4"
-					large
-					color="primary"
-					>
-					{{ $store.state.mainIcons.geoloc.icon }}
-				</v-icon>
-
-				<span 
-					class="title "
-					>
-
-					{{ $t(`projects.geoloc`, $store.state.locale ) }} 
-				</span>
-
-			</v-card-title>
+		</v-card-title>
 
 
 
-			<!-- CHOICES FOR GEOLOCALIZATION -->
-			<v-card-text
-				v-if="parent_DMT_oids && parent_DMT_oids.length != 0 && item_doc != undefined"
-				class="px-5 pb-2"
+		<!-- CHOICES FOR GEOLOCALIZATION -->
+		<v-card-text
+			v-if="parent_DMT_oids && parent_DMT_oids.length != 0 && item_doc != undefined"
+			class="px-5 pb-2"
+			>
+
+			<!-- SELECT COLUMNS TO GEOLOCALIZE -->
+			<v-flex
+				class="xs12"
 				>
 
-				<!-- SELECT COLUMNS TO GEOLOCALIZE -->
-				<v-flex
-					class="xs12"
-					>
+				<!-- HELP TEXT -->
+				<span>
 
-					<!-- HELP TEXT -->
-					<span>
-
-						<v-icon 
-							color="grey"
-							small
-							>
-							{{ $store.state.mainIcons.infos.icon }}
-						</v-icon>
-
-						{{ $t(`projects.geo_select_dmf`, $store.state.locale) }}
-
-					</span>
-
-					<!-- PRJ's DMT  -->
-					<v-flex class="pt-3">
-				
-						<ViewEditDMT
-
-							:item_doc="undefined"
-							:item_doc_id="parent_DMT_oids"
-							
-							:coll="'dmt'"
-
-							:is_create="false"
-							:is_preview="true"
-							:is_loading="isLoading"
-
-							:is_switch="true"
-							:no_toolbar="true"
-
-							:is_geoloc="true"
-
-							:is_map="false"
-							:parent_map="item_doc.mapping.dmf_to_open_level"
-							:canEdit_ol="canEdit_ol"
-
-							:add_to_parent="false"
-							:parentDoc_id="parentDoc_id"
-							:parentDoc_coll="parentDoc_coll"
-
-							:parent_scroll="0"
-
-							@updateGeoloc="updateGeoloc"
-							>
-							<!-- @update_loading="updateLoading" -->
-						</ViewEditDMT> 
-
-					</v-flex>
-
-
-				</v-flex>
-
-
-				<!-- COMBOBOX - COLUMNS TO CREATE -->
-				<v-flex
-					class="mt-5 xs12"
-					>
-
-					<!-- HELP TEXT -->
-					<span>
-						<v-icon 
-							color="grey"
-							small
-							>
-							{{ $store.state.mainIcons.infos.icon }}
-						</v-icon>
-						{{ $t(`projects.new_dmfs`, $store.state.locale) }}
-					</span>
-
-					<!-- NEW COLUMNS -->
-					<v-layout row justify-center> 
-						<v-flex class="pt-3 xs12 sm10 md8">
-
-							<NewColumns
-
-								:parentDoc_id="parentDoc_id"
-								:parentDoc_coll="parentDoc_coll"
-								:parent_DMT_oids="parent_DMT_oids"
-
-								:new_col_preselected="default_geoloc_dmf_preselect"
-								:new_col_choices="default_geoloc_dmf"
-
-								@updateNewColumns="update_new_columns"
-								>
-							</NewColumns>
-
-							<span class="caption">
-								{{ $t(`global.mandatory`, $store.state.locale) }}
-							</span>
-
-						</v-flex>
-					</v-layout>
-
-				</v-flex>
-
-
-				<!-- ADDRESS COMPLEMENT -->
-				<v-flex
-					class="mt-5 xs12"
-					>
-
-					<!-- HELP TEXT -->
-					<span>
-						<v-icon 
-							color="grey"
-							small
-							>
-							{{ $store.state.mainIcons.infos.icon }}
-						</v-icon>
-						{{ $t(`projects.add_compl`, $store.state.locale) }}
-					</span>
-
-					<!-- INPUT ADDRESS COMPLEMENT -->
-					<v-layout row justify-center> 
-						<v-flex class="pt-3 xs12 sm10 md8">
-							<v-text-field
-								v-model="add_complement"
-								:label="$t(`projects.add_compl`, $store.state.locale)"
-								prepend-icon="place"
-								>
-							</v-text-field>
-						</v-flex>
-					</v-layout> 
-
-				</v-flex>
-
-				<!-- HIDDEN EXTRA SETTINGS -->
-				<!-- timeout -->
-				<!-- delay -->
-				<!--  -->
-
-			</v-card-text>
-
-
-			<!-- SUBMIT GEOLOCALIZATION BTN -->
-			<v-card-actions
-				class="justify-center my-3"
-				>
-
-				<v-btn
-					flat
-					round
-					dark
-					class="accent"
-					@click="geolocalize()"
-					>
 					<v-icon 
-						left
+						color="grey"
+						small
 						>
-						{{ $store.state.mainIcons.geoloc.icon }}
+						{{ $store.state.mainIcons.infos.icon }}
 					</v-icon>
 
-					{{ $t(`projects.geoloc`, $store.state.locale)  }}
+					{{ $t(`projects.geo_select_dmf`, $store.state.locale) }}
 
-				</v-btn>
-
-			</v-card-actions>
-
-
-
-
-			<!-- <v-divider class="my-5"></v-divider> -->
-
-			<!-- DEBUG -->
-			<v-flex 
-				class="mt-5"
-				> 
-				<!-- v-if="$store.state.is_debug" -->
-
-				<v-divider class="my-2"></v-divider>
-				<span>
-					from within 'components/Forms/recipes_geoloc.vue' component
 				</span>
-				<v-divider class="my-2"></v-divider>
 
-				<!-- - parentDoc_id : <code>{{ parentDoc_id }}</code><br> -->
-				<!-- - parentDoc_coll : <code>{{ parentDoc_coll }}</code><br> -->
-				<!-- - selected_dmfs : <code>{{ selected_dmfs }}</code><br> -->
-				<!-- - add_complement : <code>{{ add_complement }}</code><br> -->
+				<!-- PRJ's DMT  -->
+				<v-flex class="pt-3">
+			
+					<ViewEditDMT
 
-				<!-- - new_dmfs : <code> {{ new_dmfs }} </code><br>
-				<v-divider></v-divider> -->
-				
-				<!-- - default_geoloc_dmf : <code> {{ default_geoloc_dmf }} </code><br>
-				<v-divider></v-divider> -->
+						:item_doc="undefined"
+						:item_doc_id="parent_DMT_oids"
+						
+						:coll="'dmt'"
 
-				<!-- - default_geoloc_dmf_preselect: <code> {{ default_geoloc_dmf_preselect }} </code><br>
-				<v-divider></v-divider> -->
+						:is_create="false"
+						:is_preview="true"
+						:is_loading="isLoading"
 
-				- pseudoForm : <code> {{ pseudoForm() }} </code><br>
-				<v-divider></v-divider>
+						:is_switch="true"
+						:no_toolbar="true"
 
-				- parent_REC_oids : <code>{{ parent_REC_oids }}</code><br>
-				<v-divider></v-divider>
+						:is_geoloc="true"
 
-				- parent_DMT_oids : <code>{{ parent_DMT_oids }}</code><br>
-				<v-divider></v-divider>
+						:is_map="false"
+						:parent_map="item_doc.mapping.dmf_to_open_level"
+						:canEdit_ol="canEdit_ol"
 
-				- item_doc.mapping.dmf_to_rec : <code>{{ item_doc.mapping.dmf_to_rec }}</code><br>
+						:add_to_parent="false"
+						:parentDoc_id="parentDoc_id"
+						:parentDoc_coll="parentDoc_coll"
+
+						:parent_scroll="0"
+
+						@updateGeoloc="updateGeoloc"
+						>
+						<!-- @update_loading="updateLoading" -->
+					</ViewEditDMT> 
+
+				</v-flex>
+
 
 			</v-flex>
 
 
+			<!-- COMBOBOX - COLUMNS TO CREATE -->
+			<v-flex
+				class="mt-5 xs12"
+				>
+
+				<!-- HELP TEXT -->
+				<span>
+					<v-icon 
+						color="grey"
+						small
+						>
+						{{ $store.state.mainIcons.infos.icon }}
+					</v-icon>
+					{{ $t(`projects.new_dmfs`, $store.state.locale) }}
+				</span>
+
+				<!-- NEW COLUMNS -->
+				<v-layout row justify-center> 
+					<v-flex class="pt-3 xs12 sm10 md8">
+
+						<NewColumns
+
+							:parentDoc_id="parentDoc_id"
+							:parentDoc_coll="parentDoc_coll"
+							:parent_DMT_oids="parent_DMT_oids"
+
+							:new_col_preselected="default_geoloc_dmf_preselect"
+							:new_col_choices="default_geoloc_dmf"
+
+							@updateNewColumns="update_new_columns"
+							>
+						</NewColumns>
+
+						<span class="caption">
+							{{ $t(`global.mandatory`, $store.state.locale) }}
+						</span>
+
+					</v-flex>
+				</v-layout>
+
+			</v-flex>
+
+
+			<!-- ADDRESS COMPLEMENT -->
+			<v-flex
+				class="mt-5 xs12"
+				>
+
+				<!-- HELP TEXT -->
+				<span>
+					<v-icon 
+						color="grey"
+						small
+						>
+						{{ $store.state.mainIcons.infos.icon }}
+					</v-icon>
+					{{ $t(`projects.add_compl`, $store.state.locale) }}
+				</span>
+
+				<!-- INPUT ADDRESS COMPLEMENT -->
+				<v-layout row justify-center> 
+					<v-flex class="pt-3 xs12 sm10 md8">
+						<v-text-field
+							v-model="add_complement"
+							:label="$t(`projects.add_compl`, $store.state.locale)"
+							prepend-icon="place"
+							>
+						</v-text-field>
+					</v-flex>
+				</v-layout> 
+
+			</v-flex>
+
+			<!-- HIDDEN EXTRA SETTINGS -->
+			<!-- timeout -->
+			<!-- delay -->
+			<!--  -->
+
+		</v-card-text>
+
+
+		<!-- SUBMIT GEOLOCALIZATION BTN -->
+		<v-card-actions
+			class="justify-center my-3"
+			>
+
+			<v-btn
+				flat
+				round
+				dark
+				class="accent"
+				@click="geolocalize()"
+				>
+				<v-icon 
+					left
+					>
+					{{ $store.state.mainIcons.geoloc.icon }}
+				</v-icon>
+
+				{{ $t(`projects.geoloc`, $store.state.locale)  }}
+
+			</v-btn>
+
+		</v-card-actions>
+
+
+
+
+		<!-- <v-divider class="my-5"></v-divider> -->
+
+		<!-- DEBUG -->
+		<v-flex 
+			class="mt-5"
+			> 
+			<!-- v-if="$store.state.is_debug" -->
+
+			<v-divider class="my-2"></v-divider>
+			<span>
+				from within 'components/Forms/recipes_geoloc.vue' component
+			</span>
+			<v-divider class="my-2"></v-divider>
+
+			<!-- - parentDoc_id : <code>{{ parentDoc_id }}</code><br> -->
+			<!-- - parentDoc_coll : <code>{{ parentDoc_coll }}</code><br> -->
+			<!-- - selected_dmfs : <code>{{ selected_dmfs }}</code><br> -->
+			<!-- - add_complement : <code>{{ add_complement }}</code><br> -->
+
+			<!-- - new_dmfs : <code> {{ new_dmfs }} </code><br>
+			<v-divider></v-divider> -->
+			
+			<!-- - default_geoloc_dmf : <code> {{ default_geoloc_dmf }} </code><br>
+			<v-divider></v-divider> -->
+
+			<!-- - default_geoloc_dmf_preselect: <code> {{ default_geoloc_dmf_preselect }} </code><br>
+			<v-divider></v-divider> -->
+
+			- pseudoForm : <code> {{ pseudoForm() }} </code><br>
+			<v-divider></v-divider>
+
+			- parent_REC_oids : <code>{{ parent_REC_oids }}</code><br>
+			<v-divider></v-divider>
+
+			- parent_DMT_oids : <code>{{ parent_DMT_oids }}</code><br>
+			<v-divider></v-divider>
+
+			- item_doc.mapping.dmf_to_rec : <code>{{ item_doc.mapping.dmf_to_rec }}</code><br>
+
 		</v-flex>
 
-	</v-layout>
+
+	</div>
 
 </template>
 

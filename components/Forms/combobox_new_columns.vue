@@ -10,8 +10,6 @@
 
 			<!-- :filter="filter" -->
 			<!-- hide-selected -->
-			<!-- item-text="text"
-			item-value="value" -->
 		<v-select
 			v-model="model"
 

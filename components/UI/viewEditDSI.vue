@@ -120,7 +120,7 @@
 					</SettingsToolbar>
 
 
-					<v-layout row justify-center>
+					<v-layout row justify-center mt-5>
 
 						<v-flex class="xs12 sm10 md8 justify-center py-5">
 
@@ -587,264 +587,272 @@
 								transition="dialog-bottom-transition"
 								>
 
-								<!-- MAPPER SETTINGS TOOLBAR -->
-								<SettingsToolbar
-									:itemDoc="itemDoc"
-									@settings="dialog_mapping = false "
-									>
-								</SettingsToolbar>
-
-								<!-- DATA - HEADER MAPPER -->
 								<v-card >
 
-									<!-- TITLE HEADERS MAPPER -->
-									<v-card-title
-										class="pa-5"
+									<!-- MAPPER SETTINGS TOOLBAR -->
+									<SettingsToolbar
+										:itemDoc="itemDoc"
+										@settings="dialog_mapping = false "
 										>
+									</SettingsToolbar>
 
-										<v-icon 
-											class="mr-2"
-											color="primary"
-											>
-											{{ $store.state.mainIcons.datasets.icon }}
-										</v-icon>
+									<!-- DATA - HEADER MAPPER -->
+									<v-layout row justify-center mt-5>
 
-										<v-icon 
-											class="mr-2"
-											color="accent"
-											>
-											{{ $store.state.mainIcons.map_doc.icon }}
-										</v-icon>
+										<v-flex class="xs12 sm10 justify-center py-5">
 
-										<v-icon 
-											class="mr-4"
-											color="primary"
-											>
-											{{ $store.state.mainIcons.datamodels.icon }}
-										</v-icon>
-
-										<span 
-											class="title "
-											>
-
-											{{ $t(`projects.dsi_map`, $store.state.locale ) }} 
-										</span>
-
-									</v-card-title>
-
-									<!-- - alert : {{ alert }} -->
-
-									<!-- HELP TEXT -->
-									<v-card-text
-										class="px-5 pb-2"
-										>
-
-										{{ $t(`projects.map_with_dmf`, $store.state.locale) }}
-
-									</v-card-text>
-
-									<!-- MAPPER AS DATATABLE -->
-									<v-card-text 
-										class="px-5 lighten--2"
-										>
-
-										<!-- DEBUG -->
-										<span v-if="$store.state.is_debug">
-											- headers_dsi : <code>{{ headers_dsi }}</code><br>
-											- headers_dsi_preview : <code>{{ headers_dsi_preview }}</code><br>
-											- headers_dsi_but_first : <code>{{ headers_dsi_but_first }}</code><br>
-										</span>
-
-										<v-divider class=""></v-divider>
-
-										<v-data-table
-											:ref="'datatable_mapper'"
-											:headers="headers_dsi"
-											:items="['header', 'mapper']"
-											class="elevation-1 "
-											hide-actions
-											hide-headers
-											>
-
-											<template 
-												slot="items"
-												slot-scope="props"
+											<!-- TITLE HEADERS MAPPER -->
+											<v-card-title
+												class="pa-5"
 												>
 
-													<!-- v-show="!isPreview" -->
-												<td 
-													class="px-1 py-4"
+												<v-icon 
+													class="mr-2"
+													color="primary"
+													>
+													{{ $store.state.mainIcons.datasets.icon }}
+												</v-icon>
+
+												<v-icon 
+													class="mr-2"
+													color="accent"
+													>
+													{{ $store.state.mainIcons.map_doc.icon }}
+												</v-icon>
+
+												<v-icon 
+													class="mr-4"
+													color="primary"
+													>
+													{{ $store.state.mainIcons.datamodels.icon }}
+												</v-icon>
+
+												<span 
+													class="title "
 													>
 
-													<!-- h_dsi_headers -->
-													<div 
-														v-if="props.item == 'header'"
-														class="col-titles pl-2"
-														>
-														<v-icon 
-															small
-															color="primary" 
-															>
-															{{ $store.state.mainIcons.datasets.icon }}
-														</v-icon>
-														<v-tooltip right>
-															<span slot="activator">
-																<v-icon 
-																	small
-																	dark
-																	class="pl-2"
-																	color="grey"
-																	>
-																	{{ $store.state.mainIcons.question.icon }}
-																</v-icon>
-															</span>
-															<span>
-																{{ $t(`projects.dsi_headers`, $store.state.locale) }}
-															</span>
-														</v-tooltip>
-													</div>
+													{{ $t(`projects.dsi_map`, $store.state.locale ) }} 
+												</span>
 
-													<!-- h_map_with_dmf -->
-													<div 
-														v-else
-														class="col-titles pl-2"
-														>
-														<v-icon 
-															small
-															color="primary" 
-															>
-															{{ $store.state.mainIcons.datamodels.icon }}
-														</v-icon>
-														<v-tooltip right>
-															<span slot="activator">
-																<v-icon 
-																	small
-																	dark
-																	class="pl-2"
-																	color="grey"
-																	>
-																	{{ $store.state.mainIcons.question.icon }}
-																</v-icon>
-															</span>
-															<span>
-																{{ $t(`projects.map_with_dmf`, $store.state.locale) }}
-															</span>
-														</v-tooltip>
-													</div>
+											</v-card-title>
 
-												</td>
+											<!-- - alert : {{ alert }} -->
 
-												<td 
-													v-for="header in headers_dsi_but_first"
-													:key="headers_dsi_but_first.indexOf(header)"
-													class="px-1"
+											<!-- HELP TEXT -->
+											<v-card-text
+												class="px-5 pb-2"
+												>
+
+												{{ $t(`projects.map_with_dmf`, $store.state.locale) }}
+
+											</v-card-text>
+
+											<!-- MAPPER AS DATATABLE -->
+											<v-card-text 
+												class="px-5 lighten--2"
+												>
+
+												<!-- DEBUG -->
+												<span v-if="$store.state.is_debug">
+													- headers_dsi : <code>{{ headers_dsi }}</code><br>
+													- headers_dsi_preview : <code>{{ headers_dsi_preview }}</code><br>
+													- headers_dsi_but_first : <code>{{ headers_dsi_but_first }}</code><br>
+												</span>
+
+												<v-divider class=""></v-divider>
+
+												<v-data-table
+													:ref="'datatable_mapper'"
+													:headers="headers_dsi"
+													:items="['header', 'mapper']"
+													class="elevation-1 "
+													hide-actions
+													hide-headers
 													>
-												
-													<div 
-														v-if="props.item == 'header'"
-														class="col-values font-weight-bold"
-														>
-														{{ header.value | truncate(30, ' ...') }}
-													</div>
 
-													<div 
-														v-else
-														class="col-values"
+													<template 
+														slot="items"
+														slot-scope="props"
 														>
+
+															<!-- v-show="!isPreview" -->
+														<td 
+															class="px-1 py-4"
+															>
+
+															<!-- h_dsi_headers -->
+															<div 
+																v-if="props.item == 'header'"
+																class="col-titles pl-2"
+																>
+																<v-icon 
+																	small
+																	color="primary" 
+																	>
+																	{{ $store.state.mainIcons.datasets.icon }}
+																</v-icon>
+																<v-tooltip right>
+																	<span slot="activator">
+																		<v-icon 
+																			small
+																			dark
+																			class="pl-2"
+																			color="grey"
+																			>
+																			{{ $store.state.mainIcons.question.icon }}
+																		</v-icon>
+																	</span>
+																	<span>
+																		{{ $t(`projects.dsi_headers`, $store.state.locale) }}
+																	</span>
+																</v-tooltip>
+															</div>
+
+															<!-- h_map_with_dmf -->
+															<div 
+																v-else
+																class="col-titles pl-2"
+																>
+																<v-icon 
+																	small
+																	color="primary" 
+																	>
+																	{{ $store.state.mainIcons.datamodels.icon }}
+																</v-icon>
+																<v-tooltip right>
+																	<span slot="activator">
+																		<v-icon 
+																			small
+																			dark
+																			class="pl-2"
+																			color="grey"
+																			>
+																			{{ $store.state.mainIcons.question.icon }}
+																		</v-icon>
+																	</span>
+																	<span>
+																		{{ $t(`projects.map_with_dmf`, $store.state.locale) }}
+																	</span>
+																</v-tooltip>
+															</div>
+
+														</td>
+
+														<td 
+															v-for="header in headers_dsi_but_first"
+															:key="headers_dsi_but_first.indexOf(header)"
+															class="px-1"
+															>
 														
-														<ViewEditDSIMapHeaders
-															:is_loading="loading"
+															<div 
+																v-if="props.item == 'header'"
+																class="col-values font-weight-bold"
+																>
+																{{ header.value | truncate(30, ' ...') }}
+															</div>
 
-															:parentDoc_id="parentDoc_id"
-															:parentDoc_coll="parentDoc_coll"
-															:parent_map="getHeader_DMF(header.value)"
+															<div 
+																v-else
+																class="col-values"
+																>
+																
+																<ViewEditDSIMapHeaders
+																	:is_loading="loading"
 
-															:dsi_id="itemId"
-															:dsi_header="header.value"
+																	:parentDoc_id="parentDoc_id"
+																	:parentDoc_coll="parentDoc_coll"
+																	:parent_map="getHeader_DMF(header.value)"
 
-															:parentDoc_dmt="parentDoc_dmt"
-															:parentDoc_dmf_list="parentDoc_dmf_list"
+																	:dsi_id="itemId"
+																	:dsi_header="header.value"
 
-															:canEdit="canEdit"
-															@update_loading="updateLoading"
-															>
-														</ViewEditDSIMapHeaders>
-													</div>
+																	:parentDoc_dmt="parentDoc_dmt"
+																	:parentDoc_dmf_list="parentDoc_dmf_list"
 
-												</td>
+																	:canEdit="canEdit"
+																	@update_loading="updateLoading"
+																	>
+																</ViewEditDSIMapHeaders>
+															</div>
 
-											</template>
-										
-										</v-data-table>
+														</td>
+
+													</template>
+												
+												</v-data-table>
 
 
-										<v-divider class="mt-3"></v-divider>
+												<v-divider class="mt-3"></v-divider>
 
 
-										<!-- REPEAT DATATABLE CONTENT FOR HELP -->
-										<v-data-table
-											:ref="'datatable_mapped'"
-											:headers="headers_dsi"
-											:items="item_data"
-											:pagination.sync="pagination"
-											:total-items="total_items"
-											class="elevation-1 scroll_data"
-											:rows-per-page-items="[5, 10, 25]"
-											hide-headers
-											>
-
-											<template 
-												slot="items"
-												slot-scope="props"
-												>
-
-												<!-- FIRST COLUMN -->
-												<td 
-													class="px-1"
+												<!-- REPEAT DATATABLE CONTENT FOR HELP -->
+												<v-data-table
+													:ref="'datatable_mapped'"
+													:headers="headers_dsi"
+													:items="item_data"
+													:pagination.sync="pagination"
+													:total-items="total_items"
+													class="elevation-1 scroll_data"
+													:rows-per-page-items="[5, 10, 25]"
+													hide-headers
 													>
-													<div class="col-titles">
-														<!-- <v-icon
-															small
-															class="mr-1"
-															@click="editItem(props.item)"
+
+													<template 
+														slot="items"
+														slot-scope="props"
+														>
+
+														<!-- FIRST COLUMN -->
+														<td 
+															class="px-1"
 															>
-															{{ $store.state.mainIcons.edit.icon }}
-														</v-icon> -->
-														<v-icon
-															small
-															class="mr-1"
-															@click="editItem(props.item)"
+															<div class="col-titles">
+																<!-- <v-icon
+																	small
+																	class="mr-1"
+																	@click="editItem(props.item)"
+																	>
+																	{{ $store.state.mainIcons.edit.icon }}
+																</v-icon> -->
+																<v-icon
+																	small
+																	class="mr-1"
+																	@click="editItem(props.item)"
+																	>
+																	{{ $store.state.mainIcons.view.icon }}
+																</v-icon>
+																<!-- <v-icon
+																	small
+																	@click="deleteItem(props.item)"
+																	>
+																	{{ $store.state.mainIcons.delete.icon }}
+																</v-icon> -->
+															</div>
+														</td>
+
+														<!-- CONTENT COLUMNS -->
+														<td 
+															v-for="header in headers_dsi_but_first"
+															:key="headers_dsi_but_first.indexOf(header)"
+															class="px-1"
 															>
-															{{ $store.state.mainIcons.view.icon }}
-														</v-icon>
-														<!-- <v-icon
-															small
-															@click="deleteItem(props.item)"
-															>
-															{{ $store.state.mainIcons.delete.icon }}
-														</v-icon> -->
-													</div>
-												</td>
+															<div class="col-values">
+																{{ props.item[header.value] | truncate(30, ' ...') }}
+															</div>
+														</td>
 
-												<!-- CONTENT COLUMNS -->
-												<td 
-													v-for="header in headers_dsi_but_first"
-													:key="headers_dsi_but_first.indexOf(header)"
-													class="px-1"
-													>
-													<div class="col-values">
-														{{ props.item[header.value] | truncate(30, ' ...') }}
-													</div>
-												</td>
+													</template>
 
-											</template>
+												</v-data-table> 
 
-										</v-data-table> 
+											</v-card-text>
 
-									</v-card-text>
+										</v-flex>
+								
+									</v-layout>
 
 								</v-card>
-							
+
 							</v-dialog>
 
 

@@ -20,16 +20,10 @@ export const state = () => ({
 	query_current 	: null,
 	current 		: {},
 	current_new 	: {},
-
-	list_query 		: null,
-	list_counts 	: null,
 	
-	// list 			: [],
-	list : [
-		{ title: 'Rec one', 	id:"fgsthezr" },
-		{ title: 'Rec two',		id:"getyrnb" },
-		{ title: 'Rec three',	id:"nbzcqs" }
-	  ]
+	list_query 		: null,
+	list 			: [],
+	list_counts 	: null
 })
 
 export const getters = {

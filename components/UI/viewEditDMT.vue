@@ -97,7 +97,7 @@
 					>
 				</SettingsToolbar>
 
-				<v-layout row justify-center>
+				<v-layout row justify-center mt-5>
 
 					<v-flex class="xs12 sm10 md8 justify-center py-5">
 

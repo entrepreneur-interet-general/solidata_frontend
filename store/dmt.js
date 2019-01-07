@@ -17,13 +17,13 @@ export const state = () => ({
 		rowsPerPage: 6
 	},
 
-	query_current 	: null,
-
 	current_file		: '',
 	current_filename	: 'no filename',
 	
+	query_current 	: null,
 	current 		: {},
 	current_new 	: {
+
 		"infos"			: { 
 			"title"			: "your new datamodel template", 
 			"description"	: null, 
@@ -33,47 +33,7 @@ export const state = () => ({
 			"open_level_edit": "private", 
 			// "open_level_show": "open_data" 
 		}, 
-		// "specs": { 
-		// 	"doc_type": "dmf" 
-		// }, 
-		// "log": { 
-		// 	"created_at": "2018-11-20T14:20:47.661000+00:00", 
-		// 	"created_by": "5b55fee90a828659a93e9fc6" 
-		// }, 
-		// "translations": [
-		// ], 
-		// "data_raw": { 
-		// 	"f_code": "", 
-		// 	"f_object": "", 
-		// 	"f_type": "text", 
-		// 	"f_comments": null, 
-		// 	"f_is_required": false 
-		// }, 
-		// "modif_log": [
-		// ], 
-		// "datasets": { 
-		// 	"tag_list": [] 
-		// }, 
-		// "_id": "5bf4183f0a8286180b53183c", 
-		// "team": [ 
-		// 	{ 
-		// 		"oid_usr": "5b55fee90a828659a93e9fc6", 
-		// 		"edit_auth": "owner", 
-		// 		"added_at": "2018-11-20T14:20:47.661000+00:00", 
-		// 		"added_by": "5b55fee90a828659a93e9fc6" 
-		// 	} 
-		// ], 
-		// "uses": { 
-		// 	"by_usr": [ 
-		// 		{ 
-		// 			"used_by": "5b55fee90a828659a93e9fc6", 
-		// 			"used_at": [ "2018-11-20T14:20:47.661000+00:00" ] 
-		// 		} 
-		// 	], 
-		// 	"by_dmt": [
 
-		// 	] 
-		// }
 	},
 
 	// FOR MAPPING
@@ -129,41 +89,5 @@ export const mutations = {
 
 export const actions = {
 
-	// getList ({commit, state, rootState}) {
-	// 	console.log("\n... store/dmt : getList...");
-	// 	console.log("... store/dmt : parameters : ", state.parameters);
-	// 	const config = { 
-	// 		headers : { 'Authorization' : rootState.auth.access_token },
-	// 		params	: state.parameters
-	// 	} ;
-
-	// 	console.log("... store/dmt : config : ", config );
-
-	// 	return this.$axios.$get('dmt/infos/list', config )
-	// 	  .then(response => {
-	// 		console.log("... store/dmt : response : ", response);
-	// 		commit('set_list', response);
-	// 		return response
-	// 	  })
-	// },
-
-	// async getItem ({commit, state, rootState}, item_id) {
-	// 	console.log("\n... store/dmt : getItem...");
-	// 	var config = { 
-	// 		headers : { 'Authorization' : rootState.auth.access_token },
-	// 	}
-	// 	console.log("... store/dmt : config : ", config );
-		
-	// 	return this.$axios.$get('dmt/infos/get_one/'+item_id , config )
-	// 	  .then(response => {
-	// 		console.log("... store/dmt : response : ", response);
-	// 		commit('set_current', response);
-	// 		return response
-	// 	  })
-	// 	  .catch(error => {
-	// 		console.log(error.response)
-	// 		return error
-	// 	  })
-	// },
 
 }

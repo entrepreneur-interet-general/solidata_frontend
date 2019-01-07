@@ -118,7 +118,7 @@
 					<!-- :itemDoc="itemDoc" -->
 				</SettingsToolbar>
 
-				<v-layout row justify-center>
+				<v-layout row justify-center mt-5>
 
 					<v-flex class="xs12 sm10 md8 justify-center py-5">
 
@@ -349,22 +349,29 @@
 				
 
 				<!-- RECIPES / GEOLOC COMPONENT-->
-				<RecipesGeoloc
+				<v-layout row justify-center mt-5>
 
-					:item_doc="item_doc"
-					:parentDoc_id="itemId"
-					:parentDoc_coll="coll"
+					<v-flex class="xs12 sm10 md8 justify-center py-5">
 
-					:parent_REC_oids="list_REC_oids"
-					:parent_DMT_oids="list_DMT_oids"
-					
-					:isPreview="isPreview"
-					:isLoading="loading"
-					:canEdit_ol="checkUserAuth('mapping.dmf_to_open_level')"
+						<RecipesGeoloc
 
-					>
-				</RecipesGeoloc>
+							:item_doc="item_doc"
+							:parentDoc_id="itemId"
+							:parentDoc_coll="coll"
 
+							:parent_REC_oids="list_REC_oids"
+							:parent_DMT_oids="list_DMT_oids"
+							
+							:isPreview="isPreview"
+							:isLoading="loading"
+							:canEdit_ol="checkUserAuth('mapping.dmf_to_open_level')"
+
+							>
+						</RecipesGeoloc>
+
+					</v-flex>
+
+				</v-layout>
 
 			</v-card>
 
@@ -794,7 +801,7 @@
 							dsi : <code>{{ dsi }}</code><br>
 						</v-card-text>
 
-						<ViewEditDSI
+						<ViewEditDSIDSO
 
 							:item_doc="false"
 							:find_item="true"
@@ -824,7 +831,7 @@
 							@update_parent_dataset="update_parent_list"
 							>
 							<!-- @update_loading="updateLoading" -->
-						</ViewEditDSI>
+						</ViewEditDSIDSO>
 							<!-- :parentDoc_dmt="list_DMT_oids[0].oid_dmt" -->
 							<!-- :parentDoc_dmf_list_pivoted="$store.state.dmt.current_list_DMF_list_pivoted" -->
 
@@ -942,7 +949,7 @@ import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
 import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
 import ViewEditDMT from '~/components/UI/viewEditDMT.vue' 
 import ViewEditListDMF from '~/components/UI/viewEditListDMF.vue'
-import ViewEditDSI from '~/components/UI/viewEditDSI.vue' 
+import ViewEditDSIDSO from '~/components/UI/viewEditDSI.vue' 
 
 import RecipesGeoloc from '~/components/Forms/recipes_geoloc.vue' 
 
@@ -973,7 +980,7 @@ export default {
 		ItemsListDI,
 		ViewEditDMT,
 		ViewEditListDMF,
-		ViewEditDSI,
+		ViewEditDSIDSO,
 
 		RecipesGeoloc,
 
@@ -1072,13 +1079,6 @@ export default {
 			list_TAG_oids 		: [],
 			list_REC_oids 		: [],
 
-			// list_DMT_oids 	: [ {"oid_dmt" : "5b98e4db0a8286332f4f1984" } ],
-
-			// list_DSI_oids 	: [ 
-			// 	{"oid_dsi" : "5c0810c60a8286214c863fb6" },
-			// 	{"oid_dsi" : "5c08f2da0a82868129391891" } 
-			// ],
-
 			// ----------------------------- // 
 			// UI/UX variables 
 			// ----------------------------- // 
@@ -1168,7 +1168,7 @@ export default {
 				}
 
 			}
-		}
+		},
 
 	},
 
@@ -1292,6 +1292,11 @@ export default {
 			return can_update_field
 		},
 
+
+		// ----------------------------- //
+		// AXIOS CALL - CREATE
+		// ----------------------------- //
+
 		// submit value to create item via API backend
 		createItem ( ) {
 			
@@ -1361,10 +1366,10 @@ export default {
 
 		
 		// ----------------------------- //
-		// AXIOS CALL
+		// AXIOS CALL - UPDATE
 		// ----------------------------- //
 
-		// ADD DELETE ITEM FROM
+		// UPDATE ITEM FROM
 		form ( input ) {
 
 			var datasets_coll 	= input.datasets_coll ;
@@ -1421,6 +1426,7 @@ export default {
 			})
 
 		},
+
 
 
 		// reset_lists_fromApi(collections, level) {

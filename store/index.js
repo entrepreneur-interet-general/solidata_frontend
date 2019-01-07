@@ -683,7 +683,7 @@ export const actions = {
 
 
 		// get f_data_params if coll in dsi, dso, dsr
-		if( collection === 'dsi' ){
+		if( collection === 'dsi' || collection === 'dso' ){
 			console.log("... $ getOneItem : collection : ", collection );
 			f_data_params = input.f_data_params ; 
 		}
@@ -792,7 +792,7 @@ export const actions = {
 		
 	},
 
-	updateItem ({commit, state, rootState}, input ) {
+	updateItem ({commit, dispatch, state, rootState}, input ) {
 		
 		console.log("\n... $ updateItem : input : ", input);
 		
@@ -812,10 +812,19 @@ export const actions = {
 		return this.$axios.$put(`${collection}/edit/${doc_id}`, fields, config )
 
 			.then(response => {
+
 				console.log(`... $ updateItem : response OK... `);
 				// console.log(`... $ updateItem : response : `, response);
 				// commit(`${collection}/set_current`, response);
-				
+
+				// rebuild DSO if updated doc is PRJ
+				if ( collection == 'prj' ) {
+					var input_dso = {
+						prj_id : doc_id
+					}
+					dispatch('buildDso', input_dso ) ;
+				}
+
 				// commit(`set_alert`, response.msg)
 				return response
 			})
@@ -828,7 +837,7 @@ export const actions = {
 
 	},
 
-	updateMapping ({commit, state, rootState}, input ) {
+	updateMapping ({commit, dispatch, state, rootState}, input ) {
 		
 		console.log("\n... $ updateMapping : input : ", input);
 		
@@ -848,16 +857,65 @@ export const actions = {
 		return this.$axios.$put(`${collection}/mapping/${doc_id}`, fields, config )
 
 			.then(response => {
+
 				console.log(`... $ updateMapping : response OK... `);
 				// console.log(`... $ updateMapping : response : `, response);
 				commit(`${collection}/set_current`, response);
-				
+
+				// rebuild DSO if updated doc is PRJ
+				if ( collection == 'prj' ) {
+					var input_dso = {
+						prj_id : doc_id
+					}
+					dispatch('buildDso', input_dso ) ;
+				}
+
 				// commit(`set_alert`, response.msg)
 				return response
 			})
 		
 			.catch(error => {
 				console.log("... $ updateMapping / error : ", error ) ; 
+				commit(`set_error`, error)
+				return error
+			})
+
+	},
+
+
+	buildDso ({commit, state, rootState}, input ) {
+	
+		console.log("\n... $ buildDso : input : ", input) ; 
+		var prj_id 			= input.prj_id ; 
+
+		// get f_data_params if coll in dsi, dso, dsr
+		var f_data_params 	= input.f_data_params ; 
+
+		var fields 			= [
+			{'test_param' : 'rebuild_dso'}
+		] ; 
+
+		// SET UP CONFIG
+		var config = { 
+			headers : { 'Authorization' : rootState.auth.access_token },
+			params	: f_data_params
+		} ;
+		console.log("... $ buildDso : config : ", config );
+
+		// API CALL
+		return this.$axios.$put(`dso/edit/${prj_id}`, fields, config )
+
+			.then(response => {
+				console.log(`... $ buildDso : response OK... `);
+				// console.log(`... $ buildDso : response : `, response);
+				commit(`dso/set_current`, response);
+				
+				// commit(`set_alert`, response.msg)
+				return response
+			})
+		
+			.catch(error => {
+				console.log("... $ buildDso / error : ", error ) ; 
 				commit(`set_error`, error)
 				return error
 			})

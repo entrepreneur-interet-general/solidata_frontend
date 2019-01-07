@@ -20,11 +20,10 @@ export const state = () => ({
 	current 		: {},
 	current_new 	: {},
 
-	list		 	: [
-		{ title: 'Usr one', 	id:"DSQFGH" },
-		{ title: 'Usr two',		id:"azghjrue" },
-	],
-
+	list_query 		: null,
+	list 			: [],
+	list_counts 	: null
+	
 })
 
 export const getters = {
@@ -53,22 +52,4 @@ export const mutations = {
 
 export const actions = {
 
-	// async getItem ({commit, state, rootState}, item_id) {
-	// 	console.log("\n... store/usr : getItem...");
-	// 	var config = { 
-	// 		headers : { 'Authorization' : rootState.auth.access_token },
-	// 	}
-	// 	console.log("... store/usr : config : ", config );
-		
-	// 	return this.$axios.$get('usr/infos/get_one/'+item_id , config )
-	// 	  .then(response => {
-	// 		console.log("... store/usr : response : ", response);
-	// 		commit('set_current', response);
-	// 		return response
-	// 	  })
-	// 	  .catch(error => {
-	// 		console.log(error.response)
-	// 		return error
-	// 	  })
-	// },
 }

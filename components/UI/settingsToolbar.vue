@@ -4,6 +4,7 @@
 		class="mt-0"
 		dark 
 		color="primary"
+		fixed
 		>
 
 		<!-- SETTINGS ICON -->
