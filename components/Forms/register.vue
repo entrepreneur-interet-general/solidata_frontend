@@ -158,10 +158,10 @@ export default {
 		// anti spam preventive measure
 		if (this.email_bis == '' && this.agreement == true ) {
 
-			var encrypted_pwd 	= EncryptString.EncryptionRSA(this.password, salt_token )
+			var encrypted_pwd 	= this.$EncryptionRSA(this.password, salt_token )
 			console.log("encrypted_pwd : ", encrypted_pwd ) ; 
 
-			var encrypted_email 	= EncryptString.EncryptionRSA(this.email, salt_token )
+			var encrypted_email 	= this.$EncryptionRSA(this.email, salt_token )
 			console.log("encrypted_pwd : ", encrypted_email ) ; 
 
 			// dispatch action from store/auth

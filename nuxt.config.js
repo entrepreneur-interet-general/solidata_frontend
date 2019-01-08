@@ -43,10 +43,14 @@ module.exports = {
 		'~/plugins/vuetify.js',
 		'~/plugins/i18n.js',
 		'~/plugins/axios',
-		// '~/plugins/crypto',
 		'~plugins/text_filters.js',
 		{ src:'@/plugins/vueParticles.js', ssr:false},
-		'~plugins/vue-scroll',
+	
+		// '~plugins/vue-scroll',
+
+		{ src : '~/plugins/encrypt' , ssr: false},
+		// '~/plugins/crypto',
+
 		// '~plugins/vue-scroll-sync',
 		// '~/api/init.js', 
 		// '~plugins/auth.js',

@@ -170,8 +170,6 @@
 
 <script>
 
-import EncryptString from '~/utils/encryptPWD.js'
-
 import EmailField from '~/components/Forms/Fields/email.vue'
 import PasswordField from '~/components/Forms/Fields/password.vue'
 
@@ -237,11 +235,14 @@ export default {
 
 				// use salt_token as public_key for RSA encryption 
 				var salt_token 		= this.$store.state.auth.salt_token
-			
-				var encrypted_pwd 	= EncryptString.EncryptionRSA(this.password, salt_token )
+
+				// var TEST_PLUGIN 	= this.$EncryptionRSA(  this.password, salt_token )
+				// console.log("> > > TEST_PLUGIN : ", TEST_PLUGIN ) ; 
+
+				var encrypted_pwd 	= this.$EncryptionRSA(this.password, salt_token )
 				console.log("encrypted_pwd : ", encrypted_pwd ) ; 
 
-				var encrypted_email 	= EncryptString.EncryptionRSA(this.email, salt_token )
+				var encrypted_email 	= this.$EncryptionRSA(this.email, salt_token )
 				console.log("encrypted_pwd : ", encrypted_email ) ; 
 
 				// dispatch action from store/auth

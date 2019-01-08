@@ -10,12 +10,16 @@ export default function ({ req, store, app, redirect }) {
 	var saltToken 		= null ;
 	var lang_cookie 	= null ;
 
+	
 	// 1 // TOKENS VALUES
 	// 1a // SERVER SIDE RENDERDED
 	if ( process.server ) {
-
-		console.log("- - - checkTokens : process.server == TRUE ") ; 
 		
+		let navigator ;
+		
+		console.log("- - - checkTokens : process.server == TRUE ") ; 
+		// var jsencrypt = require('jsencrypt')
+
 		// check if access_token and refresh_token in cookies
 		if ( req.headers.cookie ) {
 			
