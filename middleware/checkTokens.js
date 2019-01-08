@@ -7,6 +7,7 @@ export default function ({ req, store, app, redirect }) {
 
 	var accessToken 	= null ;
 	var refreshToken 	= null ;
+	var saltToken 		= null ;
 	var lang_cookie 	= null ;
 
 	// 1 // TOKENS VALUES
@@ -18,7 +19,7 @@ export default function ({ req, store, app, redirect }) {
 		// check if access_token and refresh_token in cookies
 		if ( req.headers.cookie ) {
 			
-			console.log("- - - checkTokens : COOKIE DETECTED ") ; 
+			console.log("- - - checkTokens (server-side) : COOKIE DETECTED ") ; 
 			// console.log("- - - checkTokens : COOKIE : ", req.headers.cookie ) ; 
 			
 			var cookie = req.headers.cookie ;
@@ -28,11 +29,14 @@ export default function ({ req, store, app, redirect }) {
 			try {
 
 				accessToken 	= parsed.access_token ;
-				// console.log("- - - checkTokens / accessToken :", accessToken) ; 
+				console.log("- - - checkTokens / accessToken :", accessToken) ; 
 				
 				refreshToken 	= parsed.refresh_token;
-				// console.log("- - - checkTokens / refreshToken :", refreshToken) ; 
-				
+				console.log("- - - checkTokens / refreshToken :", refreshToken) ; 
+
+				saltToken 		= parsed.salt_token;
+				console.log("- - - checkTokens / saltToken :", saltToken) ; 
+
 				var agreement_cookie = parsed.agreement;
 				console.log("- - - checkTokens / agreement_cookie :", agreement_cookie) ; 
 
@@ -40,7 +44,8 @@ export default function ({ req, store, app, redirect }) {
 				store.commit('auth/set_tokens', 
 					{ 	
 						access_token 	: accessToken, 
-						refresh_token 	: refreshToken
+						refresh_token 	: refreshToken,
+						salt_token 		: saltToken
 					} 
 				) ;
 
@@ -75,17 +80,20 @@ export default function ({ req, store, app, redirect }) {
 		var cookie = document.cookie ;
 		var parsed = cookieparser.parse( cookie );
 
-		console.log("- - - checkTokens : COOKIE DETECTED ") ; 
+		console.log("- - - checkTokens (client-side) : COOKIE DETECTED ") ; 
 		// console.log("- - - checkTokens : COOKIE : ", cookie ) ; 
 		console.log("- - - checkTokens / parsed :", parsed) ; 
 
 		try {
 
 			accessToken		= parsed.access_token ;
-			// console.log("- - - checkTokens / accessToken :", accessToken) ; 
+			console.log("- - - checkTokens / accessToken :", accessToken) ; 
 			
 			refreshToken 	= parsed.refresh_token;
-			// console.log("- - - checkTokens / refreshToken :", refreshToken) ; 
+			console.log("- - - checkTokens / refreshToken :", refreshToken) ; 
+
+			saltToken 		= parsed.salt_token;
+			console.log("- - - checkTokens / saltToken :", saltToken) ; 
 
 			var lang_cookie = parsed.lang;
 			console.log("- - - checkTokens / lang_cookie :", lang_cookie) ; 
@@ -97,7 +105,8 @@ export default function ({ req, store, app, redirect }) {
 			store.commit('auth/set_tokens', 
 				{ 	
 					access_token 	: accessToken, 
-					refresh_token 	: refreshToken
+					refresh_token 	: refreshToken,
+					salt_token 		: saltToken
 				} 
 			) ;
 			
@@ -115,6 +124,7 @@ export default function ({ req, store, app, redirect }) {
 			// try getting access and refresh tokens from store as last resort
 			accessToken 	= store.state.auth.access_token ;
 			refreshToken 	= store.state.auth.refresh_token ;
+			saltToken 		= store.state.auth.salt_token ;
 
 		}
 	}

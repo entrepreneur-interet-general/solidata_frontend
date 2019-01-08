@@ -1,21 +1,21 @@
 const ObjectFormatterUpdate = {
 
-    prepareFormData (formData) {
+	prepareFormData (formData) {
 			
-        console.log("\nprepareFormData / formData : ", formData)
+		console.log("\nprepareFormData / formData : ", formData)
 
-        var FormDataMarshalled = [] ;
+		var FormDataMarshalled = [] ;
 
-        for (var key in formData) {
-            var raw_field = {
-                "field_to_update" 	: key,
-                "field_value" 		: formData[key]
-            };
-            FormDataMarshalled.push(raw_field)
-        } ;
+		for (var key in formData) {
+			var raw_field = {
+				"field_to_update" 	: key,
+				"field_value" 		: formData[key]
+			};
+			FormDataMarshalled.push(raw_field)
+		} ;
 
-        return FormDataMarshalled
-    },
+		return FormDataMarshalled
+	},
 }
 
 export default ObjectFormatterUpdate

@@ -169,6 +169,9 @@
 
 
 <script>
+
+import EncryptString from '~/utils/encryptPWD.js'
+
 import EmailField from '~/components/Forms/Fields/email.vue'
 import PasswordField from '~/components/Forms/Fields/password.vue'
 
@@ -227,11 +230,26 @@ export default {
 			
 			// anti spam preventive measure
 			if ( this.email_bis == '' ) {
+				
+				// - - - - - - - - - - - - - // 
+				// ENCRYPT EMAIL & PWD 
+				// - - - - - - - - - - - - - // 
+
+				// use salt_token as public_key for RSA encryption 
+				var salt_token 		= this.$store.state.auth.salt_token
+			
+				var encrypted_pwd 	= EncryptString.EncryptionRSA(this.password, salt_token )
+				console.log("encrypted_pwd : ", encrypted_pwd ) ; 
+
+				var encrypted_email 	= EncryptString.EncryptionRSA(this.email, salt_token )
+				console.log("encrypted_pwd : ", encrypted_email ) ; 
 
 				// dispatch action from store/auth
 				this.$store.dispatch('auth/login', {
-					email : this.email,
-					pwd   : this.password
+					// email			: this.email,
+					email_encrypt	: encrypted_email.hashed,
+					// pwd				: this.password,
+					pwd_encrypt		: encrypted_pwd.hashed,
 				})
 				
 				.then(result => {

@@ -220,7 +220,10 @@
 								<div>refresh_token : <br>
 									<code>{{ $store.state.auth.refresh_token}}</code>
 								</div>
-								
+								<div>salt_token : <br>
+									<code>{{ $store.state.auth.salt_token}}</code>
+								</div>
+
 								<!-- PRJ -->
 								<v-divider class="my-3"></v-divider>
 								<!-- <div>prj.alert :<code>{{ $store.state.prj.alert.message}}</code></div> -->

@@ -158,15 +158,23 @@ export default {
 		// anti spam preventive measure
 		if (this.email_bis == '' && this.agreement == true ) {
 
+			var encrypted_pwd 	= EncryptString.EncryptionRSA(this.password, salt_token )
+			console.log("encrypted_pwd : ", encrypted_pwd ) ; 
+
+			var encrypted_email 	= EncryptString.EncryptionRSA(this.email, salt_token )
+			console.log("encrypted_pwd : ", encrypted_email ) ; 
+
 			// dispatch action from store/auth
 			this.$store.dispatch('auth/register', {
 
-				email   	: this.email,
-				name    	: this.name,
-				surname 	: this.surname,
-				pwd     	: this.password,
-				language	: this.$store.state.locale,
-				agreement 	: this.agreement,
+				// email   		: this.email,
+				email_encrypt	: encrypted_email.hashed,
+				name    		: this.name,
+				surname 		: this.surname,
+				// pwd				: this.password,
+				pwd_encrypt		: encrypted_pwd.hashed,
+				language		: this.$store.state.locale,
+				agreement 		: this.agreement,
 
 			})
 

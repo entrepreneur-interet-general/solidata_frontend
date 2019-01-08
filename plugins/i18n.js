@@ -4,29 +4,29 @@ import VueI18n from 'vue-i18n'
 Vue.use(VueI18n)
 
 export default ({ app, store }) => {
-  // Set i18n instance on app
-  // This way we can use it in middleware and pages asyncData/fetch
-  app.i18n = new VueI18n({
+	// Set i18n instance on app
+	// This way we can use it in middleware and pages asyncData/fetch
+	app.i18n = new VueI18n({
 
-    locale: store.state.locale,
-    
-    fallbackLocale: 'en',
-    
-    messages: {
-      'en': require('~/locales/en.json'),
-      'fr': require('~/locales/fr.json'),
-      'esp': require('~/locales/esp.json'),
-      // 'tr': require('~/locales/tr.json'),
-      // 'ge': require('~/locales/ge.json'),
-    }
-  })
+		locale: store.state.locale,
+		
+		fallbackLocale: 'en',
+		
+		messages: {
+			'en': require('~/locales/en.json'),
+			'fr': require('~/locales/fr.json'),
+			'esp': require('~/locales/esp.json'),
+			// 'tr': require('~/locales/tr.json'),
+			// 'ge': require('~/locales/ge.json'),
+		}
+	})
 
-  app.i18n.path = (link) => {
-    
-    if (app.i18n.locale === app.i18n.fallbackLocale) {
-      return `/${link}`
-    }
+	app.i18n.path = (link) => {
+		
+		if (app.i18n.locale === app.i18n.fallbackLocale) {
+			return `/${link}`
+		}
 
-    return `/${app.i18n.locale}/${link}`
-  }
+		return `/${app.i18n.locale}/${link}`
+	}
 }

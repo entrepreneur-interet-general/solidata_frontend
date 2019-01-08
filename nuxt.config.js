@@ -43,6 +43,7 @@ module.exports = {
 		'~/plugins/vuetify.js',
 		'~/plugins/i18n.js',
 		'~/plugins/axios',
+		// '~/plugins/crypto',
 		'~plugins/text_filters.js',
 		{ src:'@/plugins/vueParticles.js', ssr:false},
 		'~plugins/vue-scroll',
@@ -146,6 +147,7 @@ module.exports = {
 	build: {
 		vendor: [
 			'vuetify',
+			// 'crypto',
 			'axios'
 		],
 		extractCSS: true,

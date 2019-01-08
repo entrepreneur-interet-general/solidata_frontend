@@ -28,8 +28,9 @@ export const state = () => ({
 	user_id       : anonymousInfos._id ,
 	user_infos    : anonymousInfos.infos ,
 	
-	access_token  : null,
-	refresh_token : null
+	access_token  	: null,
+	refresh_token 	: null,
+	salt_token		: '',
 
 })
 
@@ -58,6 +59,7 @@ export const mutations = {
 		// console.log("\n...store/auth -mutation- set_tokens : ", data) ;
 		store.access_token  = data.access_token ;
 		store.refresh_token = data.refresh_token
+		store.salt_token 	= data.salt_token
 	},
 
 	set_access_token (store, data) {
@@ -72,8 +74,9 @@ export const mutations = {
 		store.isLogged      = false
 		store.user_infos    = anonymousInfos.infos
 		store.user_id       = anonymousInfos._id
-		store.access_token  = null ;
+		store.access_token  = null 
 		store.refresh_token = null
+		store.salt_token 	= ''
 	}
 }
 
@@ -161,9 +164,9 @@ export const actions = {
 		
 		return dispatch('loginAnonymous')
 
-			.then( resp_anonymoous => {
+			.then( resp_anonymous => {
 
-				console.log("\n...store/auth/login : resp_anonymoous : ", resp_anonymoous);
+				console.log("\n...store/auth/login : resp_anonymous : ", resp_anonymous);
 				// needs an anonymous access_token to login 
 				const config = { "headers" : { 'Authorization': state.access_token }} ;
 				
@@ -184,6 +187,7 @@ export const actions = {
 						// cf documentation js-cookie : https://github.com/js-cookie/js-cookie 
 						Cookie.set("access_token",		response.tokens.access_token )
 						Cookie.set("refresh_token",		response.tokens.refresh_token )
+						Cookie.set("salt_token",		response.tokens.refresh_token )
 						Cookie.set("lang",				user_login_infos.profile.lang ) // saving lang in cookie for server rendering
 						Cookie.set("agreement",			!user_login_infos.profile.agreement ) // saving agreement in cookie for server rendering
 						
@@ -217,6 +221,7 @@ export const actions = {
 			// cf documentation js-cookie : https://github.com/js-cookie/js-cookie 
 			Cookie.remove('access_token');
 			Cookie.remove('refresh_token');
+			Cookie.remove('salt_token');
 			Cookie.remove("agreement");
 			// Cookie.remove("lang");
 
@@ -253,6 +258,7 @@ export const actions = {
 				// cf documentation js-cookie : https://github.com/js-cookie/js-cookie 
 				Cookie.set("access_token",		response.tokens.access_token )
 				Cookie.set("refresh_token",		response.tokens.refresh_token )
+				Cookie.set("salt_token",		response.tokens.salt_token )
 
 				// localStorage.removeItem("tokens");
 				// resolve()
@@ -290,6 +296,7 @@ export const actions = {
 
 				Cookie.set("access_token",		response.tokens.access_token )
 				Cookie.set("refresh_token",		response.tokens.refresh_token )
+				Cookie.set("salt_token",		response.tokens.salt_token )
 
 				return response
 
