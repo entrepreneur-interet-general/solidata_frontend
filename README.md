@@ -40,21 +40,24 @@ part 2b/3 of the TADATA! sofware suite ([ApiViz](https://github.com/entrepreneur
 - _Framework (styles)_ : **[vuetify](https://vuetifyjs.com/)**... Material Design Component Framework
 - _Requests_ : **[Axios module for nuxt](https://axios.nuxtjs.org/)**... Secure and Easy Axios integration with Nuxt.js.
 - _Internationalization_ : **[i18n module for nuxt](https://nuxtjs.org/examples/i18n)**... do you speak french, english, spanish, turkish ? 
+- _Encryption_ : **[js-encrypt](http://travistidwell.com/jsencrypt/)**... RSA encryption when critical data is exchanged between back and front
 
 #### Features :
 
 - intuitive UX 
-- locales : FR, EN, ESP
+- **multilingual** : FR, EN, ESP
 - login / register
-- import a dataset
-- manage / create datamodel templates (schemas) from datamodel fields
-- manage / create datamodel fields 
-- manage / create dataset inputs 
+- import a **dataset** (dataset input) : from a file (csv, xls) or from an external API
+- manage / create **datamodel templates** (schemas) from datamodel fields
+- manage / create **datamodel fields** 
+- manage / create **open data projects** : choose a datamodel, add several datasets and associate each with a datamodel, choose the level of open data for each datamodel field,solidify the compiled data with external API, export the compiled data (csv, or API endopoints)
+- asymetrical **encryption** by RSA (password, email, ...) and JWT authentification (access and refresh tokens)
 
-##### Features TO DO  :
+#### Features TO DO  :
 - tutorials (videos)
 - RGPD compliance
-- 
+- dataviz of a project (PRJ) - with Chart.js or D3.js
+- map of a geolocalized project - with Leaflet
 
 -------
 
