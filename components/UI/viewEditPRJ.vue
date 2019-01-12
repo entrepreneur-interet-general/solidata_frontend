@@ -49,7 +49,9 @@
 			<v-divider></v-divider>
 
 			- coll : <code> {{ coll }} </code><br>
-			- itemId : <code> {{ itemId }} </code>
+			- itemId : <code> {{ itemId }} </code><br>
+			- item_doc / log : <code> {{ item_doc.log }} </code> <br>
+			- itemDoc / log : <code> {{ itemDoc.log }} </code> <br>
 
 			<v-divider class="my-2"></v-divider>
 			
@@ -587,7 +589,7 @@
 					<!-- BTN - REBUILD -->
 					<v-flex 
 						xs12
-						v-show="!loading && list_DMT_oids.length != 0"
+						v-show="!loading && list_DMT_oids.length != 0 && list_DSI_oids.length != 0"
 						>
 						
 						<v-card
@@ -600,6 +602,7 @@
 									<v-btn 
 										slot="activator"
 										:class="`ma-0 text-lowercase ${ loading ? 'grey--text' : 'accent--text'}`"
+										:disabled="!item_doc.log.is_buildable"
 										block
 										flat
 										@click="rebuild_dso"
@@ -1193,7 +1196,8 @@ export default {
 				if (newVal) {
 					// update local DMT list and DSI list
 					console.log( "VE PRJ / watch ~ item_doc / newVal.infos.title : \n", newVal.infos.title )
-					this.itenDoc		= newVal
+					console.log( "VE PRJ / watch ~ item_doc / newVal.log.is_buildable : \n", newVal.log.is_buildable )
+					this.itemDoc		= newVal
 					this.list_DMT_oids 	= newVal.datasets.dmt_list ; 
 					this.list_DSI_oids 	= newVal.datasets.dsi_list ; 
 					this.list_TAG_oids 	= newVal.datasets.tag_list ; 
@@ -1215,7 +1219,8 @@ export default {
 		getDSI_map(dsi_id) {
 			
 			// console.log("... getDSI_map - dsi_id : ", dsi_id ) ;
-			var parent_map	= this.item_doc.mapping.dsi_to_dmf ;
+			// var parent_map	= this.item_doc.mapping.dsi_to_dmf ;
+			var parent_map	= this.itemDoc.mapping.dsi_to_dmf ;
 			var dsi_map 	= [] ;
 			
 			var dsi_mapper = parent_map.filter(obj => {

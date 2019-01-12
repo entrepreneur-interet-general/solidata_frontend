@@ -227,6 +227,7 @@
 								<!-- PRJ -->
 								<v-divider class="my-3"></v-divider>
 								<!-- <div>prj.alert :<code>{{ $store.state.prj.alert.message}}</code></div> -->
+								<div>prj.current.log : <br><code>{{ $store.state.prj.current.log }}</code></div>
 
 								<!-- DMT -->
 								<v-divider class="my-3"></v-divider>
