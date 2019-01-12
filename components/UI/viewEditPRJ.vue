@@ -584,6 +584,40 @@
 						</v-card>
 					</v-flex>
 
+					<!-- BTN - REBUILD -->
+					<v-flex 
+						xs12
+						v-show="!loading && list_DMT_oids.length != 0"
+						>
+						
+						<v-card
+							flat
+							class="pa-2 ml-3 mt-2"
+							>
+							<v-card-text class="pa-0 text-xs-center">
+								<v-tooltip top>
+									<!-- :disabled="loading || !checkUserAuth('mapping.dmf_to_open_level')" -->
+									<v-btn 
+										slot="activator"
+										:class="`ma-0 text-lowercase ${ loading ? 'grey--text' : 'accent--text'}`"
+										block
+										flat
+										@click="rebuild_dso"
+										>
+										<v-icon 
+											color="accent"
+											>
+											{{ $store.state.mainIcons.rebuild.icon }}
+										</v-icon>
+									</v-btn>
+									<span>
+										{{ $t(`projects.rebuild`, $store.state.locale) }}
+									</span>
+								</v-tooltip>
+							</v-card-text>
+						</v-card>
+					</v-flex>
+
 					<!-- BTN - EXPORT -->
 					<v-flex 
 						xs12
@@ -618,7 +652,6 @@
 							</v-card-text>
 						</v-card>
 					</v-flex>
-
 
 					<!-- BTN - RECIPES / GEOLOC -->
 					<v-flex 
@@ -1427,6 +1460,38 @@ export default {
 
 		},
 
+		rebuild_dso () {
+
+			console.log("rebuild_dso... " )
+
+			// dispatch action from store for update
+			this.$store.dispatch('buildDso', {
+				prj_id : this.itemId
+			})
+
+			.then(result => {
+				this.alert 		= { type: 'success', message: result.msg }
+				this.loading 	= false
+				
+				// update current dso in store
+				// console.log("update_parent_list - result : ", result )
+				// this.$store.commit(`dso/set_current`, result );
+
+			})
+			
+			.catch(error => {
+				console.log("submit / error... : ", error ) ; 
+				this.loading = false
+
+				this.$store.commit(`set_error`, error)
+
+				this.alert = {type: 'error', message: "login error" }
+				if (error.response && error.response.data) {
+					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+				}
+			})
+
+		},
 
 
 		// reset_lists_fromApi(collections, level) {

@@ -273,6 +273,7 @@
 		"f_is_required"	: "Champ requis" ,
 		"resume"		: "Résumé",
 
+		"rebuild" 		: "Reconstruire les données consolidées du projet",
 		"export" 		: "Exporter les données du projet",
 		"geoloc_infos" 	: "Géolocaliser les données du projet",
 

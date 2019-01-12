@@ -274,6 +274,7 @@
 		"f_is_required"	: "Campo está necesario" ,
 		"resume" 		: "Resumen",
 
+		"rebuild" 		: "Reconstruir los datos consolidados del proyecto",
 		"export" 		: "Exportar los datos del proyecto",
 		"geoloc_infos" 	: "Añadir datos de geolocalización al proyecto",
 

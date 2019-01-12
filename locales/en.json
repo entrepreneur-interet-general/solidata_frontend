@@ -274,6 +274,7 @@
 		"f_is_required"	: "Field is required" ,
 		"resume" 		: "Resume",
 
+		"rebuild" 		: "Rebuild the project's consolidated data",
 		"export" 		: "Export the project's data",
 		"geoloc_infos" 	: "Geolocalize the project's data",
 

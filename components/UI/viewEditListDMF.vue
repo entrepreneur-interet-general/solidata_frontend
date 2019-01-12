@@ -245,29 +245,41 @@
 								class="subheading grey--text"
 								>
 
-								<v-btn
-									icon
-									v-show="isPreview || add_to_parent"
-									flat
-									class="grey"
-									dark
-									small 
-									:to="`/${item_doc.specs.doc_type}/${item_doc._id}`"
-									>
-									<!-- @click="goToItem()" -->
+								<v-tooltip top>
 
-									<v-icon small>
-										{{ $store.state.mainIcons[collName].icon }}
-									</v-icon>
-								
-								</v-btn>
-								
-								{{ item_doc.infos.title | truncate(30, '...') }}
+									<v-btn
+										slot="activator"
+										icon
+										v-show="isPreview || add_to_parent"
+										flat
+										class="grey"
+										dark
+										small 
+										:to="`/${item_doc.specs.doc_type}/${item_doc._id}`"
+										>
+										<!-- @click="goToItem()" -->
 
-								<!-- - ScT : {{ offsetTop }} -->
-								<!-- - ScL : {{ offsetLeft }} -->
+										<v-icon small>
+											{{ $store.state.mainIcons[collName].icon }}
+										</v-icon>
+									
+									</v-btn>
+									
+									<span>
+										{{ $t(`datamodels.preview`, $store.state.locale) }}
+									</span>
 
-								<!-- - {{ item_doc.specs.doc_type }} / {{ item_doc._id }} -->
+								</v-tooltip>
+
+								<span>
+									{{ item_doc.infos.title | truncate(30, '...') }}
+								</span>
+
+									<!-- - ScT : {{ offsetTop }} -->
+									<!-- - ScL : {{ offsetLeft }} -->
+
+									<!-- - {{ item_doc.specs.doc_type }} / {{ item_doc._id }} -->
+
 
 							</v-toolbar-title>
 							

@@ -148,6 +148,7 @@ const mainIconsConst = {
 	warning				: { icon : "fas fa-exclamation-circle" },
 	cancel				: { icon : "cancel" },
 	close				: { icon : "close" },
+	rebuild				: { icon : "fas fa-redo-alt" },
 	export				: { icon : "get_app" },
 
 	geoloc				: { icon : "pin_drop" },
@@ -659,7 +660,7 @@ export const actions = {
 				// retrieve item id
 				const new_item_id = response.data._id
 
-				commit(`set_alert`, response.msg)
+				// commit(`set_alert`, response.msg)
 
 				// redirect to edit-preview page 
 				return this.$router.push(`/${payload.collection}/${new_item_id}`)
@@ -667,7 +668,7 @@ export const actions = {
 			})
 			.catch(error => {
 				console.log("... $ createItem / error : ", error ) ; 
-				commit(`set_error`, error)
+				// commit(`set_error`, error)
 				return error
 			})
 
@@ -818,12 +819,12 @@ export const actions = {
 				// commit(`${collection}/set_current`, response);
 
 				// rebuild DSO if updated doc is PRJ
-				if ( collection == 'prj' ) {
-					var input_dso = {
-						prj_id : doc_id
-					}
-					dispatch('buildDso', input_dso ) ;
-				}
+				// if ( collection == 'prj' ) {
+				// 	var input_dso = {
+				// 		prj_id : doc_id
+				// 	}
+				// 	dispatch('buildDso', input_dso ) ;
+				// }
 
 				// commit(`set_alert`, response.msg)
 				return response
@@ -910,7 +911,7 @@ export const actions = {
 				// console.log(`... $ buildDso : response : `, response);
 				commit(`dso/set_current`, response);
 				
-				// commit(`set_alert`, response.msg)
+				commit(`set_alert`, response.msg)
 				return response
 			})
 		
