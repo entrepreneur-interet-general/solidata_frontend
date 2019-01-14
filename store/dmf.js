@@ -92,6 +92,11 @@ export const getters = {
 
 	},
 
+	getStandardList : (state, getters) => {
+		var allItemsConcat = getters.ConcatList ;
+		return allItemsConcat.filter( rec => rec.specs.is_standard == true )
+	}
+
 }
 
 export const mutations = {

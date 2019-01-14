@@ -284,8 +284,9 @@
 					:is_loading="is_loading"
 					:panel_open="panel_lib[0]"
 
-					:is_geoloc="is_geoloc"
-					
+					:is_solidify="is_solidify"
+					:parent_REC_mapping="parent_REC_mapping"
+
 					:is_map="is_map"
 					:parent_map="parent_map"
 					:canEdit_ol="canEdit_ol"
@@ -303,7 +304,7 @@
 					
 					@update_loading="updateLoading"
 					@scrollTable="updateScroll"
-					@updateGeoloc="updateGeoloc"
+					@updateSolidify="updateSolidify"
 					>
 				</ViewEditListDMF>
 
@@ -384,8 +385,9 @@ export default {
 		"item_doc", 			// complete item infos
 		"item_doc_id",
 
-		"is_geoloc",
-
+		"is_solidify",
+		"parent_REC_mapping",
+		
 		"is_map",
 		"parent_map",
 		"canEdit_ol",
@@ -660,9 +662,9 @@ export default {
 			this.loading = input.loading
 		},
 
-		updateGeoloc (input) {
+		updateSolidify (input) {
 			// update parent RPJ's list of dmf to use to geolocalize 
-			this.$emit('updateGeoloc', input ) 
+			this.$emit('updateSolidify', input ) 
 		},
 
 		// DMF_lib SWITCH

@@ -82,7 +82,8 @@
 						:is_switch="true"
 						:no_toolbar="true"
 
-						:is_geoloc="true"
+						:is_solidify="true"
+						:parent_REC_mapping="getGeolocRec_from_map"
 
 						:is_map="false"
 						:parent_map="item_doc.mapping.dmf_to_open_level"
@@ -94,7 +95,7 @@
 
 						:parent_scroll="0"
 
-						@updateGeoloc="updateGeoloc"
+						@updateSolidify="update_selected_dmfs"
 						>
 						<!-- @update_loading="updateLoading" -->
 					</ViewEditDMT> 
@@ -132,6 +133,7 @@
 							:parent_DMT_oids="parent_DMT_oids"
 
 							:new_col_preselected="default_geoloc_dmf_preselect"
+							:parent_REC_mapping="getGeolocRec_from_map"
 							:new_col_choices="default_geoloc_dmf"
 
 							@updateNewColumns="update_new_columns"
@@ -171,6 +173,7 @@
 							v-model="add_complement"
 							:label="$t(`projects.add_compl`, $store.state.locale)"
 							prepend-icon="place"
+							@change="update_mapping"
 							>
 						</v-text-field>
 					</v-flex>
@@ -218,8 +221,8 @@
 		<!-- DEBUG -->
 		<v-flex 
 			class="mt-5"
+			v-if="$store.state.is_debug"
 			> 
-			<!-- v-if="$store.state.is_debug" -->
 
 			<v-divider class="my-2"></v-divider>
 			<span>
@@ -238,19 +241,29 @@
 			<!-- - default_geoloc_dmf : <code> {{ default_geoloc_dmf }} </code><br>
 			<v-divider></v-divider> -->
 
-			<!-- - default_geoloc_dmf_preselect: <code> {{ default_geoloc_dmf_preselect }} </code><br>
+
+			<!-- - $store.state.rec.list : <code>{{ $store.state.rec.list }}</code><br>
 			<v-divider></v-divider> -->
 
-			- pseudoForm : <code> {{ pseudoForm() }} </code><br>
+			<!-- - default_geoloc_dmf_preselect: <code> {{ default_geoloc_dmf_preselect }} </code><br>
+			<v-divider></v-divider> -->
+			<!-- - getGeolocRec_byTitle : <code>{{ getGeolocRec_byTitle }}</code><br>
+			<v-divider></v-divider> -->
+
+
+			- getGeolocRec_from_map <code> {{ getGeolocRec_from_map }} </code><br>
 			<v-divider></v-divider>
 
-			- parent_REC_oids : <code>{{ parent_REC_oids }}</code><br>
+			- pseudoForm : <code> {{ pseudoForm }} </code><br>
 			<v-divider></v-divider>
+
+			<!-- - parent_REC_oids : <code>{{ parent_REC_oids }}</code><br>
+			<v-divider></v-divider> -->
 
 			- parent_DMT_oids : <code>{{ parent_DMT_oids }}</code><br>
 			<v-divider></v-divider>
 
-			- item_doc.mapping.dmf_to_rec : <code>{{ item_doc.mapping.dmf_to_rec }}</code><br>
+			- item_doc.mapping.map_rec : <code>{{ item_doc.mapping.map_rec }}</code><br>
 
 		</v-flex>
 
@@ -275,11 +288,14 @@ export default {
 		"parentDoc_id",
 		"parentDoc_coll",
 
+		"recTitle",
+
 		"isPreview",
 		"isLoading",
 		"canEdit_ol",
 
-		"parent_REC_oids",
+		"parent_REC_mapping",
+		// "parent_REC_oids",
 		"parent_DMT_oids",
 
 	],
@@ -303,6 +319,10 @@ export default {
 
 		console.log("\n- RecipesGeoloc / created ---> item_doc : ", this.item_doc ) ;
 		console.log("\n- RecipesGeoloc / created ---> parent_DMT_oids : ", this.parent_DMT_oids ) ;
+		console.log("\n- RecipesGeoloc / created ---> parent_REC_mapping : ", this.parent_REC_mapping ) ;
+
+		// set up geolocRec data
+		this.setGeolocRecId( this.item_doc ) ; 
 
 	},
 
@@ -317,6 +337,8 @@ export default {
 
 
 			// PSEUDO FORM
+			geolocRec		: null,
+			rec_id			: '',
 			selected_dmfs 	: [],
 			new_dmfs		: [],
 			add_complement	: '',
@@ -335,7 +357,6 @@ export default {
 				'point',
 				'raw'
 			],
-
 			new_col_preselected : [
 				{
 					text		: 'longitude',
@@ -349,57 +370,41 @@ export default {
 				}
 			],
 
-			new_col_choices 	: [
-				{ header: this.$t(`projects.choose_col`, this.$store.state.locale) },
-				{
-					text		: 'address',
-					color		: 'accent',
-					can_delete 	: true
-				},
-				{
-					text		: 'longitude',
-					color		: 'primary',
-					can_delete 	: false
-				},
-				{
-					text		: 'latitude',
-					color		: 'primary',
-					can_delete 	: false
-				},
-				{
-					text		: 'altitude',
-					color		: 'accent',
-					can_delete 	: true
-				},
-				{
-					text		: 'point',
-					color		: 'accent',
-					can_delete 	: true
-				},
-				{
-					text		: 'raw',
-					color		: 'accent',
-					can_delete 	: true
-				},
-			],
-
 		}
 	},
 
 	computed : {
 
+		getGeolocRec_from_map () {
+			return this.parent_REC_mapping.find( rec_map => rec_map.oid_rec === this.rec_id ) 
+		},
+
+		getGeolocRec_byId () {
+			var geoloc_rec	= this.$store.getters['rec/ConcatList'] ; 
+			return geoloc_rec.find( rec => rec._id === this.rec_id ) 
+		},
+
+		getGeolocRec_byTitle () {
+			var geoloc_rec	= this.$store.getters['rec/ConcatList'] ; 
+			return geoloc_rec.find( rec => rec.infos.title === this.recTitle ) 
+		},
+
 		default_geoloc_dmf () {
 			
-			// BASED ON SYSTEM'S STANDARD DMFS
+			// BASED ON SOLIDATA SYSTEM'S STANDARD DMFS
 
 			var dmf_geoloc_related = this.col_choices ;
 
-			var all_dmf	= this.$store.getters['dmf/ConcatList'] ; 
-			
+			// var all_dmf			= this.$store.getters['dmf/ConcatList'] ; 
+			// console.log( "\nRecipesGeoloc / all_dmf : \n", all_dmf )
+
+			var standard_dmf_list	= this.$store.getters['dmf/getStandardList'] ; 
+			console.log( "\nRecipesGeoloc / standard_dmf_list : \n", standard_dmf_list )
+
 			// filter out wanted dmf
 			var filtered_dmf ;
 			if ( this.col_choices != undefined ) {
-				filtered_dmf = all_dmf.filter(function(el) {
+				filtered_dmf = standard_dmf_list.filter( function(el) {
 					return dmf_geoloc_related.includes(el.infos.title )
 				})
 			}
@@ -407,7 +412,7 @@ export default {
 			// remap filtered
 			var remapped = []
 			if ( filtered_dmf != undefined ) {
-				remapped = filtered_dmf.map(dmf => ({
+				remapped = filtered_dmf.map( dmf => ({
 					text 		: dmf.infos.title,
 					color 		: this.col_preselected.includes(dmf.infos.title ) ? 'primary' : 'accent' ,
 					oid_dmf		: dmf._id,
@@ -425,44 +430,7 @@ export default {
 			})
 		},
 
-	},
-
-	watch : {
-
-		item_doc : {
-			immediate : true,
-			handler ( newVal, oldVal) {
-				console.log( "\nRecipesGeoloc / watch ~ item_doc / newVal : \n", newVal )
-			}
-		},
-
-		parent_DMT_oids : {
-			immediate : true,
-			handler ( newVal, oldVal) {
-				console.log( "\nRecipesGeoloc / watch ~ parent_DMT_oids / newVal : \n", newVal )
-			}
-		},
-
-		parent_REC_oids : {
-			immediate : true,
-			handler ( newVal, oldVal) {
-				console.log( "\nRecipesGeoloc / watch ~ parent_REC_oids / newVal : \n", newVal )
-			}
-		},
-
-	},
-
-	methods: {
-		
-		updateGeoloc(input) {
-			this.selected_dmfs = input
-		},
-
-		update_new_columns(input) {
-			this.new_dmfs = input
-		},
-
-		pseudoForm() {
+		pseudoForm () {
 
 			var input = {
 
@@ -472,10 +440,15 @@ export default {
 				form 	: [
 					{
 						is_mapping		: true,
-						field_to_update	: "mapping.dmf_to_rec",
-						dmf_list		: this.selected_dmfs,
-						new_dmf_list	: this.new_dmfs,
-						add_complement	: this.add_complement,
+						field_to_update	: "mapping.map_rec",
+						id_rec 			: this.rec_id,
+						rec_params 		: {
+							dmf_list_to_geocode	: this.selected_dmfs,
+							new_dmfs_list		: this.new_dmfs,
+							address_complement	: this.add_complement,
+							timeout				: null,
+							delay				: null
+						} ,
 					}
 				]
 
@@ -484,25 +457,106 @@ export default {
 
 		},
 
+		solidifyForm () {
+
+			var input = {
+
+				doc_id	: this.parentDoc_id, 
+				coll 	: this.parentDoc_coll, 
+				form 	: [
+					{
+						id_rec 	: this.rec_id,
+					}
+				]
+
+			}
+			return input
+
+		},
+
+	},
+
+	watch : {
+
+		item_doc : {
+			immediate : true,
+			handler ( newVal, oldVal) {
+				console.log( "\nRecipesGeoloc / watch ~ item_doc / newVal : \n", newVal )
+				this.setGeolocRecMap( newVal )
+			}
+		},
+
+		// parent_DMT_oids : {
+		// 	immediate : true,
+		// 	handler ( newVal, oldVal) {
+		// 		console.log( "\nRecipesGeoloc / watch ~ parent_DMT_oids / newVal : \n", newVal )
+		// 	}
+		// },
+
+		// parent_REC_mapping : {
+		// 	immediate : true,
+		// 	handler ( newVal, oldVal) {
+		// 		console.log( "\nRecipesGeoloc / watch ~ parent_REC_mapping / newVal : \n", newVal )
+		// 	}
+		// },
+
+		// parent_REC_oids : {
+		// 	immediate : true,
+		// 	handler ( newVal, oldVal) {
+		// 		console.log( "\nRecipesGeoloc / watch ~ parent_REC_oids / newVal : \n", newVal )
+		// 	}
+		// },
+
+	},
+
+	methods: {
+		
+		setGeolocRecId () {
+			console.log("\n...RecipesGeoloc - setGeolocRecId...")
+			// var geolocRec_from_mapping = this.parent_REC_mapping ; 
+			var geolocRec_from_recList = this.getGeolocRec_byTitle ; 
+			if ( geolocRec_from_recList != undefined ) {
+				this.rec_id = geolocRec_from_recList._id
+			}
+			return geolocRec_from_recList
+		},
+
+		setGeolocRecMap ( item_doc ) {
+
+			console.log("\n...RecipesGeoloc - setGeolocRecMap...")
+			this.setGeolocRecId() ; 
+			var geolocRec_from_map 	= item_doc.mapping.map_rec.find( rec_map => rec_map.oid_rec === this.rec_id )  ; 
+			console.log("...RecipesGeoloc - geolocRec_from_map : \n", geolocRec_from_map)
+			if ( geolocRec_from_map != undefined ) { 
+				console.log("...RecipesGeoloc - geolocRec_from_map not undefined...")
+				this.selected_dmfs 		= geolocRec_from_map.rec_params.dmf_list_to_geocode
+				this.new_dmfs 			= geolocRec_from_map.rec_params.new_dmfs_list
+				this.add_complement 	= geolocRec_from_map.rec_params.address_complement
+			}
+			return 
+		},
+
+		update_selected_dmfs(input) {
+			this.selected_dmfs = input
+			this.update_mapping() ; 
+		},
+
+		update_new_columns(input) {
+			this.new_dmfs = input ;
+			this.update_mapping() ; 
+		},
+
+
+		// ------------------------------------- //
+		// AXIOS CALL - UPDATE GEOLOC MAPPING
+		// ------------------------------------- //
+
 		update_mapping () {
 			
 			console.log("\n...RecipesGeoloc - update_mapping...")
-			// var input = {
+			this.loading = true				
 
-			// 	doc_id	: this.parentDoc_id, 
-			// 	coll 	: this.parentDoc_coll, 
-				
-			// 	form 	: [
-			// 		{
-			// 			is_mapping		: true,
-			// 			field_to_update	: "mapping.dmf_to_rec",
-			// 			dmf_list		: this.selected_dmfs,
-			// 			add_complement	: this.add_complement,
-			// 		}
-			// 	]
-
-			// }
-			var input = this.pseudoForm() ; 
+			var input = this.pseudoForm ; 
 			console.log("RecipesGeoloc - update_mapping / input : ", input )
 
 			this.$store.dispatch('updateMapping', input )
@@ -518,8 +572,6 @@ export default {
 
 				this.loading = false
 
-				this.$store.commit(`set_error`, error)
-
 				if (error.response && error.response.data) {
 					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
 				}
@@ -527,12 +579,35 @@ export default {
 
 		},
 
+		// ------------------------------------- //
+		// AXIOS CALL - RUN GEOLOC RECIPE
+		// ------------------------------------- //
+
 		geolocalize() {
 
 			console.log("\n...RecipesGeoloc - geolocalize...")
-			var input = this.pseudoForm() ; 
+			var input = this.solidifyForm ; 
 		
 			console.log("\n...RecipesGeoloc - geolocalize / input : \n", input)
+
+			// call enrich endpoint with the reference of the PRJ's REC to LAUNCH  
+			this.$store.dispatch('solidifyData', input )
+
+			.then(result => {
+				// this.alert 		= { type: 'success', message: result.msg }
+				this.loading 	= false				
+			})
+			
+			.catch(error => {
+				console.log("submit / error... : ", error ) ; 
+				this.$store.commit('set_error', error )
+
+				this.loading = false
+
+				if (error.response && error.response.data) {
+					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+				}
+			})
 
 		}
 	}

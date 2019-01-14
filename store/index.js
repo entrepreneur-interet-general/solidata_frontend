@@ -24,6 +24,7 @@ const dmf_types_list = [
 	'geoloc',
 	'tag',
 	'category',
+	'media_link',
 	'boolean',
 	'other'
 ]
@@ -879,6 +880,42 @@ export const actions = {
 		
 			.catch(error => {
 				console.log("... $ updateMapping / error : ", error ) ; 
+				commit(`set_error`, error)
+				return error
+			})
+
+	},
+
+	solidifyData ({commit, dispatch, state, rootState}, input ) {
+		
+		console.log("\n... $ solidifyData : input : ", input);
+		
+		var collection 	= input.coll ;
+		var doc_id 		= input.doc_id ; 
+		var fields 		= input.form ; 
+		console.log("... $ solidifyData : fields : \n", fields );
+
+		// SET UP CONFIG
+		const config = { 
+			headers : { 'Authorization' : rootState.auth.access_token },
+			// params	: parameters
+		} ;
+		console.log("... $ solidifyData : config : ", config );
+
+		// API CALL
+		return this.$axios.$put(`${collection}/solidify/${doc_id}`, fields, config )
+
+			.then(response => {
+
+				console.log(`... $ solidifyData : response OK... `);
+				// console.log(`... $ solidifyData : response : `, response);
+				commit(`${collection}/set_current`, response);
+
+				return response
+			})
+		
+			.catch(error => {
+				console.log("... $ solidifyData / error : ", error ) ; 
 				commit(`set_error`, error)
 				return error
 			})

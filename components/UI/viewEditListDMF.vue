@@ -93,10 +93,11 @@
 		<!-- LIST DMF AS DATA TABLE STYLE-->
 		<v-layout row wrap>
 			
+			<!-- - selected_cols : <br> <code>{{ selected_cols }} </code><br>  -->
 
 			<!-- DMF_LIST vs GEOLOC MAPPING -->
 			<v-flex 
-				v-if="is_geoloc"
+				v-if="is_solidify"
 				class="xs12"
 				>
 
@@ -192,10 +193,10 @@
 
 										<v-checkbox 
 											class="mt-2"
-											v-model="selected_geoloc" 
+											v-model="selected_cols" 
 											:value="dmf._id"
 											hide-details
-											@change="updateGeolocListDMF"
+											@change="updateSolidifyListDMF"
 											>
 										</v-checkbox>
 
@@ -219,7 +220,7 @@
 
 			<!-- DMF_LIST as DATA TABLE-->
 			<v-flex 
-				v-if="!is_geoloc"
+				v-if="!is_solidify"
 				xs12 
 				pt-0
 				>
@@ -808,7 +809,8 @@ export default {
 
 		"panel_open",
 		
-		"is_geoloc",
+		"is_solidify",
+		"parent_REC_mapping",
 
 		"is_map",
 		"parent_map",
@@ -833,6 +835,8 @@ export default {
 		console.log("\n- viewEditListDMF / created ..." ) ;
 		console.log("- viewEditListDMF / listDMF : ", this.listDMF ) ;
 		console.log("- viewEditListDMF / canEdit_ol : ", this.canEdit_ol ) ;
+
+		this.populateSelectedCols( this.parent_REC_mapping ) ; 
 
 		if ( !Array.isArray(this.listDMF) || this.listDMF.length ) {
 
@@ -875,7 +879,7 @@ export default {
 			dataTable_geo 	: undefined,
 
 			// for geoloc only
-			selected_geoloc : [], 
+			selected_cols : [], 
 
 			// DMF references
 			DMF_list_loaded : false,
@@ -954,7 +958,7 @@ export default {
 					if (this.is_map) {
 						this.dataTable_ol.scrollLeft = newVal
 					}
-					// if (this.is_geoloc) {
+					// if (this.is_solidify) {
 					// 	this.dataTable_geo.scrollLeft = newVal
 					// }
 				}
@@ -1009,6 +1013,26 @@ export default {
 
 	methods: {
 
+		populateSelectedCols ( parent_REC_mapping ) {
+			
+			console.log( "\n REC VEListDMF - populateSelectedCols ..." );
+			console.log( "REC VEListDMF -  parent_REC_mapping : \n", parent_REC_mapping );
+
+			if ( parent_REC_mapping != undefined ) {
+				
+				var rec_params = parent_REC_mapping.rec_params ; 
+
+				console.log( "\n REC VEListDMF - rec_params not undefined ..." );
+
+				if ( rec_params.dmf_list_to_geocode.length > 0 ) {	
+					
+					console.log( "\n REC VEListDMF - rec_params.new_dmfs_list.length > 1 ..." );
+					
+					this.selected_cols = rec_params.dmf_list_to_geocode
+				}
+			} 
+		},
+
 		getDMF_openlevel(dmf_id) {
 			
 			// console.log("... getDMF_openlevel - dmf_id : ", dmf_id ) ;
@@ -1053,7 +1077,7 @@ export default {
 			var scroll_data = e.target ;
 			// this.offsetTop 	= scroll_data.scrollTop ;
 			this.offsetLeft = scroll_data.scrollLeft ;
-			if (!this.is_geoloc) {
+			if (!this.is_solidify) {
 				this.$emit('scrollTable', { 
 					left : scroll_data.scrollLeft 
 				}) 
@@ -1074,9 +1098,9 @@ export default {
 			return this.$router.push(`/${this.item_doc.specs.doc_type}/${this.item_doc._id}`)
 		},
 
-		updateGeolocListDMF () {
+		updateSolidifyListDMF () {
 			// update parent RPJ's list of dmf to use to geolocalize 
-			this.$emit('updateGeoloc', this.selected_geoloc ) 
+			this.$emit('updateSolidify', this.selected_cols ) 
 		},
 
 		deleteChild( item_infos ) {
@@ -1262,7 +1286,7 @@ export default {
 						this.dataTable_ol = dt_ol
 					}
 
-					// if (this.is_geoloc) {
+					// if (this.is_solidify) {
 					// 	var dataTable_geo = this.$refs.datatable_geoloc ;
 					// 	var dt_geo = dataTable_geo.$el.querySelector(".v-table__overflow") 
 					// 	dt_geo.addEventListener('scroll', this.onScroll);

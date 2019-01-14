@@ -361,14 +361,16 @@
 							:parentDoc_id="itemId"
 							:parentDoc_coll="coll"
 
-							:parent_REC_oids="list_REC_oids"
+							:recTitle="'geoloc'"
+							:parent_REC_mapping="PRJ_REC_Map"
 							:parent_DMT_oids="list_DMT_oids"
 							
 							:isPreview="isPreview"
 							:isLoading="loading"
-							:canEdit_ol="checkUserAuth('mapping.dmf_to_open_level')"
+							:canEdit_ol="checkUserAuth('mapping.map_rec')"
 
 							>
+							<!-- :parent_REC_oids="list_REC_oids" -->
 						</RecipesGeoloc>
 
 					</v-flex>
@@ -1139,6 +1141,14 @@ export default {
 	},
 
 	computed : {
+
+		// getGeolocRec () {
+		// 	var geoloc_rec	= this.$store.getters['rec/ConcatList'] ; 
+		// 	return geoloc_rec.find( rec => rec.infos.title === "geoloc" ) 
+		// },
+		PRJ_REC_Map () {
+			return this.itemDoc.mapping.map_rec
+		},
 
 		isLoading () {
 			if ( Object.keys(this.loading_list.dsi).length == 0 && Object.keys(this.loading_list.dmt).length == 0 ){

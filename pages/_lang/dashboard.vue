@@ -127,6 +127,7 @@ export default {
 			'dmt',
 			'dmf',
 			'tag',
+			'rec'
 		],
 		level 		: 'get_list',
 	},

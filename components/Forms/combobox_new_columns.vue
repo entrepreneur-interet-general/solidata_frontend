@@ -161,6 +161,9 @@
 			- parentDoc_id : <code>{{ parentDoc_id }}</code><br>
 			<v-divider></v-divider>
 
+			- can_update : <code>{{ can_update }}</code><br>
+			<v-divider></v-divider>
+
 			- model : <code>{{ model }}</code><br>
 			<v-divider></v-divider>
 
@@ -182,6 +185,7 @@ export default {
 		"parentDoc_id",
 		"parentDoc_coll",
 		"parent_DMT_oids",
+		"parent_REC_mapping",
 
 		"new_col_preselected",
 		"new_col_choices",
@@ -192,9 +196,9 @@ export default {
 	},
 
 	created () {
-		console.log("\n- NewColumns / created ... " ) ;
-		this.model = this.new_col_preselected ; 
+		console.log("\n REC combobox_new_columns / created ... " ) ;
 		this.items = this.new_col_choices ; 
+		this.populateModel( this.parent_REC_mapping ) ;
 	},
 
 	data () {
@@ -203,6 +207,9 @@ export default {
 
 			activator	: null,
 			attach		: null,
+
+			fromRecParams : null,
+			can_update : false,
 
 			colors		: [
 				// 'green', 
@@ -262,9 +269,16 @@ export default {
 
 	watch : {
 
+		parent_REC_mapping (newVal, oldVal) {
+
+			console.log( "\n REC combobox_new_columns / watch ~ parent_REC_mapping / newVal : \n", newVal )
+			this.populateModel ( newVal )
+
+		},
+
 		model (newVal, oldVal) {
 
-			// console.log( "\n combobox_new_columns / watch ~ model / newVal : \n", newVal )
+			console.log( "\n REC combobox_new_columns / watch ~ model / newVal : \n", newVal )
 
 			if (newVal.length === oldVal.length) return
 
@@ -281,7 +295,12 @@ export default {
 			// 	// 	this.nonce++
 			// 	// }
 
-			this.$emit('updateNewColumns', this.model  )
+			if ( this.can_update ) {
+				if ( newVal != this.fromRecParams ) {
+					console.log( "\n REC combobox_new_columns / watch ~ model / emitting updateNewColumns " )
+					this.$emit('updateNewColumns', this.model  )
+				}
+			}
 
 			// 	return  newInput
 			// })
@@ -293,7 +312,7 @@ export default {
 
 		can_delete (item, event) {
 			
-			// console.log( "\n can_delete - item.can_delete :", item.can_delete );
+			// console.log( "\n REC can_delete - item.can_delete :", item.can_delete );
 			// console.log( " can_delete - event :", event );
 
 			// stop propagation if not allowed to delete from selection
@@ -301,6 +320,42 @@ export default {
 				event.stopPropagation() 
 			} 
 
+		},
+
+		populateModel ( parent_REC_mapping ) {
+			
+			console.log( "\n REC combobox_new_columns - populateModel ..." );
+			console.log( "REC combobox_new_columns -  parent_REC_mapping : \n", parent_REC_mapping );
+
+			if ( parent_REC_mapping != undefined ) {
+				
+				var rec_params = parent_REC_mapping.rec_params ; 
+
+				console.log( "\n REC combobox_new_columns - rec_params not undefined ..." );
+
+				if ( rec_params.new_dmfs_list.length > 0 ) {	
+					
+					console.log( "\n REC combobox_new_columns - rec_params.new_dmfs_list.length > 1 ..." );
+					
+					this.fromRecParams 		= rec_params.new_dmfs_list
+					this.model 				= rec_params.new_dmfs_list
+					this.can_update = true
+				}
+
+				// parent PRJ has no parent_REC_mapping.rec_params.new_dmfs_list
+				else {
+					this.model 		= this.new_col_preselected ; 
+					this.can_update = false
+					this.$emit('updateNewColumns', this.model  )
+				} 
+			} 
+
+			// parent PRJ has no parent_REC_mapping at all
+			else {
+				this.model 		= this.new_col_preselected ; 
+				this.can_update = true
+				this.$emit('updateNewColumns', this.model  )
+			}
 		},
 
 		// edit (index, item) {

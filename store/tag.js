@@ -45,10 +45,32 @@ export const state = () => ({
 
 export const getters = {
 	
-	tagsListName (state)  {
+	GetListNames (state, getters)  {
 		// return state.list.filter(list => list.title)
-		return state.list.map(a => a.infos.title)
+		return getters.ConcatList.map(a => a.infos.title)
 	},
+
+	ConcatList : state => {
+
+		var concat		= []
+		var in_team 	= state.list['docs_user_is_in_team']
+		var not_team 	= state.list['docs_user_not_in_team']
+		
+		if ( in_team != undefined ) {
+			var concat 	= concat.concat(in_team);
+		}
+		if ( not_team != undefined ) {
+			var concat 	= concat.concat(not_team);
+		}
+		// Array.prototype.push(concat, in_team, not_team)
+		return concat
+
+	},
+
+	getStandardList : (state, getters) => {
+		var allItemsConcat = getters.ConcatList ;
+		return allItemsConcat.filter( rec => rec.specs.is_standard == true )
+	}
 
 }
 

@@ -70,7 +70,13 @@ export default {
 
 	middleware : ["getListItems"],
 	meta : {
-		collection 	: ['prj', 'tag', 'dmf', 'dmt'],
+		collection 	: [
+			'prj', 
+			'tag', 
+			'dmf', 
+			'dmt',
+			'rec'
+		],
 		level 		: 'get_list',
 	},
 	
