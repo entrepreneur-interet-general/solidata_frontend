@@ -465,7 +465,11 @@ export default {
 				coll 	: this.parentDoc_coll, 
 				form 	: [
 					{
-						id_rec 	: this.rec_id,
+						id_rec 			: this.rec_id,
+						is_complex_rec	: true,
+						// need_load_prj 	: true,
+						// need_load_dmt 	: true,
+						// need_load_dsi 	: true,
 					}
 				]
 
