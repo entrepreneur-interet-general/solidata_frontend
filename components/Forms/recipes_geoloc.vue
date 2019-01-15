@@ -150,6 +150,39 @@
 			</v-flex>
 
 
+			<!-- NEW COLUMNS OPEN_LEVEL -->
+			<v-flex
+				class="mt-5 xs12"
+				>
+
+				<!-- HELP TEXT -->
+				<span>
+					<v-icon 
+						color="grey"
+						small
+						>
+						{{ $store.state.mainIcons.infos.icon }}
+					</v-icon>
+					{{ $t(`projects.open_level_show`, $store.state.locale) }}
+				</span>
+
+				<!-- OPEN LEVEL SHOW -->
+				<v-layout row justify-center> 
+					<v-flex class="pt-3 xs12 sm10 md8">
+						<v-select
+							v-model="new_dmf_open_level_show"
+							:label="$t( 'projects.open_level_show', $store.state.locale )"
+							:prepend-icon="$store.state.mainIcons.view.icon"
+							:items="$store.state.subFieldsWithChoices['open_level_show']['choices']"
+							@change="update_mapping"
+							>
+						</v-select>
+					</v-flex>
+				</v-layout> 
+
+			</v-flex>
+
+
 			<!-- ADDRESS COMPLEMENT -->
 			<v-flex
 				class="mt-5 xs12"
@@ -172,7 +205,7 @@
 						<v-text-field
 							v-model="add_complement"
 							:label="$t(`projects.add_compl`, $store.state.locale)"
-							prepend-icon="place"
+							:prepend-icon="$store.state.mainIcons.geoloc.icon"
 							@change="update_mapping"
 							>
 						</v-text-field>
@@ -342,6 +375,7 @@ export default {
 			selected_dmfs 	: [],
 			new_dmfs		: [],
 			add_complement	: '',
+			new_dmf_open_level_show : 'open_data',
 			
 
 			// CHOICES AND PRESELECTION NEW COLUMNS
@@ -443,11 +477,13 @@ export default {
 						field_to_update	: "mapping.map_rec",
 						id_rec 			: this.rec_id,
 						rec_params 		: {
-							dmf_list_to_geocode	: this.selected_dmfs,
-							new_dmfs_list		: this.new_dmfs,
-							address_complement	: this.add_complement,
-							timeout				: null,
-							delay				: null
+							dmf_list_to_geocode		: this.selected_dmfs,
+							new_dmfs_list			: this.new_dmfs,
+							address_complement		: this.add_complement,
+							new_dmf_open_level_show	: this.new_dmf_open_level_show,
+							test_geoloc				: true,
+							timeout					: null,
+							delay					: null
 						} ,
 					}
 				]
@@ -466,7 +502,7 @@ export default {
 				form 	: [
 					{
 						id_rec 			: this.rec_id,
-						is_complex_rec	: true,
+						// is_complex_rec	: true,
 						// need_load_prj 	: true,
 						// need_load_dmt 	: true,
 						// need_load_dsi 	: true,
