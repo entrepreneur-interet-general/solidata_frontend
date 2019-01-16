@@ -19,14 +19,13 @@
 	<div>
 
 		<span v-if="$store.state.is_debug">
+			dmf_ol_val : <br> <code>{{ dmf_ol_val }}</code><br> 
 			parentDoc_id : <br> <code>{{ parentDoc_id }}</code><br>
 			parentDoc_coll : <code>{{ parentDoc_coll }}</code><br>
-			<!-- parent_map : <br> <code>{{ parent_map }}</code><br> -->
 
 			<v-divider></v-divider>
 			dmt : <br> <code>{{ dmt }}</code><br> 
 			dmf._id : <br> <code>{{ dmf._id }}</code><br>
-			dmf_ol_val : <br> <code>{{ dmf_ol_val }}</code><br> 
 			<!-- dmf : <br> <code>{{ dmf }}</code><br> -->
 
 			<v-divider></v-divider>

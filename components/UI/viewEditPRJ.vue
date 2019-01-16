@@ -463,7 +463,7 @@
 							:no_toolbar="true"
 
 							:is_map="true"
-							:parent_map="item_doc.mapping.dmf_to_open_level"
+							:parent_map="PRJ_OLS_Map"
 							:canEdit_ol="checkUserAuth('mapping.dmf_to_open_level')"
 
 							:add_to_parent="true"
@@ -476,6 +476,7 @@
 
 							@update_parent_dataset="update_parent_list"
 							>
+							<!-- :parent_map="itemDoc.mapping.dmf_to_open_level" -->
 							<!-- @update_loading="updateLoading" -->
 						</ViewEditDMT> 
 
@@ -1148,6 +1149,10 @@ export default {
 		// },
 		PRJ_REC_Map () {
 			return this.itemDoc.mapping.map_rec
+		},
+
+		PRJ_OLS_Map () {
+			return this.itemDoc.mapping.dmf_to_open_level
 		},
 
 		isLoading () {

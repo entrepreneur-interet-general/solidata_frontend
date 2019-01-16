@@ -572,6 +572,7 @@ export default {
 				this.selected_dmfs 		= geolocRec_from_map.rec_params.dmf_list_to_geocode
 				this.new_dmfs 			= geolocRec_from_map.rec_params.new_dmfs_list
 				this.add_complement 	= geolocRec_from_map.rec_params.address_complement
+				this.new_dmf_open_level_show 	= geolocRec_from_map.rec_params.new_dmf_open_level_show
 			}
 			return 
 		},

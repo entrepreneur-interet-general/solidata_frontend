@@ -750,12 +750,12 @@
 													:dmt="item_doc_id[0].oid_dmt"
 													:dmf="dmf"
 													:is_loading="is_loading"
-													:parent_map="parent_map"
 													:dmf_ol_val="getDMF_openlevel(dmf._id)"
 													:parentDoc_id="parentDoc_id"
 													:parentDoc_coll="parentDoc_coll"
 													:canEdit="canEdit_ol"
 													>
+													<!-- :parent_map="parent_map" -->
 												</ViewEditDMFol>
 
 											</div>
@@ -945,6 +945,23 @@ export default {
 		list_DMF_raw_selector() {
 			return (this.isPreview) ? this.listDMF_light : this.listDMF_extended ;
 		},
+
+		// getDMF_openlevel_computed(dmf_id) {
+			
+		// 	// console.log("... getDMF_openlevel - dmf_id : ", dmf_id ) ;
+
+		// 	var dmf_ol_value = ''
+		// 	var dmf_mapper = this.parent_map.find(obj => {
+		// 		return obj.oid_dmf === dmf_id
+		// 	})
+		// 	// console.log(" getDMF_openlevel / dmf_mapper : ", dmf_mapper )
+		// 	if (dmf_mapper != undefined) {
+		// 		dmf_ol_value = dmf_mapper.open_level_show
+		// 	}
+
+		// 	return dmf_ol_value
+		// },
+
 	},
 
 	watch: {
