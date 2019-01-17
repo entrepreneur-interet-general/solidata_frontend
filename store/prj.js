@@ -31,6 +31,19 @@ export const state = () => ({
 		}, 
 
 	},
+	dft_new 	: {
+		
+		"infos"			: { 
+			"title"			: "your new project ", 
+			"description"	: null, 
+			"licence"		: null
+		},
+		"public_auth"	: { 
+			"open_level_edit": "private", 
+			"open_level_show": "open_data" 
+		}, 
+
+	},
 
 	list_query 		: null,
 	list 			: [],
@@ -68,6 +81,10 @@ export const mutations = {
 		store.current_new[data.parentField][data.subField] = data.item_data
 	},
 
+	reset_current_new (store) {
+		console.log("\n... store/prj : reset_current_new...")
+		store.current_new 		= store.dft_new
+	},	
 }
 
 export const actions = {

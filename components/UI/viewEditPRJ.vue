@@ -355,6 +355,8 @@
 
 					<v-flex class="xs12 sm10 md8 justify-center py-5">
 
+						- reload_dsi_list : <code>{{reload_dsi_list }}</code><br>
+						
 						<RecipesGeoloc
 
 							:item_doc="item_doc"
@@ -369,6 +371,8 @@
 							:isLoading="loading"
 							:canEdit_ol="checkUserAuth('mapping.map_rec')"
 
+							@closeDialogRec="isRecipes = false"
+							@need_reload_dsi="reload_dsi_list *= -1"
 							>
 							<!-- :parent_REC_oids="list_REC_oids" -->
 						</RecipesGeoloc>
@@ -845,6 +849,7 @@
 							:item_doc="false"
 							:find_item="true"
 							:item_doc_id="dsi.oid_dsi"
+							:needs_reload="reload_dsi_list"
 
 							:is_create="false"
 							:is_preview="isPreview"
@@ -869,6 +874,7 @@
 							@scrollTable="updateScroll"
 							@update_parent_dataset="update_parent_list"
 							>
+							<!-- @dsiReloaded="" -->
 							<!-- @update_loading="updateLoading" -->
 						</ViewEditDSIDSO>
 							<!-- :parentDoc_dmt="list_DMT_oids[0].oid_dmt" -->
@@ -1109,8 +1115,10 @@ export default {
 			// ----------------------------- // 
 			// DMT - DMF - DSI references
 			// ----------------------------- // 
-			itemId 		: this.item_doc._id, 
-			itemDoc		: this.item_doc,
+			itemId 				: this.item_doc._id, 
+			itemDoc				: this.item_doc,
+			reload_dsi_list  	: 1,
+
 			// canEdit		: false ,
 
 			list_DMT_oids 		: [],

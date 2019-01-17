@@ -412,7 +412,10 @@
 		"f_type" 		: "Type du champ" ,
 		"f_comments" 	: "Commentaires sur le champ" ,
 		"f_is_required"	: "Champ requis" ,
-		"resume"		: "Résumé"
+		"resume"		: "Résumé",
+
+		"test_rec"		: "tester la recette"
+
 	},
 	
 	"tags" : {

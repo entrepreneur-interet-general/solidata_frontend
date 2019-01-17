@@ -35,6 +35,19 @@ export const state = () => ({
 		}, 
 
 	},
+	dft_new 	: {
+
+		"infos"			: { 
+			"title"			: "your new datamodel template", 
+			"description"	: null, 
+			"licence"		: "CC BY"
+		},
+		"public_auth"	: { 
+			"open_level_edit": "private", 
+			// "open_level_show": "open_data" 
+		}, 
+
+	},
 
 	// FOR MAPPING
 	current_list_DMF_list 			: [],
@@ -85,6 +98,11 @@ export const mutations = {
 		console.log("\n... store/dmt - data : ", data )
 		store.current_new[data.parentField][data.subField] = data.item_data
 	},
+
+	reset_current_new (store) {
+		console.log("\n... store/dmt : reset_current_new...")
+		store.current_new 		= store.dft_new
+	},	
 }
 
 export const actions = {

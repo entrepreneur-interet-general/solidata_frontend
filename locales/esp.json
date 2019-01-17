@@ -415,7 +415,10 @@
 		"f_type" 		: "Tipo de campo" ,
 		"f_comments" 	: "Comentarios sobre el campo" ,
 		"f_is_required"	: "Campo está necesario" ,
-		"resume" 		: "Resumen"
+		"resume" 		: "Resumen",
+
+		"test_rec"		: "probar la receta"
+
 	},
 	
 	"tags" : {

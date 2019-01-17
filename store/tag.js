@@ -36,6 +36,25 @@ export const state = () => ({
 		}, 
 		
 	},
+	dft_new : {
+
+		"infos"			: { 
+			"title"			: "your new tag", 
+			"description"	: null 
+		},
+		"public_auth"	: { 
+			"open_level_edit": "private", 
+			// "open_level_show": "open_data" 
+		}, 
+		"data_raw": { 
+			"f_code": "", 
+			"f_object": "", 
+			// "f_type": "tag", 
+			"f_comments": null, 
+			// "f_is_required": false 
+		}, 
+		
+	},
 
 	list_query 		: null,
 	list 			: [],
@@ -99,6 +118,10 @@ export const mutations = {
 		store.current_new[data.parentField][data.subField] = data.item_data
 	},
 
+	reset_current_new (store) {
+		console.log("\n... store/tag : reset_current_new...")
+		store.current_new 		= store.dft_new
+	},	
 }
 
 export const actions = {

@@ -48,7 +48,25 @@ export const state = () => ({
 		}, 
 
 	},
+	dft_new 	: {
 
+		"infos"			: { 
+			"title"			: "your new dataset input", 
+			"description"	: null,
+			"licence"		: "CC BY-SA"
+		},
+		"public_auth"	: { 
+			"open_level_edit": "private", 
+			"open_level_show": "commons" 
+		}, 
+		"specs": { 
+			// "doc_type"	: "dsi" 
+			"src_link"		: null,
+			"src_type"		: "xls",
+			"src_parser"	: "/path/of/your/list/of/records",
+		}, 
+
+	},
 	list_query 		: null,
 	list 			: [],
 	list_counts 	: null
@@ -127,6 +145,10 @@ export const mutations = {
 		// store.current_new.infos.title 	= 'new dataset'
 	},
 
+	reset_current_new (store) {
+		console.log("\n... store/dsi : reset_current_new...")
+		store.current_new 		= store.dft_new
+	},	
 	
 }
 

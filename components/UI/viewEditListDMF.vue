@@ -185,15 +185,21 @@
 											>
 										</ViewEditDMFol> -->
 
-										<!-- <code>{{ dmf }}</code> -->
+										<!-- <code>{{ dmf }}</code><br> -->
+										<!-- - dmf["_id"] <code>{{ dmf["_id"] }}</code><br> -->
+										<!-- - disabled_dmf_list : <code>{{ disabled_dmf_list }}</code><br> -->
 
-										<span >
+										<span 
+											:class="`${ dmf['specs.is_standard']? 'grey--text' : '' }`"
+											>
 											{{ dmf["infos.title"] }}
 										</span>
 
+											<!-- :disabled="dmf['specs.is_standard']" -->
 										<v-checkbox 
 											class="mt-2"
 											v-model="selected_cols" 
+											:disabled="isDisabled(dmf['_id'])"
 											:value="dmf._id"
 											hide-details
 											@change="updateSolidifyListDMF"
@@ -811,6 +817,7 @@ export default {
 		
 		"is_solidify",
 		"parent_REC_mapping",
+		"disabled_dmf_list",
 
 		"is_map",
 		"parent_map",
@@ -1029,6 +1036,10 @@ export default {
 	},
 
 	methods: {
+
+		isDisabled( dmf_id ) {
+			return (this.disabled_dmf_list.filter(function(e) { return e["oid_dmf"] === dmf_id; }).length > 0)
+		},
 
 		populateSelectedCols ( parent_REC_mapping ) {
 			

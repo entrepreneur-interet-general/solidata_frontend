@@ -273,6 +273,8 @@
 						{'oid_dmf' : '5bf4183f0a8286180b53183c'}
 					]"  -->
 					
+				<!-- - disabled_dmf_list : <code> {{disabled_dmf_list}} </code><br> -->
+
 				<ViewEditListDMF
 					v-if="is_itemDoc"
 
@@ -286,6 +288,7 @@
 
 					:is_solidify="is_solidify"
 					:parent_REC_mapping="parent_REC_mapping"
+					:disabled_dmf_list="disabled_dmf_list"
 
 					:is_map="is_map"
 					:parent_map="parent_map"
@@ -387,6 +390,7 @@ export default {
 
 		"is_solidify",
 		"parent_REC_mapping",
+		"disabled_dmf_list",
 		
 		"is_map",
 		"parent_map",

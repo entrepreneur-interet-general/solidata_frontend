@@ -856,6 +856,7 @@
 							</v-dialog>
 
 
+							<!-- DSI DATA / SEARCH BAR & CONTENTS -->
 							<v-expand-transition>
 								<div
 									v-if="show_dsi_table"
@@ -1186,6 +1187,7 @@ export default {
 		
 		"find_item",
 		"item_doc_id",
+		"needs_reload",
 
 		// "is_debug",
 
@@ -1438,13 +1440,28 @@ export default {
 
 	watch: {
 
+		needs_reload : {
+			immediate : true,
+			handler ( newVal, oldVal) {
+				if ( newVal != oldVal && this.itemDoc_loaded == true ) {
+					var pagination_params 	= {
+						page		: this.pagination.page,
+						per_page 	: this.pagination.rowsPerPage,
+						total_items : this.pagination.totalItems,
+						sort_by 	: this.pagination.sortBy,
+						descending 	: this.pagination.descending,
+					}
+					this.get_FData_fromApi(pagination_params)
+				}
+			}
+		},
+
 		parent_map : {
 			immediate : true,
 			handler ( newVal, oldVal) {
 				this.parentMap = newVal
 				this.item_headers()
 			}
-
 		},
 
 		parentDoc_dmf_list : {

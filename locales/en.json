@@ -414,7 +414,9 @@
 		"f_type" 		: "Field type" ,
 		"f_comments" 	: "Field comments" ,
 		"f_is_required"	: "Field is required" ,
-		"resume" 		: "Resume"
+		"resume" 		: "Resume",
+
+		"test_rec"		: "test the recipe"
 	},
 	
 	"tags" : {

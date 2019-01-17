@@ -660,6 +660,9 @@ export const actions = {
 				// set up corresponding store 
 				commit( `${payload.collection}/set_current`, response.data, { root: true } )
 				
+				// reset current_new
+				commit( `${payload.collection}/reset_current_new`, { root: true } )
+
 				// retrieve item id
 				const new_item_id = response.data._id
 

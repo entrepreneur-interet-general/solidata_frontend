@@ -68,6 +68,8 @@
 				<!-- PRJ's DMT  -->
 				<v-flex class="pt-3">
 			
+					<!-- - default_geoloc_dmf : <code> {{default_geoloc_dmf}} </code><br> -->
+
 					<ViewEditDMT
 
 						:item_doc="undefined"
@@ -84,6 +86,7 @@
 
 						:is_solidify="true"
 						:parent_REC_mapping="getGeolocRec_from_map"
+						:disabled_dmf_list="default_geoloc_dmf"
 
 						:is_map="false"
 						:parent_map="item_doc.mapping.dmf_to_open_level"
@@ -209,6 +212,37 @@
 							@change="update_mapping"
 							>
 						</v-text-field>
+					</v-flex>
+				</v-layout> 
+
+			</v-flex>
+
+
+			<!-- TEST RUN CHECKBOX -->
+			<v-flex
+				class="mt-5 xs12"
+				>
+
+				<!-- HELP TEXT -->
+				<span>
+					<v-icon 
+						color="grey"
+						small
+						>
+						{{ $store.state.mainIcons.infos.icon }}
+					</v-icon>
+					{{ $t(`recipes.test_rec`, $store.state.locale) }}
+				</span>
+
+				<!-- INPUT TEST RUN -->
+				<v-layout row justify-center> 
+					<v-flex class="pt-3 xs12 sm10 md8">
+						<v-checkbox
+							v-model="test_geoloc"
+							:label="$t(`recipes.test_rec`, $store.state.locale)"
+							@change="update_mapping"
+							>
+						</v-checkbox>
 					</v-flex>
 				</v-layout> 
 
@@ -374,8 +408,9 @@ export default {
 			rec_id			: '',
 			selected_dmfs 	: [],
 			new_dmfs		: [],
-			add_complement	: '',
 			new_dmf_open_level_show : 'open_data',
+			add_complement	: '',
+			test_geoloc		: true,
 			
 
 			// CHOICES AND PRESELECTION NEW COLUMNS
@@ -481,7 +516,7 @@ export default {
 							new_dmfs_list			: this.new_dmfs,
 							address_complement		: this.add_complement,
 							new_dmf_open_level_show	: this.new_dmf_open_level_show,
-							test_geoloc				: true,
+							test_geoloc				: this.test_geoloc,
 							timeout					: null,
 							delay					: null
 						} ,
@@ -569,10 +604,11 @@ export default {
 			console.log("...RecipesGeoloc - geolocRec_from_map : \n", geolocRec_from_map)
 			if ( geolocRec_from_map != undefined ) { 
 				console.log("...RecipesGeoloc - geolocRec_from_map not undefined...")
-				this.selected_dmfs 		= geolocRec_from_map.rec_params.dmf_list_to_geocode
-				this.new_dmfs 			= geolocRec_from_map.rec_params.new_dmfs_list
-				this.add_complement 	= geolocRec_from_map.rec_params.address_complement
+				this.selected_dmfs 				= geolocRec_from_map.rec_params.dmf_list_to_geocode
+				this.new_dmfs 					= geolocRec_from_map.rec_params.new_dmfs_list
+				this.add_complement 			= geolocRec_from_map.rec_params.address_complement
 				this.new_dmf_open_level_show 	= geolocRec_from_map.rec_params.new_dmf_open_level_show
+				this.test_geoloc 				= geolocRec_from_map.rec_params.test_geoloc
 			}
 			return 
 		},
@@ -627,6 +663,10 @@ export default {
 		geolocalize() {
 
 			console.log("\n...RecipesGeoloc - geolocalize...")
+
+			// close dialog
+			this.$emit("closeDialogRec")
+
 			var input = this.solidifyForm ; 
 		
 			console.log("\n...RecipesGeoloc - geolocalize / input : \n", input)
@@ -636,7 +676,8 @@ export default {
 
 			.then(result => {
 				// this.alert 		= { type: 'success', message: result.msg }
-				this.loading 	= false				
+				this.loading 	= false	
+				this.$emit("need_reload_dsi")
 			})
 			
 			.catch(error => {
