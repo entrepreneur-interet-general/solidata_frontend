@@ -219,34 +219,69 @@
 
 
 			<!-- TEST RUN CHECKBOX -->
-			<v-flex
-				class="mt-5 xs12"
-				>
+			<v-layout row justify-center> 
 
-				<!-- HELP TEXT -->
-				<span>
-					<v-icon 
-						color="grey"
-						small
-						>
-						{{ $store.state.mainIcons.infos.icon }}
-					</v-icon>
-					{{ $t(`recipes.test_rec`, $store.state.locale) }}
-				</span>
+				<v-flex
+					class="mt-5 xs6"
+					>
 
-				<!-- INPUT TEST RUN -->
-				<v-layout row justify-center> 
-					<v-flex class="pt-3 xs12 sm10 md8">
-						<v-checkbox
-							v-model="test_geoloc"
-							:label="$t(`recipes.test_rec`, $store.state.locale)"
-							@change="update_mapping"
+					<!-- HELP TEXT -->
+					<span>
+						<v-icon 
+							color="grey"
+							small
 							>
-						</v-checkbox>
-					</v-flex>
-				</v-layout> 
+							{{ $store.state.mainIcons.infos.icon }}
+						</v-icon>
+						{{ $t(`recipes.test_rec`, $store.state.locale) }}
+					</span>
 
-			</v-flex>
+					<!-- INPUT TEST RUN -->
+					<v-layout row justify-center> 
+						<v-flex class="pt-3 xs12 sm10 md8">
+							<v-checkbox
+								v-model="test_geoloc"
+								:label="$t(`recipes.test_rec`, $store.state.locale)"
+								@change="update_mapping"
+								>
+							</v-checkbox>
+						</v-flex>
+					</v-layout> 
+
+				</v-flex>
+
+				<!-- TEST RUN SELECT TEST ROWS -->
+				<v-flex
+					class="mt-5 xs6"
+					>
+
+					<!-- HELP TEXT -->
+					<span>
+						<v-icon 
+							color="grey"
+							small
+							>
+							{{ $store.state.mainIcons.infos.icon }}
+						</v-icon>
+						{{ $t(`recipes.test_rec`, $store.state.locale) }}
+					</span>
+
+					<!-- INPUT TEST RUN - TRIM ROWS -->
+					<v-layout row justify-center> 
+						<v-flex class="pt-3 xs12 sm10 md8">
+							<v-select
+								v-model="test_rows"
+								:items="[3,5,10]"
+								:label="$t(`recipes.test_rec`, $store.state.locale)"
+								@change="update_mapping"
+								>
+							</v-select>
+						</v-flex>
+					</v-layout> 
+
+				</v-flex>
+
+			</v-layout>
 
 			<!-- HIDDEN EXTRA SETTINGS -->
 			<!-- timeout -->
@@ -266,6 +301,7 @@
 				round
 				dark
 				class="accent"
+				:disabled="!checkIfGeolocalizable || loading"
 				@click="geolocalize()"
 				>
 				<v-icon 
@@ -411,6 +447,7 @@ export default {
 			new_dmf_open_level_show : 'open_data',
 			add_complement	: '',
 			test_geoloc		: true,
+			test_rows 		: 5,
 			
 
 			// CHOICES AND PRESELECTION NEW COLUMNS
@@ -443,6 +480,10 @@ export default {
 	},
 
 	computed : {
+
+		checkIfGeolocalizable () {
+			return this.selected_dmfs.length > 0 
+		},
 
 		getGeolocRec_from_map () {
 			return this.parent_REC_mapping.find( rec_map => rec_map.oid_rec === this.rec_id ) 
@@ -517,6 +558,7 @@ export default {
 							address_complement		: this.add_complement,
 							new_dmf_open_level_show	: this.new_dmf_open_level_show,
 							test_geoloc				: this.test_geoloc,
+							test_rows				: this.test_rows,
 							timeout					: null,
 							delay					: null
 						} ,
@@ -609,6 +651,7 @@ export default {
 				this.add_complement 			= geolocRec_from_map.rec_params.address_complement
 				this.new_dmf_open_level_show 	= geolocRec_from_map.rec_params.new_dmf_open_level_show
 				this.test_geoloc 				= geolocRec_from_map.rec_params.test_geoloc
+				this.test_rows 					= geolocRec_from_map.rec_params.test_rows
 			}
 			return 
 		},

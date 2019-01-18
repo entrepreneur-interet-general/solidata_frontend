@@ -355,7 +355,7 @@
 
 					<v-flex class="xs12 sm10 md8 justify-center py-5">
 
-						- reload_dsi_list : <code>{{reload_dsi_list }}</code><br>
+						<!-- - reload_dsi_list : <code>{{reload_dsi_list }}</code><br> -->
 						
 						<RecipesGeoloc
 
