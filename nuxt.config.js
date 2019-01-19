@@ -107,7 +107,7 @@ module.exports = {
 	*/
 	generate: {
 		// dir: path.resolve(__dirname, '../../dist'),
-		dir: '../../dist',
+		dir: './dist',
 		
 	},
 
