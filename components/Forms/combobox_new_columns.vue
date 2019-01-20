@@ -1,177 +1,177 @@
 <style scoped>
 
-	
+  
 </style>
 
 
 <template>
 
-	<div>
+  <div>
 
-			<!-- :filter="filter" -->
-			<!-- hide-selected -->
-		<v-select
-			v-model="model"
+      <!-- :filter="filter" -->
+      <!-- hide-selected -->
+    <v-select
+      v-model="model"
 
-			:hide-no-data="!search"
-			:items="items"
-			:search-input.sync="search"
+      :hide-no-data="!search"
+      :items="items"
+      :search-input.sync="search"
 
-			return-object
+      return-object
 
-			multiple
-			small-chips
-			hide-details
-			persistent-hint
-			>
-			<!-- label="Search for an option" -->
+      multiple
+      small-chips
+      hide-details
+      persistent-hint
+      >
+      <!-- label="Search for an option" -->
 
-			<!-- NO DATA -->
-			<template slot="no-data">
-				<v-list-tile>
+      <!-- NO DATA -->
+      <template slot="no-data">
+        <v-list-tile>
 
-					<span class="subheading">
-						{{ $t(`global.create`, $store.state.locale ) }}
-					</span>
+          <span class="subheading">
+            {{ $t(`global.create`, $store.state.locale ) }}
+          </span>
 
-					<v-chip
-						:color="`${colors[nonce - 1]} lighten-3`"
-						label
-						small
-						>
-						{{ search }}
-					</v-chip>
+          <v-chip
+            :color="`${colors[nonce - 1]} lighten-3`"
+            label
+            small
+            >
+            {{ search }}
+          </v-chip>
 
-				</v-list-tile>
-			</template>
+        </v-list-tile>
+      </template>
 
-			<!-- SELECTED -->
-			<template
-				v-if="item === Object(item)"
-				slot="selection"
-				slot-scope="{ item, parent, selected }"
-				>
-				<v-chip
-					:color="`${item.color}`"
-					:selected="selected"
-					label
-					dark
-					small
-					>
-					<span 
-						class="pr-2 white--text"
-						>
-						{{ item.text }}
-						<span 
-							v-if="!item.can_delete"
-							>
-							&nbsp; *
-						</span>
-					</span>
+      <!-- SELECTED -->
+      <template
+        v-if="item === Object(item)"
+        slot="selection"
+        slot-scope="{ item, parent, selected }"
+        >
+        <v-chip
+          :color="`${item.color}`"
+          :selected="selected"
+          label
+          dark
+          small
+          >
+          <span 
+            class="pr-2 white--text"
+            >
+            {{ item.text }}
+            <span 
+              v-if="!item.can_delete"
+              >
+              &nbsp; *
+            </span>
+          </span>
 
-					<v-icon
-						v-if="item.can_delete"
-						small
-						@click="parent.selectItem(item)"
-						>
-						{{ $store.state.mainIcons.close.icon }}
-					</v-icon>
+          <v-icon
+            v-if="item.can_delete"
+            small
+            @click="parent.selectItem(item)"
+            >
+            {{ $store.state.mainIcons.close.icon }}
+          </v-icon>
 
-				</v-chip>
-			</template>
-
-
-			<!-- LIST OF CHOICES -->
-			<template
-				slot="item"
-				slot-scope="{ index, item, parent }"
-				>
-
-				<v-list-tile-content
-					@click.prevent="can_delete(item, $event)"
-					>
-
-					<!-- <v-text-field
-						v-if="editing === item"
-						v-model="editing.text"
-						autofocus
-						flat
-						background-color="transparent"
-						hide-details
-						solo
-						@keyup.enter="edit(index, item)"
-						>
-					</v-text-field> -->
-
-						<!-- v-else -->
-					<v-chip
-						:color="`${item.color}`"
-						class="white--text"
-						label
-						small
-						>
-						{{ item.text }} 
-						<span 
-							v-if="!item.can_delete"
-							>
-							&nbsp; *
-						</span>
-					</v-chip>
+        </v-chip>
+      </template> 
 
 
-				</v-list-tile-content>
-			
-				<!-- EDITION FOR COMBOBOX -->
-				<!-- <v-spacer></v-spacer> -->
+      <!-- LIST OF CHOICES -->
+      <template
+        slot="item"
+        slot-scope="{index, item, parent}"
+        >
 
-				<!-- <v-list-tile-action @click.stop>
+        <v-list-tile-content
+          @click.prevent="can_delete(item, $event)"
+          >
 
-					<v-btn
-						icon
-						@click.stop.prevent="edit(index, item)"
-						>
-						<v-icon>
-							{{ editing !== item ? 
-								$store.state.mainIcons.edit.icon : $store.state.mainIcons.check.icon
-							}}
-						</v-icon>
-					</v-btn>
+          <!-- <v-text-field
+            v-if="editing === item"
+            v-model="editing.text"
+            autofocus
+            flat
+            background-color="transparent"
+            hide-details
+            solo
+            @keyup.enter="edit(index, item)"
+            >
+          </v-text-field> -->
 
-				</v-list-tile-action> -->
+            <!-- v-else -->
+          <v-chip
+            :color="`${item.color}`"
+            class="white--text"
+            label
+            small
+            >
+            {{ item.text }} 
+            <span 
+              v-if="!item.can_delete"
+              >
+              &nbsp; *
+            </span>
+          </v-chip>
 
-			</template>
 
-		</v-select>
+        </v-list-tile-content>
+      
+        <!-- EDITION FOR COMBOBOX -->
+        <!-- <v-spacer></v-spacer> -->
+
+        <!-- <v-list-tile-action @click.stop>
+
+          <v-btn
+            icon
+            @click.stop.prevent="edit(index, item)"
+            >
+            <v-icon>
+              {{ editing !== item ? 
+                $store.state.mainIcons.edit.icon : $store.state.mainIcons.check.icon
+              }}
+            </v-icon>
+          </v-btn>
+
+        </v-list-tile-action> -->
+
+      </template>
+
+    </v-select>
 
 
 
 
-		<!-- DEBUG -->
-		<v-flex 
-			class="mt-4"
-			v-if="$store.state.is_debug"
-			>
+    <!-- DEBUG -->
+    <v-flex 
+      class="mt-4"
+      v-if="$store.state.is_debug"
+      >
 
-			<v-divider class="my-2"></v-divider>
-			<span>
-				from within 'components/Forms/combobox_new_columns.vue' component
-			</span>
-			<v-divider class="my-2"></v-divider>
+      <v-divider class="my-2"></v-divider>
+      <span>
+        from within 'components/Forms/combobox_new_columns.vue' component
+      </span>
+      <v-divider class="my-2"></v-divider>
 
-			- parentDoc_id : <code>{{ parentDoc_id }}</code><br>
-			<v-divider></v-divider>
+      - parentDoc_id : <code>{{ parentDoc_id }}</code><br>
+      <v-divider></v-divider>
 
-			- can_update : <code>{{ can_update }}</code><br>
-			<v-divider></v-divider>
+      - can_update : <code>{{ can_update }}</code><br>
+      <v-divider></v-divider>
 
-			- model : <code>{{ model }}</code><br>
-			<v-divider></v-divider>
+      - model : <code>{{ model }}</code><br>
+      <v-divider></v-divider>
 
-			<!-- - items : <code>{{ items }}</code><br> -->
+      <!-- - items : <code>{{ items }}</code><br> -->
 
-		</v-flex>
+    </v-flex>
 
-	</div>
+  </div>
 
 </template>
 
@@ -181,212 +181,195 @@
 
 export default {
 
-	props : [
-		"parentDoc_id",
-		"parentDoc_coll",
-		"parent_DMT_oids",
-		"parent_REC_mapping",
+  props: [
+    'parentDoc_id',
+    'parentDoc_coll',
+    'parent_DMT_oids',
+    'parent_REC_mapping',
 
-		"new_col_preselected",
-		"new_col_choices",
-	],
+    'new_col_preselected',
+    'new_col_choices'
+  ],
 
-	components : {
-		
-	},
+  components: {
 
-	created () {
-		console.log("\n REC combobox_new_columns / created ... " ) ;
-		this.items = this.new_col_choices ; 
-		this.populateModel( this.parent_REC_mapping ) ;
-	},
+  },
 
-	data () {
+  created () {
+    console.log('\n REC combobox_new_columns / created ... ')
+    this.items = this.new_col_choices
+    this.populateModel(this.parent_REC_mapping)
+  },
 
-		return {
+  data () {
+    return {
 
-			activator	: null,
-			attach		: null,
+      activator: null,
+      attach: null,
 
-			fromRecParams : null,
-			can_update : false,
+      fromRecParams: null,
+      can_update: false,
 
-			colors		: [
-				// 'green', 
-				// 'purple', 
-				// 'indigo', 
-				// 'cyan', 
-				// 'teal', 
-				// 'orange'
-			],
-			editing		: null,
-			index		: -1,
+      colors: [
+        // 'green',
+        // 'purple',
+        // 'indigo',
+        // 'cyan',
+        // 'teal',
+        // 'orange'
+      ],
+      editing: null,
+      index: -1,
 
+      // CHOICES
+      items: [
+        // { header: this.$t(`projects.new_col`, this.$store.state.locale) },
+        // {
+        //  text: 'longitude',
+        //  color: 'accent'
+        // },
+        // {
+        //  text: 'latitude',
+        //  color: 'accent'
+        // },
+        // {
+        //  text: 'address',
+        //  color: 'accent'
+        // }
+      ],
 
-			// CHOICES
-			items		: [
-				// { header: this.$t(`projects.new_col`, this.$store.state.locale) },
-				// {
-				// 	text: 'longitude',
-				// 	color: 'accent'
-				// },
-				// {
-				// 	text: 'latitude',
-				// 	color: 'accent'
-				// },
-				// {
-				// 	text: 'address',
-				// 	color: 'accent'
-				// }
-			],
+      nonce: 1,
+      menu: false,
 
-			nonce		: 1,
-			menu		: false,
+      // INPUT CONTENT
+      model: [
+        // {
+        //  text: 'longitude',
+        //  color: 'accent'
+        // },
+        // {
+        //  text: 'latitude',
+        //  color: 'accent'
+        // }
+      ],
 
+      x: 0,
+      search: null,
+      y: 0
 
-			// INPUT CONTENT
-			model		: [
-				// {
-				// 	text: 'longitude',
-				// 	color: 'accent'
-				// },
-				// {
-				// 	text: 'latitude',
-				// 	color: 'accent'
-				// }
-			],
+    }
+  },
 
-			x			: 0,
-			search		: null,
-			y			: 0
+  computed: {
 
-		}
-	},
+  },
 
-	computed : {
+  watch: {
 
-	},
+    parent_REC_mapping (newVal, oldVal) {
+      console.log('\n REC combobox_new_columns / watch ~ parent_REC_mapping / newVal : \n', newVal)
+      this.populateModel(newVal)
+    },
 
-	watch : {
+    model (newVal, oldVal) {
+      console.log('\n REC combobox_new_columns / watch ~ model / newVal : \n', newVal)
 
-		parent_REC_mapping (newVal, oldVal) {
+      if (newVal.length === oldVal.length) return
 
-			console.log( "\n REC combobox_new_columns / watch ~ parent_REC_mapping / newVal : \n", newVal )
-			this.populateModel ( newVal )
+      // this.model = newVal.map( newInput => {
 
-		},
+      //  // if (typeof newInput === 'string') {
 
-		model (newVal, oldVal) {
+      //  //   newInput = {
+      //  //   text:  newInput,
+      //  //   // color: this.colors[this.nonce - 1]
+      //  //   color: "grey"
+      //  //  }
+      //  //  this.items.push(newInput)
+      //  //  this.nonce++
+      //  // }
 
-			console.log( "\n REC combobox_new_columns / watch ~ model / newVal : \n", newVal )
+      if (this.can_update) {
+        if (newVal !== this.fromRecParams) {
+          console.log('\n REC combobox_new_columns / watch ~ model / emitting updateNewColumns ')
+          this.$emit('updateNewColumns', this.model)
+        }
+      }
 
-			if (newVal.length === oldVal.length) return
+      //  return  newInput
+      // })
+    }
 
-			// this.model = newVal.map( newInput => {
+  },
 
-			// 	// if (typeof newInput === 'string') {
+  methods: {
 
-			// 	// 	 newInput = {
-			// 	// 		text:  newInput,
-			// 	// 		// color: this.colors[this.nonce - 1]
-			// 	// 		color: "grey"
-			// 	// 	}
-			// 	// 	this.items.push(newInput)
-			// 	// 	this.nonce++
-			// 	// }
+    can_delete (item, event) {
+      // console.log( "\n REC can_delete - item.can_delete :", item.can_delete );
+      // console.log( " can_delete - event :", event );
 
-			if ( this.can_update ) {
-				if ( newVal != this.fromRecParams ) {
-					console.log( "\n REC combobox_new_columns / watch ~ model / emitting updateNewColumns " )
-					this.$emit('updateNewColumns', this.model  )
-				}
-			}
+      // stop propagation if not allowed to delete from selection
+      if (!item.can_delete) {
+        event.stopPropagation()
+      }
+    },
 
-			// 	return  newInput
-			// })
-		},
-	
-	},
+    populateModel (parentRECmapping) {
+      console.log('\n REC combobox_new_columns - populateModel ...')
+      console.log('REC combobox_new_columns -  parentRECmapping : \n', parentRECmapping)
 
-	methods : {
+      if (parentRECmapping !== undefined) {
+        var recParams = parentRECmapping.rec_params
 
-		can_delete (item, event) {
-			
-			// console.log( "\n REC can_delete - item.can_delete :", item.can_delete );
-			// console.log( " can_delete - event :", event );
+        console.log('\n REC combobox_new_columns - recParams not undefined ...')
 
-			// stop propagation if not allowed to delete from selection
-			if ( !item.can_delete ) {
-				event.stopPropagation() 
-			} 
+        if (recParams.new_dmfs_list.length > 0) {
+          console.log('\n REC combobox_new_columns - recParams.new_dmfs_list.length > 1 ...')
 
-		},
+          this.fromRecParams = recParams.new_dmfs_list
+          this.model = recParams.new_dmfs_list
+          this.can_update = true
+        } else {
+          // parent PRJ has no parentRECmapping.rec_params.new_dmfs_list
+          this.model = this.new_col_preselected
+          this.can_update = false
+          this.$emit('updateNewColumns', this.model)
+        }
+      } else {
+        // parent PRJ has no parentRECmapping at all
+        this.model = this.new_col_preselected
+        this.can_update = true
+        this.$emit('updateNewColumns', this.model)
+      }
+    }
 
-		populateModel ( parent_REC_mapping ) {
-			
-			console.log( "\n REC combobox_new_columns - populateModel ..." );
-			console.log( "REC combobox_new_columns -  parent_REC_mapping : \n", parent_REC_mapping );
+    // edit (index, item) {
 
-			if ( parent_REC_mapping != undefined ) {
-				
-				var rec_params = parent_REC_mapping.rec_params ; 
+    //  if (!this.editing) {
+    //   this.editing  = item
+    //   this.index   = index
+    //  }
+    //  else {
+    //   this.editing  = null
+    //   this.index   = -1
+    //  }
+    // },
 
-				console.log( "\n REC combobox_new_columns - rec_params not undefined ..." );
+    // filter (item, queryText, itemText) {
 
-				if ( rec_params.new_dmfs_list.length > 0 ) {	
-					
-					console.log( "\n REC combobox_new_columns - rec_params.new_dmfs_list.length > 1 ..." );
-					
-					this.fromRecParams 		= rec_params.new_dmfs_list
-					this.model 				= rec_params.new_dmfs_list
-					this.can_update = true
-				}
+    //  if (item.header) return false
 
-				// parent PRJ has no parent_REC_mapping.rec_params.new_dmfs_list
-				else {
-					this.model 		= this.new_col_preselected ; 
-					this.can_update = false
-					this.$emit('updateNewColumns', this.model  )
-				} 
-			} 
+    //  const hasValue = val => val != null ? val : ''
 
-			// parent PRJ has no parent_REC_mapping at all
-			else {
-				this.model 		= this.new_col_preselected ; 
-				this.can_update = true
-				this.$emit('updateNewColumns', this.model  )
-			}
-		},
+    //  const text  = hasValue(itemText)
+    //  const query = hasValue(queryText)
 
-		// edit (index, item) {
+    //  return text.toString()
+    //  .toLowerCase()
+    //  .indexOf(query.toString().toLowerCase()) > -1
+    // }
 
-		// 	if (!this.editing) {
-		// 		this.editing 	= item
-		// 		this.index 		= index
-		// 	} 
-		// 	else {
-		// 		this.editing 	= null
-		// 		this.index 		= -1
-		// 	}
-		// },
-
-		// filter (item, queryText, itemText) {
-
-		// 	if (item.header) return false
-
-		// 	const hasValue = val => val != null ? val : ''
-
-		// 	const text 	= hasValue(itemText)
-		// 	const query = hasValue(queryText)
-
-		// 	return text.toString()
-		// 	.toLowerCase()
-		// 	.indexOf(query.toString().toLowerCase()) > -1
-		// }
-
-	},
+  }
 
 }
-
-
 </script>

@@ -1,6 +1,6 @@
 <style scoped>
 
-	
+  
 </style>
 
 
@@ -17,37 +17,35 @@
 
 export default {
 
-	props : [
-		
-	],
+  props: [
 
-	components : {
+  ],
 
-	},
+  components: {
 
-	created () {
+  },
 
-	},
+  created () {
 
-	data () {
-		return {
+  },
 
-		}
-	},
+  data () {
+    return {
 
-	computed : {
+    }
+  },
 
-	},
+  computed: {
 
-	watch : {
+  },
 
-	},
+  watch: {
 
-	methods : {
+  },
 
-	},
+  methods: {
+
+  }
 
 }
-
-
 </script>

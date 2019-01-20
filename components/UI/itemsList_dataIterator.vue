@@ -1,232 +1,232 @@
 <template>
 
-	<v-card 
-		:class="classMainCard"
-		>
+  <v-card 
+    :class="classMainCard"
+    >
 
 
-		<!-- DEBUG -->
-		<v-card-text 
-			v-if="$store.state.is_debug"
-			>
-			- tab : <code> {{ tab }} </code><br>
-			- coll : <code> {{ coll }} </code><br>
-			- add_to_parent : <code> {{ add_to_parent }} </code><br>
-			- parentDoc_id : <code> {{ parentDoc_id }} </code><br>
-			- parentDoc_coll : <code> {{ parentDoc_coll }} </code><br>
-			- items_in_parent : <code> {{ items_in_parent }} </code><br>
-			<!-- - items_coll : <code> {{ items_coll }} </code><br> -->
-		</v-card-text>
+    <!-- DEBUG -->
+    <v-card-text 
+      v-if="$store.state.is_debug"
+      >
+      - tab : <code> {{ tab }} </code><br>
+      - coll : <code> {{ coll }} </code><br>
+      - add_to_parent : <code> {{ add_to_parent }} </code><br>
+      - parentDoc_id : <code> {{ parentDoc_id }} </code><br>
+      - parentDoc_coll : <code> {{ parentDoc_coll }} </code><br>
+      - items_in_parent : <code> {{ items_in_parent }} </code><br>
+      <!-- - items_coll : <code> {{ items_coll }} </code><br> -->
+    </v-card-text>
 
 
-		<v-container 
-			fluid grid-list-md
-			pt-4
-			>
+    <v-container 
+      fluid grid-list-md
+      pt-4
+      >
 
-			<!-- SEARCH CARD -->
-			<v-layout 
-				row
-				wrap
-				:class="classPaddingBottomSearch"
-				align-center
-				>
-	 		
-				<v-flex 
-					xs10 sm8 md6 lg6
-					>
-	
-					<!-- - itemsTitlesList : {{ itemsTitlesList }} -->
-					<!-- - coll : {{ coll }} -->
-					<!-- - tab : {{ tab }} -->
+      <!-- SEARCH CARD -->
+      <v-layout 
+        row
+        wrap
+        :class="classPaddingBottomSearch"
+        align-center
+        >
+       
+        <v-flex 
+          xs10 sm8 md6 lg6
+          >
+  
+          <!-- - itemsTitlesList : {{ itemsTitlesList }} -->
+          <!-- - coll : {{ coll }} -->
+          <!-- - tab : {{ tab }} -->
 
-					<!-- AUTOCOMPLETE COMPONENT -->
-					<v-card
-						class="elevation-0"
-						color="white"
-						height=""
-						>
+          <!-- AUTOCOMPLETE COMPONENT -->
+          <v-card
+            class="elevation-0"
+            color="white"
+            height=""
+            >
 
-						<v-card-text
-							class="py-1 "
-							>
+            <v-card-text
+              class="py-1 "
+              >
 
-							<v-autocomplete
-								v-model="searchString"
-								:items="itemsTitlesList"
-								:label="$t(`global.search`, $store.state.locale) + ' - ' + $t(`${tab}.name`, $store.state.locale)"
-								persistent-hint
-								prepend-icon="search"
-								class="ma-0"
-								flat
-								solo
-								clearable
-								hide-no-data
-								hide-details
-								>
+              <v-autocomplete
+                v-model="searchString"
+                :items="itemsTitlesList"
+                :label="$t(`global.search`, $store.state.locale) + ' - ' + $t(`${tab}.name`, $store.state.locale)"
+                persistent-hint
+                prepend-icon="search"
+                class="ma-0"
+                flat
+                solo
+                clearable
+                hide-no-data
+                hide-details
+                >
 
-							</v-autocomplete>
-						</v-card-text>
-					</v-card>
+              </v-autocomplete>
+            </v-card-text>
+          </v-card>
 
-				</v-flex>
+        </v-flex>
 
-				<v-flex
-					xs2  sm4  md4 offset-md2  lg3 offset-lg3
-					text-xs-center
-					>
+        <v-flex
+          xs2  sm4  md4 offset-md2  lg3 offset-lg3
+          text-xs-center
+          >
 
-					<BtnCreate
-						v-if="$store.state.auth.isLogged"
-						:is_icon="false"
-						:tab="tab"
-						:color="'primary'"
-						:btn_class="'primary'"
-						:is_block="false"
-						:outline="true"
-						:large="true"
-						:flat="true"
-						>
-					</BtnCreate>
+          <BtnCreate
+            v-if="$store.state.auth.isLogged"
+            :is_icon="false"
+            :tab="tab"
+            :color="'primary'"
+            :btn_class="'primary'"
+            :is_block="false"
+            :outline="true"
+            :large="true"
+            :flat="true"
+            >
+          </BtnCreate>
 
-				</v-flex>
+        </v-flex>
 
-			</v-layout>
-
-
-			<!-- PREVIEW CARDS - IS IN TEAM -->
-			<v-data-iterator
-				v-if="itemsIn != null"
-				:items="itemsList('inTeam')" 
-
-				:rows-per-page-items="rowsPerPageItems"
-				:pagination.sync="pagination"
-
-				content-tag="v-layout"
-				row
-				wrap
-				>
-
-				<!-- data iterator title -->
-				<v-toolbar
-					v-if="!add_to_parent"
-					dense
-					slot="header"
-					class="mb-0 pb-0"
-					color="transparent"
-					flat
-					>
-
-					<v-toolbar-title
-						class="body-2 grey--text"
-						>
-						<!-- - {{ coll }} - {{ tab }} -  -->
-						<!-- - {{ parentDoc_id }} -  -->
-						<!-- {{ $t( tab+'.name', $store.state.locale)  }}
-						-  -->
-						{{ $t(`global.inTeam`, $store.state.locale) }}
-					</v-toolbar-title>
-
-				</v-toolbar>
+      </v-layout>
 
 
-				<!-- data iterator cards -->
-				<v-flex
-					slot="item"
-					slot-scope="props"
-					:class="cardSizes"
-					mb-4
-					>
+      <!-- PREVIEW CARDS - IS IN TEAM -->
+      <v-data-iterator
+        v-if="itemsIn != null"
+        :items="itemsList('inTeam')" 
 
-					<CardPreviewDense 
-						:coll="coll"
-						:tab="tab"
-						:item="props.item"
-						:inTeam="'yes'"
+        :rows-per-page-items="rowsPerPageItems"
+        :pagination.sync="pagination"
 
-						:add_to_parent="add_to_parent"
-						:parentDoc_id="parentDoc_id"
-						:parentDoc_coll="parentDoc_coll"
-						:is_in_parent="is_in_parent(props.item._id)"
+        content-tag="v-layout"
+        row
+        wrap
+        >
 
-						@update_parent_dataset="updateParentDatasetList"
-						>
-					</CardPreviewDense>
+        <!-- data iterator title -->
+        <v-toolbar
+          v-if="!add_to_parent"
+          dense
+          slot="header"
+          class="mb-0 pb-0"
+          color="transparent"
+          flat
+          >
 
-				</v-flex>
+          <v-toolbar-title
+            class="body-2 grey--text"
+            >
+            <!-- - {{ coll }} - {{ tab }} -  -->
+            <!-- - {{ parentDoc_id }} -  -->
+            <!-- {{ $t( tab+'.name', $store.state.locale)  }}
+            -  -->
+            {{ $t(`global.inTeam`, $store.state.locale) }}
+          </v-toolbar-title>
 
-
-			</v-data-iterator>
-
-
-			<!-- PREVIEW CARDS - NOT IN TEAM -->
-			<v-data-iterator
-				v-if="itemsNot != null"
-				:items="itemsList('notTeam')" 
-				:rows-per-page-items="rowsPerPageItems"
-				:pagination.sync="pagination"
-				content-tag="v-layout"
-				row
-				wrap
-				>
-
-				<!-- data iterator title -->
-				<v-toolbar
-					v-if="!add_to_parent"
-					dense
-					slot="header"
-					class="mb-0 pb-0"
-					color="transparent"
-					flat
-					>
-
-					<v-toolbar-title
-						class="body-2 grey--text"
-						>
-						{{ $t(`global.notTeam`, $store.state.locale) }}
-
-					</v-toolbar-title>
-
-				</v-toolbar>
+        </v-toolbar>
 
 
-				<!-- data iterator cards -->
-				<v-flex
-					slot="item"
-					slot-scope="props"
-					:class="cardSizes"
-					mb-4
-					>
+        <!-- data iterator cards -->
+        <v-flex
+          slot="item"
+          slot-scope="props"
+          :class="cardSizes"
+          mb-4
+          >
 
-					<CardPreviewDense 
-						:coll="coll"
-						:tab="tab"
-						:item="props.item"
-						:inTeam="'no'"
+          <CardPreviewDense 
+            :coll="coll"
+            :tab="tab"
+            :item="props.item"
+            :inTeam="'yes'"
 
-						:add_to_parent="add_to_parent"
-						:parentDoc_id="parentDoc_id"
-						:is_in_parent="is_in_parent(props.item._id)"
+            :add_to_parent="add_to_parent"
+            :parentDoc_id="parentDoc_id"
+            :parentDoc_coll="parentDoc_coll"
+            :is_in_parent="is_in_parent(props.item._id)"
 
-						@update_parent_dataset="updateParentDatasetList"
-						>
-					</CardPreviewDense>
+            @update_parent_dataset="updateParentDatasetList"
+            >
+          </CardPreviewDense>
 
-					<!-- <template slot="pageText" slot-scope="props">
-						Lignes {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
-					</template> -->
-
-
-				</v-flex>
+        </v-flex>
 
 
+      </v-data-iterator>
 
-			</v-data-iterator>
+
+      <!-- PREVIEW CARDS - NOT IN TEAM -->
+      <v-data-iterator
+        v-if="itemsNot != null"
+        :items="itemsList('notTeam')" 
+        :rows-per-page-items="rowsPerPageItems"
+        :pagination.sync="pagination"
+        content-tag="v-layout"
+        row
+        wrap
+        >
+
+        <!-- data iterator title -->
+        <v-toolbar
+          v-if="!add_to_parent"
+          dense
+          slot="header"
+          class="mb-0 pb-0"
+          color="transparent"
+          flat
+          >
+
+          <v-toolbar-title
+            class="body-2 grey--text"
+            >
+            {{ $t(`global.notTeam`, $store.state.locale) }}
+
+          </v-toolbar-title>
+
+        </v-toolbar>
 
 
-		</v-container>
+        <!-- data iterator cards -->
+        <v-flex
+          slot="item"
+          slot-scope="props"
+          :class="cardSizes"
+          mb-4
+          >
 
-	</v-card>
+          <CardPreviewDense 
+            :coll="coll"
+            :tab="tab"
+            :item="props.item"
+            :inTeam="'no'"
+
+            :add_to_parent="add_to_parent"
+            :parentDoc_id="parentDoc_id"
+            :is_in_parent="is_in_parent(props.item._id)"
+
+            @update_parent_dataset="updateParentDatasetList"
+            >
+          </CardPreviewDense>
+
+          <!-- <template slot="pageText" slot-scope="props">
+            Lignes {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
+          </template> -->
+
+
+        </v-flex>
+
+
+
+      </v-data-iterator>
+
+
+    </v-container>
+
+  </v-card>
 
 </template>
 
@@ -237,198 +237,185 @@ import BtnCreate from '~/components/UI/btnCreate.vue'
 
 import CardPreviewDense from '~/components/UI/cardPreview_dense.vue'
 
-
 export default {
 
-	props : [ 
+  props: [
 
-		"items_coll", 
-		"tab", 
-		"coll",
+    'items_coll',
+    'tab',
+    'coll',
 
-		"no_margin",
+    'no_margin',
 
-		// props to add item to parent
-		"add_to_parent",
-		"parentDoc_id",
-		"parentDoc_coll",
-		"items_in_parent",
+    // props to add item to parent
+    'add_to_parent',
+    'parentDoc_id',
+    'parentDoc_coll',
+    'items_in_parent'
 
-	],
-	
-	components : {
-		CardPreviewDense,
-		BtnCreate,
-	},
-	
-	created () {
-		console.log("\n itemList_dataIterator / col : ", this.coll )
-		console.log("itemList_dataIterator / items_in_parent : \n", this.items_in_parent )
-	},
+  ],
 
-	data () {
-		
-		return {
-			
-			// ITEMS 
-			// itemsIn 	: this.items_coll['docs_user_is_in_team'],
-			// itemsNot 	: this.items_coll['docs_user_not_in_team'],
+  components: {
+    CardPreviewDense,
+    BtnCreate
+  },
 
-			// MAIN CARD SIZE 
-			with_margin 	: "grey lighten-3 elevation-0 mb-5 mx-5 px-3",
-			with_no_margin 	: "grey lighten-3 elevation-0 mt-1 mx-0 px-3",
+  created () {
+    console.log('\n itemList_dataIterator / col : ', this.coll)
+    console.log('itemList_dataIterator / items_in_parent : \n', this.items_in_parent)
+  },
 
-			with_padding 	: "pb-2 mb-1",
-			with_no_padding : "pb-2 mb-2",
+  data () {
+    return {
 
-			// CARDS SIZES
-			// cardSizes : "xs12 sm6 md4 l4",
-			cardSizes : this.$store.state[this.coll].parameters.cardSizes,
+      // ITEMS
+      // itemsIn  : this.items_coll['docs_user_is_in_team'],
+      // itemsNot  : this.items_coll['docs_user_not_in_team'],
 
-			// SEARCH BAR
-			isEditing	: false,
-			searchString: null,
-		
-			// PAGINATION DATA ITERATOR
-			rowsPerPageItems	: this.$store.state[this.coll].rowsPerPageItems,
-			pagination			: this.$store.state[this.coll].pagination
+      // MAIN CARD SIZE
+      with_margin: 'grey lighten-3 elevation-0 mb-5 mx-5 px-3',
+      with_no_margin: 'grey lighten-3 elevation-0 mt-1 mx-0 px-3',
 
+      with_padding: 'pb-2 mb-1',
+      with_no_padding: 'pb-2 mb-2',
 
-		}
+      // CARDS SIZES
+      // cardSizes : "xs12 sm6 md4 l4",
+      cardSizes: this.$store.state[this.coll].parameters.cardSizes,
 
-	},
+      // SEARCH BAR
+      isEditing: false,
+      searchString: null,
 
-	watch : {
+      // PAGINATION DATA ITERATOR
+      rowsPerPageItems: this.$store.state[this.coll].rowsPerPageItems,
+      pagination: this.$store.state[this.coll].pagination
 
-		// items_in_parent : {
+    }
+  },
 
-		// 	immediate : true,
-		// 	handler (newVal, oldVal ) {
-		// 		console.log("~ watch ItemsList_DI / items_in_parent - newVal : ", newVal )
-		// 	}
+  watch: {
 
-		// }
-	},
+    // items_in_parent : {
 
-	computed : {
+    //  immediate : true,
+    //  handler (newVal, oldVal ) {
+    //   console.log("~ watch ItemsList_DI / items_in_parent - newVal : ", newVal )
+    //  }
 
-			itemsIn 	() { 
-				var inTeamList = this.items_coll['docs_user_is_in_team']
-				if( inTeamList != undefined && inTeamList.length != 0 ) {
-					return inTeamList//.sort((a, b) => a.infos.title.toUpperCase().localeCompare( b.infos.title.toUpperCase() ) )
-				}
-				else {
-					return inTeamList
-				}
-			},
+    // }
+  },
 
-			itemsNot 	() { 
-				var notTeam = this.items_coll['docs_user_not_in_team']
-				if( notTeam != undefined && notTeam.length != 0 ) {
-					return notTeam//.sort((a, b) => a.infos.title.toUpperCase().localeCompare( b.infos.title.toUpperCase() ) )
-				}
-				else {
-					return notTeam
-				}
-			},
+  computed: {
 
-			itemsTitlesList () {
-				// get all docs' titles to fill autoplete
+    itemsIn  () {
+      var inTeamList = this.items_coll['docs_user_is_in_team']
+      console.log('~ ItemsList_DI / items_in_parent - newVal : ', inTeamList)
+      // if (inTeamList !== undefined && inTeamList.length !== 0) {
+      //   return inTeamList// .sort((a, b) => a.infos.title.toUpperCase().localeCompare( b.infos.title.toUpperCase() ) )
+      // } else {
+      //   return inTeamList
+      // }
+      return inTeamList
+    },
 
-				var titlesList  = [];
-				// const itemsIn 	= this.items_coll['docs_user_is_in_team'] ;
-				// const itemsNot 	= this.items_coll['docs_user_not_in_team'] ;
+    itemsNot  () {
+      var notTeam = this.items_coll['docs_user_not_in_team']
+      // if (notTeam !== undefined && notTeam.length !== 0) {
+      //   return notTeam// .sort((a, b) => a.infos.title.toUpperCase().localeCompare( b.infos.title.toUpperCase() ) )
+      // } else {
+      //   return notTeam
+      // }
+      return notTeam
+    },
 
-				if( this.itemsIn != null ){
-					for (var doc in this.itemsIn) {
-						titlesList.push(this.itemsIn[doc].infos.title) ; 
-					}
-				};
-				if( this.itemsNot != null ){
-					for (var doc in this.itemsNot) {
-						titlesList.push(this.itemsNot[doc].infos.title) ; 
-					}
-				};
+    itemsTitlesList () {
+      // get all docs' titles to fill autoplete
 
-				return titlesList // .sort( (a,b) => a.localCompare(b) )
+      var titlesList = []
+      // const itemsIn  = this.items_coll['docs_user_is_in_team'] ;
+      // const itemsNot  = this.items_coll['docs_user_not_in_team'] ;
 
-			},
+      if (this.itemsIn != null) {
+        for (let doc in this.itemsIn) {
+          titlesList.push(this.itemsIn[doc].infos.title)
+        }
+      };
+      if (this.itemsNot != null) {
+        for (let doc in this.itemsNot) {
+          titlesList.push(this.itemsNot[doc].infos.title)
+        }
+      };
 
-			classMainCard () {
-				return (this.no_margin) ? this.with_no_margin : this.with_margin ;
-			},
+      return titlesList // .sort( (a,b) => a.localCompare(b) )
+    },
 
-			classPaddingBottomSearch () {
-				return (this.no_margin) ? this.with_no_padding : this.with_padding ;
-			},
+    classMainCard () {
+      return (this.no_margin) ? this.with_no_margin : this.with_margin
+    },
 
+    classPaddingBottomSearch () {
+      return (this.no_margin) ? this.with_no_padding : this.with_padding
+    }
 
-	},
+  },
 
-	methods : {
-		
-		is_in_parent (item_id) {
+  methods: {
 
-			console.log("\n-- is_in_parent ..." ) ; 
-			var is_in_array = false ;
-			const coll 		= this.coll ; 
+    is_in_parent (itemId) {
+      console.log('\n-- is_in_parent ...')
+      var isInArray = false
+      const coll = this.coll
 
-			// console.log("\n-- is_in_parent ... this.items_in_parent : ", this.items_in_parent ) ; 
-			// console.log("-- is_in_parent ... coll (A) : ", coll ) ; 
+      // console.log("\n-- is_in_parent ... this.items_in_parent : ", this.items_in_parent ) ;
+      // console.log("-- is_in_parent ... coll (A) : ", coll ) ;
 
-			if ( this.items_in_parent ) {
-				// console.log("-- is_in_parent ... item_id : ", item_id ) ; 
-				const checkInArray = obj => obj["oid_"+coll] === item_id;
-				is_in_array = this.items_in_parent.some( checkInArray );
-			}
+      if (this.items_in_parent) {
+        // console.log("-- is_in_parent ... itemId : ", itemId ) ;
+        const checkInArray = obj => obj['oid_' + coll] === itemId
+        isInArray = this.items_in_parent.some(checkInArray)
+      }
 
-			return is_in_array 
-		},
+      return isInArray
+    },
 
-		itemsList (in_out) {
-			
-			// console.log("-- itemsInList ..." ) ; 
-			// console.log("-- itemsInList / in_out : ", in_out) ; 
+    itemsList (inOut) {
+      // console.log("-- itemsInList ..." ) ;
+      // console.log("-- itemsInList / inOut : ", inOut) ;
 
-			var searchStr 	= this.searchString ;
+      const searchStr = this.searchString
 
-			var items_list = (in_out === "inTeam") ? this.itemsIn : this.itemsNot ;
+      let itemsList = (inOut === 'inTeam') ? this.itemsIn : this.itemsNot
 
-			if (this.searchString != null ){
-				
-				// console.log("-- itemsInList / searchStr : ", searchStr) ; 
-				// console.log("-- itemsInList / itemsList : ", itemsList) ; 
-				// for (var d in itemsList){
-				// 	console.log("itemsList[d] : ", itemsList[d] )
-				// }
+      if (searchStr !== null) {
+        // console.log("-- itemsInList / searchStr : ", searchStr) ;
+        // console.log("-- itemsInList / itemsList : ", itemsList) ;
+        // for (var d in itemsList){
+        //  console.log("itemsList[d] : ", itemsList[d] )
+        // }
 
-				items_list = items_list.filter( function(item) { 
+        itemsList = itemsList.filter(function (item) {
+          // console.log("-- itemsInList / item : ", item) ;
+          return (item.infos.title.includes(searchStr))
+        })
+      };
 
-					// console.log("-- itemsInList / item : ", item) ; 
-					return ( item.infos.title.includes(searchStr) )
-				
-				})
+      // NOT WORKING ...
+      // if ( itemsList.length != 0 ) {
+      //  console.log("-- itemsInList / itemsList : ", itemsList) ;
+      //  itemsList.sort((a, b) => a.infos.title.toUpperCase().localeCompare( b.infos.title.toUpperCase() ) )
+      // }
 
-			};
+      // console.log("-- itemsInList / itemsList : ", itemsList) ;
+      return itemsList
+    },
 
-			// NOT WORKING ...
-			// if ( items_list.length != 0 ) {
-			// 	console.log("-- itemsInList / items_list : ", items_list) ;
-			// 	items_list.sort((a, b) => a.infos.title.toUpperCase().localeCompare( b.infos.title.toUpperCase() ) )
-			// }
+    updateParentDatasetList (input) {
+      console.log('updateParentDatasetList / input : ', input)
+      this.$emit('update_parent_dataset', input)
+    }
 
-			// console.log("-- itemsInList / items_list : ", items_list) ; 
-			return items_list
-		},
-
-
-		updateParentDatasetList (input) {
-			console.log("updateParentDatasetList / input : ", input )
-			this.$emit('update_parent_dataset', input )
-		}
-
-	},
+  }
 
 }
-
 </script>

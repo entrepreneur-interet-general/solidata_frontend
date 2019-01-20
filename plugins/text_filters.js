@@ -1,54 +1,48 @@
 import Vue from 'vue'
 
-import CheckValueType from "~/utils/checkValueType.js"
+import CheckValueType from '~/plugins/utils/checkValueType.js'
 
-Vue.filter('json', function(value) { 
-	// console.log("> > > plugin json filter / value : ", value) ; 
-	var pretty =  JSON.stringify(value, null, 2 );
-	// console.log("> > > plugin json filter / pretty : ", pretty) ; 
-	return pretty
-} )
+Vue.filter('json', function (value) {
+  // console.log("> > > plugin json filter / value : ", value) ;
+  var pretty = JSON.stringify(value, null, 2)
+  // console.log("> > > plugin json filter / pretty : ", pretty) ;
+  return pretty
+})
 // Vue.filter('capitalize', val => "... from plugins/json_filter.js ..." )
 
+Vue.filter('date_str', function (dateRaw) {
+  // console.log("> > > plugin date_str filter / dateRaw : ", dateRaw) ;
+  var cleanDate = new Date(dateRaw).toDateString()
+  // console.log("> > > plugin date_str filter / cleanDate : ", cleanDate) ;
+  return cleanDate
+})
 
-Vue.filter('date_str', function(date_raw) { 
-	// console.log("> > > plugin date_str filter / date_raw : ", date_raw) ; 
-	var clean_date = new Date(date_raw).toDateString() ;
-	// console.log("> > > plugin date_str filter / clean_date : ", clean_date) ; 
-	return clean_date
-} )
+Vue.filter('truncate', function (value, length, suffix, sep = ' ') {
+  // console.log("\n> > > plugin truncate filter / value : ", value) ;
 
-Vue.filter('truncate', function(value, length, suffix, sep=" ") { 
+  if (value === undefined) {
+    value = ''
+  }
 
-	// console.log("\n> > > plugin truncate filter / value : ", value) ;
+  var valueType = CheckValueType.getValType(value, sep)
+  // console.log("> > > plugin truncate filter / valueType : ", valueType ) ;
 
-	if ( value == undefined ){
-		value = ""
-	}
+  var truncated = ''
 
-	var value_type = CheckValueType.getValType(value, sep) ; 
-	// console.log("> > > plugin truncate filter / value_type : ", value_type ) ;
+  if (value === null || value === undefined) {
+    truncated = ''
+  } else if (valueType.type === 'number') {
+    truncated = value
+  } else if (valueType.type === 'array') {
+    truncated = valueType.as_str
+  } else {
+    truncated = value
+  }
 
-	var truncated = "" ; 
+  if (truncated.length > length && length > 0) {
+    truncated = truncated.substring(0, length) + suffix
+  }
 
-	if (value === null || value == undefined) {
-		truncated = ''
-	}
-	else if (value_type.type === 'number'){
-		truncated = value
-	}
-	else if (value_type.type === 'array'){
-		truncated = value_type.as_str ;
-	}
-	else {
-		truncated = value ;
-	}
-
-	if (truncated.length > length && length > 0 ){
-		truncated = truncated.substring(0, length) + suffix; 
-	}
-	
-
-	// console.log("> > > plugin truncate filter / truncated : ", truncated ) ;
-	return truncated
-} )
+  // console.log("> > > plugin truncate filter / truncated : ", truncated ) ;
+  return truncated
+})

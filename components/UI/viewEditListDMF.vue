@@ -1,796 +1,796 @@
 <style scoped>
 
-	.thin-border {
-		border-style: solid;
-		border-width: thin;
-		border-color: #eee;
-	}
+  .thin-border {
+    border-style: solid;
+    border-width: thin;
+    border-color: #eee;
+  }
 
-	tr th {
-		/* text-align : center ; */
-		/* border-left: thin dashed grey ; */
-	}
+  tr th {
+    /* text-align : center ; */
+    /* border-left: thin dashed grey ; */
+  }
 
-	th, td {
-		border-left: thin solid #eee ;
-		border-right: thin solid #eee ;
-		max-width: 220px !important; 
-	}
-	td .col-values {
-		width: 210px; 
-		overflow-y: hidden ;
-		text-align : center ;
-		display: inline-block;
-		vertical-align: middle;
-	}
-	td .col-titles {
-		/* max-width: 70px;  */
-		width: 100px; 
-		text-align : center ;
-		display: inline-block;
-		vertical-align: middle;
-		/* overflow-y: hidden; */
-	}
+  th, td {
+    border-left: thin solid #eee ;
+    border-right: thin solid #eee ;
+    max-width: 220px !important; 
+  }
+  td .col-values {
+    width: 210px; 
+    overflow-y: hidden ;
+    text-align : center ;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  td .col-titles {
+    /* max-width: 70px;  */
+    width: 100px; 
+    text-align : center ;
+    display: inline-block;
+    vertical-align: middle;
+    /* overflow-y: hidden; */
+  }
 
-	.dmf-title-btn {
-		max-width: 210px !important; 
-		width: 210px; 
-		overflow-y: hidden ;
-		text-align : center ;
-		/* display: inline-block; */
-	}
+  .dmf-title-btn {
+    max-width: 210px !important; 
+    width: 210px; 
+    overflow-y: hidden ;
+    text-align : center ;
+    /* display: inline-block; */
+  }
 
-	.v-input--checkbox {
-		align-items: center;
-		justify-content: center;
-	}
+  .v-input--checkbox {
+    align-items: center;
+    justify-content: center;
+  }
 
-	.no-scroll {
-		-ms-overflow-style: none;  /* IE 10+ */
-		overflow: -moz-scrollbars-none;  /* Firefox */
-	}
-	.no-scroll::-webkit-scrollbar { 
-		display: none;  /* Safari and Chrome */
-	}
+  .no-scroll {
+    -ms-overflow-style: none;  /* IE 10+ */
+    overflow: -moz-scrollbars-none;  /* Firefox */
+  }
+  .no-scroll::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+  }
 
 </style>
 
 <template>
 
-	<div class="pa-0 ma-0">
-
-
-		<!-- DEBUG  -->
-		<v-layout 
-			v-if="$store.state.is_debug"
-			row 
-			>
-
-			<v-flex class="xs12">
-
-				<v-alert
-					:value="true"
-					type="error"
-					class="text-xs-left"
-					>
-
-					---- DEBUG component - viewEditListDMF ----
-					<hr>
-
-					<!-- list_DMF_full_pivoted - <code>{{ list_DMF_full_pivoted }}</code> -->
-					<hr>
-					<!-- list_DMF_full - <code>{{ list_DMF_full }}</code> -->
-					<hr> 
-					DMF_headers - <br> <code>{{ DMF_headers }}</code>
-
-				</v-alert>
-
-			</v-flex>
-
-		</v-layout>
-
-
-		<!-- LIST DMF AS DATA TABLE STYLE-->
-		<v-layout row wrap>
-			
-			<!-- - selected_cols : <br> <code>{{ selected_cols }} </code><br>  -->
-
-			<!-- DMF_LIST vs GEOLOC MAPPING -->
-			<v-flex 
-				v-if="is_solidify"
-				class="xs12"
-				>
-
-				<v-card 
-					flat
-					class=""
-					color=""
-					>
-					<v-card-text class="pa-0">
-
-						<v-divider></v-divider>
-
-						<!-- DMF_LIST GEOLOC DATA TABLE -->
-						<v-data-table
-							:ref="'datatable_geoloc'"
-							:headers="list_headers_selector"
-							:items="list_DMF_first_row_pivoted"
-							class="elevation-0"
-							:loading="loading"
-							:pagination.sync="paginationDMF"
-							hide-actions
-							hide-headers
-							>
-				
-							<template
-								slot="items" 
-								slot-scope="props"
-								>
-							
-								<td
-									v-for="dmf in list_DMF_raw_selector"
-									:key="list_DMF_raw_selector.indexOf(dmf)"
-									:class="`px-1 ${ (list_DMF_first_row_pivoted.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
-									style="text-align: center;"
-									>
-
-									<!-- first column  -->
-									<!-- open_level_show -->
-									<div 
-										v-if=" dmf['_id'] == '_' && !isPreview"
-										class="col-titles font-weight-bold"
-										>
-										
-										<v-icon 
-											small
-											color="primary" 
-											>
-											{{ $store.state.mainIcons.view.icon }}
-										</v-icon>
-										<v-tooltip right>
-											<span slot="activator">
-												<v-icon 
-													small
-													dark
-													class="pl-2"
-													color="grey"
-													>
-													{{ $store.state.mainIcons.question.icon }}
-												</v-icon>
-											</span>
-											<span>
-												{{ $t(`projects.open_level_show`, $store.state.locale) }}
-											</span>
-										</v-tooltip>
-
-									</div>
-
-
-									<!-- columns for each entry in list_DMF_full_pivoted -->
-									<div 
-										v-else
-										class="col-values px-2 py-2 text-xs-center"
-										>
-
-										<!-- GEOLOC CHOICE INPUT -->
-										<!-- <ViewEditDMFol
-											:dmt="item_doc_id[0].oid_dmt"
-											:dmf="dmf"
-											:is_loading="is_loading"
-											:parent_map="parent_map"
-											:dmf_ol_val="getDMF_openlevel(dmf._id)"
-											:parentDoc_id="parentDoc_id"
-											:parentDoc_coll="parentDoc_coll"
-											:canEdit="canEdit_ol"
-											>
-										</ViewEditDMFol> -->
-
-										<!-- <code>{{ dmf }}</code><br> -->
-										<!-- - dmf["_id"] <code>{{ dmf["_id"] }}</code><br> -->
-										<!-- - disabled_dmf_list : <code>{{ disabled_dmf_list }}</code><br> -->
-
-										<span 
-											:class="`${ dmf['specs.is_standard']? 'grey--text' : '' }`"
-											>
-											{{ dmf["infos.title"] }}
-										</span>
-
-											<!-- :disabled="dmf['specs.is_standard']" -->
-										<v-checkbox 
-											class="mt-2"
-											v-model="selected_cols" 
-											:disabled="isDisabled(dmf['_id'])"
-											:value="dmf._id"
-											hide-details
-											@change="updateSolidifyListDMF"
-											>
-										</v-checkbox>
-
-									</div>
-
-								</td>
-								
-								
-							</template>
-
-						</v-data-table>
-
-						<v-divider></v-divider>
-
-					</v-card-text>
-				</v-card>
-
-
-			</v-flex>
-
-
-			<!-- DMF_LIST as DATA TABLE-->
-			<v-flex 
-				v-if="!is_solidify"
-				xs12 
-				pt-0
-				>
-
-				<v-card 
-					flat
-					class=""
-					color=""
-					>
-					<v-card-text 
-						class="pa-0 thin-border"
-						>
-
-						<!-- DATA TOOLBAR -->
-						<v-toolbar 
-							v-if="!no_toolbar"
-							class="elevation-0" 
-							color="white"
-							>
-							
-							<!-- title dataset -->
-							<v-toolbar-title
-								class="subheading grey--text"
-								>
-
-								<v-tooltip top>
-
-									<v-btn
-										slot="activator"
-										icon
-										v-show="isPreview || add_to_parent"
-										flat
-										class="grey"
-										dark
-										small 
-										:to="`/${item_doc.specs.doc_type}/${item_doc._id}`"
-										>
-										<!-- @click="goToItem()" -->
-
-										<v-icon small>
-											{{ $store.state.mainIcons[collName].icon }}
-										</v-icon>
-									
-									</v-btn>
-									
-									<span>
-										{{ $t(`datamodels.preview`, $store.state.locale) }}
-									</span>
-
-								</v-tooltip>
-
-								<span>
-									{{ item_doc.infos.title | truncate(30, '...') }}
-								</span>
-
-									<!-- - ScT : {{ offsetTop }} -->
-									<!-- - ScL : {{ offsetLeft }} -->
-
-									<!-- - {{ item_doc.specs.doc_type }} / {{ item_doc._id }} -->
-
-
-							</v-toolbar-title>
-							
-							<v-spacer></v-spacer>
-
-							<v-progress-circular 
-								v-show="loading" 
-								color="accent" 
-								indeterminate
-								>
-							</v-progress-circular>
-
-							<!-- OPEN DMF LIBRARY -->
-							<v-btn 
-								v-show="!isPreview"
-								color="accent" 
-								dark 
-								round
-								outline
-								@click="switchSettings"
-								class="text-lowercase ml-2"
-								>
-
-								<v-icon class="mr-2">
-									{{ $store.state.mainIcons.create.icon }}  
-								</v-icon>
-
-								{{ $t( 'global.dmf_add', $store.state.locale)  }}
-
-							</v-btn>
-
-
-
-							<!-- DELETE ITEM FROM PARENT MENU -->
-							<v-menu 
-								v-if="add_to_parent"
-								bottom 
-								left 
-								full-width
-								:nudge-bottom="10"
-								offset-y
-								>
-								
-								<v-tooltip 
-									slot="activator"
-									top 
-									>
-									<v-btn
-										:disabled="!checkUserAuth('delete_item')"
-										icon
-										ml-2
-										slot="activator"
-										>
-										<v-icon>
-											{{ $store.state.mainIcons.options.icon }}
-										</v-icon>
-									</v-btn>
-									<span>
-										{{ $t(`global.open_options`, $store.state.locale) }}
-									</span>
-								</v-tooltip>
-
-								<v-list class="pa-0">
-
-									<!-- DELETE FROM PARENT BTN -->
-									<v-list-tile
-										v-if="$store.state.auth.isLogged"
-										>
-
-										<!-- BTN IN MENU -->
-										<v-list-tile-title 
-											class="pa-0 ma-0"
-											@click="dialog_del=true"
-											>
-											<v-icon small left class="pr-1 mb-1" color="error">
-												{{ $store.state.mainIcons.delete.icon }}
-											</v-icon>
-											<span>
-												{{ $t(`projects.del_dmt`, $store.state.locale) }}
-											</span>
-										</v-list-tile-title>
-											
-										<!-- CONFIRM DELETE DIALOG -->
-										<v-dialog 
-											v-model="dialog_del" 
-											max-width="500"
-											>
-											
-											<v-card>
-
-												<v-card-title class="headline text-xs-center pb-1">
-													<v-icon left class="pr-3" color="grey">
-														{{ $store.state.mainIcons.delete.icon }}
-													</v-icon>
-													{{ $t(`projects.del_dmt`, $store.state.locale) }}
-												</v-card-title>
-
-												<v-card-text class="subheading text-xs-center mb-2">
-													<v-icon large class="mb-1" color="error">
-														{{ $store.state.mainIcons.warning.icon }}
-													</v-icon>
-													<br>
-													{{ $t(`global.confirm_del`, $store.state.locale) }}
-												</v-card-text>
-												
-												
-												<v-card-actions>
-
-													<v-btn 
-														color="primary" 
-														dark
-														block
-														@click="dialog_del = false"
-														ma-2
-														>
-														<v-icon left>
-															{{ $store.state.mainIcons.cancel.icon }}
-														</v-icon>
-														{{ $t(`global.cancel`, $store.state.locale) }}
-													</v-btn>
-													
-													<!-- DELETE DMT FROM PARENT BTN -->
-													<v-btn 
-														color="error " 
-														dark
-														block
-														ma-2
-														@click="deleteChild( { 
-															item_id 		: item_doc._id, 
-															datasets_coll 	: 'dmt', 
-															parentDoc_coll 	: 'prj',
-															re_emit			: true,
-														} ) "
-														>
-														<v-icon left>
-															{{ $store.state.mainIcons.delete.icon }}
-														</v-icon>
-														{{ $t(`global.delete_i`, $store.state.locale) }}
-													</v-btn>
-
-												</v-card-actions>
-
-											</v-card>
-										
-										</v-dialog>
-
-									</v-list-tile>
-
-
-								</v-list>
-
-							</v-menu>
-
-
-							<v-tooltip top>
-								<v-btn 
-									slot="activator"
-									flat
-									icon
-									small
-									@click="show_dmf_table=!show_dmf_table"
-									>
-									<v-icon v-if="show_dmf_table">
-										{{ $store.state.mainIcons.arr_up.icon}}
-									</v-icon>
-									<v-icon v-else>
-										{{ $store.state.mainIcons.arr_down.icon}}
-									</v-icon>
-								</v-btn>
-
-								<span>
-									{{ $t(`datamodels.preview`, $store.state.locale) }}
-								</span>
-							</v-tooltip>
-
-						</v-toolbar>
-
-
-						<v-expand-transition>
-							<div
-								v-if="show_dmf_table"
-								>
-								<v-divider></v-divider>
-
-								<!-- DATA TABLE -->
-								<v-data-table
-									:ref="'datatable'"
-									:headers="list_headers_selector"
-									:items="list_DMF_selector"
-									class="elevation-0"
-									:loading="loading"
-									:pagination.sync="paginationDMF"
-									hide-actions
-									hide-headers
-									>
-						
-									<template
-										slot="items" 
-										slot-scope="props"
-										>
-									
-										<td
-											v-for="dmf in list_DMF_raw_selector"
-											:key="list_DMF_raw_selector.indexOf(dmf)"
-											:class="`px-1 ${ (list_DMF_selector.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
-											style="text-align: center;"
-											>
-
-											<!-- first column  -->
-											<div 
-												v-if=" dmf['_id'] == '_' && !isPreview"
-												class="col-titles font-weight-bold"
-												>
-												<!-- {{ dmf }} -->
-												<!-- {{ dmf["_id"] }} -->
-
-												{{ props.item[ dmf["_id"] ] }}
-
-											</div>
-
-											<!-- delete row -->
-											<div 
-												v-else-if="list_DMF_selector.indexOf(props.item) == 1"
-												class="col-values"
-												>
-												
-												<!-- DELETE DMF BTN -->
-												<v-tooltip top>
-													<v-btn
-														slot="activator"
-														v-if="!isPreview"
-														:disabled="!checkUserAuth('delete_item')"
-														icon
-														small
-														@click="deleteChild( { 
-															item_id 		: props.item[dmf._id], 
-															datasets_coll 	: 'dmf', 
-															parentDoc_coll 	: 'dmt', 
-															re_emit			: false,
-														} ) "
-														>
-														<v-icon
-															color="accent"
-															>
-															{{ $store.state.mainIcons.delete.icon }}
-														</v-icon>
-													</v-btn>
-													<span>
-														{{ $t(`datamodels.delete`, $store.state.locale) }}
-													</span>
-												</v-tooltip>
-
-												<!-- DEBUG -->
-												<span v-if="$store.state.is_debug">
-													<br>
-													- props.item[ dmf._id ] : <code>{{ props.item[ dmf._id ] }}</code>
-													- item_doc.specs.doc_type : <code>{{ item_doc.specs.doc_type }}</code>
-													- item_doc._id : <code>{{ item_doc._id }}</code>
-												</span>
-
-											</div>
-
-											<!-- columns for each entry in list_DMF_full_pivoted -->
-											<div 
-												v-else
-												class="col-values"
-												>
-												
-												<v-tooltip 
-													top
-													v-if="list_DMF_selector.indexOf(props.item) == 0"
-													>
-													<v-btn
-														slot="activator"
-														flat
-														block
-														class="text-lowercase ma-0 dmf-title-btn"
-														:to="'/dmf/'+dmf._id"
-														>
-														<v-icon
-															left
-															color="primary"
-															small
-															>
-															{{ $store.state.mainIcons.datamodel_fields.icon }}
-														</v-icon>
-														{{ props.item[ dmf["_id"] ] | truncate( 20, '...' ) }}
-													</v-btn>
-													<span>
-														{{ $t(`datamodel_fields.go_to`, $store.state.locale) }}
-													</span>
-												</v-tooltip>
-
-												<span
-													v-else
-													>
-													{{ props.item[ dmf["_id"] ] | truncate( 100, '...' ) }}
-												</span>
-
-												<span v-if="$store.state.is_debug">
-													<br>
-													dmf id : <code>{{ dmf["_id"] }}</code>
-												</span>
-
-											</div>
-
-										</td>
-										
-										
-									</template>
-
-
-								</v-data-table>
-
-							</div>
-						</v-expand-transition>
-
-					</v-card-text>
-				</v-card>
-			</v-flex>
-			
-
-			<!-- DMF_LIST vs OPEN_LEVEL MAPPING -->
-			<v-flex 
-				v-if="is_map"
-				class="xs12"
-				>
-
-
-				<!-- EXPANSION PANEL FOR DATA DMF_LIST OPEN_LEVEL -->		
-				<v-expansion-panel
-					v-model="panel_map"
-					expand
-					class="elevation-0 mt-2"
-					>
-					<v-expansion-panel-content>
-
-						<!-- DATA DMF_LIST OPEN_LEVEL TOOLBAR -->
-						<v-toolbar-title 
-							v-if="!no_toolbar"
-							class="subheading grey--text"
-							slot="header"
-							>
-
-							<v-icon small class="px-2">
-								{{ $store.state.mainIcons.datamodels.icon }}
-							</v-icon>
-							<v-icon small class="accent--text">
-								{{ $store.state.mainIcons.map_doc.icon }}
-							</v-icon>
-							<v-icon small class="px-2">
-								{{ $store.state.mainIcons.view.icon }}
-							</v-icon>
-
-							<span>
-								{{ $t(`global.open_level_show`, $store.state.locale ) }}
-							</span>
-							
-						</v-toolbar-title>
-
-						<v-card 
-							flat
-							class=""
-							color=""
-							>
-							<v-card-text class="pa-0">
-
-
-								<!-- DMF_LIST OPEN_LEVEL title dataset -->
-								<!-- <v-divider></v-divider>
-
-								<v-toolbar 
-									v-show="!isPreview "
-									class="elevation-0" 
-									color="white"
-									>
-									
-									<v-toolbar-title
-										class="subheading grey--text"
-										dense
-										>
-
-										<v-icon small class="px-2">
-											{{ $store.state.mainIcons.datamodels.icon }}
-										</v-icon>
-										<v-icon small class="accent--text">
-											{{ $store.state.mainIcons.map_doc.icon }}
-										</v-icon>
-										<v-icon small class="px-2">
-											{{ $store.state.mainIcons.view.icon }}
-										</v-icon>
-										
-										{{ $t(`global.open_level_show`, $store.state.locale ) }}
-
-									</v-toolbar-title>
-
-								</v-toolbar> -->
-
-
-								<v-divider></v-divider>
-
-
-								<!-- DMF_LIST OPEN_LEVEL DATA TABLE -->
-								<v-data-table
-									:ref="'datatable_openlevel'"
-									:headers="list_headers_selector"
-									:items="list_DMF_first_row_pivoted"
-									class="elevation-0"
-									:loading="loading"
-									:pagination.sync="paginationDMF"
-									hide-actions
-									hide-headers
-									>
-						
-									<template
-										slot="items" 
-										slot-scope="props"
-										>
-									
-										<td
-											v-for="dmf in list_DMF_raw_selector"
-											:key="list_DMF_raw_selector.indexOf(dmf)"
-											:class="`px-1 ${ (list_DMF_first_row_pivoted.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
-											style="text-align: center;"
-											>
-
-											<!-- first column  -->
-											<!-- open_level_show -->
-											<div 
-												v-if=" dmf['_id'] == '_' && !isPreview"
-												class="col-titles font-weight-bold"
-												>
-												
-												<v-icon 
-													small
-													color="primary" 
-													>
-													{{ $store.state.mainIcons.view.icon }}
-												</v-icon>
-												<v-tooltip right>
-													<span slot="activator">
-														<v-icon 
-															small
-															dark
-															class="pl-2"
-															color="grey"
-															>
-															{{ $store.state.mainIcons.question.icon }}
-														</v-icon>
-													</span>
-													<span>
-														{{ $t(`projects.open_level_show`, $store.state.locale) }}
-													</span>
-												</v-tooltip>
-
-											</div>
-
-
-											<!-- columns for each entry in list_DMF_full_pivoted -->
-											<div 
-												v-else
-												class="col-values pl-0 pr-2 "
-												>
-
-												<!-- OPEN LEVEL CHOICE INPUT -->
-												<ViewEditDMFol
-													:dmt="item_doc_id[0].oid_dmt"
-													:dmf="dmf"
-													:is_loading="is_loading"
-													:dmf_ol_val="getDMF_openlevel(dmf._id)"
-													:parentDoc_id="parentDoc_id"
-													:parentDoc_coll="parentDoc_coll"
-													:canEdit="canEdit_ol"
-													>
-													<!-- :parent_map="parent_map" -->
-												</ViewEditDMFol>
-
-											</div>
-
-										</td>
-										
-										
-									</template>
-
-								</v-data-table>
-
-							</v-card-text>
-						</v-card>
-
-					</v-expansion-panel-content>
-				</v-expansion-panel>
-
-			</v-flex>
-
-
-
-
-
-
-		</v-layout>
-
-
-
-	</div>
+  <div class="pa-0 ma-0">
+
+
+    <!-- DEBUG  -->
+    <v-layout 
+      v-if="$store.state.is_debug"
+      row 
+      >
+
+      <v-flex class="xs12">
+
+        <v-alert
+          :value="true"
+          type="error"
+          class="text-xs-left"
+          >
+
+          ---- DEBUG component - viewEditListDMF ----
+          <hr>
+
+          <!-- list_DMF_full_pivoted - <code>{{ list_DMF_full_pivoted }}</code> -->
+          <hr>
+          <!-- list_DMF_full - <code>{{ list_DMF_full }}</code> -->
+          <hr> 
+          DMF_headers - <br> <code>{{ DMF_headers }}</code>
+
+        </v-alert>
+
+      </v-flex>
+
+    </v-layout>
+
+
+    <!-- LIST DMF AS DATA TABLE STYLE-->
+    <v-layout row wrap>
+      
+      <!-- - selected_cols : <br> <code>{{ selected_cols }} </code><br>  -->
+
+      <!-- DMF_LIST vs GEOLOC MAPPING -->
+      <v-flex 
+        v-if="is_solidify"
+        class="xs12"
+        >
+
+        <v-card 
+          flat
+          class=""
+          color=""
+          >
+          <v-card-text class="pa-0">
+
+            <v-divider></v-divider>
+
+            <!-- DMF_LIST GEOLOC DATA TABLE -->
+            <v-data-table
+              :ref="'datatable_geoloc'"
+              :headers="list_headers_selector"
+              :items="list_DMF_first_row_pivoted"
+              class="elevation-0"
+              :loading="loading"
+              :pagination.sync="paginationDMF"
+              hide-actions
+              hide-headers
+              >
+        
+              <template
+                slot="items" 
+                slot-scope="props"
+                >
+              
+                <td
+                  v-for="dmf in list_DMF_raw_selector"
+                  :key="list_DMF_raw_selector.indexOf(dmf)"
+                  :class="`px-1 ${ (list_DMF_first_row_pivoted.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
+                  style="text-align: center;"
+                  >
+
+                  <!-- first column  -->
+                  <!-- open_level_show -->
+                  <div 
+                    v-if=" dmf['_id'] == '_' && !isPreview"
+                    class="col-titles font-weight-bold"
+                    >
+                    
+                    <v-icon 
+                      small
+                      color="primary" 
+                      >
+                      {{ $store.state.mainIcons.view.icon }}
+                    </v-icon>
+                    <v-tooltip right>
+                      <span slot="activator">
+                        <v-icon 
+                          small
+                          dark
+                          class="pl-2"
+                          color="grey"
+                          >
+                          {{ $store.state.mainIcons.question.icon }}
+                        </v-icon>
+                      </span>
+                      <span>
+                        {{ $t(`projects.open_level_show`, $store.state.locale) }}
+                      </span>
+                    </v-tooltip>
+
+                  </div>
+
+
+                  <!-- columns for each entry in list_DMF_full_pivoted -->
+                  <div 
+                    v-else
+                    class="col-values px-2 py-2 text-xs-center"
+                    >
+
+                    <!-- GEOLOC CHOICE INPUT -->
+                    <!-- <ViewEditDMFol
+                      :dmt="item_doc_id[0].oid_dmt"
+                      :dmf="dmf"
+                      :is_loading="is_loading"
+                      :parent_map="parent_map"
+                      :dmf_ol_val="getDMF_openlevel(dmf._id)"
+                      :parentDoc_id="parentDoc_id"
+                      :parentDoc_coll="parentDoc_coll"
+                      :canEdit="canEdit_ol"
+                      >
+                    </ViewEditDMFol> -->
+
+                    <!-- <code>{{ dmf }}</code><br> -->
+                    <!-- - dmf["_id"] <code>{{ dmf["_id"] }}</code><br> -->
+                    <!-- - disabled_dmf_list : <code>{{ disabled_dmf_list }}</code><br> -->
+
+                    <span 
+                      :class="`${ dmf['specs.is_standard']? 'grey--text' : '' }`"
+                      >
+                      {{ dmf["infos.title"] }}
+                    </span>
+
+                      <!-- :disabled="dmf['specs.is_standard']" -->
+                    <v-checkbox 
+                      class="mt-2"
+                      v-model="selected_cols" 
+                      :disabled="isDisabled(dmf['_id'])"
+                      :value="dmf._id"
+                      hide-details
+                      @change="updateSolidifyListDMF"
+                      >
+                    </v-checkbox>
+
+                  </div>
+
+                </td>
+                
+                
+              </template>
+
+            </v-data-table>
+
+            <v-divider></v-divider>
+
+          </v-card-text>
+        </v-card>
+
+
+      </v-flex>
+
+
+      <!-- DMF_LIST as DATA TABLE-->
+      <v-flex 
+        v-if="!is_solidify"
+        xs12 
+        pt-0
+        >
+
+        <v-card 
+          flat
+          class=""
+          color=""
+          >
+          <v-card-text 
+            class="pa-0 thin-border"
+            >
+
+            <!-- DATA TOOLBAR -->
+            <v-toolbar 
+              v-if="!no_toolbar"
+              class="elevation-0" 
+              color="white"
+              >
+              
+              <!-- title dataset -->
+              <v-toolbar-title
+                class="subheading grey--text"
+                >
+
+                <v-tooltip top>
+
+                  <v-btn
+                    slot="activator"
+                    icon
+                    v-show="isPreview || add_to_parent"
+                    flat
+                    class="grey"
+                    dark
+                    small 
+                    :to="`/${item_doc.specs.doc_type}/${item_doc._id}`"
+                    >
+                    <!-- @click="goToItem()" -->
+
+                    <v-icon small>
+                      {{ $store.state.mainIcons[collName].icon }}
+                    </v-icon>
+                  
+                  </v-btn>
+                  
+                  <span>
+                    {{ $t(`datamodels.preview`, $store.state.locale) }}
+                  </span>
+
+                </v-tooltip>
+
+                <span>
+                  {{ item_doc.infos.title | truncate(30, '...') }}
+                </span>
+
+                  <!-- - ScT : {{ offsetTop }} -->
+                  <!-- - ScL : {{ offsetLeft }} -->
+
+                  <!-- - {{ item_doc.specs.doc_type }} / {{ item_doc._id }} -->
+
+
+              </v-toolbar-title>
+              
+              <v-spacer></v-spacer>
+
+              <v-progress-circular 
+                v-show="loading" 
+                color="accent" 
+                indeterminate
+                >
+              </v-progress-circular>
+
+              <!-- OPEN DMF LIBRARY -->
+              <v-btn 
+                v-show="!isPreview"
+                color="accent" 
+                dark 
+                round
+                outline
+                @click="switchSettings"
+                class="text-lowercase ml-2"
+                >
+
+                <v-icon class="mr-2">
+                  {{ $store.state.mainIcons.create.icon }}  
+                </v-icon>
+
+                {{ $t( 'global.dmf_add', $store.state.locale)  }}
+
+              </v-btn>
+
+
+
+              <!-- DELETE ITEM FROM PARENT MENU -->
+              <v-menu 
+                v-if="add_to_parent"
+                bottom 
+                left 
+                full-width
+                :nudge-bottom="10"
+                offset-y
+                >
+                
+                <v-tooltip 
+                  slot="activator"
+                  top 
+                  >
+                  <v-btn
+                    :disabled="!checkUserAuth('delete_item')"
+                    icon
+                    ml-2
+                    slot="activator"
+                    >
+                    <v-icon>
+                      {{ $store.state.mainIcons.options.icon }}
+                    </v-icon>
+                  </v-btn>
+                  <span>
+                    {{ $t(`global.open_options`, $store.state.locale) }}
+                  </span>
+                </v-tooltip>
+
+                <v-list class="pa-0">
+
+                  <!-- DELETE FROM PARENT BTN -->
+                  <v-list-tile
+                    v-if="$store.state.auth.isLogged"
+                    >
+
+                    <!-- BTN IN MENU -->
+                    <v-list-tile-title 
+                      class="pa-0 ma-0"
+                      @click="dialog_del=true"
+                      >
+                      <v-icon small left class="pr-1 mb-1" color="error">
+                        {{ $store.state.mainIcons.delete.icon }}
+                      </v-icon>
+                      <span>
+                        {{ $t(`projects.del_dmt`, $store.state.locale) }}
+                      </span>
+                    </v-list-tile-title>
+                      
+                    <!-- CONFIRM DELETE DIALOG -->
+                    <v-dialog 
+                      v-model="dialog_del" 
+                      max-width="500"
+                      >
+                      
+                      <v-card>
+
+                        <v-card-title class="headline text-xs-center pb-1">
+                          <v-icon left class="pr-3" color="grey">
+                            {{ $store.state.mainIcons.delete.icon }}
+                          </v-icon>
+                          {{ $t(`projects.del_dmt`, $store.state.locale) }}
+                        </v-card-title>
+
+                        <v-card-text class="subheading text-xs-center mb-2">
+                          <v-icon large class="mb-1" color="error">
+                            {{ $store.state.mainIcons.warning.icon }}
+                          </v-icon>
+                          <br>
+                          {{ $t(`global.confirm_del`, $store.state.locale) }}
+                        </v-card-text>
+                        
+                        
+                        <v-card-actions>
+
+                          <v-btn 
+                            color="primary" 
+                            dark
+                            block
+                            @click="dialog_del = false"
+                            ma-2
+                            >
+                            <v-icon left>
+                              {{ $store.state.mainIcons.cancel.icon }}
+                            </v-icon>
+                            {{ $t(`global.cancel`, $store.state.locale) }}
+                          </v-btn>
+                          
+                          <!-- DELETE DMT FROM PARENT BTN -->
+                          <v-btn 
+                            color="error " 
+                            dark
+                            block
+                            ma-2
+                            @click="deleteChild( { 
+                              item_id       : item_doc._id, 
+                              datasets_coll    : 'dmt', 
+                              parentDoc_coll    : 'prj',
+                              re_emit         : true,
+                            } ) "
+                            >
+                            <v-icon left>
+                              {{ $store.state.mainIcons.delete.icon }}
+                            </v-icon>
+                            {{ $t(`global.delete_i`, $store.state.locale) }}
+                          </v-btn>
+
+                        </v-card-actions>
+
+                      </v-card>
+                    
+                    </v-dialog>
+
+                  </v-list-tile>
+
+
+                </v-list>
+
+              </v-menu>
+
+
+              <v-tooltip top>
+                <v-btn 
+                  slot="activator"
+                  flat
+                  icon
+                  small
+                  @click="show_dmf_table=!show_dmf_table"
+                  >
+                  <v-icon v-if="show_dmf_table">
+                    {{ $store.state.mainIcons.arr_up.icon}}
+                  </v-icon>
+                  <v-icon v-else>
+                    {{ $store.state.mainIcons.arr_down.icon}}
+                  </v-icon>
+                </v-btn>
+
+                <span>
+                  {{ $t(`datamodels.preview`, $store.state.locale) }}
+                </span>
+              </v-tooltip>
+
+            </v-toolbar>
+
+
+            <v-expand-transition>
+              <div
+                v-if="show_dmf_table"
+                >
+                <v-divider></v-divider>
+
+                <!-- DATA TABLE -->
+                <v-data-table
+                  :ref="'datatable'"
+                  :headers="list_headers_selector"
+                  :items="list_DMF_selector"
+                  class="elevation-0"
+                  :loading="loading"
+                  :pagination.sync="paginationDMF"
+                  hide-actions
+                  hide-headers
+                  >
+            
+                  <template
+                    slot="items" 
+                    slot-scope="props"
+                    >
+                  
+                    <td
+                      v-for="dmf in list_DMF_raw_selector"
+                      :key="list_DMF_raw_selector.indexOf(dmf)"
+                      :class="`px-1 ${ (list_DMF_selector.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
+                      style="text-align: center;"
+                      >
+
+                      <!-- first column  -->
+                      <div 
+                        v-if=" dmf['_id'] == '_' && !isPreview"
+                        class="col-titles font-weight-bold"
+                        >
+                        <!-- {{ dmf }} -->
+                        <!-- {{ dmf["_id"] }} -->
+
+                        {{ props.item[ dmf["_id"] ] }}
+
+                      </div>
+
+                      <!-- delete row -->
+                      <div 
+                        v-else-if="list_DMF_selector.indexOf(props.item) == 1"
+                        class="col-values"
+                        >
+                        
+                        <!-- DELETE DMF BTN -->
+                        <v-tooltip top>
+                          <v-btn
+                            slot="activator"
+                            v-if="!isPreview"
+                            :disabled="!checkUserAuth('delete_item')"
+                            icon
+                            small
+                            @click="deleteChild( { 
+                              item_id       : props.item[dmf._id], 
+                              datasets_coll    : 'dmf', 
+                              parentDoc_coll    : 'dmt', 
+                              re_emit         : false,
+                            } ) "
+                            >
+                            <v-icon
+                              color="accent"
+                              >
+                              {{ $store.state.mainIcons.delete.icon }}
+                            </v-icon>
+                          </v-btn>
+                          <span>
+                            {{ $t(`datamodels.delete`, $store.state.locale) }}
+                          </span>
+                        </v-tooltip>
+
+                        <!-- DEBUG -->
+                        <span v-if="$store.state.is_debug">
+                          <br>
+                          - props.item[ dmf._id ] : <code>{{ props.item[ dmf._id ] }}</code>
+                          - item_doc.specs.doc_type : <code>{{ item_doc.specs.doc_type }}</code>
+                          - item_doc._id : <code>{{ item_doc._id }}</code>
+                        </span>
+
+                      </div>
+
+                      <!-- columns for each entry in list_DMF_full_pivoted -->
+                      <div 
+                        v-else
+                        class="col-values"
+                        >
+                        
+                        <v-tooltip 
+                          top
+                          v-if="list_DMF_selector.indexOf(props.item) == 0"
+                          >
+                          <v-btn
+                            slot="activator"
+                            flat
+                            block
+                            class="text-lowercase ma-0 dmf-title-btn"
+                            :to="'/dmf/'+dmf._id"
+                            >
+                            <v-icon
+                              left
+                              color="primary"
+                              small
+                              >
+                              {{ $store.state.mainIcons.datamodel_fields.icon }}
+                            </v-icon>
+                            {{ props.item[ dmf["_id"] ] | truncate( 20, '...' ) }}
+                          </v-btn>
+                          <span>
+                            {{ $t(`datamodel_fields.go_to`, $store.state.locale) }}
+                          </span>
+                        </v-tooltip>
+
+                        <span
+                          v-else
+                          >
+                          {{ props.item[ dmf["_id"] ] | truncate( 100, '...' ) }}
+                        </span>
+
+                        <span v-if="$store.state.is_debug">
+                          <br>
+                          dmf id : <code>{{ dmf["_id"] }}</code>
+                        </span>
+
+                      </div>
+
+                    </td>
+                    
+                    
+                  </template>
+
+
+                </v-data-table>
+
+              </div>
+            </v-expand-transition>
+
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      
+
+      <!-- DMF_LIST vs OPEN_LEVEL MAPPING -->
+      <v-flex 
+        v-if="is_map"
+        class="xs12"
+        >
+
+
+        <!-- EXPANSION PANEL FOR DATA DMF_LIST OPEN_LEVEL -->      
+        <v-expansion-panel
+          v-model="panel_map"
+          expand
+          class="elevation-0 mt-2"
+          >
+          <v-expansion-panel-content>
+
+            <!-- DATA DMF_LIST OPEN_LEVEL TOOLBAR -->
+            <v-toolbar-title 
+              v-if="!no_toolbar"
+              class="subheading grey--text"
+              slot="header"
+              >
+
+              <v-icon small class="px-2">
+                {{ $store.state.mainIcons.datamodels.icon }}
+              </v-icon>
+              <v-icon small class="accent--text">
+                {{ $store.state.mainIcons.map_doc.icon }}
+              </v-icon>
+              <v-icon small class="px-2">
+                {{ $store.state.mainIcons.view.icon }}
+              </v-icon>
+
+              <span>
+                {{ $t(`global.open_level_show`, $store.state.locale ) }}
+              </span>
+              
+            </v-toolbar-title>
+
+            <v-card 
+              flat
+              class=""
+              color=""
+              >
+              <v-card-text class="pa-0">
+
+
+                <!-- DMF_LIST OPEN_LEVEL title dataset -->
+                <!-- <v-divider></v-divider>
+
+                <v-toolbar 
+                  v-show="!isPreview "
+                  class="elevation-0" 
+                  color="white"
+                  >
+                  
+                  <v-toolbar-title
+                    class="subheading grey--text"
+                    dense
+                    >
+
+                    <v-icon small class="px-2">
+                      {{ $store.state.mainIcons.datamodels.icon }}
+                    </v-icon>
+                    <v-icon small class="accent--text">
+                      {{ $store.state.mainIcons.map_doc.icon }}
+                    </v-icon>
+                    <v-icon small class="px-2">
+                      {{ $store.state.mainIcons.view.icon }}
+                    </v-icon>
+                    
+                    {{ $t(`global.open_level_show`, $store.state.locale ) }}
+
+                  </v-toolbar-title>
+
+                </v-toolbar> -->
+
+
+                <v-divider></v-divider>
+
+
+                <!-- DMF_LIST OPEN_LEVEL DATA TABLE -->
+                <v-data-table
+                  :ref="'datatable_openlevel'"
+                  :headers="list_headers_selector"
+                  :items="list_DMF_first_row_pivoted"
+                  class="elevation-0"
+                  :loading="loading"
+                  :pagination.sync="paginationDMF"
+                  hide-actions
+                  hide-headers
+                  >
+            
+                  <template
+                    slot="items" 
+                    slot-scope="props"
+                    >
+                  
+                    <td
+                      v-for="dmf in list_DMF_raw_selector"
+                      :key="list_DMF_raw_selector.indexOf(dmf)"
+                      :class="`px-1 ${ (list_DMF_first_row_pivoted.indexOf(props.item) == 0) ? 'font-weight-bold' : '' } `"
+                      style="text-align: center;"
+                      >
+
+                      <!-- first column  -->
+                      <!-- open_level_show -->
+                      <div 
+                        v-if=" dmf['_id'] == '_' && !isPreview"
+                        class="col-titles font-weight-bold"
+                        >
+                        
+                        <v-icon 
+                          small
+                          color="primary" 
+                          >
+                          {{ $store.state.mainIcons.view.icon }}
+                        </v-icon>
+                        <v-tooltip right>
+                          <span slot="activator">
+                            <v-icon 
+                              small
+                              dark
+                              class="pl-2"
+                              color="grey"
+                              >
+                              {{ $store.state.mainIcons.question.icon }}
+                            </v-icon>
+                          </span>
+                          <span>
+                            {{ $t(`projects.open_level_show`, $store.state.locale) }}
+                          </span>
+                        </v-tooltip>
+
+                      </div>
+
+
+                      <!-- columns for each entry in list_DMF_full_pivoted -->
+                      <div 
+                        v-else
+                        class="col-values pl-0 pr-2 "
+                        >
+
+                        <!-- OPEN LEVEL CHOICE INPUT -->
+                        <ViewEditDMFol
+                          :dmt="item_doc_id[0].oid_dmt"
+                          :dmf="dmf"
+                          :is_loading="is_loading"
+                          :dmf_ol_val="getDMF_openlevel(dmf._id)"
+                          :parentDoc_id="parentDoc_id"
+                          :parentDoc_coll="parentDoc_coll"
+                          :canEdit="canEdit_ol"
+                          >
+                          <!-- :parent_map="parent_map" -->
+                        </ViewEditDMFol>
+
+                      </div>
+
+                    </td>
+                    
+                    
+                  </template>
+
+                </v-data-table>
+
+              </v-card-text>
+            </v-card>
+
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+      </v-flex>
+
+
+
+
+
+
+    </v-layout>
+
+
+
+  </div>
 
 </template>
 
@@ -798,558 +798,515 @@
 
 <script>
 
-import checkDocUserAuth from "~/utils/checkDocUserAuth.js"
+import checkDocUserAuth from '~/plugins/utils/checkDocUserAuth.js'
 
-import ViewEditDMFol from '~/components/UI/viewEditDMF_openlevel.vue' 
+import ViewEditDMFol from '~/components/UI/viewEditDMF_openlevel.vue'
 
 export default {
 
-	props : [
-		
-		"listDMF",
-		"isPreview",
-		"is_loading",
-
-		"item_doc",
-		"item_doc_id",
-
-		"panel_open",
-		
-		"is_solidify",
-		"parent_REC_mapping",
-		"disabled_dmf_list",
-
-		"is_map",
-		"parent_map",
-		"canEdit_ol",
-
-		"parentDoc_id",
-		"parentDoc_coll",
-
-		"no_toolbar",
-
-		"add_to_parent",
-		"parent_scroll"
-
-	],
-
-	components : {
-		ViewEditDMFol,
-	},
-
-	created () {
-
-		console.log("\n- viewEditListDMF / created ..." ) ;
-		console.log("- viewEditListDMF / listDMF : ", this.listDMF ) ;
-		console.log("- viewEditListDMF / canEdit_ol : ", this.canEdit_ol ) ;
-
-		this.populateSelectedCols( this.parent_REC_mapping ) ; 
-
-		if ( !Array.isArray(this.listDMF) || this.listDMF.length ) {
-
-			// map list DMF to list of DMF oids
-			this.list_DMF_oids = this.listDMF.map( function (obj) {
-				return obj.oid_dmf
-			}); 
-			console.log("- viewEditListDMF / list_DMF_oids : ", this.list_DMF_oids ) ;
-
-			// get complete data for every DMF in list_DMF_oids => methods
-			this.get_docs_fromApi() ; 
-
-		}
-	},
-
-	data () {
-
-		return {
-			
-			loading : false,
-			alert	: "",
-
-			coll 		: "dmf",
-			tab 		: 'datamodel_fields',
-			collName 	: this.$store.state.collectionsNames['dmt'],
-
-			paginationDMF : {
-				rowsPerPage: -1 
-			},
-
-			dialog_del 	: false,
-			panel_map	: [true], 
-			show_dmf_table : true,
-
-			offsetTop 		: 0,
-			offsetLeft 		: 0,
-
-			dataTable 		: undefined,
-			dataTable_ol 	: undefined,
-			dataTable_geo 	: undefined,
-
-			// for geoloc only
-			selected_cols : [], 
-
-			// DMF references
-			DMF_list_loaded : false,
-			list_DMF_oids : [],
-			list_DMF_full : [],
-
-			// DMF data for datatable
-			listDMF_extended		: [],
-			DMF_headers 			: [],
-			DMF_headers_light 		: [],
-			listDMF_light			: [],
-			list_DMF_full_pivoted 	: [],
-			list_DMF_first_row_pivoted : [],
-
-			// empty column (first column on the left of the datatable)
-			empty_column : {
-				_id 	: "_",
-				infos 	: {
-					title : "",
-					description : "description"
-				},
-				public_auth : {
-					open_level_edit : "open_level_edit", 
-				},
-				data_raw 	: {
-					f_code 			: "f_code", 
-					f_type 			: "f_type", 
-					f_object 		: "f_object", 
-					f_comments 		: "f_comments", 
-					f_is_required 	: "f_is_required", 
-				},
-			}, 
-			empty_column_normalized : {
-				"_id" 							: "_",
-				"infos.title" 					: "title",
-
-				"delete_child"					: "delete_child",
-
-				"infos.description" 			: "description",
-				"public_auth.open_level_edit" 	: "open_level_edit", 
-				"data_raw.f_code" 				: "f_code", 
-				"data_raw.f_type" 				: "f_type", 
-				"data_raw.f_object" 			: "f_object", 
-				// "data_raw.f_comments" 			: "f_comments", 
-				"data_raw.f_is_required" 		: "f_is_required", 
-
-			}, 
-
-
-		}
-	},
-
-	computed : {
-
-		list_DMF_selector() {
-			return (this.isPreview) ? this.list_DMF_first_row_pivoted : this.list_DMF_full_pivoted ;
-		},
-
-		list_headers_selector() {
-			return (this.isPreview) ? this.DMF_headers_light : this.DMF_headers ;
-		},
-
-		list_DMF_raw_selector() {
-			return (this.isPreview) ? this.listDMF_light : this.listDMF_extended ;
-		},
-
-		// getDMF_openlevel_computed(dmf_id) {
-			
-		// 	// console.log("... getDMF_openlevel - dmf_id : ", dmf_id ) ;
-
-		// 	var dmf_ol_value = ''
-		// 	var dmf_mapper = this.parent_map.find(obj => {
-		// 		return obj.oid_dmf === dmf_id
-		// 	})
-		// 	// console.log(" getDMF_openlevel / dmf_mapper : ", dmf_mapper )
-		// 	if (dmf_mapper != undefined) {
-		// 		dmf_ol_value = dmf_mapper.open_level_show
-		// 	}
-
-		// 	return dmf_ol_value
-		// },
-
-	},
-
-	watch: {
-
-		parent_scroll : {
-
-			immediate : true,
-			handler (newVal, oldVal ) {
-				if ( this.dataTable !== undefined ) {
-					this.dataTable.scrollLeft = newVal
-					if (this.is_map) {
-						this.dataTable_ol.scrollLeft = newVal
-					}
-					// if (this.is_solidify) {
-					// 	this.dataTable_geo.scrollLeft = newVal
-					// }
-				}
-			}
-
-		},
-
-		loading : {
-
-			immediate : true,
-			handler (newVal, oldVal ) {
-				// console.log( "\nVE DMT / watch ~ loading / newVal : \n", newVal )
-				
-				// var doc_id = "from_VE_DMF_list"
-				var input = {
-					loading : newVal,
-					// doc_id	: doc_id, //"from_VE_DMF_list",
-					coll	: "dmf"
-				}
-				// this.$emit("update_loading", newVal)
-				this.$emit("update_loading", input)
-			}
-
-		},
-
-		listDMF : {
-
-			immediate : true,
-			handler( newVal, oldVal) {
-
-				console.log( "\nVE DMT / watch ~ listDMF / newVal : \n", newVal )
-				console.log( "\nVE DMT / watch ~ listDMF / oldVal : \n", oldVal )
-
-				if ( !Array.isArray(newVal) || newVal.length ) {
-
-					this.loading = true ; 
-
-					// map list DMF to list of DMF oids
-					this.list_DMF_oids = newVal.map( function (obj) {
-						return obj.oid_dmf
-					}); 
-					console.log("- viewEditListDMF / list_DMF_oids : ", this.list_DMF_oids ) ;
-
-					// get complete data for every DMF in list_DMF_oids => methods
-					this.get_docs_fromApi() ; 
-
-				}
-
-			}
-		},
-	},
-
-	methods: {
-
-		isDisabled( dmf_id ) {
-			return (this.disabled_dmf_list.filter(function(e) { return e["oid_dmf"] === dmf_id; }).length > 0)
-		},
-
-		populateSelectedCols ( parent_REC_mapping ) {
-			
-			console.log( "\n REC VEListDMF - populateSelectedCols ..." );
-			console.log( "REC VEListDMF -  parent_REC_mapping : \n", parent_REC_mapping );
-
-			if ( parent_REC_mapping != undefined ) {
-				
-				var rec_params = parent_REC_mapping.rec_params ; 
-
-				console.log( "\n REC VEListDMF - rec_params not undefined ..." );
-
-				if ( rec_params.dmf_list_to_geocode.length > 0 ) {	
-					
-					console.log( "\n REC VEListDMF - rec_params.new_dmfs_list.length > 1 ..." );
-					
-					this.selected_cols = rec_params.dmf_list_to_geocode
-				}
-			} 
-		},
-
-		getDMF_openlevel(dmf_id) {
-			
-			// console.log("... getDMF_openlevel - dmf_id : ", dmf_id ) ;
-
-			var dmf_ol_value = ''
-			var dmf_mapper = this.parent_map.find(obj => {
-				return obj.oid_dmf === dmf_id
-			})
-			// console.log(" getDMF_openlevel / dmf_mapper : ", dmf_mapper )
-			if (dmf_mapper != undefined) {
-				dmf_ol_value = dmf_mapper.open_level_show
-			}
-
-			return dmf_ol_value
-		},
-
-		//  USER AUTH  - checkUserAuth for an item --> /utils
-		checkUserAuth (field_name) {
-
-			// console.log("\ncheckUserAuth / field_name : ", field_name ) ;
-
-			var can_update_field 		= false  ;
-			
-			if (this.is_create) {
-				can_update_field 		= true  ;
-			}
-
-			else {
-				var isLogged 			= this.$store.state.auth.isLogged ;
-				var user_id 			= this.$store.state.auth.user_id ;
-
-				can_update_field 		= checkDocUserAuth(this.item_doc, field_name, isLogged, user_id)
-			}
-
-			// console.log("checkUserAuth / can_update_field : ", can_update_field ) ;
-
-			return can_update_field
-		},
-
-		onScroll (e) {
-			// console.log("... onScroll - e.target : ", e.target ) ;
-			var scroll_data = e.target ;
-			// this.offsetTop 	= scroll_data.scrollTop ;
-			this.offsetLeft = scroll_data.scrollLeft ;
-			if (!this.is_solidify) {
-				this.$emit('scrollTable', { 
-					left : scroll_data.scrollLeft 
-				}) 
-			}
-			// else {
-			// 	this.dataTable.scrollLeft = this.offsetLeft
-			// 	this.dataTable_geo.scrollLeft = this.offsetLeft
-			// }
-		},
-
-		switchSettings() {
-			// console.log("settingsToolbar - switchSettings / this.is_settings : ", this.is_settings )
-			this.$emit('settings')
-		},
-
-		goToItem() {
-			// redirect to edit-preview page 
-			return this.$router.push(`/${this.item_doc.specs.doc_type}/${this.item_doc._id}`)
-		},
-
-		updateSolidifyListDMF () {
-			// update parent RPJ's list of dmf to use to geolocalize 
-			this.$emit('updateSolidify', this.selected_cols ) 
-		},
-
-		deleteChild( item_infos ) {
-			console.log("\n...viewEditListDMF - deleteChild / item_infos : \n ", item_infos)
-
-			var input = {
-				add_or_delete 	: "delete_from_list",
-				item_id_to_add 	: item_infos.item_id,
-				datasets_coll 	: item_infos.datasets_coll,
-				parentDoc_coll 	: item_infos.parentDoc_coll,
-				re_emit			: item_infos.re_emit,
-			}
-			console.log("deleteChild / input : ", input )
-
-			this.$emit('update_parent_dataset', input )
-		},
-
-
-		openDMF_lib_parent () {
-
-			console.log("\n...viewEditListDMF - openDMF_lib_parent ")
-
-			// send data back to parent component 
-			this.$emit('input')
-		},
-
-		// utils to pivot data to datatable format
-		pivotData (data_from_API) {
-
-			console.log("\n...viewEditListDMF - pivotData / data_from_API (A) : ", data_from_API);
-
-			// var for internal purposes
-			var data_new_headers 	= [] ;
-			var data_pivoted 		= [] ;
-
-			this.listDMF_light = data_from_API.slice(0) ;
-
-			// add empty_column_normalized to beginning of data_from_API
-			data_from_API.unshift( this.empty_column_normalized ) ;
-			// console.log("...viewEditListDMF - pivotData / data_from_API (B) : ", data_from_API);
-			this.listDMF_extended = data_from_API ;
-
-
-			// --------------------------------------------- //
-			// loop through data_to_pivot => headers / columns
-			// --------------------------------------------- //
-			for (let dmf in data_from_API ) {
-				
-				// console.log("\n...viewEditListDMF - pivotData / dmf (C) : ", dmf);
-				// console.log("...viewEditListDMF - pivotData / data_from_API[dmf]['infos.title'] (D) : \n", data_from_API[dmf]["infos.title"]);
-	
-				// create new header
-				var temp_header = {
-					value		: data_from_API[dmf]["_id"], 
-					text 		: data_from_API[dmf]["infos.title"], 
-					// text 		: data_from_API[dmf]["_id"], 
-					sortable 	: false,
-					align		: 'center',
-				};
-				// console.log("...viewEditListDMF - pivotData / temp_header.value : ", temp_header.value);
-
-				// push DMF oid in data_new_headers
-				data_new_headers.push( temp_header )
-
-			};
-
-			// send datatable_headers back
-			// console.log("\n...viewEditListDMF - pivotData / data_new_headers : ", data_new_headers);
-			this.DMF_headers 		=  data_new_headers ;
-
-			var temp_DMF_light		=  data_new_headers.slice(0) ;
-			temp_DMF_light.shift() ; 
-			// console.log("\n...viewEditListDMF - pivotData / temp_DMF_light : ", temp_DMF_light);
-			this.DMF_headers_light	= temp_DMF_light ; 
-			// console.log("...viewEditListDMF - pivotData / this.DMF_headers_light : ", this.DMF_headers_light);
-
-
-			// --------------------------------------------- //
-			// loop through fields to create data_pivoted => rows
-			// --------------------------------------------- //
-
-			// console.log("...viewEditListDMF - pivotData / this.empty_column_normalized : ", this.empty_column_normalized );
-			// for (var field in   ) {
-			for (var field of Object.keys(this.empty_column_normalized) ) {
-				
-				// console.log("\n----- viewEditListDMF - pivotData / field : ", field);
-				
-				if (field != "_id"  ) {
-
-					var temp_field = {} ;
-				
-					if (field != "delete_child"  ) {
-						for (var dmf in data_from_API ) {
-							// console.log("...viewEditListDMF - pivotData / dmf : ", dmf);
-							// console.log("...viewEditListDMF - pivotData / data_from_API[dmf]['_id'] : ", data_from_API[dmf]["_id"] );
-							// console.log("...viewEditListDMF - pivotData / data_from_API[dmf][field] : ", data_from_API[dmf][field] );
-							temp_field[ data_from_API[dmf]["_id"] ] = data_from_API[dmf][ field ]
-						}
-					}
-
-					else {
-						for (var dmf in data_from_API ) {
-							// console.log("...viewEditListDMF - pivotData / dmf : ", dmf);
-							temp_field[ data_from_API[dmf]["_id"] ] = data_from_API[dmf][ "_id" ] ; 
-						};
-					}
-
-					// console.log("...viewEditListDMF - pivotData / temp_field : ", temp_field);
-					data_pivoted.push(temp_field)
-
-				}
-
-			}
-
-			// send data_pivoted back to get_docs_fromApi()
-			console.log("...viewEditListDMF - pivotData / data_pivoted : ", data_pivoted);
-			this.list_DMF_full_pivoted 		=  data_pivoted ;
-			this.list_DMF_first_row_pivoted = [ data_pivoted[0] ] ;
-
-			// save in $store
-			this.$store.commit('dmt/set_current_DMF_list_pivoted', data_pivoted )
-
-		},
-
-		// AXIOS CALL
-		get_docs_fromApi () {
-
-			console.log("\n...viewEditListDMF - get_doc_fromApi ... ")
-
-			this.loading 	= true
-
-			var oids_list = { 
-				oids 			: this.list_DMF_oids.join(), 
-				ignore_teams 	: true,
-				normalize		: true,
-				// pivot_results	: true,
-			}
-
-			// AXIOS CALL OR DISPATCH 
-			var call_input = {
-				coll 			: this.coll,
-				level			: "get_datasets",
-				q_params		: oids_list,
-			}
-			this.$store.dispatch('getListItems', call_input )
-
-			.then( result => {
-				
-				console.log("viewEditListDMF get_doc_fromApi / result: ", result ) ; 
-				
-				this.list_DMF_full 		= result.data ;
-
-				// save list_DMF_full in $store
-				this.$store.commit('dmt/set_current_DMF_list', result.data )
-
-				// pivot data
-				this.pivotData(result.data) ;
-
-				this.loading 			= false
-				this.DMF_list_loaded 	= true
-				this.alert   			= {type: 'success', message: result.msg}
-
-				// add scroll event listener on datatable 
-				// detect scroll : cf : https://forum.vuejs.org/t/how-to-detect-body-scroll/7057/5   
-				// sync scroll   : cf : https://github.com/asvd/syncscroll/blob/master/syncscroll.js 
-				var dataTable = this.$refs.datatable ; //) ;
-				// console.log("- viewEditListDMF / then 1 - dataTable : ", dataTable ) ;
-
-				if ( dataTable !== undefined ) {
-					// console.log("- viewEditListDMF / then 2 - dataTable : ", dataTable ) ;
-					// component selector : https://forum.vuejs.org/t/help-with-selector/18652/11 
-					var dt = dataTable.$el.querySelector(".v-table__overflow") 
-					// console.log("- viewEditListDMF / then 3 - dt : ", dt ) ;
-					dt.addEventListener('scroll', this.onScroll);
-					dt.classList.add("no-scroll");
-					this.dataTable = dt
-
-					if (this.is_map) {
-						var dataTable_ol = this.$refs.datatable_openlevel ;
-						var dt_ol = dataTable_ol.$el.querySelector(".v-table__overflow") 
-						dt_ol.addEventListener('scroll', this.onScroll);
-						// dt_ol.classList.add("no-scroll");
-						this.dataTable_ol = dt_ol
-					}
-
-					// if (this.is_solidify) {
-					// 	var dataTable_geo = this.$refs.datatable_geoloc ;
-					// 	var dt_geo = dataTable_geo.$el.querySelector(".v-table__overflow") 
-					// 	dt_geo.addEventListener('scroll', this.onScroll);
-					// 	// dt_ol.classList.add("no-scroll");
-					// 	this.dataTable_geo = dt_geo
-					// }
-
-				}
-
-
-
-
-			})
-
-			.catch( error => {
-				
-				console.log("viewEditListDMF get_doc_fromApi / submit - error... : ", error ) ; 
-				
-				this.loading = false
-				this.alert 		= {type: 'error', message: "login error" }
-
-				this.$store.commit(`set_error`, error)
-				
-				if (error.response && error.response.data) {
-					this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
-				
-				}
-			})
-
-		},
-
-	}
+  props: [
+
+    'listDMF',
+    'isPreview',
+    'is_loading',
+
+    'item_doc',
+    'item_doc_id',
+
+    'panel_open',
+
+    'is_solidify',
+    'parent_REC_mapping',
+    'disabled_dmf_list',
+
+    'is_map',
+    'parent_map',
+    'canEdit_ol',
+
+    'parentDoc_id',
+    'parentDoc_coll',
+
+    'no_toolbar',
+
+    'add_to_parent',
+    'parent_scroll'
+
+  ],
+
+  components: {
+    ViewEditDMFol
+  },
+
+  created () {
+    console.log('\n- viewEditListDMF / created ...')
+    console.log('- viewEditListDMF / listDMF : ', this.listDMF)
+    console.log('- viewEditListDMF / canEdit_ol : ', this.canEdit_ol)
+
+    this.populateSelectedCols(this.parent_REC_mapping)
+
+    if (!Array.isArray(this.listDMF) || this.listDMF.length) {
+      // map list DMF to list of DMF oids
+      this.list_DMF_oids = this.listDMF.map(function (obj) {
+        return obj.oid_dmf
+      })
+      console.log('- viewEditListDMF / list_DMF_oids : ', this.list_DMF_oids)
+
+      // get complete data for every DMF in list_DMF_oids => methods
+      this.get_docs_fromApi()
+    }
+  },
+
+  data () {
+    return {
+
+      loading: false,
+      alert: '',
+
+      coll: 'dmf',
+      tab: 'datamodel_fields',
+      collName: this.$store.state.collectionsNames['dmt'],
+
+      paginationDMF: {
+        rowsPerPage: -1
+      },
+
+      dialog_del: false,
+      panel_map: [true],
+      show_dmf_table: true,
+
+      offsetTop: 0,
+      offsetLeft: 0,
+
+      dataTable: undefined,
+      dataTable_ol: undefined,
+      dataTable_geo: undefined,
+
+      // for geoloc only
+      selected_cols: [],
+
+      // DMF references
+      DMF_list_loaded: false,
+      list_DMF_oids: [],
+      list_DMF_full: [],
+
+      // DMF data for datatable
+      listDMF_extended: [],
+      DMF_headers: [],
+      DMF_headers_light: [],
+      listDMF_light: [],
+      list_DMF_full_pivoted: [],
+      list_DMF_first_row_pivoted: [],
+
+      // empty column (first column on the left of the datatable)
+      empty_column: {
+        _id: '_',
+        infos: {
+          title: '',
+          description: 'description'
+        },
+        public_auth: {
+          open_level_edit: 'open_level_edit'
+        },
+        data_raw: {
+          f_code: 'f_code',
+          f_type: 'f_type',
+          f_object: 'f_object',
+          f_comments: 'f_comments',
+          f_is_required: 'f_is_required'
+        }
+      },
+      empty_column_normalized: {
+        '_id': '_',
+        'infos.title': 'title',
+
+        'delete_child': 'delete_child',
+
+        'infos.description': 'description',
+        'public_auth.open_level_edit': 'open_level_edit',
+        'data_raw.f_code': 'f_code',
+        'data_raw.f_type': 'f_type',
+        'data_raw.f_object': 'f_object',
+        // "data_raw.f_comments"    : "f_comments",
+        'data_raw.f_is_required': 'f_is_required'
+
+      }
+
+    }
+  },
+
+  computed: {
+
+    list_DMF_selector () {
+      return (this.isPreview) ? this.list_DMF_first_row_pivoted : this.list_DMF_full_pivoted
+    },
+
+    list_headers_selector () {
+      return (this.isPreview) ? this.DMF_headers_light : this.DMF_headers
+    },
+
+    list_DMF_raw_selector () {
+      return (this.isPreview) ? this.listDMF_light : this.listDMF_extended
+    }
+
+    // getDMF_openlevel_computed(dmf_id) {
+
+    //    // console.log("... getDMF_openlevel - dmf_id : ", dmf_id ) ;
+
+    //    var dmf_ol_value = ''
+    //    var dmf_mapper = this.parent_map.find(obj => {
+    //       return obj.oid_dmf === dmf_id
+    //    })
+    //    // console.log(" getDMF_openlevel / dmf_mapper : ", dmf_mapper )
+    //    if (dmf_mapper != undefined) {
+    //       dmf_ol_value = dmf_mapper.open_level_show
+    //    }
+
+    //    return dmf_ol_value
+    // },
+
+  },
+
+  watch: {
+
+    parent_scroll: {
+
+      immediate: true,
+      handler (newVal, oldVal) {
+        if (this.dataTable !== undefined) {
+          this.dataTable.scrollLeft = newVal
+          if (this.is_map) {
+            this.dataTable_ol.scrollLeft = newVal
+          }
+          // if (this.is_solidify) {
+          //    this.dataTable_geo.scrollLeft = newVal
+          // }
+        }
+      }
+
+    },
+
+    loading: {
+
+      immediate: true,
+      handler (newVal, oldVal) {
+        // console.log( "\nVE DMT / watch ~ loading / newVal : \n", newVal )
+
+        // var doc_id = "from_VE_DMF_list"
+        var input = {
+          loading: newVal,
+          // doc_id   : doc_id, //"from_VE_DMF_list",
+          coll: 'dmf'
+        }
+        // this.$emit("update_loading", newVal)
+        this.$emit('update_loading', input)
+      }
+
+    },
+
+    listDMF: {
+
+      immediate: true,
+      handler (newVal, oldVal) {
+        console.log('\nVE DMT / watch ~ listDMF / newVal : \n', newVal)
+        console.log('\nVE DMT / watch ~ listDMF / oldVal : \n', oldVal)
+
+        if (!Array.isArray(newVal) || newVal.length) {
+          this.loading = true
+
+          // map list DMF to list of DMF oids
+          this.list_DMF_oids = newVal.map(function (obj) {
+            return obj.oid_dmf
+          })
+          console.log('- viewEditListDMF / list_DMF_oids : ', this.list_DMF_oids)
+
+          // get complete data for every DMF in list_DMF_oids => methods
+          this.get_docs_fromApi()
+        }
+      }
+    }
+  },
+
+  methods: {
+
+    isDisabled (dmfId) {
+      return (this.disabled_dmf_list.filter(function (e) { return e['oid_dmf'] === dmfId }).length > 0)
+    },
+
+    populateSelectedCols (parentRECmapping) {
+      console.log('\n REC VEListDMF - populateSelectedCols ...')
+      console.log('REC VEListDMF -  parentRECmapping : \n', parentRECmapping)
+
+      if (parentRECmapping !== undefined) {
+        var recParams = parentRECmapping.rec_params
+
+        console.log('\n REC VEListDMF - recParams not undefined ...')
+
+        if (recParams.dmf_list_to_geocode.length > 0) {
+          console.log('\n REC VEListDMF - rec_params.new_dmfs_list.length > 1 ...')
+
+          this.selected_cols = recParams.dmf_list_to_geocode
+        }
+      }
+    },
+
+    getDMF_openlevel (dmfId) {
+      // console.log("... getDMF_openlevel - dmfId : ", dmfId ) ;
+
+      var dmfOLvalue = ''
+      var dmfMapper = this.parent_map.find(obj => {
+        return obj.oid_dmf === dmfId
+      })
+      // console.log(" getDMF_openlevel / dmfMapper : ", dmfMapper )
+      if (dmfMapper !== undefined) {
+        dmfOLvalue = dmfMapper.open_level_show
+      }
+
+      return dmfOLvalue
+    },
+
+    //  USER AUTH  - checkUserAuth for an item --> /utils
+    checkUserAuth (fieldName) {
+      // console.log("\ncheckUserAuth / fieldName : ", fieldName ) ;
+
+      var canUpdateField = false
+
+      if (this.is_create) {
+        canUpdateField = true
+      } else {
+        var isLogged = this.$store.state.auth.isLogged
+        var userId = this.$store.state.auth.user_id
+
+        canUpdateField = checkDocUserAuth(this.item_doc, fieldName, isLogged, userId)
+      }
+
+      // console.log("checkUserAuth / canUpdateField : ", canUpdateField ) ;
+
+      return canUpdateField
+    },
+
+    onScroll (e) {
+      // console.log("... onScroll - e.target : ", e.target ) ;
+      var scrollData = e.target
+      // this.offsetTop    = scrollData.scrollTop ;
+      this.offsetLeft = scrollData.scrollLeft
+      if (!this.is_solidify) {
+        this.$emit('scrollTable', {
+          left: scrollData.scrollLeft
+        })
+      }
+      // else {
+      //    this.dataTable.scrollLeft = this.offsetLeft
+      //    this.dataTable_geo.scrollLeft = this.offsetLeft
+      // }
+    },
+
+    switchSettings () {
+      // console.log("settingsToolbar - switchSettings / this.is_settings : ", this.is_settings )
+      this.$emit('settings')
+    },
+
+    goToItem () {
+      // redirect to edit-preview page
+      return this.$router.push(`/${this.item_doc.specs.doc_type}/${this.item_doc._id}`)
+    },
+
+    updateSolidifyListDMF () {
+      // update parent RPJ's list of dmf to use to geolocalize
+      this.$emit('updateSolidify', this.selected_cols)
+    },
+
+    deleteChild (itemInfos) {
+      console.log('\n...viewEditListDMF - deleteChild / item_infos : \n ', itemInfos)
+
+      var input = {
+        add_or_delete: 'delete_from_list',
+        item_id_to_add: itemInfos.item_id,
+        datasets_coll: itemInfos.datasets_coll,
+        parentDoc_coll: itemInfos.parentDoc_coll,
+        re_emit: itemInfos.re_emit
+      }
+      console.log('deleteChild / input : ', input)
+
+      this.$emit('update_parent_dataset', input)
+    },
+
+    openDMF_lib_parent () {
+      console.log('\n...viewEditListDMF - openDMF_lib_parent ')
+
+      // send data back to parent component
+      this.$emit('input')
+    },
+
+    // utils to pivot data to datatable format
+    pivotData (dataFromAPI) {
+      console.log('\n...viewEditListDMF - pivotData / dataFromAPI (A) : ', dataFromAPI)
+
+      // var for internal purposes
+      var dataNewHeaders = []
+      var dataPivoted = []
+
+      this.listDMF_light = dataFromAPI.slice(0)
+
+      // add empty_column_normalized to beginning of dataFromAPI
+      dataFromAPI.unshift(this.empty_column_normalized)
+      // console.log("...viewEditListDMF - pivotData / dataFromAPI (B) : ", dataFromAPI);
+      this.listDMF_extended = dataFromAPI
+
+      // --------------------------------------------- //
+      // loop through data_to_pivot => headers / columns
+      // --------------------------------------------- //
+      for (let dmf in dataFromAPI) {
+        // console.log("\n...viewEditListDMF - pivotData / dmf (C) : ", dmf);
+        // console.log("...viewEditListDMF - pivotData / dataFromAPI[dmf]['infos.title'] (D) : \n", dataFromAPI[dmf]["infos.title"]);
+
+        // create new header
+        var tempHeader = {
+          value: dataFromAPI[dmf]['_id'],
+          text: dataFromAPI[dmf]['infos.title'],
+          // text       : dataFromAPI[dmf]["_id"],
+          sortable: false,
+          align: 'center'
+        }
+        // console.log("...viewEditListDMF - pivotData / tempHeader.value : ", tempHeader.value);
+
+        // push DMF oid in dataNewHeaders
+        dataNewHeaders.push(tempHeader)
+      };
+
+      // send datatable_headers back
+      // console.log("\n...viewEditListDMF - pivotData / dataNewHeaders : ", dataNewHeaders);
+      this.DMF_headers = dataNewHeaders
+
+      var tempDMFlight = dataNewHeaders.slice(0)
+      tempDMFlight.shift()
+      // console.log("\n...viewEditListDMF - pivotData / tempDMFlight : ", tempDMFlight);
+      this.DMF_headers_light = tempDMFlight
+      // console.log("...viewEditListDMF - pivotData / this.DMF_headers_light : ", this.DMF_headers_light);
+
+      // --------------------------------------------- //
+      // loop through fields to create dataPivoted => rows
+      // --------------------------------------------- //
+
+      // console.log("...viewEditListDMF - pivotData / this.empty_column_normalized : ", this.empty_column_normalized );
+      // for (var field in   ) {
+      for (var field of Object.keys(this.empty_column_normalized)) {
+        // console.log("\n----- viewEditListDMF - pivotData / field : ", field);
+
+        if (field !== '_id') {
+          let tempField = {}
+
+          if (field !== 'delete_child') {
+            for (let dmf in dataFromAPI) {
+              // console.log("...viewEditListDMF - pivotData / dmf : ", dmf);
+              // console.log("...viewEditListDMF - pivotData / dataFromAPI[dmf]['_id'] : ", dataFromAPI[dmf]["_id"] );
+              // console.log("...viewEditListDMF - pivotData / dataFromAPI[dmf][field] : ", dataFromAPI[dmf][field] );
+              tempField[ dataFromAPI[dmf]['_id'] ] = dataFromAPI[dmf][ field ]
+            }
+          } else {
+            for (let dmf in dataFromAPI) {
+              // console.log("...viewEditListDMF - pivotData / dmf : ", dmf);
+              tempField[ dataFromAPI[dmf]['_id'] ] = dataFromAPI[dmf][ '_id' ]
+            };
+          }
+
+          // console.log("...viewEditListDMF - pivotData / tempField : ", tempField);
+          dataPivoted.push(tempField)
+        }
+      }
+
+      // send dataPivoted back to get_docs_fromApi()
+      console.log('...viewEditListDMF - pivotData / dataPivoted : ', dataPivoted)
+      this.list_DMF_full_pivoted = dataPivoted
+      this.list_DMF_first_row_pivoted = [ dataPivoted[0] ]
+
+      // save in $store
+      this.$store.commit('dmt/set_current_DMF_list_pivoted', dataPivoted)
+    },
+
+    // AXIOS CALL
+    get_docs_fromApi () {
+      console.log('\n...viewEditListDMF - get_doc_fromApi ... ')
+
+      this.loading = true
+
+      var oidsList = {
+        oids: this.list_DMF_oids.join(),
+        ignore_teams: true,
+        normalize: true
+        // pivot_results   : true,
+      }
+
+      // AXIOS CALL OR DISPATCH
+      var callInput = {
+        coll: this.coll,
+        level: 'get_datasets',
+        q_params: oidsList
+      }
+      this.$store.dispatch('getListItems', callInput)
+
+        .then(result => {
+          console.log('viewEditListDMF get_doc_fromApi / result: ', result)
+
+          this.list_DMF_full = result.data
+
+          // save list_DMF_full in $store
+          this.$store.commit('dmt/set_current_DMF_list', result.data)
+
+          // pivot data
+          this.pivotData(result.data)
+
+          this.loading = false
+          this.DMF_list_loaded = true
+          this.alert = {type: 'success', message: result.msg}
+
+          // add scroll event listener on datatable
+          // detect scroll : cf : https://forum.vuejs.org/t/how-to-detect-body-scroll/7057/5
+          // sync scroll   : cf : https://github.com/asvd/syncscroll/blob/master/syncscroll.js
+          var dataTable = this.$refs.datatable // ) ;
+          // console.log("- viewEditListDMF / then 1 - dataTable : ", dataTable ) ;
+
+          if (dataTable !== undefined) {
+          // console.log("- viewEditListDMF / then 2 - dataTable : ", dataTable ) ;
+          // component selector : https://forum.vuejs.org/t/help-with-selector/18652/11
+            var dt = dataTable.$el.querySelector('.v-table__overflow')
+            // console.log("- viewEditListDMF / then 3 - dt : ", dt ) ;
+            dt.addEventListener('scroll', this.onScroll)
+            dt.classList.add('no-scroll')
+            this.dataTable = dt
+
+            if (this.is_map) {
+              var dataTableOL = this.$refs.datatable_openlevel
+              var dtOL = dataTableOL.$el.querySelector('.v-table__overflow')
+              dtOL.addEventListener('scroll', this.onScroll)
+              // dtOL.classList.add("no-scroll");
+              this.dataTable_ol = dtOL
+            }
+
+          // if (this.is_solidify) {
+          //    var dataTable_geo = this.$refs.datatable_geoloc ;
+          //    var dt_geo = dataTable_geo.$el.querySelector(".v-table__overflow")
+          //    dt_geo.addEventListener('scroll', this.onScroll);
+          //    // dtOL.classList.add("no-scroll");
+          //    this.dataTable_geo = dt_geo
+          // }
+          }
+        })
+
+        .catch(error => {
+          console.log('viewEditListDMF get_doc_fromApi / submit - error... : ', error)
+
+          this.loading = false
+          this.alert = {type: 'error', message: 'login error'}
+
+          this.$store.commit(`set_error`, error)
+
+          if (error.response && error.response.data) {
+            this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+          }
+        })
+    }
+
+  }
 
 }
-
-
-
 </script>

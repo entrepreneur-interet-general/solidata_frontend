@@ -19,17 +19,17 @@
 
 <script>
 export default {
-    data () {
-        return {
-            // fixed : true,
-        }
-    },
-    // methods: {
+  data () {
+    return {
+      // fixed : true,
+    }
+  }
+  // methods: {
 
-    //   change_right() {
-    //     this.$store.commit('set_right' )
-    //   },
+  //   change_right() {
+  //     this.$store.commit('set_right' )
+  //   },
 
-    // }, 
+  // },
 }
 </script>
