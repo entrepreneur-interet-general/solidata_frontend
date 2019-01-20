@@ -182,8 +182,8 @@ export default {
 
         })
 
-          .then(result => {
-            this.alert = {type: 'success', message: result.msg}
+          .then(response => {
+            this.alert = {type: 'success', message: response.msg}
             this.loading = false
             this.$router.push('/dashboard')
           })

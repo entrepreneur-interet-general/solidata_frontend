@@ -427,12 +427,12 @@ export default {
 
       this.$store.dispatch('deleteItem', callInput)
 
-        .then(result => {
-          console.log('itemToolbar - deleItem / result: ', result)
+        .then(response => {
+          console.log('itemToolbar - deleItem / response: ', response)
 
           this.loading = false
           this.is_loading = false
-          this.alert = {type: 'success', message: result.msg}
+          this.alert = {type: 'success', message: response.msg}
 
           return this.$router.push(`/${this.coll}`)
         })

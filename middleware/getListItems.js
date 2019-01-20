@@ -31,9 +31,9 @@ export default function ({ context, store, route, redirect }) {
 
   // // dispatch action to get prj
   // store.dispatch('prj/getList' )
-  //  .then(result => {
+  //  .then(response => {
   //   console.log("dispatch prj / ok..." ) ;
-  //   // this.alert = {type: 'success', message: result.msg}
+  //   // this.alert = {type: 'success', message: response.msg}
   //  })
   //  .catch(error => {
   //   console.log("dispatch prj / error..." ) ;
@@ -48,9 +48,9 @@ export default function ({ context, store, route, redirect }) {
 
   // // dispatch action to get prj
   // store.dispatch('dmt/getList' )
-  //  .then(result => {
+  //  .then(response => {
   //   console.log("dispatch dmt / ok..." ) ;
-  //   // this.alert = {type: 'success', message: result.msg}
+  //   // this.alert = {type: 'success', message: response.msg}
   //  })
   //  .catch(error => {
   //   console.log("dispatch dmt / error..." ) ;
@@ -65,9 +65,9 @@ export default function ({ context, store, route, redirect }) {
 
   // // dispatch action to get prj
   // store.dispatch('dsi/getList' )
-  // .then(result => {
+  // .then(response => {
   //  console.log("dispatch dsi / ok..." ) ;
-  //  // this.alert = {type: 'success', message: result.msg}
+  //  // this.alert = {type: 'success', message: response.msg}
   // })
   // .catch(error => {
   //  console.log("dispatch dsi / error..." ) ;
@@ -82,9 +82,9 @@ export default function ({ context, store, route, redirect }) {
 
   // // dispatch action to get prj
   // store.dispatch('tag/getList' )
-  // .then(result => {
+  // .then(response => {
   //  console.log("dispatch tag / ok..." ) ;
-  //  // this.alert = {type: 'success', message: result.msg}
+  //  // this.alert = {type: 'success', message: response.msg}
   // })
   // .catch(error => {
   //  console.log("dispatch tag / error..." ) ;

@@ -538,12 +538,12 @@ export default {
       // dispatch action from store
       this.$store.dispatch('createItem', payload)
 
-        .then(result => {
+        .then(response => {
           this.loading = false
-          this.alert = {type: 'success', message: result.msg}
+          this.alert = {type: 'success', message: response.msg}
 
           // retrieve new item id
-          var newItemId = result.data._id
+          var newItemId = response.data._id
 
           // redirect to edit-preview page
           return this.$router.push(`/${this.coll}/${newItemId}`)

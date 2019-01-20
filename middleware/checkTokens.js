@@ -1,4 +1,4 @@
-import Cookie from 'js-cookie'
+// import Cookie from 'js-cookie'
 var cookieparser = require('cookieparser')
 
 export default function ({ req, store, app, redirect }) {
@@ -9,12 +9,17 @@ export default function ({ req, store, app, redirect }) {
   let saltToken = null
   let langCookie = null
 
+  console.log('\n- - - checkTokens : process : \n', process)
+  console.log('\n- - - checkTokens : process.env : \n', process.env)
+  console.log('\n- - - checkTokens : process.config : \n', process.config)
+
   // 1 // TOKENS VALUES
   // 1a // SERVER SIDE RENDERDED
   if (process.server) {
     // let navigator
 
     console.log('- - - checkTokens : process.server == TRUE ')
+    console.log('store.DEBUG :', store.state.DEBUG)
     // var jsencrypt = require('jsencrypt')
 
     // check if access_token and refresh_token in cookies

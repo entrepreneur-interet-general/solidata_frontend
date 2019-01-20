@@ -1,4 +1,6 @@
-
+const configApp = {
+  port: process.env.NODE_ENV === 'production' ? 8000 : 3000
+}
 module.exports = {
 
   mode: 'universal',
@@ -20,9 +22,22 @@ module.exports = {
     ]
   },
 
+  // for build or dev
+  // https://nuxtjs.org/faq/host-port/
   server: {
-    port: 3000,
-    host: 'localhost'
+    port: configApp.port, // 3000
+    host: 'localhost' // XXX.XX.XX.XX
+  },
+
+  // dev: (process.env.NODE_ENV !== 'production'),
+
+  // custom env variables for nuxt
+  // cf : https://github.com/nuxt/nuxt.js/issues/1789
+  env: {
+    DEV_API: 'http://localhost:4000',
+    PROD_API: '/solidata.api.co-demos.com',
+    DEBUG: process.env.NODE_ENV === 'development',
+    CONFIG_APP: configApp
   },
 
   router: {
@@ -155,11 +170,23 @@ module.exports = {
     //   'axios'
     // ],
     extractCSS: true,
+
+    // check babel presets to strip console.log from built files et npm run build
+    // cf : https://babeljs.io/docs/en/babel-plugin-transform-remove-console
+    // cf :
     /*
     ** Run ESLint on save
     */
     extend (config, ctx) {
       //   if (ctx.isDev && ctx.isClient) {
+      //     config.module.rules.push({
+      //       enforce: 'pre',
+      //       test: /\.(js|vue)$/,
+      //       loader: 'eslint-loader',
+      //       exclude: /(node_modules)/
+      //     })
+      //   }
+      //   if (!ctx.isDev) {
       //     config.module.rules.push({
       //       enforce: 'pre',
       //       test: /\.(js|vue)$/,

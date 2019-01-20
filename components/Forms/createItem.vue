@@ -400,7 +400,7 @@ import TextArea from '~/components/Forms/Fields/textarea.vue'
 import TextField from '~/components/Forms/Fields/textfield.vue'
 import SelectField from '~/components/Forms/Fields/selectfield.vue'
 import ComboboxField from '~/components/Forms/Fields/comboboxfield.vue'
-import CheckboxField from '~/components/Forms/Fields/checkboxfield.vue'
+// import CheckboxField from '~/components/Forms/Fields/checkboxfield.vue'
 
 export default {
 
@@ -437,23 +437,23 @@ export default {
         f_comments: '',
         f_is_required: false,
 
-        // openlevel 			: '',
+        // openlevel    : '',
         open_level_show: '',
         open_level_edit: ''
       }
 
-      // title 		: '',
+      // title   : '',
       // description : '',
-      // licence 	: '',
-      // tags		: [ ] ,
-      // file		: '',
+      // licence  : '',
+      // tags  : [ ] ,
+      // file  : '',
     }
   },
 
   computed: {
 
     // E6 : function () {
-    // 	return this.e6
+    //  return this.e6
     // },
 
     // working getters
@@ -528,11 +528,12 @@ export default {
       // create item by sending post request to backend api
       this.$store.dispatch(`createItem`, payload)
         .then(response => {
-          this.alert = {type: 'success', message: response.msg}
+          console.log('... submitNewItem / response : ', response)
+          // this.alert = {type: 'success', message: response.msg}
           this.loading = false
-          const newItemId = response.data._id
+          // const newItemId = response.data._id
           // redirect to edit-preview page
-          return this.$router.push(`/${this.itemAbr}/${newItemId}`)
+          // return this.$router.push(`/${this.itemAbr}/${newItemId}`)
         })
         .catch(error => {
           this.alert = {type: 'success', message: error.msg}
@@ -541,41 +542,41 @@ export default {
         })
 
       // return this.$axios.$post(`${this.itemAbr}/create/`, this.valuesToSend, config)
-      // 	.then(response => {
-      // 		console.log("~ ~ ~ submitNewItem / response : ", response ) ;
+      //  .then(response => {
+      //   console.log("~ ~ ~ submitNewItem / response : ", response ) ;
 
-      // 		// set up corresponding store
-      // 		this.$store.commit( `${this.itemAbr}/set_current`, response.data )
+      //   // set up corresponding store
+      //   this.$store.commit( `${this.itemAbr}/set_current`, response.data )
 
-      // 		// retrieve item id
-      // 		const new_item_id = response.data._id
+      //   // retrieve item id
+      //   const new_item_id = response.data._id
 
-      // 		// redirect to edit-preview page
-      // 		return this.$router.push(`/${this.itemAbr}/${new_item_id}`)
+      //   // redirect to edit-preview page
+      //   return this.$router.push(`/${this.itemAbr}/${new_item_id}`)
 
-      // 	})
-      // 	.catch(error => {
-      // 		console.log("~ ~ ~ submitNewItem / error : ", error ) ;
-      // 		return
-      // 	})
+      //  })
+      //  .catch(error => {
+      //   console.log("~ ~ ~ submitNewItem / error : ", error ) ;
+      //   return
+      //  })
 
       // dispatch action from store/prj...
       // this.$store.dispatch( itemAbr +'/create', {
 
-      // 	// email : this.email,
-      // 	// pwd   : this.password
+      //  // email : this.email,
+      //  // pwd   : this.password
 
       // }).then(result => {
-      // 	this.alert = {type: 'success', message: result.msg}
-      // 	this.loading = false
-      // 	this.$router.push(`${itemAbr}/${result.data._id}/` )
+      //  this.alert = {type: 'success', message: result.msg}
+      //  this.loading = false
+      //  this.$router.push(`${itemAbr}/${result.data._id}/` )
       // }).catch(error => {
-      // 	console.log("submit / error..." ) ;
-      // 	this.loading = false
-      // 	this.alert = {type: 'error', message: "login error" }
-      // 	if (error.response && error.response.data) {
-      // 	this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
-      // 	}
+      //  console.log("submit / error..." ) ;
+      //  this.loading = false
+      //  this.alert = {type: 'error', message: "login error" }
+      //  if (error.response && error.response.data) {
+      //  this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+      //  }
       // })
     }
 

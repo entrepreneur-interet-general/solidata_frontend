@@ -725,8 +725,8 @@ export default {
         coll: 'dmf',
         doc_id: this.item_id,
         form: formData // this.form,
-      }).then(result => {
-        this.alert = {type: 'success', message: result.msg}
+      }).then(response => {
+        this.alert = {type: 'success', message: response.msg}
         this.loading = false
         // this.$router.push('/') /////////
       }).catch(error => {

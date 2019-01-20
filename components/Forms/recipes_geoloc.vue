@@ -637,8 +637,8 @@ export default {
 
       this.$store.dispatch('updateMapping', input)
 
-        .then(result => {
-        // this.alert = { type: 'success', message: result.msg }
+        .then(response => {
+        // this.alert = { type: 'success', message: response.msg }
           this.loading = false
         })
 
@@ -671,8 +671,8 @@ export default {
       // call enrich endpoint with the reference of the PRJ's REC to LAUNCH
       this.$store.dispatch('solidifyData', input)
 
-        .then(result => {
-        // this.alert = { type: 'success', message: result.msg }
+        .then(response => {
+        // this.alert = { type: 'success', message: response.msg }
           this.loading = false
           this.$emit('need_reload_dsi')
         })

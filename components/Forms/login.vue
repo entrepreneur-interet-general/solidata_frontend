@@ -251,11 +251,11 @@ export default {
           pwd_encrypt: encryptedPwd.hashed
         })
 
-          .then(result => {
-            this.alert = {type: 'success', message: result.msg}
+          .then(response => {
+            this.alert = {type: 'success', message: response.msg}
             this.loading = false
 
-            this.$store.commit(`set_alert`, result.msg)
+            this.$store.commit(`set_alert`, response.msg)
 
             this.$router.push('/dashboard')
           })
@@ -283,8 +283,8 @@ export default {
       // dispatch action from store/auth
       // this.$store.dispatch('auth/login', {
       this.$store.dispatch('auth/loginAnonymous')
-        .then(result => {
-          this.alert = {type: 'success', message: result.msg}
+        .then(response => {
+          this.alert = {type: 'success', message: response.msg}
           this.loading = false
           // this.$router.push('/login') /////////
         }).catch(error => {

@@ -608,10 +608,10 @@ export default {
           form: pseudoFormData // this.form,
         })
 
-          .then(result => {
-            console.log('submit / success... : ', result)
+          .then(response => {
+            console.log('submit / success... : ', response)
 
-            this.alert = { type: 'success', message: result.msg }
+            this.alert = { type: 'success', message: response.msg }
             this.loading = false
 
             // update current in store
@@ -619,7 +619,7 @@ export default {
             // console.log("submitValue - create / valueData : ", valueData)
             // this.$store.commit(`${this.coll}/set_current`, valueData );
 
-            this.$store.commit(`${this.coll}/set_current`, result)
+            this.$store.commit(`${this.coll}/set_current`, response)
           })
 
           .catch(error => {

@@ -186,7 +186,13 @@ const mainIconsConst = {
 
 export const state = () => ({
 
-  //  APP TITLE
+  // NODE_ENV: process.env.NODE_ENV,
+  DEBUG: process.env.DEBUG,
+  is_debug: false,
+
+  CONFIG: process.env.CONFIG_APP,
+
+  // APP TITLE
   title: '<span>SOLI</span><i><strong>DATA</strong></i>',
   version: '<span>v.0.1</span>',
   year: '2018-2019',
@@ -197,8 +203,6 @@ export const state = () => ({
   app_codemos: '/logos/logo_codemos_01b.png',
 
   toolbar_h: 50, // in pixels
-
-  is_debug: false,
 
   show_agreement_cgu: true,
 
@@ -641,7 +645,7 @@ export const actions = {
     // API CALL
     return this.$axios.$post(`${payload.collection}/create/`, cleanPayload, config)
       .then(response => {
-        // console.log("... $ createItem / response : ", response ) ;
+        console.log('... $ createItem / response : ', response)
 
         // set up corresponding store
         commit(`${payload.collection}/set_current`, response.data, {root: true})

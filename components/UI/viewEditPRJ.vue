@@ -1341,7 +1341,7 @@ export default {
 
     // submit value to create item via API backend
     createItem () {
-      console.log('\n VE createItem... ')
+      console.log('\n VE PRJ createItem... ')
 
       this.alert = null
       this.loading = true
@@ -1350,7 +1350,7 @@ export default {
 
       // this.formHasErrors = false ;
 
-      console.log('VE createItem - currentNew : ', currentNew)
+      console.log('VE PRJ createItem - currentNew : ', currentNew)
 
       // Object.keys(this.form).forEach(f => {
       //   if (!this.form[f]) this.formHasErrors = true
@@ -1363,33 +1363,33 @@ export default {
 
       // add file's data if needed
       if (this.is_file === true) {
-        console.log('VE createItem / adding file  to dataToSend')
+        console.log('VE PRJ createItem / adding file  to dataToSend')
         // dataToSend['file']   = this.$store.state[this.coll].current_file ;
         dataToSend['csv_sep'] = this.$store.state[this.coll].csv_sep
       //  dataToSend['filename']  = this.$store.state[this.coll].current_filename ;
       }
 
-      console.log('VE createItem / dataToSend : ', dataToSend)
+      console.log('VE PRJ createItem / dataToSend : ', dataToSend)
 
       //  PREPARE PAYLOAD
       var payload = { collection: this.coll, data: dataToSend }
-      console.log('VE createItem / payload : ', payload)
+      console.log('VE PRJ createItem / payload : ', payload)
 
       // dispatch action from store
       this.$store.dispatch('createItem', payload)
 
-        .then(result => {
+        .then(response => {
           this.loading = false
-          this.alert = {type: 'success', message: result.msg}
+          // this.alert = {type: 'success', message: response.msg}
 
           // retrieve new item id
-          var newItemId = result.data._id
+          // var newItemId = response.data._id
 
           // redirect to edit-preview page
-          return this.$router.push(`/${this.coll}/${newItemId}`)
+          // return this.$router.push(`/${this.coll}/${newItemId}`)
         })
         .catch(error => {
-          console.log('VE createItem / submit / error... : ', error)
+          console.log('VE PRJ createItem / submit / error... : ', error)
 
           this.loading = false
           this.alert = {type: 'error', message: 'login error'}
@@ -1435,13 +1435,13 @@ export default {
         form: pseudoFormData
       })
 
-        .then(result => {
-          this.alert = { type: 'success', message: result.msg }
+        .then(response => {
+          this.alert = { type: 'success', message: response.msg }
           this.loading = false
 
           // update current in store
-          console.log('update_parent_list - result : ', result)
-          this.$store.commit(`${this.coll}/set_current`, result)
+          console.log('update_parent_list - response : ', response)
+          this.$store.commit(`${this.coll}/set_current`, response)
         })
 
         .catch(error => {

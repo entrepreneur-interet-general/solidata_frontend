@@ -360,9 +360,9 @@ export default {
         // dispatch action from store for update
         this.$store.dispatch('updateItem', input)
 
-          .then(result => {
+          .then(response => {
             console.log('change_lang / success ... ')
-            this.alert = { type: 'success', message: result.msg }
+            this.alert = { type: 'success', message: response.msg }
             this.loading = false
           })
 
