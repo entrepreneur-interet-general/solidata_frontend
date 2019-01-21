@@ -800,7 +800,7 @@
 
 import checkDocUserAuth from '~/plugins/utils/checkDocUserAuth.js'
 
-import ViewEditDMFol from '~/components/UI/viewEditDMF_openlevel.vue'
+// import ViewEditDMFol from '~/components/UI/viewEditDMF_openlevel.vue'
 
 export default {
 
@@ -834,7 +834,7 @@ export default {
   ],
 
   components: {
-    ViewEditDMFol
+    // ViewEditDMFol
   },
 
   created () {

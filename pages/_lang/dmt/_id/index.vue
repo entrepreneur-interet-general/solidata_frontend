@@ -51,38 +51,37 @@
 
 
 <script>
-import SectionTitle from '~/components/UI/sectionTitle.vue'
+// import SectionTitle from '~/components/UI/sectionTitle.vue'
 
-import ViewEditDMT from '~/components/UI/viewEditDMT.vue' 
+// import ViewEditDMT from '~/components/UI/viewEditDMT.vue'
 
 export default {
-	components : {
+  components: {
 
-		SectionTitle,
-		ViewEditDMT,
+    // SectionTitle,
+    // ViewEditDMT,
 
-	},
+  },
 
-	// add var-arg to middleware with meta
-	// cf : https://github.com/nuxt/nuxt.js/issues/1687#issuecomment-331870619
-	middleware : ["getItem"],
-	meta : {
-		collection 	: 'dmt',
-		level 		: 'get_one',
-	},
+  // add var-arg to middleware with meta
+  // cf : https://github.com/nuxt/nuxt.js/issues/1687#issuecomment-331870619
+  middleware: ['getItem'],
+  meta: {
+    collection: 'dmt',
+    level: 'get_one'
+  },
 
-	data () {
-		return {
+  data () {
+    return {
 
-			coll 	: "dmt",
-			tab 	: 'datamodels',
+      coll: 'dmt',
+      tab: 'datamodels'
 
-		}
-	},
+    }
+  },
 
-	methods: {
-	},
+  methods: {
+  }
 
 }
-
 </script>

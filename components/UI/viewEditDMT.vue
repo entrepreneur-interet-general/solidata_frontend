@@ -362,14 +362,14 @@
 // import ObjectFormatterCreate from '~/plugins/utils/ObjectFormatterCreate.js'
 import checkDocUserAuth from '~/plugins/utils/checkDocUserAuth.js'
 
-import ItemToolbar from '~/components/UI/itemToolbar.vue'
-import ItemDocUses from '~/components/UI/itemDocUses.vue'
-import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
+// import ItemToolbar from '~/components/UI/itemToolbar.vue'
+// import ItemDocUses from '~/components/UI/itemDocUses.vue'
+// import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
 
-import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
-import ViewEditListDMF from '~/components/UI/viewEditListDMF.vue'
+// import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
+// import ViewEditListDMF from '~/components/UI/viewEditListDMF.vue'
 
-import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
+// import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
 // import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
 
 export default {
@@ -408,14 +408,14 @@ export default {
 
   components: {
 
-    ItemToolbar,
-    ItemDocInfos,
-    ItemDocUses,
+    // ItemToolbar,
+    // ItemDocInfos,
+    // ItemDocUses,
 
-    ItemsListDI,
-    ViewEditListDMF,
+    // ItemsListDI,
+    // ViewEditListDMF,
 
-    SettingsToolbar
+    // SettingsToolbar
     // ValueEdit,
   },
 

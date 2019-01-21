@@ -110,13 +110,13 @@
 
 <script>
 
-import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
-import SectionTitle from '~/components/UI/sectionTitle.vue'
+// import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
+// import SectionTitle from '~/components/UI/sectionTitle.vue'
 
 export default {
   components: {
-    ItemsListDI,
-    SectionTitle
+    // ItemsListDI,
+    // SectionTitle
   },
 
   middleware: ['getListItems'],

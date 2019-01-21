@@ -64,6 +64,7 @@ module.exports = {
     '~/plugins/i18n.js',
     '~/plugins/axios',
     '~plugins/text_filters.js',
+    '~plugins/core-components.js',
     {src: '@/plugins/vueParticles.js', ssr: false},
 
     // '~plugins/vue-scroll',

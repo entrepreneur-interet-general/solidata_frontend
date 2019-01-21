@@ -358,16 +358,16 @@
 import ObjectFormatterCreate from '~/plugins/utils/ObjectFormatterCreate.js'
 import checkDocUserAuth from '~/plugins/utils/checkDocUserAuth.js'
 
-import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
+// import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
 
-import ItemToolbar from '~/components/UI/itemToolbar.vue'
-import ItemDocUses from '~/components/UI/itemDocUses.vue'
-import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
-import ItemDocDataRaw from '~/components/UI/itemDocDataRaw.vue'
+// import ItemToolbar from '~/components/UI/itemToolbar.vue'
+// import ItemDocUses from '~/components/UI/itemDocUses.vue'
+// import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
+// import ItemDocDataRaw from '~/components/UI/itemDocDataRaw.vue'
 
-import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
+// import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
 
-import CardPreviewDense from '~/components/UI/cardPreview_dense.vue'
+// import CardPreviewDense from '~/components/UI/cardPreview_dense.vue'
 
 export default {
 
@@ -386,13 +386,13 @@ export default {
 
   components: {
 
-    ItemToolbar,
-    ItemDocInfos,
-    ItemsListDI,
-    ItemDocUses,
-    ItemDocDataRaw,
-    SettingsToolbar,
-    CardPreviewDense
+    // ItemToolbar,
+    // ItemDocInfos,
+    // ItemsListDI,
+    // ItemDocUses,
+    // ItemDocDataRaw,
+    // SettingsToolbar,
+    // CardPreviewDense
 
   },
 

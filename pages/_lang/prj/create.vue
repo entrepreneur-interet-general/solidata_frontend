@@ -20,7 +20,7 @@
       <v-layout align-center justify-center row fill-height>
         <v-flex xs12>
 
-          <ViewEditBasicDoc
+          <ViewEditDoc
             :flex_vars="$store.state.createSize"
             :is_create="true"
             :is_preview="false"
@@ -29,7 +29,7 @@
             :item_doc="$store.state[coll].current_new"
             :is_switch="true"
             >
-          </ViewEditBasicDoc>
+          </ViewEditDoc>
         
         </v-flex>
       </v-layout>
@@ -51,16 +51,16 @@
 
 
 <script>
-import SectionTitle from '~/components/UI/sectionTitle.vue'
-import ViewEditBasicDoc from '~/components/UI/viewEditDoc.vue'
+// import SectionTitle from '~/components/UI/sectionTitle.vue'
+// import ViewEditBasicDoc from '~/components/UI/viewEditDoc.vue'
 
-import CreateItemForm from '~/components/Forms/createItem.vue'
+// import CreateItemForm from '~/components/Forms/createItem.vue'
 
 export default {
   components: {
-    SectionTitle,
-    ViewEditBasicDoc,
-    CreateItemForm
+    // SectionTitle,
+    // ViewEditBasicDoc,
+    // CreateItemForm
   },
 
   // TO DO : middleware to check if logged and authenticated

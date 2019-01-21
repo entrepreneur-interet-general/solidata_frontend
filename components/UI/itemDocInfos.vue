@@ -288,7 +288,7 @@
 // import ObjectFormatterCreate from '~/plugins/utils/ObjectFormatterCreate.js'
 import checkDocUserAuth from '~/plugins/utils/checkDocUserAuth.js'
 
-import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
+// import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
 
 export default {
 
@@ -306,7 +306,7 @@ export default {
 
   components: {
 
-    ValueEdit
+    // ValueEdit
 
   },
 

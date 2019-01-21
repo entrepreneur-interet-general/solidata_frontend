@@ -233,9 +233,9 @@
 
 <script>
 
-import BtnCreate from '~/components/UI/btnCreate.vue'
+// import BtnCreate from '~/components/UI/btnCreate.vue'
 
-import CardPreviewDense from '~/components/UI/cardPreview_dense.vue'
+// import CardPreviewDense from '~/components/UI/cardPreview_dense.vue'
 
 export default {
 
@@ -256,8 +256,8 @@ export default {
   ],
 
   components: {
-    CardPreviewDense,
-    BtnCreate
+    // CardPreviewDense
+    // BtnCreate
   },
 
   created () {

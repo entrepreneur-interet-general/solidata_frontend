@@ -1151,16 +1151,16 @@
 // import ObjectFormatterCreate from '~/plugins/utils/ObjectFormatterCreate.js'
 import checkDocUserAuth from '~/plugins/utils/checkDocUserAuth.js'
 
-import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
+// import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
 
-import ItemToolbar from '~/components/UI/itemToolbar.vue'
-import ItemDocUses from '~/components/UI/itemDocUses.vue'
-import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
+// import ItemToolbar from '~/components/UI/itemToolbar.vue'
+// import ItemDocUses from '~/components/UI/itemDocUses.vue'
+// import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
 
-import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
+// import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
 
-import ViewEditDSIMapHeaders from '~/components/UI/viewEditDSI_mapHeaders.vue'
-import ViewEditDSITable from '~/components/UI/viewEditDSI_table.vue'
+// import ViewEditDSIMapHeaders from '~/components/UI/viewEditDSI_mapHeaders.vue'
+// import ViewEditDSITable from '~/components/UI/viewEditDSI_table.vue'
 
 export default {
 
@@ -1199,13 +1199,13 @@ export default {
   ],
 
   components: {
-    ItemToolbar,
-    ItemDocInfos,
-    ItemsListDI,
-    ItemDocUses,
-    SettingsToolbar,
-    ViewEditDSITable,
-    ViewEditDSIMapHeaders
+    // ItemToolbar,
+    // ItemDocInfos,
+    // ItemsListDI,
+    // ItemDocUses,
+    // SettingsToolbar,
+    // ViewEditDSITable,
+    // ViewEditDSIMapHeaders
   },
 
   // middleware : ["getListItems"],

@@ -255,12 +255,12 @@ import ObjectFormatterCreate from '~/plugins/utils/ObjectFormatterCreate.js'
 import checkDocUserAuth from '~/plugins/utils/checkDocUserAuth.js'
 
 // import SectionTitle from '~/components/UI/sectionTitle.vue'
-import ItemToolbar from '~/components/UI/itemToolbar.vue'
+// import ItemToolbar from '~/components/UI/itemToolbar.vue'
 
 // import CardInfos from '~/components/UI/parentFields/cardInfos.vue'
-import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
+// import ValueEdit from '~/components/UI/parentFields/valueEdit.vue'
 // import CardCreate from '~/components/UI/cardCreate.vue'
-import BtnCreate from '~/components/UI/btnCreate.vue'
+// import BtnCreate from '~/components/UI/btnCreate.vue'
 
 export default {
 
@@ -279,11 +279,11 @@ export default {
 
   components: {
     // SectionTitle,
-    ItemToolbar,
+    // ItemToolbar,
     // CardInfos,
-    ValueEdit,
+    // ValueEdit,
     // CardCreate,
-    BtnCreate
+    // BtnCreate
   },
 
   created () {

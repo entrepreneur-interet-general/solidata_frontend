@@ -54,56 +54,55 @@
 
 <script>
 
-import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
+// import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
 // import ItemsList from '~/components/UI/itemsList.vue'
-import SectionTitle from '~/components/UI/sectionTitle.vue'
+// import SectionTitle from '~/components/UI/sectionTitle.vue'
 // import CardPreview from '~/components/UI/cardPreview.vue'
 // import CardCreate from '~/components/UI/cardCreate.vue'
 
 export default {
 
-	components : {
-		// ItemsList,
-		ItemsListDI,
-		SectionTitle,
-		// CardPreview,
-		// CardCreate
-	},
+  components: {
+    // ItemsList,
+    // ItemsListDI,
+    // SectionTitle
+    // CardPreview,
+    // CardCreate
+  },
 
-	middleware : ["getListItems"],
-	meta : {
-		collection 	: ['dmt', 'tag', 'dmf'],
-		level 		: 'get_list',
-	},
-	
-	computed: {
+  middleware: ['getListItems'],
+  meta: {
+    collection: ['dmt', 'tag', 'dmf'],
+    level: 'get_list'
+  },
 
-		items () { 
-			return { 
-				docs 	: this.$store.state.dmt.list,
-			} 
-		},
+  computed: {
 
-	},
+    items () {
+      return {
+        docs: this.$store.state.dmt.list
+      }
+    }
 
-	mounted () {
-		console.log("\n- dashboard / mounted ---> tab... ", this.tab ) ;
-		console.log("- dashboard / mounted ---> items... ", this.items ) ;
-	},
-	
-	data () {
-		return {
-			tab 				: 'datamodels',
-			coll				: "dmt",
-			defaultHeightAdd	: "240px",
-			defaultHeight		: "150px",
-			defaultFlex			: 2,
-		}
-	},
+  },
 
-	methods: {
-	},
+  mounted () {
+    console.log('\n- dashboard / mounted ---> tab... ', this.tab)
+    console.log('- dashboard / mounted ---> items... ', this.items)
+  },
+
+  data () {
+    return {
+      tab: 'datamodels',
+      coll: 'dmt',
+      defaultHeightAdd: '240px',
+      defaultHeight: '150px',
+      defaultFlex: 2
+    }
+  },
+
+  methods: {
+  }
 
 }
-
 </script>

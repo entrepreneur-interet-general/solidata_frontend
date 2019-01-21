@@ -987,18 +987,18 @@
 import ObjectFormatterCreate from '~/plugins/utils/ObjectFormatterCreate.js'
 import checkDocUserAuth from '~/plugins/utils/checkDocUserAuth.js'
 
-import ItemToolbar from '~/components/UI/itemToolbar.vue'
-import ItemDocUses from '~/components/UI/itemDocUses.vue'
-import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
+// import ItemToolbar from '~/components/UI/itemToolbar.vue'
+// import ItemDocUses from '~/components/UI/itemDocUses.vue'
+// import ItemDocInfos from '~/components/UI/itemDocInfos.vue'
 
-import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
-import ViewEditDMT from '~/components/UI/viewEditDMT.vue'
-import ViewEditListDMF from '~/components/UI/viewEditListDMF.vue'
-import ViewEditDSIDSO from '~/components/UI/viewEditDSI.vue'
+// import ItemsListDI from '~/components/UI/itemsList_dataIterator.vue'
+// import ViewEditDMT from '~/components/UI/viewEditDMT.vue'
+// import ViewEditListDMF from '~/components/UI/viewEditListDMF.vue'
+// import ViewEditDSIDSO from '~/components/UI/viewEditDSI.vue'
 
 import RecipesGeoloc from '~/components/Forms/recipes_geoloc.vue'
 
-import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
+// import SettingsToolbar from '~/components/UI/settingsToolbar.vue'
 
 export default {
 
@@ -1017,18 +1017,18 @@ export default {
   ],
 
   components: {
-    ItemToolbar,
-    ItemDocInfos,
-    ItemDocUses,
+    // ItemToolbar,
+    // ItemDocInfos,
+    // ItemDocUses,
 
-    ItemsListDI,
-    ViewEditDMT,
-    ViewEditListDMF,
-    ViewEditDSIDSO,
+    // ItemsListDI,
+    // ViewEditDMT,
+    // ViewEditListDMF,
+    // ViewEditDSIDSO,
 
-    RecipesGeoloc,
+    RecipesGeoloc
 
-    SettingsToolbar
+    // SettingsToolbar
   },
 
   // // middlewares to populate DMT and DSI catalogs

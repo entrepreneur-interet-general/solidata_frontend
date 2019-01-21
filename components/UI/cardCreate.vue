@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import BtnCreate from '~/components/UI/btnCreate.vue'
+// import BtnCreate from '~/components/UI/btnCreate.vue'
 
 export default {
   props: [
@@ -89,7 +89,7 @@ export default {
   ],
 
   components: {
-    BtnCreate
+    // BtnCreate
   },
 
   mounted () {

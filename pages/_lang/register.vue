@@ -43,13 +43,13 @@
 // cf : https://stackoverflow.com/questions/48937829/vuetify-component-v-form-is-not-responding-on-the-declared-submit-event-handler?rq=1
 // import Cookie from 'js-cookie'
 
-import CardTitle from '~/components/UI/cardTitle.vue'
+// import CardTitle from '~/components/UI/cardTitle.vue'
 import RegisterForm from '~/components/Forms/register.vue'
 
 export default {
 
   components: {
-    CardTitle,
+    // CardTitle,
     RegisterForm
   },
 
