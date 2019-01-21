@@ -360,7 +360,7 @@
 <script>
 
 // import ObjectFormatterCreate from '~/plugins/utils/ObjectFormatterCreate.js'
-import checkDocUserAuth from '~/plugins/utils/checkDocUserAuth.js'
+// import checkDocUserAuth from '~/plugins/utils/checkDocUserAuth.js'
 
 // import ItemToolbar from '~/components/UI/itemToolbar.vue'
 // import ItemDocUses from '~/components/UI/itemDocUses.vue'
@@ -898,7 +898,7 @@ export default {
         var isLogged = this.$store.state.auth.isLogged
         var userId = this.$store.state.auth.user_id
 
-        canUpdateField = checkDocUserAuth(this.itemDoc, fieldName, isLogged, userId)
+        canUpdateField = this.$checkDocUserAuth(this.itemDoc, fieldName, isLogged, userId)
       }
 
       return canUpdateField

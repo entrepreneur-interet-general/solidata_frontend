@@ -125,7 +125,7 @@
 
 <script>
 
-import ObjectFormatterUpdate from '~/plugins/utils/objectFormatterUpdate.js'
+// import ObjectFormatterUpdate from '~/plugins/utils/objectFormatterUpdate.js'
 
 export default {
 
@@ -223,7 +223,7 @@ export default {
 
       // })
 
-      var formData = ObjectFormatterUpdate.prepareFormData(this.form)
+      var formData = this.$prepareFormDataUpdate(this.form)
       console.log('\nSubmit_dmf / formData : ', formData)
 
       // dispatch action from store

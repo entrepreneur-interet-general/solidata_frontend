@@ -69,6 +69,14 @@ module.exports = {
 
     // '~plugins/vue-scroll',
 
+    // '~/plugins/utils/objectCleaner.js',
+    // {src: '~/plugins/utils/objectCleaner', ssr: false},
+
+    {src: '~/plugins/utils/checkDocUserAuth', ssr: false},
+    {src: '~/plugins/utils/objectFormatterCreate', ssr: false},
+    // '~/plugins/utils/objectFormatterUpdate.js',
+    {src: '~/plugins/utils/objectFormatterUpdate', ssr: false},
+
     {src: '~/plugins/encrypt', ssr: false}
     // '~/plugins/crypto',
 

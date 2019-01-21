@@ -1,20 +1,22 @@
-const ObjectFormatterUpdate = {
+import Vue from 'vue'
 
-  prepareFormData (formData) {
-    console.log('\nprepareFormData / formData : ', formData)
+// const ObjectFormatterUpdate = {
 
-    var FormDataMarshalled = []
+Vue.prototype.$prepareFormDataUpdate = (formData) => {
+  console.log('\nprepareFormData / formData : ', formData)
 
-    for (var key in formData) {
-      var rawField = {
-        'field_to_update': key,
-        'field_value': formData[key]
-      }
-      FormDataMarshalled.push(rawField)
-    } ;
+  var FormDataMarshalled = []
 
-    return FormDataMarshalled
-  }
+  for (var key in formData) {
+    var rawField = {
+      'field_to_update': key,
+      'field_value': formData[key]
+    }
+    FormDataMarshalled.push(rawField)
+  } ;
+
+  return FormDataMarshalled
 }
+// }
 
-export default ObjectFormatterUpdate
+// export default ObjectFormatterUpdate

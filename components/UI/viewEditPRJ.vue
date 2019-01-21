@@ -984,8 +984,8 @@
 
 // import ScrollSync from 'vue-scroll-sync';
 
-import ObjectFormatterCreate from '~/plugins/utils/ObjectFormatterCreate.js'
-import checkDocUserAuth from '~/plugins/utils/checkDocUserAuth.js'
+// import ObjectFormatterCreate from '~/plugins/utils/ObjectFormatterCreate.js'
+// import checkDocUserAuth from '~/plugins/utils/checkDocUserAuth.js'
 
 // import ItemToolbar from '~/components/UI/itemToolbar.vue'
 // import ItemDocUses from '~/components/UI/itemDocUses.vue'
@@ -1329,7 +1329,7 @@ export default {
         var isLogged = this.$store.state.auth.isLogged
         var userId = this.$store.state.auth.user_id
 
-        canUpdateField = checkDocUserAuth(this.item_doc, fieldName, isLogged, userId)
+        canUpdateField = this.$checkDocUserAuth(this.item_doc, fieldName, isLogged, userId)
       }
 
       return canUpdateField
@@ -1359,7 +1359,7 @@ export default {
 
       // REFORMAT DATA
       // var dataToSend = JSON.parse(JSON.stringify(currentNew)) ;
-      var dataToSend = ObjectFormatterCreate.prepareFormData(currentNew)
+      var dataToSend = this.$prepareFormData(currentNew)
 
       // add file's data if needed
       if (this.is_file === true) {

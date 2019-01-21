@@ -1,3 +1,6 @@
+import Vue from 'vue'
+
+// cf : https://github.com/nuxt/nuxt.js/issues/1043
 
 const ObjectCleaner = {
 
@@ -20,4 +23,6 @@ const ObjectCleaner = {
   }
 }
 
-export default ObjectCleaner
+Vue.use(ObjectCleaner)
+
+// export default ObjectCleaner

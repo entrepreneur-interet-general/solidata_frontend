@@ -1,4 +1,7 @@
-const checkDocUserAuth = function (itemDoc, field_name, isLogged, userId) {
+import Vue from 'vue'
+
+// const checkDocUserAuth = function (itemDoc, field_name, isLogged, userId) {
+Vue.prototype.$checkDocUserAuth = (itemDoc, field_name, isLogged, userId) => {
   // console.log("\nutils / checkDocUserAuth..." ) ;
 
   // TO DO : check also by field_name + user_role
@@ -46,4 +49,4 @@ const checkDocUserAuth = function (itemDoc, field_name, isLogged, userId) {
   return canUpdateField
 }
 
-export default checkDocUserAuth
+// export default checkDocUserAuth

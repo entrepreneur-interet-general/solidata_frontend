@@ -15,8 +15,6 @@
 
 // const NodeRSA = require('node-rsa')
 
-
-
 // // console.log("loading CryptoJS...", CryptoJS )
 // // console.log("loading JWT...", JWT )
 
@@ -44,18 +42,15 @@
 //     return ret;
 // }
 
-
 // const EncryptString = {
 
 // 	// cf : https://ciphertrick.com/2016/01/18/salt-hash-passwords-using-nodejs-crypto/
-// 	// cf : https://github.com/brix/crypto-js 
-
-
+// 	// cf : https://github.com/brix/crypto-js
 
 // 	// WORKING BUT WITH NAVIGATOR NOT DEFINED IF CLIENT RELOADS THE PAGE
 // 	EncryptionRSA (string_to_encrypt, public_key) {
 
-// 		// cf : https://github.com/travist/jsencrypt 
+// 		// cf : https://github.com/travist/jsencrypt
 
 // 		console.log("\EncryptString.EncryptionRSA / string_to_encrypt : ", string_to_encrypt ) ;
 // 		console.log("\EncryptString.EncryptionRSA / public_key : ", public_key ) ;
@@ -75,7 +70,6 @@
 
 // 		console.log("\EncryptString.EncryptionRSA / JSEncrypt : ", JSEncrypt ) ;
 
-
 // 		// Encrypt with the public key...
 // 		var encrypt = new JSEncrypt();
 // 		console.log("\EncryptString.EncryptionRSA / encrypt : ", encrypt ) ;
@@ -92,42 +86,35 @@
 
 // 	},
 
-
-
 // 	// NOT WORKING BUT PROMISING
 // 	EncryptionRSA_ ( string_to_encrypt, pem_public_key ) {
-		
+
 // 		console.log("\EncryptString.EncryptionRSA  / string_to_encrypt : ", string_to_encrypt ) ;
 // 		console.log("\EncryptString.EncryptionRSA  / public_key : ", pem_public_key ) ;
-		
+
 // 		// console.log("\EncryptString.EncryptionRSA  / NodeRSA : ", NodeRSA ) ;
 
 // 		const key = new NodeRSA(pem_public_key);
-					  
+
 // 		// string to bytes
 // 		var buffer = new Buffer(string_to_encrypt, "utf8")
 
 // 		var encrypted = key.encrypt(buffer, "hex")
 // 		// type Encoding = | 'ascii' | 'utf8' | 'utf16le' | 'ucs2' | 'latin1' | 'base64' | 'hex' | 'binary' | 'buffer';
 // 		console.log("\EncryptString.EncryptionRSA  / encrypted : \n", encrypted ) ;
-		
+
 // 		return {
 // 			salt	: pem_public_key,
 // 			hashed	: encrypted
 // 		};
-	
+
 // 	},
 
-
-
-
-
-
 // 	// EncryptionRSA ( string_to_encrypt, pem_public_key ) {
-		
+
 // 	// 	console.log("\EncryptString.EncryptionRSA  / string_to_encrypt : ", string_to_encrypt ) ;
 // 	// 	console.log("\EncryptString.EncryptionRSA  / public_key : ", pem_public_key ) ;
-		
+
 // 	// 	console.log("\EncryptString.EncryptionRSA  / crypto : ", crypto ) ;
 
 // 	// 	// string to bytes
@@ -135,18 +122,18 @@
 
 // 	// 	var encrypted_bytes = crypto.publicEncrypt(pem_public_key, buffer)
 // 	// 	console.log("\EncryptString.EncryptionRSA  / encrypted_bytes : \n", encrypted_bytes ) ;
-		
+
 // 	// 	var encrypted = encrypted_bytes.toString("base64") ;
 
 // 	// 	return {
 // 	// 		salt	: pem_public_key,
 // 	// 		hashed	: encrypted
 // 	// 	};
-	
+
 // 	// },
 
 // 	// EncryptionRSA ( string_to_encrypt, public_key ) {
-		
+
 // 	// 	console.log("\EncryptString.EncryptionRSA HybridCrypto / string_to_encrypt : ", string_to_encrypt ) ;
 // 	// 	console.log("\EncryptString.EncryptionRSA HybridCrypto / public_key : ", public_key ) ;
 
@@ -155,32 +142,32 @@
 
 // 	// 	console.log("\nEncryptString.EncryptionRSA HybridCrypto / rsa : ", rsa ) ;
 // 	// 	console.log("\nEncryptString.EncryptionRSA HybridCrypto / crypt : ", crypt ) ;
-		
+
 // 	// 	var encrypted = Crypt.encrypt( public_key, string_to_encrypt )
 // 	// 	console.log("\EncryptString.EncryptionRSA HybridCrypto / encrypted : \n", encrypted ) ;
-		
+
 // 	// 	return {
 // 	// 		salt	: public_key,
 // 	// 		hashed	: encrypted
 // 	// 	};
-	
+
 // 	// },
 
 // 	// EncryptionRSA (string_to_encrypt, public_key) {
-		
+
 // 	// 	console.log("\nEncryptString.EncryptionSCJL / sjcl : ", sjcl ) ;
-		
+
 // 	// 	console.log("\EncryptString.EncryptionSCJL / string_to_encrypt : ", string_to_encrypt ) ;
 // 	// 	console.log("\EncryptString.EncryptionSCJL / public_key : ", public_key ) ;
 
 // 	// 	var encrypted = sjcl.encrypt(public_key, string_to_encrypt)
 // 	// 	console.log("\EncryptString.EncryptionSCJL / encrypted : \n", encrypted ) ;
-		
+
 // 	// 	return {
 // 	// 		salt	: salt_key,
 // 	// 		hashed	: encrypted
 // 	// 	};
-	
+
 // 	// },
 
 // 	// EncryptionRSA (string_to_encrypt, public_key) {
@@ -214,7 +201,7 @@
 
 // 	// 	console.log("\EncryptString.sha512 / string_to_encrypt : ", string_to_encrypt ) ;
 // 	// 	console.log("\EncryptString.sha512 / salt : ", salt ) ;
-		
+
 // 	// 	console.log("\EncryptString.sha512 / CryptoJS.HmacSHA512 : ", CryptoJS.HmacSHA512 ) ;
 
 // 	// 	var hash = CryptoJS.HmacSHA512(string_to_encrypt, salt).toString(); /** Hashing algorithm sha512 */
@@ -225,12 +212,12 @@
 // 	// 		salt	: salt,
 // 	// 		hashed	: hash
 // 	// 	};
-		
+
 // 	// },
 
 // 	// homemadeJWT (string_to_encrypt, salt) {
-// 	// 	// cf : https://codepen.io/jpetitcolas/pen/zxGxKN 
-// 	// 	// cf : https://www.jonathan-petitcolas.com/2014/11/27/creating-json-web-token-in-javascript.html 
+// 	// 	// cf : https://codepen.io/jpetitcolas/pen/zxGxKN
+// 	// 	// cf : https://www.jonathan-petitcolas.com/2014/11/27/creating-json-web-token-in-javascript.html
 
 // 	// 	console.log("\EncryptString.homemadeJWT / string_to_encrypt : ", string_to_encrypt ) ;
 // 	// 	console.log("\EncryptString.homemadeJWT / salt : ", salt ) ;
@@ -265,12 +252,10 @@
 // 	// 	};
 // 	// },
 
-
-
 // 	// AESEncryption (string_to_encrypt, salt_key) {
 
 // 	// 	console.log("\nEncryptString.AESEncryption / CryptoJS : ", CryptoJS ) ;
-		
+
 // 	// 	console.log("\EncryptString.AESEncryption / string_to_encrypt : ", string_to_encrypt ) ;
 // 	// 	console.log("\EncryptString.AESEncryption / salt_key : ", salt_key ) ;
 
@@ -278,21 +263,18 @@
 // 	// 	var encrypted_hex = encrypted.toString()
 // 	// 	console.log(encrypted_hex); // this is the value you send over the wire
 
-
-// 	// 	// var encrypted_test	= CryptoJS.AES.encrypt( 
-// 	// 	// 	CryptoJS.enc.Utf8.parse(string_to_encrypt), 
-// 	// 	// 	salt_key, 
-// 	// 	// 	{ 	
-// 	// 	// 		mode: CryptoJS.mode.ECB, 
-// 	// 	// 		padding: CryptoJS.pad.NoPadding 
-// 	// 	// 	} 
+// 	// 	// var encrypted_test	= CryptoJS.AES.encrypt(
+// 	// 	// 	CryptoJS.enc.Utf8.parse(string_to_encrypt),
+// 	// 	// 	salt_key,
+// 	// 	// 	{
+// 	// 	// 		mode: CryptoJS.mode.ECB,
+// 	// 	// 		padding: CryptoJS.pad.NoPadding
+// 	// 	// 	}
 // 	// 	// )
 
 // 	// 	// console.log("\EncryptString.AESEncryption / encrypted_test : ", encrypted_test ) ;
 // 	// 	// var encrypted_hex = Crypto.util.bytesToHex(encrypted);
 // 	// 	// console.log(encrypted_hex); // this is the value you send over the wire
-
-
 
 // 	// 	// // Crypto = CryptoJS.Crypto;
 
@@ -304,11 +286,11 @@
 // 	// 	// var input_bytes = Crypto.charenc.UTF8.stringToBytes(string_to_encrypt);
 // 	// 	// var key = Crypto.charenc.UTF8.stringToBytes(salt_key);
 // 	// 	// var options = {iv: Crypto.charenc.UTF8.stringToBytes(IV), asBytes: true, mode: MODE};
-		
+
 // 	// 	// var encrypted = CryptoJS.AES.encrypt(input_bytes, key, options);
 // 	// 	// var encrypted_hex = Crypto.util.bytesToHex(encrypted);
 // 	// 	// console.log(encrypted_hex); // this is the value you send over the wire
-		
+
 // 	// 	return {
 // 	// 		salt	: salt_key,
 // 	// 		hashed	: encrypted_hex
@@ -323,7 +305,7 @@
 // 	// 	var KEY = salt_key
 // 	// 	var IV = '9AAECFCF7E82ABB8118D8E567D42EE86'
 // 	// 	var PLAIN_TEXT = string_to_encrypt
-		
+
 // 	// 	var encrypt = function (my_key, my_iv, my_plain_text) {
 
 // 	// 		var key = CryptoJS.enc.Hex.parse(my_key || KEY);
@@ -334,9 +316,9 @@
 
 // 	// 		result.text = text
 // 	// 		return result
-						
+
 // 	// 	};
-		
+
 // 	// 	var result = encrypt()
 
 // 	// 	return {
@@ -345,7 +327,6 @@
 // 	// 	}
 
 // 	// },
-
 
 // }
 

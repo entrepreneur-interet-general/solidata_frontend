@@ -1,7 +1,7 @@
 
-const SyncScrollTables = function () {
-  let LeftPosition
-  let allTables = document.getElementsbyClass('v-table__overflow')
-}
+// const SyncScrollTables = function () {
+//   let LeftPosition
+//   let allTables = document.getElementsbyClass('v-table__overflow')
+// }
 
-export default SyncScrollTables
+// export default SyncScrollTables

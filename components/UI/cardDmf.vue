@@ -334,204 +334,6 @@
 
 
 
-      <!--
-      <v-card 
-        ref="form"
-        class="pa-0"
-        >
-
-        <v-card-text>
-
-          <!-- INFOS - ->
-          <v-layout row>
-            <v-flex xs3>
-              <v-subheader>{{$t('global.title', $store.state.locale )}}</v-subheader>
-            </v-flex>
-            <v-flex xs9>   
-              <v-text-field
-                ref="title"
-                v-model="title"
-                :rules="[() => !!title || $t('rules.required', $store.state.locale )]"
-                :label="$t('datamodel_fields.title', $store.state.locale )"
-                :error-messages="errorMessages"
-                :placeholder="$t('global.title', $store.state.locale )"
-                required
-              ></v-text-field>
-            </v-flex>
-          </v-layout>
-
-          <v-layout row>
-            <v-flex xs3>
-              <v-subheader>{{$t('global.description', $store.state.locale )}}</v-subheader>
-            </v-flex>
-            <v-flex xs9>   
-              <v-textarea
-                ref="description"
-                v-model="description"
-                :rules="[() => !!description || $t('rules.required', $store.state.locale )]"
-                :label="$t('datamodel_fields.description', $store.state.locale )"
-                :error-messages="errorMessages"
-                :placeholder="$t('global.description', $store.state.locale )"
-                rows=1
-                auto-grow
-                required
-              ></v-textarea>
-            </v-flex>
-          </v-layout>
-
-
-          <v-divider class="mt-2 mb-4"></v-divider>
-
-          <!-- EDIT AUTH - ->
-          <v-layout row>
-            <v-flex xs3>
-              <v-subheader>{{$t('global.open_level_show', $store.state.locale )}}</v-subheader>
-            </v-flex>
-            <v-flex xs9>   
-              <v-autocomplete
-                ref="open_level_show"
-                :rules="[() => !!f_type || $t('rules.required', $store.state.locale )]"
-                :items="$store.state.openlevel"
-                v-model="open_level_show"
-                :label="$t('datamodel_fields.open_level_show', $store.state.locale )"
-                :placeholder="$t('global.select', $store.state.locale )"
-                required
-              ></v-autocomplete>
-            </v-flex>
-          </v-layout>
-
-          <v-layout row>
-            <v-flex xs3>
-              <v-subheader>{{$t('global.open_level_edit', $store.state.locale )}}</v-subheader>
-            </v-flex>
-            <v-flex xs9>   
-              <v-autocomplete
-                ref="open_level_edit"
-                :rules="[() => !!f_type || $t('rules.required', $store.state.locale )]"
-                :items="$store.state.openlevel"
-                v-model="open_level_edit"
-                :label="$t('datamodel_fields.open_level_edit', $store.state.locale )"
-                :placeholder="$t('global.select', $store.state.locale )"
-                required
-              ></v-autocomplete>
-            </v-flex>
-          </v-layout>
-
-
-
-          <v-divider class="mt-2 mb-4"></v-divider>
-
-          <!-- DATA RAW - ->
-          <v-layout row>
-            <v-flex xs3>
-              <v-subheader>{{$t('global.f_code', $store.state.locale )}}</v-subheader>
-            </v-flex>
-            <v-flex xs9>   
-              <v-text-field
-                ref="f_code"
-                v-model="f_code"
-                :rules="[() => !!f_code || $t('rules.required', $store.state.locale )]"
-                :label="$t('datamodel_fields.f_code', $store.state.locale )"
-                :error-messages="errorMessages"
-                :placeholder="$t('global.f_code', $store.state.locale )"
-                required
-              ></v-text-field>
-            </v-flex>
-          </v-layout>
-
-          <v-layout row>
-            <v-flex xs3>
-              <v-subheader>{{$t('global.f_object', $store.state.locale )}}</v-subheader>
-            </v-flex>
-            <v-flex xs9>   
-              <v-text-field
-                ref="f_object"
-                v-model="f_object"
-                :rules="[() => !!f_object || $t('rules.required', $store.state.locale )]"
-                :label="$t('datamodel_fields.f_object', $store.state.locale )"
-                :error-messages="errorMessages"
-                :placeholder="$t('global.f_object', $store.state.locale )"
-                required
-              ></v-text-field>
-            </v-flex>
-          </v-layout>
-
-          <v-layout row>
-            <v-flex xs3>
-              <v-subheader>{{$t('global.f_type', $store.state.locale )}}</v-subheader>
-            </v-flex>
-            <v-flex xs9>   
-              <v-autocomplete
-                ref="f_type"
-                :rules="[() => !!f_type || $t('rules.required', $store.state.locale )]"
-                :items="$store.state.dmf.dmf_types"
-                v-model="f_type"
-                :label="$t('datamodel_fields.f_type', $store.state.locale )"
-                :placeholder="$t('global.select', $store.state.locale )"
-                required
-              ></v-autocomplete>
-            </v-flex>
-          </v-layout>
-
-          <v-layout row>
-            <v-flex xs3>
-              <v-subheader>{{$t('global.f_comments', $store.state.locale )}}</v-subheader>
-            </v-flex>
-            <v-flex xs9>   
-              <v-textarea
-                ref="f_comments"
-                v-model="f_comments"
-                :rules="[
-                  () => !!f_comments || $t('rules.required', $store.state.locale ),
-                  () => !!f_comments && f_comments.length <= 140 || $t('rules.length', $store.state.locale ) + ' 140 ',
-                  contentCheck
-                ]"
-                :label="$t('datamodel_fields.f_comments', $store.state.locale )"
-                :error-messages="errorMessages"
-                :placeholder="$t('global.f_comments', $store.state.locale )"
-                rows=1
-                counter=140
-                auto-grow
-                required
-              ></v-textarea>
-            </v-flex>
-          </v-layout>
-
-          <!-- 
-            <v-text-field
-              ref="description"
-              :rules="[
-              () => !!address || 'This field is required',
-              () => !!address && address.length <= 140 || 'Description must be less than 140 characters',
-              addressCheck
-              ]"
-              v-model="description"
-              label="description"
-              :placeholder="$t('global.description', $store.state.locale )"
-              counter="140"
-              required
-            ></v-text-field>
-
-            <v-autocomplete
-              ref="country"
-              :rules="[() => !!country || 'This field is required']"
-              :items="is_req"
-              v-model="country"
-              label="Country"
-              placeholder="select ..."
-              required
-            ></v-autocomplete>
-            - ->
-
-
-          </v-card-text>
-
-        -->
-
-
-
-
-
       <v-card 
         v-show="$store.state.dmf.edit_mode"
         ref="form"
@@ -591,7 +393,7 @@
 
 <script>
 
-import ObjectFormatterUpdate from '~/plugins/utils/objectFormatterUpdate.js'
+// import ObjectFormatterUpdate from '~/plugins/utils/objectFormatterUpdate.js'
 import ItemViewEdit from '~/components/UI/itemViewEdit.vue'
 
 export default {
@@ -674,6 +476,8 @@ export default {
       // console.log("\ncheckUserAuth ...") ;
       let canUpdateField = false
       const docAuthEdit = this.dmf_data.public_auth.open_level_edit
+
+      // TO DO => check auth by team also
       const docAuthTeam = this.dmf_data.public_auth.team
 
       if (docAuthEdit === 'open_data') {
@@ -717,7 +521,7 @@ export default {
 
       // })
 
-      var formData = ObjectFormatterUpdate.prepareFormData(this.form)
+      var formData = this.$prepareFormDataUpdate(this.form)
       console.log('\nSubmit_dmf / formData : ', formData)
 
       // dispatch action from store

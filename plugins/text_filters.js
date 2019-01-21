@@ -1,6 +1,29 @@
 import Vue from 'vue'
 
-import CheckValueType from '~/plugins/utils/checkValueType.js'
+// import CheckValueType from '~/plugins/utils/checkValueType.js'
+
+const getValType = (valueRaw, sep = '|') => {
+  // console.log("\ngetValType / valueRaw : ", valueRaw ) ;
+
+  var valConcat = valueRaw
+  var valType = typeof valueRaw
+  // console.log("getValType / valType : ", valType ) ;
+
+  // join array
+  if (valueRaw != null) {
+    if (valType === 'object' && valueRaw.constructor === Array) {
+      valConcat = valConcat.join(sep)
+      valType = 'array'
+    };
+  }
+  // console.log("getValType / valConcat : ", valConcat ) ;
+
+  return {
+    value: valueRaw,
+    as_str: (valueRaw === null) ? '' : valConcat.toString(),
+    type: valType
+  }
+}
 
 Vue.filter('json', function (value) {
   // console.log("> > > plugin json filter / value : ", value) ;
@@ -24,7 +47,7 @@ Vue.filter('truncate', function (value, length, suffix, sep = ' ') {
     value = ''
   }
 
-  var valueType = CheckValueType.getValType(value, sep)
+  var valueType = getValType(value, sep)
   // console.log("> > > plugin truncate filter / valueType : ", valueType ) ;
 
   var truncated = ''
