@@ -1,6 +1,22 @@
+const chooseAPIbaseUrl = (ENVPROD) => {
+  const NUXT_ENV_API_DEV = 'http://localhost:4000/api'
+  const NUXT_ENV_API_PREPROD = 'http://solidata-preprod-api.co-demos.com/api'
+  const NUXT_ENV_API_PROD = 'http://solidata-api.co-demos.com/api'
+  if (ENVPROD === 'local') {
+    return NUXT_ENV_API_DEV
+  } else if (ENVPROD === 'preprod') {
+    return NUXT_ENV_API_PREPROD
+  } else if (ENVPROD === 'prod') {
+    return NUXT_ENV_API_PROD
+  }
+}
 const configApp = {
+  API_URL: chooseAPIbaseUrl(process.env.NUXT_ENV_API_VAR),
+  // API_URL: process.env.NUXT_ENV_API_VAR,
   port: process.env.NODE_ENV === 'production' ? 8000 : 3000
 }
+console.log('process.env :', process.env)
+console.log('configApp :', configApp)
 module.exports = {
 
   mode: 'universal',
@@ -34,10 +50,11 @@ module.exports = {
   // custom env variables for nuxt
   // cf : https://github.com/nuxt/nuxt.js/issues/1789
   env: {
-    DEV_API: 'http://localhost:4000',
-    PROD_API: '/solidata.api.co-demos.com',
-    DEBUG: process.env.NODE_ENV === 'development',
-    CONFIG_APP: configApp
+    // API_DEV: 'http://localhost:4000/api',
+    // API_PREPROD: 'http://solidata-preprod-api.co-demos.com/api',
+    // API_PROD: 'http://solidata-api.co-demos.com/api',
+    DEBUG: process.env.NODE_ENV === 'development'
+    // CONFIG_APP: configApp
   },
 
   router: {
@@ -92,7 +109,10 @@ module.exports = {
 
   // config axios
   axios: {
-    baseURL: 'http://localhost:4000/api',
+    // baseURL: 'http://localhost:4000/api',
+    baseURL: configApp.API_URL,
+    // baseURL: 'http://solidata-preprod-api.co-demos.com/api' || 'http://localhost:4000/api',
+    // baseURL: process.env.API_PROD || process.env.API_PREPROD || process.env.API_DEV,
     debug: false,
     retry: {
       retries: 0

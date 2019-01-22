@@ -97,6 +97,7 @@ export const actions = {
       })
 
       .catch(error => {
+        console.log('\n...store/auth/confirm_access : ERROR / error.response : ', error.response)
         console.log('\n...store/auth/confirm_access : ERROR / msg : ', error.response.data.msg)
         console.log('...store/auth/confirm_access : ERROR / statusText : ', error.response.statusText)
         console.log('...store/auth/confirm_access : ERROR / status : ', error.response.status)

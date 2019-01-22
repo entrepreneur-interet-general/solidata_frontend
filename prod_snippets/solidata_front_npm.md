@@ -31,6 +31,18 @@ sudo apt-get update && sudo apt-get install yarn
 ```
 
 
+----------
+TEST WITH BOILERPLATE
+
+cf : https://nuxtjs.org/guide/installation/
+cf : https://github.com/cosmicjs/nuxtjs-website-boilerplate
+
+sudo npx create-nuxt-app test_nuxt
+
+cd test_nuxt
+sudo npm install
+-----------
+
 ```cd /var/www/solidata-preprod.api.co-demos.com```
 OR
 ```cd /var/www/solidata.api.co-demos.com```
