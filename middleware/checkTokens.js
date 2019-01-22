@@ -9,9 +9,9 @@ export default function ({ req, store, app, redirect }) {
   let saltToken = null
   let langCookie = null
 
-  console.log('\n- - - checkTokens : process : \n', process)
-  console.log('\n- - - checkTokens : process.env : \n', process.env)
-  console.log('\n- - - checkTokens : process.config : \n', process.config)
+  // console.log('\n- - - checkTokens : process : \n', process)
+  // console.log('\n- - - checkTokens : process.env : \n', process.env)
+  // console.log('\n- - - checkTokens : process.config : \n', process.config)
 
   // 1 // TOKENS VALUES
   // 1a // SERVER SIDE RENDERDED
