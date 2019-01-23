@@ -2,7 +2,7 @@
 
   <div>
 
-    <!-- - valid : <code>{{ valid }}</codes><br> -->
+    <!-- - valid : <code>{{ valid }}</code><br> -->
     <!-- - password : <code>{{ password }}</code><br> -->
     <!-- - pseudoForm : <code>{{ pseudoForm }}</code> -->
 

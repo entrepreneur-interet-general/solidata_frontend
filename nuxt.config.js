@@ -10,10 +10,22 @@ const chooseAPIbaseUrl = (ENVPROD) => {
     return NUXT_ENV_API_PROD
   }
 }
+const choosePort = (ENVPROD) => {
+  const NUXT_ENV_PORT_DEV = 3000
+  const NUXT_ENV_PORT_PREPROD = 8000
+  const NUXT_ENV_PORT_PROD = 3000
+  if (ENVPROD === 'local') {
+    return NUXT_ENV_PORT_DEV
+  } else if (ENVPROD === 'preprod') {
+    return NUXT_ENV_PORT_PREPROD
+  } else if (ENVPROD === 'prod') {
+    return NUXT_ENV_PORT_PROD
+  }
+}
 const configApp = {
   API_URL: chooseAPIbaseUrl(process.env.NUXT_ENV_API_VAR),
-  // API_URL: process.env.NUXT_ENV_API_VAR,
-  port: process.env.NODE_ENV === 'production' ? 8000 : 3000
+  // port: process.env.NODE_ENV === 'production' ? 8000 : 3000,
+  port: choosePort(process.env.NUXT_ENV_API_VAR)
 }
 console.log('process.env :', process.env)
 console.log('configApp :', configApp)

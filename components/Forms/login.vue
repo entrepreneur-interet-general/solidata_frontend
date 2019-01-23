@@ -1,167 +1,165 @@
 <template>
 
   <div>
-    <!-- <div>
-      email : {{ email }} <br>
-      email2 : {{ email2 }} <br>
-      pwd : {{ password }}
-    </div> -->
-
-    <v-card-text>
-
-      <v-form 
-        @submit.prevent="submitLogin" 
-        id="login-form"
-        >
-
-        <!-- <v-alert 
-          v-if="alert" 
-          :type="alert.type" 
-          value="true"
-          ma-2
-          >
-          {{alert.message}}
-        </v-alert> -->
-
-        <!-- ANTI-SPAMS -->
-        <v-text-field 
-          v-show="$store.state.is_debug"
-          id="email_bis"
-          v-model="email_bis"
-          prepend-icon="warning" 
-          name="email_bis" 
-          label="email_bis" 
-          type="text">
-        </v-text-field>
 
 
-        <!-- REAL USER INFOS FOR REGISTER -->
+    <!-- - valid : <code>{{ valid }}</code><br> -->
+    <!-- - password : <code>{{ password }}</code><br> -->
+    <!-- - pseudoForm : <code>{{ pseudoForm }}</code> -->
 
-        <!-- <EmailField
-          :rawInput="email"
-          v-model="email"
-          @input="updateEmail"
-          >
-        </EmailField> -->
-        <v-text-field 
-          v-model="email"
+    <v-form 
+      @submit.prevent="submitLogin" 
+      id="login-form"
+      ref="form"
+      v-model="valid"
+      lazy-validation
+      >
 
-          :rules="[rules.email, rules.required]"
-          :label="$t('global.email', $store.state.locale )"
-
-          id="email"
-          prepend-icon="person" 
-          name="email" 
-          type="text"
-          >
-        </v-text-field>
+      <v-card-text>
 
 
-        <!-- <PasswordField
-          :rawInput="password"
-          v-model="password"
-          @input="updatePassword"
-          >
-        </PasswordField> -->
-        <!-- <v-text-field 
-          id="password" 
-          v-model="password"
-          :rules="[rules.required]"
-          prepend-icon="lock" 
-          name="password" 
-          :label="$t('global.password', $store.state.locale )"
-          type="password">
-        </v-text-field> -->
-        <v-text-field 
-          v-model="password"
-
-          :rules="[rules.required]"
-          :label="$t('global.password', $store.state.locale )"
-
-          id="password" 
-          prepend-icon="lock" 
-          name="password" 
-          type="password">
-        </v-text-field>
-
-
-      </v-form>
-
-
-    </v-card-text>
-
-
-    <v-card-actions>
-
-      <v-layout row wrap>
-        
-
-        <v-flex 
-          class="xs4 offset-xs1" 
-          >
-
-          <v-btn 
-            outline 
-            nuxt 
-            block
-            to="/register" 
-            class="ml-2 " 
-            color="accent"
+          <!-- <v-alert 
+            v-if="alert" 
+            :type="alert.type" 
+            value="true"
+            ma-2
             >
-            {{ $t('home.registerPage', $store.state.locale ) }}
-          </v-btn>
+            {{alert.message}}
+          </v-alert> -->
 
-          <div class="text-xs-center pt-2 caption">
-            {{ $t('home.registerToLogin', $store.state.locale ) }} 
-          </div>
+          <!-- ANTI-SPAMS -->
+          <v-text-field 
+            v-show="$store.state.is_debug"
+            id="email"
+            v-model="email"
+            prepend-icon="warning" 
+            name="email" 
+            label="email" 
+            type="text">
+          </v-text-field>
 
-        </v-flex>
 
+          <!-- REAL USER INFOS FOR REGISTER -->
 
-        <v-flex 
-          class="xs4 offset-xs2" >
-
-          <v-btn 
-            flat
-            block
-            class="accent"
-            type="submit" 
-            form="login-form"
-            :loading="loading" 
-            :disabled="loading"
+          <!-- <EmailField
+            :rawInput="email"
+            v-model="email"
+            @input="updateEmail"
             >
-            {{ $t('home.loginPage', $store.state.locale ) }}
-          </v-btn>
+          </EmailField> -->
+          <v-text-field 
+            v-model="email_bis"
 
-        <!-- </v-flex>
+            :rules="[rules.email, rules.required]"
+            :label="$t('global.email', $store.state.locale )"
 
-        <v-flex xs12 md-6 offset-md6 pt-2> -->
+            id="email_bis"
+            prepend-icon="person" 
+            name="email_bis" 
+            type="text"
+            >
+          </v-text-field>
+
+
+          <!-- <PasswordField
+            :rawInput="password"
+            v-model="password"
+            @input="updatePassword"
+            >
+          </PasswordField> -->
+          <!-- <v-text-field 
+            id="password" 
+            v-model="password"
+            :rules="[rules.required]"
+            prepend-icon="lock" 
+            name="password" 
+            :label="$t('global.password', $store.state.locale )"
+            type="password">
+          </v-text-field> -->
+          <v-text-field 
+            v-model="password"
+
+            :rules="[rules.required]"
+            :label="$t('global.password', $store.state.locale )"
+
+            id="password" 
+            prepend-icon="lock" 
+            name="password" 
+            type="password">
+          </v-text-field>
+
+      </v-card-text>
+
+      <v-card-actions>
+
+        <v-layout row wrap>
           
-          <div class="text-xs-center pt-2 caption">
-            <nuxt-link 
-              class="text-lowercase"
-              to="/forgotpwd"
+          <v-flex 
+            class="xs4 offset-xs1" 
+            >
+
+            <v-btn 
+              outline 
+              nuxt 
+              block
+              to="/register" 
+              class="ml-2 " 
+              color="accent"
               >
-              {{ $t('home.forgotPwd', $store.state.locale ) }}
-              <!-- <span slot="loader" class="white"></span> -->
-            </nuxt-link>
-          </div>
+              {{ $t('home.registerPage', $store.state.locale ) }}
+            </v-btn>
 
-          <!-- DEBUGGING : button to request anonymous login -->
-          <!-- <v-btn 
-            color="primary"
-            @click.stop="submitLoginAnonymous" 
-            :loading="loading" 
-            :disabled="loading"
-          >
-            load anonymous token
-          </v-btn> -->
+            <div class="text-xs-center pt-2 caption">
+              {{ $t('home.registerToLogin', $store.state.locale ) }} 
+            </div>
 
-        </v-flex>
+          </v-flex>
 
-      </v-layout>
+          <v-flex 
+            class="xs4 offset-xs2" >
 
-    </v-card-actions>
+            <v-btn 
+              flat
+              block
+              class="accent"
+              type="submit" 
+              :loading="loading" 
+              :disabled="loading"
+              >
+              {{ $t('home.loginPage', $store.state.locale ) }}
+            </v-btn>
+
+          <!-- </v-flex>
+
+          <v-flex xs12 md-6 offset-md6 pt-2> -->
+            
+            <div class="text-xs-center pt-2 caption">
+              <nuxt-link 
+                class="text-lowercase"
+                to="/forgotpwd"
+                >
+                {{ $t('home.forgotPwd', $store.state.locale ) }}
+                <!-- <span slot="loader" class="white"></span> -->
+              </nuxt-link>
+            </div>
+
+            <!-- DEBUGGING : button to request anonymous login -->
+            <!-- <v-btn 
+              color="primary"
+              @click.stop="submitLoginAnonymous" 
+              :loading="loading" 
+              :disabled="loading"
+            >
+              load anonymous token
+            </v-btn> -->
+
+          </v-flex>
+
+        </v-layout>
+
+      </v-card-actions>
+
+    </v-form>
 
   </div>
 
@@ -185,25 +183,23 @@ export default {
   data () {
     return {
 
-      email_bis: '',
+      valid: false,
+
       email: '',
-      // email2: '',
+
+      email_bis: '',
       password: '',
 
       alert: null,
       loading: false,
 
       rules: {
-        // email : v => (v || '').match(/@/) || this.$t('rules.email', this.$store.state.locale),
-        email: v => {
+        // email: v => (v || '').match(/@/) || this.$t('rules.email', this.$store.state.locale),
+        email: value => {
           const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          return pattern.test(v) || this.$t('rules.email', this.$store.state.locale)
+          return pattern.test(value) || this.$t('rules.email', this.$store.state.locale)
         },
-        length: len => v => (v || '').length >= len || this.$t('rules.length', this.$store.state.locale),
-        // password: v => (v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
-        // password: v => (v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
-        // this.$t('rules.password', this.$store.state.locale),
-        required: v => !!v || this.$t('rules.required', this.$store.state.locale)
+        required: value => !!value || this.$t('rules.required', this.$store.state.locale)
       }
     }
   },
@@ -226,7 +222,7 @@ export default {
       this.loading = true
 
       // anti spam preventive measure
-      if (this.email_bis === '') {
+      if (this.email === '' && this.$refs.form.validate() && this.password !== '') {
         // - - - - - - - - - - - - - //
         // ENCRYPT EMAIL & PWD
         // - - - - - - - - - - - - - //
@@ -240,7 +236,7 @@ export default {
         var encryptedPwd = this.$EncryptionRSA(this.password, saltToken)
         console.log('encryptedPwd : ', encryptedPwd)
 
-        var encryptedEmail = this.$EncryptionRSA(this.email, saltToken)
+        var encryptedEmail = this.$EncryptionRSA(this.email_bis, saltToken)
         console.log('encryptedEmail : ', encryptedEmail)
 
         let pseudoForm = {
@@ -254,6 +250,7 @@ export default {
         this.$store.dispatch('auth/login', pseudoForm)
 
           .then(response => {
+            console.log('submitLogin success / response :', response)
             this.alert = {type: 'success', message: response.msg}
             this.loading = false
 
