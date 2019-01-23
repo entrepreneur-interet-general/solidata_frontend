@@ -8,8 +8,8 @@ console.log('> > > plugins/encrypt... ')
 Vue.prototype.$EncryptionRSA = (stringToEncrypt, publicKey) => {
   // cf : https://github.com/travist/jsencrypt
 
-  console.log('> > > plugin EncryptionRSA / stringToEncrypt : ', stringToEncrypt)
-  console.log('> > > plugin EncryptionRSA / publicKey : ', publicKey)
+  // console.log('> > > plugin EncryptionRSA / stringToEncrypt : ', stringToEncrypt)
+  // console.log('> > > plugin EncryptionRSA / publicKey : ', publicKey)
 
   // NODE-RSA TEST
   // const key = new NodeRSA(pem_public_key);
@@ -20,11 +20,11 @@ Vue.prototype.$EncryptionRSA = (stringToEncrypt, publicKey) => {
   // JSENCRYPT
   // Encrypt with the public key...
   var encrypt = new JSEncrypt()
-  console.log('> > > plugin EncryptString / encrypt : ', encrypt)
+  // console.log('> > > plugin EncryptString / encrypt : ', encrypt)
   encrypt.setPublicKey(publicKey)
   var encrypted = encrypt.encrypt(stringToEncrypt)
 
-  console.log('> > > plugin EncryptString / encrypted : ', encrypted)
+  // console.log('> > > plugin EncryptString / encrypted : ', encrypted)
 
   return {
     salt: publicKey,

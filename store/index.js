@@ -229,7 +229,7 @@ export const state = () => ({
 
   is_alert: false,
   alert: {},
-  alert_timeout: 2000,
+  alert_timeout: 5000,
 
   is_error: false,
   error: {},

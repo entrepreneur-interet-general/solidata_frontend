@@ -243,13 +243,15 @@ export default {
         var encryptedEmail = this.$EncryptionRSA(this.email, saltToken)
         console.log('encryptedEmail : ', encryptedEmail)
 
-        // dispatch action from store/auth
-        this.$store.dispatch('auth/login', {
+        let pseudoForm = {
           // email : this.email,
           email_encrypt: encryptedEmail.hashed,
           // pwd : this.password,
           pwd_encrypt: encryptedPwd.hashed
-        })
+        }
+
+        // dispatch action from store/auth
+        this.$store.dispatch('auth/login', pseudoForm)
 
           .then(response => {
             this.alert = {type: 'success', message: response.msg}

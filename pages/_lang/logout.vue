@@ -110,14 +110,14 @@ export default {
           console.log('submitLogout after then...')
           this.loading = false
 
-          this.$store.commit(`set_alert`, 'you are now loged out')
+          this.$store.commit(`set_alert`, 'you are now logegd out')
 
           this.$router.push('/')
         })
         .catch(error => {
           console.log('submit / error...')
           this.loading = false
-          this.alert = {type: 'error', message: 'logout failed' }
+          this.alert = {type: 'error', message: 'logout failed'}
 
           this.$store.commit(`set_error`, error)
         })

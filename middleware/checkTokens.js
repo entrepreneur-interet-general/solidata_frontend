@@ -52,19 +52,17 @@ export default function ({ req, store, app, redirect }) {
             salt_token: saltToken
           }
         )
-
         store.commit('set_see_agreement_cgu', !agreementCookie, { root: true })
       } catch (error) {
         console.log('- - - ... fucking error in parsing cookie with process.server == true : \n', error)
       }
-
       // try {
-      // 	 langCookie 	= parsed.lang;
-      // 	console.log("- - - checkTokens /  langCookie :",  langCookie) ;
-      // 	store.commit('SET_LANG',  langCookie, { root: true }) ;
+      // langCookie = parsed.lang;
+      // console.log("- - - checkTokens /  langCookie :",  langCookie) ;
+      // store.commit('SET_LANG',  langCookie, { root: true }) ;
       // }
       // catch(error) {
-      // 	console.log("- - - ... fucking error in parsing cookie with process.server == true : \n", error)
+      // console.log("- - - ... fucking error in parsing cookie with process.server == true : \n", error)
       // }
     }
   }

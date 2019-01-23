@@ -2,38 +2,44 @@
 
   <div>
 
-    <v-card-text>
+    <!-- - valid : <code>{{ valid }}</codes><br> -->
+    <!-- - password : <code>{{ password }}</code><br> -->
+    <!-- - pseudoForm : <code>{{ pseudoForm }}</code> -->
 
-      <v-form 
-        @submit.prevent="submitRegister" 
-        id="register-form"
-        >
+    <v-form 
+      @submit.prevent="submitRegister" 
+      id="register-form"
+      ref="form"
+      v-model="valid"
+      lazy-validation
+      >
         
+      <v-card-text>
         <!-- ALERT -->
-        <v-alert 
+        <!-- <v-alert 
           v-if="alert" 
           :type="alert.type" 
           value="true">{{alert.message}}
-        </v-alert>
+        </v-alert> -->
         
         <!-- ANTI-SPAMS FIELD -->
         <v-text-field 
           v-show="$store.state.is_debug"
-          id="email_bis"
-          v-model="email_bis"
+          id="email"
+          v-model="email"
           prepend-icon="warning" 
-          name="email_bis" 
-          label="email_bis" 
+          name="email" 
+          label="email" 
           type="text">
         </v-text-field>
 
         <!-- REAL USER INFOS FOR REGISTER -->
         <v-text-field 
-          id="email"
-          v-model="email"
+          id="email_bis"
+          v-model="email_bis"
           :rules="[rules.email, rules.required]"
           prepend-icon="person" 
-          name="email" 
+          name="email_bis" 
           label="Email" 
           type="text">
         </v-text-field>
@@ -61,7 +67,7 @@
         <v-text-field 
           id="password" 
           v-model="password"
-          :rules="[rules.required, rules.password]"
+          :rules="[rules.required, rules.password, rules.counterMin]"
           prepend-icon="lock" 
           name="password" 
           :label="$t('global.password', $store.state.locale )"
@@ -80,27 +86,66 @@
           </template>
         </v-checkbox>
 
-      </v-form>
+      </v-card-text>
 
-    </v-card-text>
+      <v-card-actions>
+        
+        <!-- <v-spacer></v-spacer>
+        <v-btn 
+          flat
+          class="grey"
+          dark
+          block
+          :loading="loading" 
+          :disabled="loading"
+          @click="validate"
+          >
+          validate
+        </v-btn> -->
+        
+        <!-- <v-spacer></v-spacer>
+        <v-btn 
+          flat
+          class="grey"
+          dark
+          block
+          :loading="loading" 
+          :disabled="loading"
+          @click="resetValidation"
+          >
+          resetValidation
+        </v-btn> -->
+        
+        <!-- <v-spacer></v-spacer>
+        <v-btn 
+          flat
+          class="grey"
+          dark
+          block
+          :loading="loading" 
+          :disabled="loading"
+          @click="reset"
+          >
+          reset
+        </v-btn> -->
+        
+        <v-spacer></v-spacer>
+        <v-btn 
+          flat
+          class="accent"
+          block
+          type="submit" 
+          :loading="loading" 
+          :disabled="loading"
+          >
+          {{ $t('home.registerPage', $store.state.locale ) }}
+        </v-btn>
+        <v-spacer></v-spacer>
 
-    <v-card-actions>
-      
-      <v-spacer></v-spacer>
-      <v-btn 
-        flat
-        class="accent"
-        block
-        type="submit" 
-        form="register-form"
-        :loading="loading" 
-        :disabled="loading"
-        >
-        {{ $t('home.registerPage', $store.state.locale ) }}
-      </v-btn>
-      <v-spacer></v-spacer>
+      </v-card-actions>
 
-    </v-card-actions>
+    </v-form>
+
   </div>
 
 </template>
@@ -124,10 +169,12 @@ export default {
   data () {
     return {
 
-      // preventive anti spam field
-      email_bis: '',
+      valid: false,
 
+      // preventive anti spam field
       email: '',
+
+      email_bis: '',
       name: '',
       surname: '',
       password: '',
@@ -136,17 +183,53 @@ export default {
       agreement: false,
 
       rules: {
-        email: v => (v || '').match(/@/) || this.$t('rules.email', this.$store.state.locale),
-        length: len => v => (v || '').length >= len || this.$t('rules.length', this.$store.state.locale),
-        password: v => (v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
-          this.$t('rules.password', this.$store.state.locale),
-        required: v => !!v || this.$t('rules.required', this.$store.state.locale)
+        // email: v => (v || '').match(/@/) || this.$t('rules.email', this.$store.state.locale),
+        email: value => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || this.$t('rules.email', this.$store.state.locale)
+        },
+        length: len => value => (value || '').length >= len || this.$t('rules.length', this.$store.state.locale),
+        password: value => {
+          const pattern = (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/)
+          return pattern.test(value) || this.$t('rules.password', this.$store.state.locale)
+        },
+        required: value => !!value || this.$t('rules.required', this.$store.state.locale),
+        counterMin: value => value.length >= 6 || 'Min 20 characters'
       }
     }
   },
 
-  methods: {
+  computed: {
+    pseudoForm () {
+      if (process.client === true) {
+        const saltToken = this.$store.state.auth.salt_token
+        var encryptedPwd = this.password !== '' ? this.$EncryptionRSA(this.password, saltToken) : ''
+        var encryptedEmail = this.email_bis !== '' ? this.$EncryptionRSA(this.email_bis, saltToken) : ''
 
+        let pseudoForm = {
+          // email : this.email,
+          email_encrypt: encryptedEmail.hashed,
+          pwd_encrypt: encryptedPwd.hashed,
+          name: this.name,
+          surname: this.surname,
+          // pwd : this.password,
+          lang: this.$store.state.locale,
+          agreement: this.agreement
+        }
+        return pseudoForm
+      }
+    }
+  },
+  methods: {
+    validate () {
+      this.$refs.form.validate()
+    },
+    reset () {
+      this.$refs.form.reset()
+    },
+    resetValidation () {
+      this.$refs.form.resetValidation()
+    },
     submitRegister (event) {
       console.log('submitRegister...')
 
@@ -157,39 +240,48 @@ export default {
       // ENCRYPT EMAIL & PWD
       // - - - - - - - - - - - - - //
 
-      // use saltToken as public_key for RSA encryption
-      var saltToken = this.$store.state.auth.salt_token
-
       // anti spam preventive measure
-      if (this.email_bis === '' && this.agreement === true) {
-        var encryptedPwd = this.$EncryptionRSA(this.password, saltToken)
+      if (this.email === '' && this.$refs.form.validate() && this.password !== '') {
+        // // use saltToken as public_key for RSA encryption
+        const saltToken = this.$store.state.auth.salt_token
+
+        // var encryptedPwd = this.$EncryptionRSA(this.password, saltToken)
+        var encryptedPwd = this.password !== '' ? this.$EncryptionRSA(this.password, saltToken) : ''
         console.log('encryptedPwd : ', encryptedPwd)
 
-        var encryptedEmail = this.$EncryptionRSA(this.email, saltToken)
+        // var encryptedEmail = this.$EncryptionRSA(this.email_bis, saltToken)
+        var encryptedEmail = this.email_bis !== '' ? this.$EncryptionRSA(this.email_bis, saltToken) : ''
         console.log('encryptedEmail : ', encryptedEmail)
 
-        // dispatch action from store/auth
-        this.$store.dispatch('auth/register', {
-
+        let pseudoForm = {
           // email : this.email,
           email_encrypt: encryptedEmail.hashed,
+          pwd_encrypt: encryptedPwd.hashed,
           name: this.name,
           surname: this.surname,
           // pwd : this.password,
-          pwd_encrypt: encryptedPwd.hashed,
-          language: this.$store.state.locale,
+          lang: this.$store.state.locale,
           agreement: this.agreement
+        }
+        // let pseudoForm = this.pseudoForm
 
-        })
+        console.log('submitRegister / pseudoForm :', pseudoForm)
+
+        // dispatch action from store/auth
+        this.$store.dispatch('auth/register', pseudoForm)
 
           .then(response => {
-            this.alert = {type: 'success', message: response.msg}
+            console.log('submitRegister success / response :', response)
+            // this.alert = {type: 'success', message: response.msg}
             this.loading = false
+
+            this.$store.commit(`set_alert`, response.msg)
+
             this.$router.push('/dashboard')
           })
 
           .catch(error => {
-            console.log('submit / error...')
+            console.log('submit / error : \n', error)
             this.loading = false
             this.alert = {type: 'error', message: ' error submitting request '}
             if (error.response && error.response.data) {

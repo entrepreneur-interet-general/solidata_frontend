@@ -159,7 +159,7 @@ export const actions = {
 
           .then(response => {
             console.log('\n...store/auth/login : response : ', response)
-            var userLoginInfos = response.data
+            const userLoginInfos = response.data
 
             commit('set_isAnonymous', false)
             commit('set_isLogged', true)
@@ -257,11 +257,13 @@ export const actions = {
 
       .then(response => {
         console.log('\n...store/auth/register : response : ', response)
+        const userLoginInfos = response.data
+
         commit('set_isAnonymous', false)
         commit('set_isLogged', true)
-        commit('set_user', response)
+        commit('set_user', userLoginInfos)
         commit('set_tokens', response.tokens)
-        commit('SET_LANG', response.profile.lang, { root: true })
+        commit('SET_LANG', userLoginInfos.profile.lang, { root: true })
 
         Cookie.set('access_token', response.tokens.access_token)
         Cookie.set('refresh_token', response.tokens.refresh_token)
