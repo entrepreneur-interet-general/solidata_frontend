@@ -5,20 +5,17 @@
   "author": "JPy <jparis.py@gmail.com>",
   "private": true,
   "scripts": {
-
     "dev": "NUXT_ENV_API_VAR=local nuxt",
+    "dev_preprod": "NUXT_ENV_API_VAR=preprod nuxt",
     "build_dev": "NUXT_ENV_API_VAR=local nuxt build",
     "start_dev": "NUXT_ENV_API_VAR=local nuxt start",
     "generate_dev": " NUXT_ENV_API_VAR=local nuxt generate",
-    
     "build_preprod": " NUXT_ENV_API_VAR=preprod nuxt build",
     "start_preprod": " NUXT_ENV_API_VAR=preprod nuxt start",
     "generate_preprod": " NUXT_ENV_API_VAR=preprod nuxt generate",
-
     "build": " NUXT_ENV_API_VAR=prod nuxt build",
     "start": " NUXT_ENV_API_VAR=prod nuxt start",
     "generate": " NUXT_ENV_API_VAR=prod nuxt generate"
-    
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.2",
@@ -51,6 +48,7 @@
     "vue-scroll-sync": "^1.0.5",
     "vue-server-renderer": "^2.5.21",
     "vue-template-compiler": "^2.5.21",
+    "vue2-leaflet": "^1.2.3",
     "vuebar": "0.0.20",
     "vuetify": "^1.3.14",
     "vuetify-upload-button": "^1.1.0"

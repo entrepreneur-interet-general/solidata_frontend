@@ -1,4 +1,5 @@
-###NGINX - SUBDOMAINS AND SERVER BLOCKS
+
+### NGINX - SUBDOMAINS AND SERVER BLOCKS
 https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04
 https://linuxize.com/post/how-to-install-nginx-on-ubuntu-18-04/ 
 https://linuxize.com/post/how-to-set-up-nginx-server-blocks-on-ubuntu-18-04/ 

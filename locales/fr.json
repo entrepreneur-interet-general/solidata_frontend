@@ -355,6 +355,7 @@
 		"f_is_required"	: "Précisez si le champ est requis" ,
 		"resume"		: "Résumé",
 
+		"used" 		: "Ce champ de modèle de données est déjà utilisé",
 		"go_to" 		: "Voir ce champ de modèle de données"
 
 	},

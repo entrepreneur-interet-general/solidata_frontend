@@ -270,6 +270,8 @@ export default {
               this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
             }
           })
+      } else {
+        this.$refs.form.validate()
       }
     },
 

@@ -356,6 +356,7 @@
 		"f_is_required"	: "Campo está necesario" ,
 		"resume" 		: "Resumen",
 
+		"used" 		: "Este campo de módelo de datos ya está usado",
 		"go_to" 		: "Ver este campo de módelo de datos"
 
 	},

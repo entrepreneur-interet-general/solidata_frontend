@@ -965,8 +965,7 @@ export const actions = {
 
     return this.$axios.$delete(`${collection}/edit/${docId}`, config)
       .then(response => {
-        // console.log(`... $ deleteItem : response : `, response);
-        // commit(`${collection}/set_list`, response);
+        console.log(`... $ deleteItem : response : `, response)
 
         commit(`set_alert`, response.msg)
         return response

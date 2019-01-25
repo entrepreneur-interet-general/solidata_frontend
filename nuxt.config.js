@@ -24,7 +24,6 @@ const choosePort = (ENVPROD) => {
 }
 const configApp = {
   API_URL: chooseAPIbaseUrl(process.env.NUXT_ENV_API_VAR),
-  // port: process.env.NODE_ENV === 'production' ? 8000 : 3000,
   port: choosePort(process.env.NUXT_ENV_API_VAR)
 }
 console.log('process.env :', process.env)
@@ -46,7 +45,8 @@ module.exports = {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicons/favicon.ico?v=3' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' },
-      { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.2.0/css/all.css' }
+      { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.2.0/css/all.css' },
+      { rel: 'stylesheet', href: 'https://unpkg.com/leaflet@1.2.0/dist/leaflet.css' }
     ]
   },
 
@@ -57,14 +57,9 @@ module.exports = {
     host: 'localhost' // XXX.XX.XX.XX
   },
 
-  // dev: (process.env.NODE_ENV !== 'production'),
-
   // custom env variables for nuxt
   // cf : https://github.com/nuxt/nuxt.js/issues/1789
   env: {
-    // API_DEV: 'http://localhost:4000/api',
-    // API_PREPROD: 'http://solidata-preprod-api.co-demos.com/api',
-    // API_PROD: 'http://solidata-api.co-demos.com/api',
     DEBUG: process.env.NODE_ENV === 'development'
     // CONFIG_APP: configApp
   },
@@ -94,14 +89,19 @@ module.exports = {
     '~/plugins/axios',
     '~plugins/text_filters.js',
     '~plugins/core-components.js',
-    {src: '@/plugins/vueParticles.js', ssr: false},
+
+    {src: '~/plugins/vue-leaflet', ssr: false},
+
+    {src: '~/plugins/vueParticles.js', ssr: false},
+    // '@/plugins/vueParticles.js',
 
     // '~plugins/vue-scroll',
 
     // '~/plugins/utils/objectCleaner.js',
     // {src: '~/plugins/utils/objectCleaner', ssr: false},
 
-    {src: '~/plugins/utils/checkDocUserAuth', ssr: false},
+    // {src: '~/plugins/utils/checkDocUserAuth', ssr: false},
+    '~/plugins/utils/checkDocUserAuth',
     {src: '~/plugins/utils/objectFormatterCreate', ssr: false},
     // '~/plugins/utils/objectFormatterUpdate.js',
     {src: '~/plugins/utils/objectFormatterUpdate', ssr: false},

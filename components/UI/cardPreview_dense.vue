@@ -433,6 +433,9 @@ export default {
         console.log('itemClickBehaviour / input : ', input)
 
         this.$emit('update_parent_dataset', input)
+      } else if (this.add_to_parent && this.is_in_parent) {
+        console.log('itemClickBehaviour / already used...')
+        this.$store.commit(`set_alert`, this.$t('datamodel_fields.used', this.$store.state.locale))
       } else {
         console.log('itemClickBehaviour / go to edit item...')
 

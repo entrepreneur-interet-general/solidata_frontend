@@ -109,6 +109,7 @@
                   <v-btn 
                     round 
                     flat 
+                    :disabled="btn.disabled"
                     :outline="is_outline" 
                     :class="is_white" 
                     :dark="is_outline"
@@ -167,6 +168,7 @@
                   <v-btn 
                     round 
                     flat 
+                    :disabled="btn.disabled"
                     :outline="is_outline" 
                     :class="is_white" 
                     :dark="is_outline"
@@ -312,13 +314,13 @@ export default {
       user_height: null,
 
       btns_connected: [
-        { icon: 'dashboard', to: '/dashboard', text: 'links.dashboard' },
-        { icon: 'projects', to: '/prj', text: 'links.myprojects' }
+        { icon: 'dashboard', to: '/dashboard', text: 'links.dashboard', disabled: false },
+        { icon: 'projects', to: '/prj', text: 'links.myprojects', disabled: false }
       ],
 
       btns_not_connected: [
-        { icon: 'login', to: '/login', text: 'home.startbtn' },
-        { icon: 'video', to: '/tutorials', text: 'home.videobtn' }
+        { icon: 'login', to: '/login', text: 'home.startbtn', disabled: false },
+        { icon: 'video', to: '/tutorials', text: 'home.videobtn', disabled: true }
       ]
 
     }

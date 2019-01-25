@@ -91,15 +91,19 @@
       
 
       <!-- SWITCH FOR DEBUG -->
-      <v-spacer></v-spacer>
-      <v-switch 
-        label="debug"
-        v-model="$store.state.is_debug"
-        color="error"
-        :input-value="$store.state.is_debug"
-        hide-details
+      <template 
+        v-if="$store.state.DEBUG"
         >
-      </v-switch>
+        <v-spacer></v-spacer>
+        <v-switch 
+          label="debug"
+          v-model="$store.state.is_debug"
+          color="error"
+          :input-value="$store.state.is_debug"
+          hide-details
+          >
+        </v-switch>
+      </template>
 
 
       <!--  RIGHT SIZE OF THE TOOLBAR -->

@@ -355,6 +355,7 @@
     "f_is_required"	: "Define if the field is required" ,
     "resume" 		: "Resume",
 
+    "used" 		: "This datamodel field is already used",
     "go_to" 		: "See this datamodel field"
 
   },

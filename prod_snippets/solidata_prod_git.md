@@ -1,4 +1,5 @@
-###GIT WALKTHROUGH (ubuntu 18.04)
+
+### GIT WALKTHROUGH (ubuntu 18.04)
 cf : https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-18-04
 
 - INSTALL GIT 

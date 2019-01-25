@@ -100,6 +100,7 @@
       <!-- RESET / DELETE ITEM MENU -->
       <v-menu 
         v-if="!is_create"
+        :disabled="!checkUserAuth('delete_item')"
         bottom 
         left 
         full-width
