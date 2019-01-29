@@ -56,11 +56,14 @@ server {
 
         server_name solidata-preprod-api.co-demos.com www.solidata-preprod-api.co-demos.com ;
 
+        ### allow larger file upload
+        client_max_body_size 10M;
+
         location / {
                 #include proxy_params;
 
                 ### made it work using supervisor + gunicorn
-                proxy_pass        http://YOUR.SERVER.IP.ADDRESS:4000;
+                proxy_pass        http://157.230.104.34:4000;
 
                 proxy_redirect    off;
 

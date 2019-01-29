@@ -1,7 +1,7 @@
 const chooseAPIbaseUrl = (ENVPROD) => {
   const NUXT_ENV_API_DEV = 'http://localhost:4000/api'
-  const NUXT_ENV_API_PREPROD = 'http://solidata-preprod-api.co-demos.com/api'
-  const NUXT_ENV_API_PROD = 'http://solidata-api.co-demos.com/api'
+  const NUXT_ENV_API_PREPROD = 'https://solidata-preprod-api.co-demos.com/api'
+  const NUXT_ENV_API_PROD = 'https://solidata-api.co-demos.com/api'
   if (ENVPROD === 'local') {
     return NUXT_ENV_API_DEV
   } else if (ENVPROD === 'preprod') {
