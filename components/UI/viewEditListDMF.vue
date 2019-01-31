@@ -77,11 +77,14 @@
           ---- DEBUG component - viewEditListDMF ----
           <hr>
 
-          <!-- list_DMF_full_pivoted - <code>{{ list_DMF_full_pivoted }}</code> -->
-          <hr>
-          <!-- list_DMF_full - <code>{{ list_DMF_full }}</code> -->
-          <hr> 
-          DMF_headers - <br> <code>{{ DMF_headers }}</code>
+          <!-- list_DMF_full_pivoted - <code>{{ list_DMF_full_pivoted }}</code> <hr> -->
+          <!-- list_DMF_full - <code>{{ list_DMF_full }}</code> <hr>-->
+          
+          <!-- listDMF - <br><code>{{ listDMF }}</code><hr>  -->
+          list_DMF_oids - <br><code>{{ list_DMF_oids }}</code><hr>
+          list_DMF_full - <br><code>{{ list_DMF_full }}</code><hr>
+          
+          DMF_headers - <br><code>{{ DMF_headers }}</code><hr>
 
         </v-alert>
 
@@ -1232,7 +1235,8 @@ export default {
       var oidsList = {
         oids: this.list_DMF_oids.join(),
         ignore_teams: true,
-        normalize: true
+        normalize: true,
+        per_page: 0
         // pivot_results   : true,
       }
 

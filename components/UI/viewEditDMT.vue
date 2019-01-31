@@ -10,6 +10,7 @@
     <v-card-text 
       v-if="$store.state.is_debug"
       >
+      in viewEditDMF : <br>
       - coll : <code> {{ coll }} </code><br>
       - itemId : <code> {{ itemId }} </code><br>
       <!-- - dmf_list : <code> {{ itemDoc.datasets.dmf_list }} </code>  -->

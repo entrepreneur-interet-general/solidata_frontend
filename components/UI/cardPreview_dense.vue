@@ -359,11 +359,11 @@ export default {
 
       addDeleteFromParentlist: 'add_to_list'
 
-      // direction		: 'left',
-      // fab				: false,
-      // fling			: false,
-      // tabs				: null,
-      // transition		: 'slide-y-reverse-transition'
+      // direction: 'left',
+      // fab: false,
+      // fling: false,
+      // tabs: null,
+      // transition: 'slide-y-reverse-transition'
 
     }
   },

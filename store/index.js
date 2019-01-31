@@ -45,6 +45,7 @@ const dmfTypesList = [
   'tag',
   'category',
   'media_link',
+  'hyperlink',
   'boolean',
   'other'
 ]
