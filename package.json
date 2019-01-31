@@ -47,6 +47,7 @@
     "vue-i18n": "^7.8.0",
     "vue-scroll-sync": "^1.0.5",
     "vue-server-renderer": "^2.5.21",
+    "vue-socket.io": "^3.0.5",
     "vue-template-compiler": "^2.5.21",
     "vue2-leaflet": "^1.2.3",
     "vuebar": "0.0.20",
