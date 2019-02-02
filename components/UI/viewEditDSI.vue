@@ -90,6 +90,7 @@
               :isPreview="isPreview"
               :isSettings="isSettings"
               :is_reset="true"
+              :is_reload="true"
               :is_loading="loading"
               @input="switchPreview"
               @settings="switchSettings"
@@ -1460,11 +1461,11 @@ export default {
       handler (newVal, oldVal) {
         console.log('\nVE DSI / watch ~ item_doc / newVal : \n', newVal)
         // console.log( "\nVE PRJ / watch ~ item_doc / oldVal : \n", oldVal )
-
         if (newVal) {
           this.itemDoc = newVal
           // update local TAG list
           this.list_TAG_oids = newVal.datasets.tag_list
+          this.$store.commit(`${this.coll}/set_reload`, newVal)
         }
       }
     },

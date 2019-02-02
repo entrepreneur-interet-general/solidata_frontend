@@ -167,7 +167,7 @@
 
 
 
-    <!-- DOC SPECS -->
+    <!-- DOC SPECS / DSI -->
     <v-layout row wrap>
 
       <!-- specs - {{ item_doc.specs }} -->
@@ -184,19 +184,20 @@
           :item_id="itemId"
           :item_data="itemDoc['specs']['src_link']"
           :item_auth="itemDoc.public_auth"
-          :canEdit="checkUserAuth('specs.src_link')"
+          :canEdit="false"
           :is_file="is_file"
           :filetype="filetype"
           :is_loading="loading"
           :no_subField="no_subField"
           @input="updateIsFile"
           >
+          <!-- :canEdit="checkUserAuth('specs.src_link')" -->
         </ValueEdit>
       </v-flex>
 
     </v-layout>
 
-    <!-- DOC SPECS -->
+    <!-- DOC SPECS / DSI -->
     <v-layout row wrap>
 
       <!-- DOC SRC_TYPE -->
@@ -213,13 +214,14 @@
           :item_id="itemId"
           :item_data="itemDoc['specs']['src_type']"
           :item_auth="itemDoc.public_auth"
-          :canEdit="checkUserAuth('specs.src_type')"
+          :canEdit="false"
           :is_file="is_file"
           :filetype="filetype"
           :is_loading="loading"
           :no_subField="no_subField"
           @input="updateIsFile"
           >
+          <!-- :canEdit="checkUserAuth('specs.src_type')" -->
         </ValueEdit>
       </v-flex>
 
@@ -236,13 +238,14 @@
           :item_id="itemId"
           :item_data="itemDoc['specs']['src_sep']"
           :item_auth="itemDoc.public_auth"
-          :canEdit="checkUserAuth('specs.src_sep')"
+          :canEdit="false"
           :is_file="is_file"
           :filetype="filetype"
           :is_loading="loading"
           :no_subField="no_subField"
           @input="updateIsFile"
           >
+          <!-- :canEdit="checkUserAuth('specs.src_sep')" -->
         </ValueEdit>
       </v-flex>
 
@@ -258,13 +261,14 @@
           :item_id="itemId"
           :item_data="itemDoc['specs']['src_parser']"
           :item_auth="itemDoc.public_auth"
-          :canEdit="checkUserAuth('specs.src_parser')"
+          :canEdit="false"
           :is_file="is_file"
           :filetype="filetype"
           :is_loading="loading"
           :no_subField="no_subField"
           @input="updateIsFile"
           >
+          <!-- :canEdit="checkUserAuth('specs.src_parser')" -->
         </ValueEdit>
       </v-flex>
 

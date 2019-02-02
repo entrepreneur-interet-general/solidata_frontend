@@ -29,7 +29,6 @@ export const state = () => ({
   query_current: null,
   current: {},
   current_new: {
-
     'infos': {
       'title': 'your new dataset input',
       'description': null,
@@ -45,10 +44,8 @@ export const state = () => ({
       'src_type': 'xls',
       'src_parser': '/path/of/your/list/of/records'
     }
-
   },
   dft_new: {
-
     'infos': {
       'title': 'your new dataset input',
       'description': null,
@@ -64,7 +61,15 @@ export const state = () => ({
       'src_type': 'xls',
       'src_parser': '/path/of/your/list/of/records'
     }
-
+  },
+  reload_data: {
+    'specs': {
+      // "doc_type" : "dsi"
+      'src_link': null,
+      'src_type': null,
+      'src_parser': null,
+      'csv_sep': ','
+    }
   },
   list_query: null,
   list: [],
@@ -110,6 +115,22 @@ export const mutations = {
     } else {
       store.current[data.parentField][data.subField] = data.item_data
     }
+  },
+
+  // set a temporary reload data
+  set_reload (store, data) {
+    console.log('\n... store/dsi : set_reload...')
+    console.log('... store/dsi - data : ', data)
+    store.reload_data['specs'] = data.specs
+    store.reload_data['public_auth'] = data.public_auth
+    store.reload_data['_id'] = data._id
+    store.reload_data['log'] = data.log
+  },
+
+  set_reload_data (store, data) {
+    console.log('\n... store/dsi : set_reload_data...')
+    console.log('... store/dsi - data : ', data)
+    store.reload_data[data.parentField][data.subField] = data.item_data
   },
 
   // set a temporary new file

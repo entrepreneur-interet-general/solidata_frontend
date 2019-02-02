@@ -168,6 +168,7 @@ const mainIconsConst = {
   map_doc: {icon: 'fas fa-exchange-alt'},
   upload: {icon: 'fas fa-file-upload'},
   reset: {icon: 'fas fa-redo'},
+  reload: {icon: 'fas fa-sync-alt'},
   delete: {icon: 'delete_forever'},
   warning: {icon: 'fas fa-exclamation-circle'},
   cancel: {icon: 'cancel'},
@@ -795,6 +796,62 @@ export const actions = {
     return Promise.all(
       promisesList
     )
+  },
+
+  reloadData ({commit, dispatch, state, rootState}, payload) {
+    console.log('\n... $ reloadData... for payload.collection : ', payload.collection)
+
+    const collection = payload.coll
+    const docId = payload.doc_id
+
+    // HEADERS
+    const config = {'headers': {'Authorization': rootState.auth.access_token}}
+    console.log('... $ reloadData / config : ', config)
+
+    // DATA TO SEND
+    console.log('... $ reloadData / payload.data : ', payload.data)
+    var cleanPayload = ObjectCleaner.returnCleanObject(payload.data)
+    console.log('... $ reloadData / cleanPayload : ', cleanPayload)
+
+    // CREATE ITEM
+    var collFile = rootState[payload.collection].current_file
+    console.log('... $ reloadData / collFile : ', collFile)
+
+    // is contains file change data to formData
+    if (collFile !== undefined && collFile !== '') {
+      console.log('... $ reloadData / payload.data.file  : ', payload.data.file)
+
+      // payload to formData
+      var formData = new FormData()
+      for (var key in cleanPayload) {
+        formData.append(key, cleanPayload[key])
+      } ;
+
+      // append file to formData
+      formData.append('form_file', collFile)
+      console.log('... $ reloadData / formData  : ', formData)
+
+      // append stuff to config headers
+      config.headers['Content-Type'] = 'multipart/form-data'
+
+      // overwrite cleanPayload
+      cleanPayload = formData
+      console.log('... $ reloadData / cleanPayload : ', cleanPayload)
+    }
+
+    // API CALL
+    return this.$axios.$put(`${collection}/reload/${docId}`, cleanPayload, config)
+      .then(response => {
+        console.log(`... $ reloadData : response OK... `)
+        // set up corresponding store
+        commit(`${payload.collection}/set_current`, response.data, {root: true})
+        return response
+      })
+      .catch(error => {
+        console.log('... $ reloadData / error : ', error)
+        commit(`set_error`, error)
+        return error
+      })
   },
 
   updateItem ({commit, dispatch, state, rootState}, input) {

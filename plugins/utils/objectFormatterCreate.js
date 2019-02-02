@@ -5,12 +5,12 @@ import Vue from 'vue'
 Vue.prototype.$prepareFormData = (formData) => {
   console.log('\nObjectFormatterCreate / formData : ', formData)
 
-  var FormDataMarshalled = {}
+  let FormDataMarshalled = {}
 
-  for (var parentField in formData) {
+  for (const parentField in formData) {
     console.log('ObjectFormatterCreate / parentField : ', parentField)
 
-    for (var subField in formData[parentField]) {
+    for (const subField in formData[parentField]) {
       console.log('ObjectFormatterCreate / subField : ', subField)
       // var raw_field = {
       // "field_to_update" : subField,

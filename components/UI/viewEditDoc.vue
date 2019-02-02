@@ -38,7 +38,6 @@
     <!-- ITEM VALUES ROW -->
     <v-layout 
       row wrap
-
       >
 
       <v-flex 
@@ -115,6 +114,8 @@
                       :is_file="is_file"
                       :filetype="filetype"
                       :is_loading="loading"
+                      :noDirectUpdate="noDirectUpdate"
+                      :is_reload="is_reload"
                       @input="updateIsFile"
                       >
                     </ValueEdit>
@@ -274,7 +275,9 @@ export default {
     // "is_debug",
     'is_switch',
     'no_toolbar',
-    'only_subfields'
+    'only_subfields',
+    'noDirectUpdate',
+    'is_reload'
   ],
 
   components: {
@@ -291,7 +294,6 @@ export default {
     this.itemDoc = this.item_doc
     // this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
     // this.canEdit = this.checkUserAuth(this.parentFieldslist)
-
     // this.is_file = ( this.coll == "dsi" ) ? true : false ;
     this.is_file = this.preloadIsFile()
     this.filetype = this.preloadFileType()
@@ -414,7 +416,6 @@ export default {
       } else {
         var isLogged = this.$store.state.auth.isLogged
         var userId = this.$store.state.auth.user_id
-
         canUpdateField = this.$checkDocUserAuth(this.item_doc, fieldName, isLogged, userId)
       }
 
@@ -445,10 +446,10 @@ export default {
 
       // add file's data if needed
       if (this.is_file === true) {
-        console.log('VE DOC createItem / adding file  to dataToSend')
+        console.log('VE DOC createItem / adding csv_sep to dataToSend')
         // dataToSend['file']     = this.$store.state[this.coll].current_file ;
         dataToSend['csv_sep'] = this.$store.state[this.coll].csv_sep
-      //   dataToSend['filename']   = this.$store.state[this.coll].current_filename ;
+        // dataToSend['filename']   = this.$store.state[this.coll].current_filename ;
       }
 
       console.log('VE DOC createItem / dataToSend : ', dataToSend)
@@ -472,12 +473,8 @@ export default {
         })
         .catch(error => {
           console.log('VE DOC createItem / submit / error... : ', error)
-
           this.loading = false
-          // this.alert = {type: 'error', message: "login error" }
-
           this.$store.commit(`set_error`, error)
-
           if (error.response && error.response.data) {
             this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
           }

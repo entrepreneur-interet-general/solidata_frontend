@@ -139,7 +139,7 @@
                 :disabled="!canEdit || loading"
                 :label="$t( collName+'.'+'src_sep', $store.state.locale )"
                 :items="$store.state.subFieldsWithChoices['src_sep']['choices']"
-                @change="updateSeparator() ; save()"
+                @change="updateSeparator() ; submitValue() ; save()"
                 >
               </v-select>
 
@@ -374,7 +374,9 @@ export default {
     'filetype',
 
     'no_subField',
-    'only_subfields'
+    'only_subfields',
+    'noDirectUpdate',
+    'is_reload'
 
   ],
 
@@ -389,6 +391,9 @@ export default {
     // console.log("- valueEdit / created ---> subField / item_data : ", this.subField + ' / ' + this.item_data ) ;
     this.itemData = this.item_data
     this.fileExt = this.filetype
+    if (this.is_reload && this.is_file) {
+      this.csv_separator = this.$store.state[this.coll].reload_data.specs.src_sep
+    }
   },
   mounted () {
     if (this.subfield === 'src_type') {
@@ -475,7 +480,7 @@ export default {
 
     // dialog functions
     save () {
-      if (!this.is_create) {
+      if (!this.is_create && !this.noDirectUpdate) {
         this.dialog = false
         this.snack = true
         this.snackColor = 'success'
@@ -499,7 +504,7 @@ export default {
     },
 
     snack_if_not_create () {
-      if (!this.is_create && this.canEdit) {
+      if (!this.is_create && this.canEdit && this.noDirectùpdate) {
         this.snack = true
       }
     },
@@ -571,7 +576,16 @@ export default {
 
     updateSeparator () {
       console.log('\nupdateSeparator / this.csv_separator : ', this.csv_separator)
-      this.$store.commit(`${this.coll}/set_current_separator`, this.csv_separator)
+      if (this.is_reload) {
+        const data = {
+          parentField: 'specs',
+          subField: 'src_sep',
+          item_data: this.csv_separator
+        }
+        this.$store.commit(`${this.coll}/set_reload_data`, data)
+      } else {
+        this.$store.commit(`${this.coll}/set_current_separator`, this.csv_separator)
+      }
     },
 
     // submit value for update : via API backend | via $store.set_current_new
@@ -596,48 +610,43 @@ export default {
       }
 
       // UPDATE VALUE TO API
-      if (!this.is_create) {
+      if (!this.is_create && !this.noDirectUpdate) {
         // var pseudoFormData = ObjectFormatterUpdate.prepareFormData(this.form) ;
         var pseudoFormData = [ this.form ]
         console.log('submitValue - update / pseudoFormData : ', pseudoFormData)
-
         // dispatch action from store
         this.$store.dispatch('updateItem', {
           coll: this.coll,
           doc_id: this.item_id,
           form: pseudoFormData // this.form,
         })
-
           .then(response => {
             console.log('submit / success... : ', response)
-
             this.alert = { type: 'success', message: response.msg }
             this.loading = false
-
             // update current in store
             // valueData.update_current = true
             // console.log("submitValue - create / valueData : ", valueData)
             // this.$store.commit(`${this.coll}/set_current`, valueData );
-
             this.$store.commit(`${this.coll}/set_current`, response)
           })
-
           .catch(error => {
             console.log('submit / error... : ', error)
-
             this.loading = false
             this.alert = { type: 'error', message: 'login error' }
             if (error.response && error.response.data) {
               this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
             }
           })
-      }
-
-      // UPDATE VALUE TO STORE at current_new
-      else {
+      } else if (this.noDirectUpdate) {
+        // UPDATE VALUE TO STORE at reload
+        console.log('submitValue - reload / valueData : ', valueData)
+        this.$store.commit(`${this.coll}/set_reload_data`, valueData)
+        this.loading = false
+      } else {
+        // UPDATE VALUE TO STORE at current_new
         console.log('submitValue - create / valueData : ', valueData)
         this.$store.commit(`${this.coll}/set_current_new`, valueData)
-
         this.loading = false
       }
     }

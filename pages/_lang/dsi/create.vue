@@ -102,32 +102,33 @@ export default {
           ]
         }
 
-        // {
-        // 	parentFieldName : "data_raw",
-        // 	subFields 	: [
-        // 		"f_code",
-        // 		"f_type",
-        // 		"f_object",
-        // 		"f_comments",
-        // 		"f_is_required",
-        // 	]
-        // },
+        /* {
+        parentFieldName : "data_raw",
+        subFields : [
+        "f_code",
+        "f_type",
+        "f_object",
+        "f_comments",
+        "f_is_required",
+        ]
+        },
+        */
       ]
 
       /*
       emptyNewItem : {
-        "infos"			: {
-          "title"			: "your new datamodel field",
-          "description"	: null,
-          "licence"		: null
+        "infos": {
+          "title": "your new datamodel field",
+          "description": null,
+          "licence": null
         },
-        "public_auth"	: {
+        "public_auth": {
           "open_level_edit": "open_data",
           "open_level_show": "commons"
         },
         "specs": {
           // "doc_type": "dmf"
-          "src_link"	: null,
+          "src_link": null,
         },
         // "log": {
         // 	"created_at": "2018-11-20T14:20:47.661000+00:00",
