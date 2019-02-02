@@ -63,6 +63,9 @@ export const state = () => ({
     }
   },
   reload_data: {
+    '_id': null,
+    'public_auth': null,
+    'log': null,
     'specs': {
       // "doc_type" : "dsi"
       'src_link': null,
@@ -78,6 +81,10 @@ export const state = () => ({
 })
 
 export const getters = {
+
+  getReloadSpecs: state => {
+    return { specs: state.reload_data.specs }
+  }
 
 }
 

@@ -194,14 +194,14 @@
                   {{ $t(`global.reload`, $store.state.locale) }}
                 </v-card-title>
 
-                <!-- <span 
+                <span 
                   v-if="$store.state.is_debug"
-                  > -->
+                  >
                   <!-- - itemDoc : <code>{{ itemDoc }}</code><hr> -->
                   this.$store.state.dsi.reload_data : <br><code>{{ this.$store.state.dsi.reload_data}}</code></br>
                   this.$store.state.dsi.current_file : <br><code>{{ this.$store.state.dsi.current_file}}</code></br>
                   this.$store.state.dsi.current_filename : <br><code>{{ this.$store.state.dsi.current_filename}}</code></br>
-                <!-- </span> -->
+                </span>
 
                 <v-card-text>
                   <ViewEditDoc
@@ -565,17 +565,18 @@ export default {
       const reloadSpecs = this.$store.state[this.coll].reload_data
       console.log('itemToolbar - reloadData / reloadSpecs : ', reloadSpecs)
 
-      // REFORMAT DATA
-      var dataToSend = this.$prepareFormData(reloadSpecs)
+      // // REFORMAT DATA
+      // let reloadSpecsCopy = Object.assign({}, reloadSpecs)
+      // delete reloadSpecsCopy._id
+      // delete reloadSpecsCopy.public_auth
+      // delete reloadSpecsCopy.log
+      let reloadSpecsCopy = this.$store.getters[this.coll + '/getReloadSpecs']
+      let dataToSend = this.$prepareFormData(reloadSpecsCopy)
+      // let dataToSend = this.$prepareFormData(reloadSpecs)
       console.log('itemToolbar - reloadData / dataToSend : ', dataToSend)
 
-      // add file's data if needed
-      // if (reloadSpecs.specs.src_type !== 'API') {
-      //   console.log('itemToolbar - reloadData / adding file to dataToSend')
-      //   dataToSend['csv_sep'] = this.$store.state[this.coll].csv_sep
-      // }
       //  PREPARE PAYLOAD
-      var payload = { collection: this.coll, doc_id: this.itemId, data: dataToSend }
+      let payload = { coll: this.coll, doc_id: this.itemId, data: dataToSend }
       console.log('itemToolbar - reloadData / payload : ', payload)
 
       // dispatch action from store

@@ -628,6 +628,8 @@ export const actions = {
   createItem ({commit, state, rootState}, payload) {
     console.log('\n... $ createItem... for payload.collection : ', payload.collection)
 
+    const collection = payload.coll
+
     // HEADERS
     const config = {'headers': {'Authorization': rootState.auth.access_token}}
     console.log('... $ createItem / config : ', config)
@@ -639,13 +641,13 @@ export const actions = {
     console.log('... $ createItem / cleanPayload : ', cleanPayload)
 
     // CREATE ITEM
-    var collFile = rootState[payload.collection].current_file
+    var collFile = rootState[collection].current_file
     console.log('... $ createItem / collFile : ', collFile)
 
     // is contains file change data to formData
     // if ( payload.data.src_type != 'API' && collFile != '' ) {
     if (collFile !== undefined && collFile !== '') {
-      console.log('... $ createItem / payload.data.file  : ', payload.data.file)
+      console.log('... $ createItem / collFile  : ', collFile)
 
       // payload to formData
       var formData = new FormData()
@@ -666,15 +668,15 @@ export const actions = {
     }
 
     // API CALL
-    return this.$axios.$post(`${payload.collection}/create/`, cleanPayload, config)
+    return this.$axios.$post(`${collection}/create/`, cleanPayload, config)
       .then(response => {
         console.log('... $ createItem / response : ', response)
 
         // set up corresponding store
-        commit(`${payload.collection}/set_current`, response.data, {root: true})
+        commit(`${collection}/set_current`, response.data, {root: true})
 
         // reset current_new
-        commit(`${payload.collection}/reset_current_new`, {root: true})
+        commit(`${collection}/reset_current_new`, {root: true})
 
         // retrieve item id
         const newItemId = response.data._id
@@ -682,7 +684,7 @@ export const actions = {
         // commit(`set_alert`, response.msg)
 
         // redirect to edit-preview page
-        return this.$router.push(`/${payload.collection}/${newItemId}`)
+        return this.$router.push(`/${collection}/${newItemId}`)
       })
       .catch(error => {
         console.log('... $ createItem / error : ', error)
@@ -814,12 +816,12 @@ export const actions = {
     console.log('... $ reloadData / cleanPayload : ', cleanPayload)
 
     // CREATE ITEM
-    var collFile = rootState[payload.collection].current_file
+    var collFile = rootState[collection].current_file
     console.log('... $ reloadData / collFile : ', collFile)
 
-    // is contains file change data to formData
+    // if contains file change data to formData
     if (collFile !== undefined && collFile !== '') {
-      console.log('... $ reloadData / payload.data.file  : ', payload.data.file)
+      console.log('... $ reloadData / collFile  : ', collFile)
 
       // payload to formData
       var formData = new FormData()
