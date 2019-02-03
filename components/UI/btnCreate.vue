@@ -74,7 +74,7 @@ export default {
   ],
 
   mounted () {
-    // console.log("\n- btnCreate / mounted ---> tab... ", this.tab ) ;
+    // this.$store.state.LOG && console.log("\n- btnCreate / mounted ---> tab... ", this.tab ) ;
     this.onResize()
     window.addEventListener('resize', this.onResize, { passive: true })
   },
@@ -109,7 +109,7 @@ export default {
     },
 
     callCreate () {
-      // console.log("callCreate... " )
+      // this.$store.state.LOG && console.log("callCreate... " )
       this.$emit('input')
     }
   }

@@ -94,7 +94,7 @@ export default {
 
   created () {
 
-    // console.log("\n viewEditDMF_openlevel created / parent_map : ", this.parent_map )
+    // this.$store.state.LOG && console.log("\n viewEditDMF_openlevel created / parent_map : ", this.parent_map )
 
     // this.dsi_header = this.dsi_header
 
@@ -151,11 +151,11 @@ export default {
       immediate: true,
       handler (newVal, oldVal) {
         if (newVal.length !== 0 && newVal !== undefined) {
-          // console.log("\n~ watch / parentDoc_dmf_list - this.dmf_value._id : ", this.dmf_value._id )
-          // console.log("~ watch / parentDoc_dmf_list - newVal : ", newVal )
+          // this.$store.state.LOG && console.log("\n~ watch / parentDoc_dmf_list - this.dmf_value._id : ", this.dmf_value._id )
+          // this.$store.state.LOG && console.log("~ watch / parentDoc_dmf_list - newVal : ", newVal )
 
           var dmfValueTitle = newVal.find(obj => { return obj._id === this.dmf_value._id })
-          // console.log("~ watch / parentDoc_dmf_list - dmfValueTitle : ", dmfValueTitle )
+          // this.$store.state.LOG && console.log("~ watch / parentDoc_dmf_list - dmfValueTitle : ", dmfValueTitle )
 
           if (dmfValueTitle !== undefined) {
             this.dmf_value.title = dmfValueTitle['infos.title']
@@ -173,8 +173,8 @@ export default {
       handler (newVal, oldVal) {
         if (newVal !== undefined) {
           // get corresponding header in parent_map & update dmf_value
-          // console.log("\n~ watch / parent_map - this.dsi_header : ", this.dsi_header )
-          // console.log("~ watch / parent_map - newVal : \n", newVal )
+          // this.$store.state.LOG && console.log("\n~ watch / parent_map - this.dsi_header : ", this.dsi_header )
+          // this.$store.state.LOG && console.log("~ watch / parent_map - newVal : \n", newVal )
 
           if (newVal.oid_dmf != null) {
             this.dmf_value._id = newVal.oid_dmf
@@ -182,11 +182,11 @@ export default {
             this.dmf_value = this.dmf_value_dft
           }
 
-          // console.log("~ watch / parent_map - this.dmf_choices : ", this.dmf_choices )
+          // this.$store.state.LOG && console.log("~ watch / parent_map - this.dmf_choices : ", this.dmf_choices )
 
           if (this.dmf_choices.length !== 0) {
             var dmfValueTitle = this.dmf_choices.find(obj => { return obj._id === newVal.oid_dmf })
-            // console.log("~ watch / parent_map - dmfValueTitle : ", dmfValueTitle )
+            // this.$store.state.LOG && console.log("~ watch / parent_map - dmfValueTitle : ", dmfValueTitle )
 
             this.dmf_value.title = (dmfValueTitle === undefined ? this.dmf_value_dft.title : dmfValueTitle.title)
           }
@@ -200,7 +200,7 @@ export default {
   methods: {
 
     update_mapping () {
-      console.log('\n...viewEditDSI_mapHeaders - update_mapping... ')
+      this.$store.state.LOG && console.log('\n...viewEditDSI_mapHeaders - update_mapping... ')
 
       this.loading = true
       this.$emit('update_loading', true)
@@ -222,7 +222,7 @@ export default {
         ]
 
       }
-      console.log('viewEditDSI_mapHeaders - update_mapping / input : ', input)
+      this.$store.state.LOG && console.log('viewEditDSI_mapHeaders - update_mapping / input : ', input)
 
       this.$store.dispatch('updateMapping', input)
 
@@ -233,7 +233,7 @@ export default {
         })
 
         .catch(error => {
-          console.log('submit / error... : ', error)
+          this.$store.state.LOG && console.log('submit / error... : ', error)
           this.loading = false
           this.$emit('update_loading', false)
           this.alert = {type: 'error', message: 'login error'}

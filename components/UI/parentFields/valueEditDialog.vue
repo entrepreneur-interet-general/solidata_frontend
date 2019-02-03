@@ -225,7 +225,7 @@ export default {
   ],
 
   mounted () {
-    console.log('\n- valueEdit / mounted ---> item_data : ', this.item_data)
+    this.$store.state.LOG && console.log('\n- valueEdit / mounted ---> item_data : ', this.item_data)
   },
 
   data: function () {
@@ -251,7 +251,7 @@ export default {
   computed: {
 
     valueBlockSize () {
-      // console.log('\n valueBlockSize - is_create : ', this.is_create) ;
+      // this.$store.state.LOG && console.log('\n valueBlockSize - is_create : ', this.is_create) ;
       return (this.is_preview) ? this.valueFullSize : this.valuePartSize
     },
 
@@ -299,7 +299,7 @@ export default {
       this.snackText = 'opened'
     },
     close () {
-      console.log('Dialog closed')
+      this.$store.state.LOG && console.log('Dialog closed')
     },
 
     // values checks
@@ -324,7 +324,7 @@ export default {
 
     // submit value for update via API backend
     submitValue () {
-      console.log('\n submitValue... ')
+      this.$store.state.LOG && console.log('\n submitValue... ')
 
       this.formHasErrors = false
 
@@ -336,7 +336,7 @@ export default {
 
       // var formData = ObjectFormatterUpdate.prepareFormData(this.form) ;
       var formData = [this.form]
-      console.log('\n submitValue / formData : ', formData)
+      this.$store.state.LOG && console.log('\n submitValue / formData : ', formData)
 
       // dispatch action from store
       this.$store.dispatch('updateItem', {
@@ -348,7 +348,7 @@ export default {
         this.loading = false
         // this.$router.push('/') /////////
       }).catch(error => {
-        console.log('submit / error... : ', error)
+        this.$store.state.LOG && console.log('submit / error... : ', error)
         this.loading = false
         this.alert = {type: 'error', message: 'login error'}
         if (error.response && error.response.data) {

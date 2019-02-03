@@ -93,7 +93,7 @@ export default {
   },
 
   mounted () {
-    console.log('- cardCreate / mounted ---> tab... ', this.tab)
+    this.$store.state.LOG && console.log('- cardCreate / mounted ---> tab... ', this.tab)
   },
 
   data () {

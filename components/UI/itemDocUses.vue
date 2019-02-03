@@ -55,7 +55,7 @@ export default {
   },
 
   mounted () {
-    console.log('\n- itemDocUses / created ---> item_doc : ', this.item_doc)
+    this.$store.state.LOG && console.log('\n- itemDocUses / created ---> item_doc : ', this.item_doc)
     this.itemDoc = this.item_doc
   },
 

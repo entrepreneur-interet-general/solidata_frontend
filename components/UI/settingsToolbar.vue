@@ -66,7 +66,7 @@ export default {
   ],
 
   created () {
-    console.log('\n- viewEditDMT / created ---> item_doc : ', this.item_doc)
+    this.$store.state.LOG && console.log('\n- viewEditDMT / created ---> item_doc : ', this.item_doc)
   },
 
   data () {
@@ -86,7 +86,7 @@ export default {
   methods: {
 
     switchSettings () {
-      // console.log("settingsToolbar - switchSettings / this.is_settings : ", this.is_settings )
+      // this.$store.state.LOG && console.log("settingsToolbar - switchSettings / this.is_settings : ", this.is_settings )
       this.$emit('settings')
     }
 

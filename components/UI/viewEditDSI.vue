@@ -91,6 +91,7 @@
               :isSettings="isSettings"
               :is_reset="true"
               :is_reload="true"
+              :is_export="true"
               :is_loading="loading"
               @input="switchPreview"
               @settings="switchSettings"
@@ -244,7 +245,6 @@
             <v-card-text 
               class="pa-0"
               >
-
 
               <!-- DATA TOOLBAR + MAPPING BTN -->
               <v-toolbar 
@@ -785,15 +785,14 @@
 
                         <v-divider class="mt-3"></v-divider>
 
-
-                        <!-- REPEAT DATATABLE CONTENT FOR HELP -->
+                        <!-- HEADER MAPPER - REPEAT DATATABLE CONTENT FOR HELP -->
                         <v-data-table
+                          class="elevation-1 scroll_data"
                           :ref="'datatable_mapped'"
                           :headers="headers_dsi"
                           :items="item_data"
                           :pagination.sync="pagination"
                           :total-items="total_items"
-                          class="elevation-1 scroll_data"
                           :rows-per-page-items="[5, 10, 25]"
                           hide-headers
                           >
@@ -872,13 +871,16 @@
                     <v-spacer></v-spacer>
                     <v-text-field
                       class=""
-                      v-model="search"
-                      append-icon="search"
+                      v-model="searchFor"
                       :label="$t(`global.search`, $store.state.locale)"
                       single-line
                       hide-details
-                      disabled
-                    ></v-text-field>
+                      append-outer-icon="search"
+                      @click:append-outer="searchData"
+                      @keyup.enter="searchData"
+                      ></v-text-field>
+                      <!-- disabled -->
+                    <v-spacer></v-spacer>
                   </v-card-title>
 
 
@@ -902,27 +904,30 @@
 
                   <!-- DEBUG -->
                   <span v-if="$store.state.is_debug">
+                    - total_items : <br><code>{{total_items}}</code><br>
+                    - pagination : <br><code>{{pagination}}</code><br>
                     - parentDoc_dmt : <br><code>{{parentDoc_dmt}}</code><br>
                     <v-divider></v-divider>
-                    - headers_preview_but_first : <br><code>{{headers_preview_but_first}}</code><br>
+                    <!-- <v-divider></v-divider> -->
+                    <!-- - headers_preview_but_first : <br><code>{{headers_preview_but_first}}</code><br> -->
                     <v-divider></v-divider>
                   </span>
 
 
                   <!-- DSI DATA / CONTENTS -->
-                    <!-- :loading="loading" -->
                   <v-data-table
                     v-if="is_parent_map && is_parent_dmt"
+                    class="elevation-0 scroll_data"
                     :ref="'datatable'"
                     :headers="headers_preview"
                     :items="item_data"
                     :pagination.sync="pagination"
                     :total-items="total_items"
-                    class="elevation-0 scroll_data"
                     :rows-per-page-items="[5, 10, 25]"
-                    :search="search"
                     >
+                    <!-- :search="search" -->
                     <!-- :hide-headers="isPreview" -->
+                    <!-- :loading="loading" -->
 
                     <template 
                       slot="items"
@@ -1104,8 +1109,11 @@
             <hr>
 
             -- itemDoc -- <br>
-            <code>{{ itemDoc }}</code>
-            <hr>
+            <!-- <code>{{ itemDoc }}</code><hr> -->
+
+            -- pagination -- <br>
+            total_items : <code>{{ total_items }}</code><br>
+            pagination : <code>{{ pagination }}</code><br>
 
             -- vars -- <br>
             is_file : <code>{{ is_file }}</code> - 
@@ -1209,16 +1217,8 @@ export default {
     // ViewEditDSIMapHeaders
   },
 
-  // middleware : ["getListItems"],
-  // meta : {
-  //   collection   : [
-  //     'tag'
-  //   ],
-  //   level : 'get_list',
-  // },
-
   created () {
-    console.log('\n- viewEditDSI / created ---> item_doc : ', this.item_doc)
+    this.$store.state.LOG && console.log('\n- viewEditDSI / created ---> item_doc : ', this.item_doc)
 
     // var input = {
     //   collections : ['tag'],
@@ -1231,7 +1231,7 @@ export default {
 
     // get data
     if (this.find_item) {
-      console.log('- viewEditDSI / created OK ---> need to get item from API ... ')
+      this.$store.state.LOG && console.log('- viewEditDSI / created OK ---> need to get item from API ... ')
       this.itemId = this.item_doc_id
 
       // change pagination params in store[coll]
@@ -1243,10 +1243,16 @@ export default {
       // load DSI data
       this.get_FData_fromApi(paginationParams)
     } else {
-      console.log('- viewEditDSI / created OK ---> item_doc exists... ')
+      this.$store.state.LOG && console.log('- viewEditDSI / created OK ---> item_doc exists... ')
       this.itemDoc = this.item_doc
       this.itemId = this.item_doc._id
       this.list_TAG_oids = this.item_doc.datasets.tag_list
+
+      this.total_items = this.item_doc.data_raw.f_data_count
+      this.pagination.totalItems = this.item_doc.data_raw.f_data_count
+      this.pagination.page = 1
+      this.pagination.rowsPerPage = 5
+      // this.pagination.sortBy = result.query.query_args.sort_by
 
       this.itemDoc_loaded = true
 
@@ -1303,7 +1309,7 @@ export default {
       parentDocDMFs: [],
       headers_mapped: [],
 
-      search: '',
+      searchFor: '',
 
       // item_data     : this.item_doc.data_raw.f_data,
       // item_headers   : this.item_doc.data_raw.f_col_headers,
@@ -1429,7 +1435,7 @@ export default {
           let paginationParams = {
             page: this.pagination.page,
             per_page: this.pagination.rowsPerPage,
-            total_items: this.pagination.totalItems,
+            // total_items: this.pagination.totalItems,
             sort_by: this.pagination.sortBy,
             descending: this.pagination.descending
           }
@@ -1459,12 +1465,17 @@ export default {
 
       immediate: true,
       handler (newVal, oldVal) {
-        console.log('\nVE DSI / watch ~ item_doc / newVal : \n', newVal)
-        // console.log( "\nVE PRJ / watch ~ item_doc / oldVal : \n", oldVal )
+        this.$store.state.LOG && console.log('\nVE DSI / watch ~ item_doc / newVal : \n', newVal)
+        // this.$store.state.LOG && console.log( "\nVE PRJ / watch ~ item_doc / oldVal : \n", oldVal )
         if (newVal) {
           this.itemDoc = newVal
+
+          // create headers
+          this.item_headers()
+
           // update local TAG list
           this.list_TAG_oids = newVal.datasets.tag_list
+
           this.$store.commit(`${this.coll}/set_reload`, newVal)
         }
       }
@@ -1496,7 +1507,7 @@ export default {
 
       immediate: true,
       handler (newVal, oldVal) {
-        // console.log( "\nVE DMT / watch ~ loading / newVal : \n", newVal )
+        // this.$store.state.LOG && console.log( "\nVE DMT / watch ~ loading / newVal : \n", newVal )
 
         // var doc_id = "from_VE_DSI"
         // if ( this.itemId == undefined || this.itemId == "" ) {
@@ -1523,7 +1534,7 @@ export default {
     is_preview: {
       immediate: true,
       handler (newVal, oldVal) {
-        // console.log( "\nVE DSI / watch ~ is_preview / newVal : \n", newVal )
+        // this.$store.state.LOG && console.log( "\nVE DSI / watch ~ is_preview / newVal : \n", newVal )
         this.isPreview = newVal
       }
     },
@@ -1532,21 +1543,24 @@ export default {
     pagination: {
 
       handler () {
-        // console.log("\n...VE DSI pagination handler ... ")
-        // console.log("...VE DSI pagination - this.pagination : ", this.pagination)
+        // this.$store.state.LOG && console.log("\n...VE DSI pagination handler ... ")
+        // this.$store.state.LOG && console.log("...VE DSI pagination - this.pagination : ", this.pagination)
 
         // change pagination params in store[coll]
-        var paginationParams = {
+        let paginationParams = {
+          search_for: this.searchFor,
           page: this.pagination.page,
           per_page: this.pagination.rowsPerPage,
-          total_items: this.pagination.totalItems,
+          // total_items: this.pagination.totalItems,
           sort_by: this.pagination.sortBy,
           descending: this.pagination.descending
         }
-        // console.log("...VE DSI pagination - paginationParams : ", paginationParams)
+        this.$store.state.LOG && console.log('...VE DSI pagination - paginationParams : ', paginationParams)
 
         // call method for dispatch from main store
-        this.get_FData_fromApi(paginationParams)
+        if (this.itemDoc_loaded) {
+          this.get_FData_fromApi(paginationParams)
+        }
       },
       deep: true
     }
@@ -1555,7 +1569,7 @@ export default {
   methods: {
 
     updateLoading (input) {
-      console.log('updateLoading / input : ', input)
+      this.$store.state.LOG && console.log('updateLoading / input : ', input)
       this.loading = input
     },
 
@@ -1574,7 +1588,7 @@ export default {
     },
 
     onScroll (e) {
-      // console.log("... onScroll - e.target : ", e.target ) ;
+      // this.$store.state.LOG && console.log("... onScroll - e.target : ", e.target ) ;
       var scrollData = e.target
       // this.offsetTop   = scrollData.scrollTop ;
       this.offsetLeft = scrollData.scrollLeft
@@ -1584,7 +1598,7 @@ export default {
     },
 
     onScroll_map (e) {
-      // console.log("... onScroll_mapper - e.target : ", e.target ) ;
+      // this.$store.state.LOG && console.log("... onScroll_mapper - e.target : ", e.target ) ;
       var scrollData = e.target
       this.offsetLeft_ = scrollData.scrollLeft
     },
@@ -1593,8 +1607,8 @@ export default {
       if (this.is_map) {
         let dataTableMapper = this.$refs.datatable_mapper
         let dataTableMapped = this.$refs.datatable_mapped
-        // console.log("- viewEditDSI / then 4 - dataTableMapper : ", dataTableMapper ) ;
-        // console.log("- viewEditDSI / then 5 - dataTableMapped : ", dataTableMapped ) ;
+        // this.$store.state.LOG && console.log("- viewEditDSI / then 4 - dataTableMapper : ", dataTableMapper ) ;
+        // this.$store.state.LOG && console.log("- viewEditDSI / then 5 - dataTableMapped : ", dataTableMapped ) ;
 
         if (dataTableMapped !== undefined) {
           let dtMapper = dataTableMapper.$el.querySelector('.v-table__overflow')
@@ -1616,13 +1630,13 @@ export default {
     },
 
     getHeader_DMF (dsiHeader) {
-      // console.log("... getDMF_openlevel - dmf_id : ", dmf_id ) ;
+      // this.$store.state.LOG && console.log("... getDMF_openlevel - dmf_id : ", dmf_id ) ;
 
       let dsiHeaderDmf
       let headerMapper = this.parent_map.find(obj => {
         return obj.dsi_header === dsiHeader
       })
-      // console.log(" getDMF_openlevel / dmf_mapper : ", dmf_mapper )
+      // this.$store.state.LOG && console.log(" getDMF_openlevel / dmf_mapper : ", dmf_mapper )
       if (headerMapper !== undefined) {
         dsiHeaderDmf = headerMapper
       }
@@ -1635,7 +1649,7 @@ export default {
     // ----------------------------- //
 
     deleteChild (itemInfos) {
-      console.log('\n...viewEditDSI - deleteChild / itemInfos : \n ', itemInfos)
+      this.$store.state.LOG && console.log('\n...viewEditDSI - deleteChild / itemInfos : \n ', itemInfos)
 
       var input = {
         add_or_delete: 'delete_from_list',
@@ -1644,7 +1658,7 @@ export default {
         parentDoc_coll: itemInfos.parentDoc_coll,
         re_emit: itemInfos.re_emit
       }
-      console.log('viewEditDSI / input : ', input)
+      this.$store.state.LOG && console.log('viewEditDSI / input : ', input)
 
       this.$emit('update_parent_dataset', input)
     },
@@ -1665,7 +1679,7 @@ export default {
 
     // UPDATE PRJ DOCUMENT
     update_parent_list (input) {
-      console.log('update_parent_list / input : ', input)
+      this.$store.state.LOG && console.log('update_parent_list / input : ', input)
 
       this.loading = true
       // this.$emit('update_loading', true )
@@ -1673,7 +1687,7 @@ export default {
       // load values as pseudoForm
       var pseudoForm = this.form(input)
       var pseudoFormData = [ pseudoForm ]
-      console.log('update_parent_list / pseudoFormData : ', pseudoFormData)
+      this.$store.state.LOG && console.log('update_parent_list / pseudoFormData : ', pseudoFormData)
 
       // dispatch action from store for update
       this.$store.dispatch('updateItem', {
@@ -1690,12 +1704,12 @@ export default {
           // this.$store.commit(`set_alert`, result.msg)
 
           // update current in store
-          console.log('update_parent_list - result : ', result)
+          this.$store.state.LOG && console.log('update_parent_list - result : ', result)
           this.$store.commit(`${this.coll}/set_current`, result)
         })
 
         .catch(error => {
-          console.log('submit / error... : ', error)
+          this.$store.state.LOG && console.log('submit / error... : ', error)
           this.loading = false
           // this.$emit('update_loading', false )
           // this.alert = {type: 'error', message: error }
@@ -1708,22 +1722,37 @@ export default {
         })
     },
 
+    searchData () {
+        // change pagination params in store[coll]
+        let paginationParams = {
+          search_for: this.searchFor,
+          page: this.pagination.page,
+          per_page: this.pagination.rowsPerPage,
+          // total_items: this.pagination.totalItems,
+          sort_by: this.pagination.sortBy,
+          descending: this.pagination.descending
+        }
+        this.$store.state.LOG && console.log('...VE DSI pagination - paginationParams : ', paginationParams)
+        this.get_FData_fromApi(paginationParams)
+    },
+
     get_FData_fromApi (pagParams) {
-      console.log('\n...VDSI get_FData_fromApi ... ')
+      this.$store.state.LOG && console.log('\n...VDSI get_FData_fromApi ... ')
 
       this.loading = true
 
       // AXIOS CALL OR DISPATCH
-      var callInput = {
+      var input = {
         collection: this.coll,
         doc_id: this.itemId,
-        f_data_params: pagParams
+        f_data_params: pagParams,
+        set_current: false
       }
 
-      this.$store.dispatch('getOneItem', callInput)
+      this.$store.dispatch('getOneItem', input)
 
         .then(result => {
-          console.log('VDSI get_FData_fromApi / result: ', result)
+          this.$store.state.LOG && console.log('VDSI get_FData_fromApi / result: ', result)
 
           this.itemDoc = result.data
           this.list_TAG_oids = result.data.datasets.tag_list
@@ -1732,6 +1761,7 @@ export default {
           this.item_headers()
 
           this.total_items = result.data.data_raw.f_data_count
+          this.pagination.totalItems = result.data.data_raw.f_data_count
 
           this.pagination.page = result.query.page_args.page
           this.pagination.rowsPerPage = result.query.page_args.per_page
@@ -1748,13 +1778,13 @@ export default {
           // detect scroll : cf : https://forum.vuejs.org/t/how-to-detect-body-scroll/7057/5
           // sync scroll : cf : https://github.com/asvd/syncscroll/blob/master/syncscroll.js
           var dataTable = this.$refs.datatable // ) ;
-          // console.log("- viewEditDSI / then 1 - dataTable : ", dataTable ) ;
+          // this.$store.state.LOG && console.log("- viewEditDSI / then 1 - dataTable : ", dataTable ) ;
 
           if (dataTable !== undefined) {
-          // console.log("- viewEditDSI / then 2 - dataTable : ", dataTable ) ;
+          // this.$store.state.LOG && console.log("- viewEditDSI / then 2 - dataTable : ", dataTable ) ;
           // component selector : https://forum.vuejs.org/t/help-with-selector/18652/11
             var dt = dataTable.$el.querySelector('.v-table__overflow')
-            // console.log("- viewEditDSI / then 3 - dt : ", dt ) ;
+            // this.$store.state.LOG && console.log("- viewEditDSI / then 3 - dt : ", dt ) ;
             dt.addEventListener('scroll', this.onScroll)
             this.dataTable = dt
           }
@@ -1765,7 +1795,7 @@ export default {
         })
 
         .catch(error => {
-          console.log('VDSI get_FData_fromApi / submit - error... : ', error)
+          this.$store.state.LOG && console.log('VDSI get_FData_fromApi / submit - error... : ', error)
 
           this.loading = false
 
@@ -1807,11 +1837,11 @@ export default {
       // only create headers if item is loaded
       if (this.itemDoc_loaded) {
         const rawHeaders = this.itemDoc.data_raw.f_col_headers
-        // console.log("item_headers _map / rawHeaders : ", rawHeaders)
+        // this.$store.state.LOG && console.log("item_headers _map / rawHeaders : ", rawHeaders)
 
         // make headers list from f_coll_header_val
         for (let header in rawHeaders) {
-          // console.log("item_headers / header : ", header)
+          // this.$store.state.LOG && console.log("item_headers / header : ", header)
           let header_ = {
             value: rawHeaders[header].f_coll_header_val,
             text: rawHeaders[header].f_coll_header_text
@@ -1819,13 +1849,13 @@ export default {
           headers.push(header_)
         }
 
-        // console.log("\item_headers / this.is_map : ", this.is_map)
-        // console.log("item_headers / this.parentDoc_dmt : ", this.parentDoc_dmt)
+        // this.$store.state.LOG && console.log("\item_headers / this.is_map : ", this.is_map)
+        // this.$store.state.LOG && console.log("item_headers / this.parentDoc_dmt : ", this.parentDoc_dmt)
 
-        // console.log("item_headers / this.parentMap : \n", this.parentMap)
-        // console.log("item_headers / this.parentDoc_dmf_list_reduc : \n", this.parentDoc_dmf_list_reduc)
+        // this.$store.state.LOG && console.log("item_headers / this.parentMap : \n", this.parentMap)
+        // this.$store.state.LOG && console.log("item_headers / this.parentDoc_dmf_list_reduc : \n", this.parentDoc_dmf_list_reduc)
 
-        // console.log("item_headers / headers : ", headers)
+        // this.$store.state.LOG && console.log("item_headers / headers : ", headers)
 
         // copy original headers for DSI purposes
         let headersDsi = headers.slice()
@@ -1836,7 +1866,7 @@ export default {
 
         // if this.is_map reorder headers list to fit parentMap
         if (this.is_map !== undefined && this.is_map) {
-          // console.log("item_headers + map / building tempHeadersMapped... ")
+          // this.$store.state.LOG && console.log("item_headers + map / building tempHeadersMapped... ")
 
           // let tempHeadersMapped = []
           let tempHeadersMapDmf = []
@@ -1844,16 +1874,16 @@ export default {
           if (this.parentDoc_dmt.length !== 0 && this.parentMap !== undefined) {
             // headers present in this.parentDocDMFs
             let dmfList = this.parentDocDMFs.slice(1)
-            // console.log("... item_headers + map / dmfList : ", dmfList )
+            // this.$store.state.LOG && console.log("... item_headers + map / dmfList : ", dmfList )
 
             // loop dmfList
             for (let headerI in dmfList) {
               let headerToPush = dmfList[ headerI ]
-              // console.log("... item_headers + map / headerToPush : ", headerToPush )
+              // this.$store.state.LOG && console.log("... item_headers + map / headerToPush : ", headerToPush )
 
               // check if headerToPush has a corresponding item in parent_map (a mapped header)
               let replacingHeader = this.parentMap.find(obj => (obj.oid_dmf === headerToPush._id))
-              // console.log("... item_headers + map / replacingHeader : ", replacingHeader )
+              // this.$store.state.LOG && console.log("... item_headers + map / replacingHeader : ", replacingHeader )
 
               // replace value to push by mapped header
               if (replacingHeader !== undefined) {
@@ -1878,7 +1908,7 @@ export default {
         headers.unshift(topHead)
       }
 
-      // console.log("\nitem_headers / returning headers : \n", headers)
+      // this.$store.state.LOG && console.log("\nitem_headers / returning headers : \n", headers)
       this.headers = headers
     },
 
@@ -1897,13 +1927,13 @@ export default {
     defaultItem () {
       var emptyItem = {}
       // const headers = this.item_headers() ;
-      console.log('\nfill_defaultItem / this.headers : ', this.headers)
+      this.$store.state.LOG && console.log('\nfill_defaultItem / this.headers : ', this.headers)
 
       for (let header in this.headers) {
         emptyItem[header.value] = 'empty'
       }
 
-      console.log('fill_defaultItem / emptyItem : ', emptyItem)
+      this.$store.state.LOG && console.log('fill_defaultItem / emptyItem : ', emptyItem)
       return emptyItem
     },
 
@@ -1960,23 +1990,23 @@ export default {
     updateIsFile (val) {
       // if( val.subField == "src_type"){
       if (val.subField === 'switchFileType') {
-        console.log('\n updateIsFile - src_type / val : ', val)
+        this.$store.state.LOG && console.log('\n updateIsFile - src_type / val : ', val)
         this.is_file = val.is_file
         this.filetype = val.filetype
       }
 
       if (val.subField === 'fileExt') {
-        console.log('\n updateIsFile - fileExt / val : ', val)
+        this.$store.state.LOG && console.log('\n updateIsFile - fileExt / val : ', val)
         this.itemDoc.specs.src_type = val.fileExt
         this.filetype = val.fileExt
       }
 
-      console.log('updateIsFile / this.filetype : ', this.filetype)
+      this.$store.state.LOG && console.log('updateIsFile / this.filetype : ', this.filetype)
     },
 
     //  USER AUTH  - checkUserAuth for an item --> /utils
     checkUserAuth (fieldName) {
-      // console.log("\ncheckUserAuth / fieldName : ", fieldName ) ;
+      // this.$store.state.LOG && console.log("\ncheckUserAuth / fieldName : ", fieldName ) ;
 
       var canUpdateField = false
 
@@ -1989,7 +2019,7 @@ export default {
         canUpdateField = this.$checkDocUserAuth(this.itemDoc, fieldName, isLogged, userId)
       }
 
-      // console.log("checkUserAuth / canUpdateField : ", canUpdateField ) ;
+      // this.$store.state.LOG && console.log("checkUserAuth / canUpdateField : ", canUpdateField ) ;
 
       return canUpdateField
     }

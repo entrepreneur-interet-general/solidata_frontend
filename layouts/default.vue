@@ -194,6 +194,12 @@
                 <h3> ==> DEBUGGING - $STORE.STATE - DEFAULT LAYOUT</h3>
 
                 <v-divider class="mb-1"></v-divider>
+
+                <div>MODE_APP :<code>{{ $store.state.MODE_APP }}</code></div>
+                <div>CONFIG :<code>{{ $store.state.CONFIG }}</code></div>
+                <div>LOG :<code>{{ $store.state.LOG }}</code></div>
+
+                <v-divider class="mb-1"></v-divider>
                 
                 <!-- AUTH  -->
                 <div>auth.isAnonymous :<code>{{ $store.state.auth.isAnonymous }}</code></div>

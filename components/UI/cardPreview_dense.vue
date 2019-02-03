@@ -393,7 +393,7 @@ export default {
   methods: {
 
     findItemName (coll, itemId) {
-      // console.log("\n findItemName - itemId : ", itemId )
+      // this.$store.state.LOG && console.log("\n findItemName - itemId : ", itemId )
 
       let itemId_
 
@@ -405,9 +405,9 @@ export default {
         const itemsArray = this.$store.state[coll].list[teamKey]
 
         if (itemsArray && itemId_ !== undefined) {
-          // console.log("findItemName / itemsArray : \n", itemsArray )
+          // this.$store.state.LOG && console.log("findItemName / itemsArray : \n", itemsArray )
           var obj = itemsArray.find(o => o._id === itemId_)
-          // console.log("findItemName / obj.infos.title :", obj.infos.title )
+          // this.$store.state.LOG && console.log("findItemName / obj.infos.title :", obj.infos.title )
           return obj.infos.title
         } else {
           return '...loading...'
@@ -416,13 +416,13 @@ export default {
     },
 
     itemClickBehaviour () {
-      console.log('itemClickBehaviour...')
+      this.$store.state.LOG && console.log('itemClickBehaviour...')
 
       if (this.add_to_parent && !this.is_in_parent) {
-        console.log('itemClickBehaviour / add_to_parent...')
+        this.$store.state.LOG && console.log('itemClickBehaviour / add_to_parent...')
 
         // send data back to parent component
-        console.log('itemClickBehaviour / emit...')
+        this.$store.state.LOG && console.log('itemClickBehaviour / emit...')
 
         var input = {
           add_or_delete: this.addDeleteFromParentlist,
@@ -430,14 +430,14 @@ export default {
           datasets_coll: this.coll,
           parentDoc_coll: this.parentDoc_coll
         }
-        console.log('itemClickBehaviour / input : ', input)
+        this.$store.state.LOG && console.log('itemClickBehaviour / input : ', input)
 
         this.$emit('update_parent_dataset', input)
       } else if (this.add_to_parent && this.is_in_parent) {
-        console.log('itemClickBehaviour / already used...')
+        this.$store.state.LOG && console.log('itemClickBehaviour / already used...')
         this.$store.commit(`set_alert`, this.$t('datamodel_fields.used', this.$store.state.locale))
       } else {
-        console.log('itemClickBehaviour / go to edit item...')
+        this.$store.state.LOG && console.log('itemClickBehaviour / go to edit item...')
 
         // redirect to edit-preview page
         return this.$router.push(`/${this.coll}/${this.item._id}`)

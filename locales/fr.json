@@ -166,6 +166,7 @@
 		"open_options"	: "Voir les options pour ce document",
 		"open_team"		: "Gérer l'équipe du document",
 		"open_settings"	: "Ouvrir les préférences du document",
+    "open_export"	: "Exporter le document comme CSV",
 		"settings"		: "Préférences"
 
 	},

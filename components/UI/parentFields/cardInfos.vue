@@ -141,7 +141,7 @@ export default {
   ],
 
   mounted () {
-    console.log('\n- cardInfos / mounted ---> item_data : ', this.item_data)
+    this.$store.state.LOG && console.log('\n- cardInfos / mounted ---> item_data : ', this.item_data)
   },
 
   data: function () {
@@ -177,7 +177,7 @@ export default {
   methods: {
 
     checkUserAuth (fieldName) {
-      // console.log("\ncheckUserAuth ...") ;
+      // this.$store.state.LOG && console.log("\ncheckUserAuth ...") ;
       let canUpdateField = false
       const docAuthEdit = this.item_auth.open_level_edit
       const docAuthTeam = this.item_auth.team
@@ -213,7 +213,7 @@ export default {
     },
 
     submitDmf () {
-      console.log('\nSubmit_dmf... ')
+      this.$store.state.LOG && console.log('\nSubmit_dmf... ')
 
       this.formHasErrors = false
 
@@ -224,7 +224,7 @@ export default {
       // })
 
       var formData = this.$prepareFormDataUpdate(this.form)
-      console.log('\nSubmit_dmf / formData : ', formData)
+      this.$store.state.LOG && console.log('\nSubmit_dmf / formData : ', formData)
 
       // dispatch action from store
       this.$store.dispatch('updateItem', {
@@ -236,7 +236,7 @@ export default {
         this.loading = false
         // this.$router.push('/') /////////
       }).catch(error => {
-        console.log('submit / error... : ', error)
+        this.$store.state.LOG && console.log('submit / error... : ', error)
         this.loading = false
         this.alert = {type: 'error', message: 'login error'}
         if (error.response && error.response.data) {

@@ -127,7 +127,7 @@ export const mutations = {
   // set a temporary reload data
   set_reload (store, data) {
     console.log('\n... store/dsi : set_reload...')
-    console.log('... store/dsi - data : ', data)
+    console.log('... store/dsi - set_reload / data : ', data)
     store.reload_data['specs'] = data.specs
     store.reload_data['public_auth'] = data.public_auth
     store.reload_data['_id'] = data._id
@@ -136,7 +136,7 @@ export const mutations = {
 
   set_reload_data (store, data) {
     console.log('\n... store/dsi : set_reload_data...')
-    console.log('... store/dsi - data : ', data)
+    console.log('... store/dsi - set_reload_data / data : ', data)
     store.reload_data[data.parentField][data.subField] = data.item_data
   },
 
@@ -175,7 +175,7 @@ export const mutations = {
 
 export const actions = {
 
-  dispatch_current (store, data) {
+  dispatch_current ({store, rootState}, data) {
     console.log('\n... store/dsi : dispatch_current...')
     store.commit(`set_current`, data)
   }

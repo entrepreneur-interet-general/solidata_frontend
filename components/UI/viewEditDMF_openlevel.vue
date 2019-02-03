@@ -70,8 +70,8 @@ export default {
   ],
 
   created () {
-    // console.log("\n viewEditDMF_openlevel created / parent_map : ", this.parent_map )
-    // console.log("\n viewEditDMF_openlevel created / dmf_ol_val : ", this.dmf_ol_val )
+    // this.$store.state.LOG && console.log("\n viewEditDMF_openlevel created / parent_map : ", this.parent_map )
+    // this.$store.state.LOG && console.log("\n viewEditDMF_openlevel created / dmf_ol_val : ", this.dmf_ol_val )
 
     this.dmf_ol_value = this.dmf_ol_val
   },
@@ -108,7 +108,7 @@ export default {
   methods: {
 
     update_mapping (itemInfos) {
-      console.log('\n...viewEditDMF_openlevel - update_mapping / itemInfos : \n ', itemInfos)
+      this.$store.state.LOG && console.log('\n...viewEditDMF_openlevel - update_mapping / itemInfos : \n ', itemInfos)
       var input = {
 
         doc_id: this.parentDoc_id,
@@ -125,7 +125,7 @@ export default {
         ]
 
       }
-      console.log('viewEditDMF_openlevel - update_mapping / input : ', input)
+      this.$store.state.LOG && console.log('viewEditDMF_openlevel - update_mapping / input : ', input)
 
       this.$store.dispatch('updateMapping', input)
 
@@ -135,7 +135,7 @@ export default {
         })
 
         .catch(error => {
-          console.log('submit / error... : ', error)
+          this.$store.state.LOG && console.log('submit / error... : ', error)
           this.$store.commit('set_error', error)
 
           this.loading = false

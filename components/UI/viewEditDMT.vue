@@ -429,7 +429,7 @@ export default {
   // },
 
   created () {
-    console.log('\n- viewEditDMT / created ---> item_doc : ', this.item_doc)
+    this.$store.state.LOG && console.log('\n- viewEditDMT / created ---> item_doc : ', this.item_doc)
 
     // var input = {
     //   collections : ['tag', 'dmf'],
@@ -438,8 +438,8 @@ export default {
     // this.$store.dispatch('resetListsItems', input ) ;
 
     if (this.item_doc !== undefined) {
-      console.log('- viewEditDMT / created OK ---> item_doc exists... ')
-      console.log('- viewEditDMT / created  ---> item_doc.datasets.dmf_list : ', this.item_doc.datasets.dmf_list)
+      this.$store.state.LOG && console.log('- viewEditDMT / created OK ---> item_doc exists... ')
+      this.$store.state.LOG && console.log('- viewEditDMT / created  ---> item_doc.datasets.dmf_list : ', this.item_doc.datasets.dmf_list)
 
       this.is_itemDoc = true
 
@@ -456,7 +456,7 @@ export default {
     } else {
       this.is_itemDoc = false
       this.itemId = this.item_doc_id[0].oid_dmt
-      console.log('- viewEditDMT / created OK + empty ---> item_doc is undefined ... ')
+      this.$store.state.LOG && console.log('- viewEditDMT / created OK + empty ---> item_doc is undefined ... ')
 
       // this.itemDoc   = this.item_doc ;
     }
@@ -569,7 +569,7 @@ export default {
 
       immediate: true,
       handler (newVal, oldVal) {
-        // console.log( "\nVE DMT / watch ~ loading / newVal : \n", newVal )
+        // this.$store.state.LOG && console.log( "\nVE DMT / watch ~ loading / newVal : \n", newVal )
 
         // var doc_id = "from_VE_DMT"
         // if ( this.itemId == undefined || this.itemId == "" ) {
@@ -593,8 +593,8 @@ export default {
 
       immediate: true,
       handler (newVal, oldVal) {
-        console.log('\nVE DMT / watch ~ item_doc_id / newVal : \n', newVal)
-        // console.log( "VE DMT / watch ~ item_doc_id / oldVal : \n", oldVal )
+        this.$store.state.LOG && console.log('\nVE DMT / watch ~ item_doc_id / newVal : \n', newVal)
+        // this.$store.state.LOG && console.log( "VE DMT / watch ~ item_doc_id / oldVal : \n", oldVal )
 
         // update itemId
         if (newVal !== undefined && newVal.length) {
@@ -608,13 +608,13 @@ export default {
 
       immediate: true,
       handler (newVal, oldVal) {
-        // console.log( "\nVE DMT / watch ~ item_doc / newVal : \n", newVal )
-        // console.log( "VE DMT / watch ~ item_doc / oldVal : \n", oldVal )
+        // this.$store.state.LOG && console.log( "\nVE DMT / watch ~ item_doc / newVal : \n", newVal )
+        // this.$store.state.LOG && console.log( "VE DMT / watch ~ item_doc / oldVal : \n", oldVal )
 
         // update itemDoc
         if (oldVal !== undefined) {
-          console.log('VE DMT / watch ~ item_doc / newVal.datasets.dmf_list : \n', newVal.datasets.dmf_list)
-          // console.log( "\nVE DMT / watch ~ item_doc / oldVal.datasets.dmf_list : \n", oldVal.datasets.dmf_list )
+          this.$store.state.LOG && console.log('VE DMT / watch ~ item_doc / newVal.datasets.dmf_list : \n', newVal.datasets.dmf_list)
+          // this.$store.state.LOG && console.log( "\nVE DMT / watch ~ item_doc / oldVal.datasets.dmf_list : \n", oldVal.datasets.dmf_list )
           this.itemDoc = newVal
           if (newVal) {
             this.list_TAG_oids = newVal.datasets.tag_list
@@ -626,7 +626,7 @@ export default {
     is_preview: {
       immediate: true,
       handler (newVal, oldVal) {
-        // console.log( "\nVE DMT / watch ~ is_preview / newVal : \n", newVal )
+        // this.$store.state.LOG && console.log( "\nVE DMT / watch ~ is_preview / newVal : \n", newVal )
         this.isPreview = newVal
       }
     },
@@ -644,7 +644,7 @@ export default {
     },
 
     updateLoading (input) {
-      console.log('updateLoading / input : ', input)
+      this.$store.state.LOG && console.log('updateLoading / input : ', input)
       this.loading = input.loading
     },
 
@@ -664,7 +664,7 @@ export default {
       this.isPreview = !this.isPreview
     },
     switchSettings () {
-      console.log('VE DMT / switchSettings...')
+      this.$store.state.LOG && console.log('VE DMT / switchSettings...')
       this.isSettings = !this.isSettings
     },
 
@@ -674,10 +674,10 @@ export default {
       let topHead = { text: 'Actions', value: 'name', sortable: false }
 
       const rawHeaders = this.itemDoc.data_raw.f_col_headers
-      console.log('item_headers / rawHeaders : ', rawHeaders)
+      this.$store.state.LOG && console.log('item_headers / rawHeaders : ', rawHeaders)
 
       for (let header in rawHeaders) {
-        // console.log("item_headers / header : ", header)
+        // this.$store.state.LOG && console.log("item_headers / header : ", header)
         var header_ = {
           value: rawHeaders[header].f_coll_header_val,
           text: rawHeaders[header].f_coll_header_text
@@ -696,13 +696,13 @@ export default {
     defaultItem () {
       var emptyItem = {}
       const headers = this.item_headers()
-      console.log('\nfill_defaultItem / headers : ', headers)
+      this.$store.state.LOG && console.log('\nfill_defaultItem / headers : ', headers)
 
       for (let header in headers) {
         emptyItem[header.value] = 'empty'
       }
 
-      console.log('fill_defaultItem / emptyItem : ', emptyItem)
+      this.$store.state.LOG && console.log('fill_defaultItem / emptyItem : ', emptyItem)
       return emptyItem
     },
 
@@ -726,7 +726,7 @@ export default {
 
     // UPDATE DMF DOCUMENT
     update_parent_list (input) {
-      console.log('update_parent_list / input : ', input)
+      this.$store.state.LOG && console.log('update_parent_list / input : ', input)
 
       this.loading = true
       // this.$emit('update_loading', true )
@@ -734,13 +734,13 @@ export default {
       var reEmit = input.re_emit
 
       if (reEmit) {
-        console.log('update_parent_list / reEmit... ')
+        this.$store.state.LOG && console.log('update_parent_list / reEmit... ')
         this.$emit('update_parent_dataset', input)
       } else {
         // load values as pseudoForm
         var pseudoForm = this.form(input)
         var pseudoFormData = [ pseudoForm ]
-        console.log('update_parent_list / pseudoFormData : ', pseudoFormData)
+        this.$store.state.LOG && console.log('update_parent_list / pseudoFormData : ', pseudoFormData)
 
         // dispatch action from store for update
         this.$store.dispatch('updateItem', {
@@ -755,13 +755,13 @@ export default {
             // this.$emit('update_loading', false )
 
             // update current in store
-            console.log('update_parent_list - result : ', result)
+            this.$store.state.LOG && console.log('update_parent_list - result : ', result)
             this.itemDoc = result.data
             this.$store.commit(`${this.coll}/set_current`, result)
           })
 
           .catch(error => {
-            console.log('submit / error... : ', error)
+            this.$store.state.LOG && console.log('submit / error... : ', error)
             this.loading = false
             // this.$emit('update_loading', false )
 
@@ -779,21 +779,22 @@ export default {
     // AXIOS CALL
     // ----------------------------- //
     get_DMT_fromApi () {
-      console.log('\n...VE_DMT - get_DMT_fromApi ... ')
+      this.$store.state.LOG && console.log('\n...VE_DMT - get_DMT_fromApi ... ')
 
       this.loading = true
       // this.$emit('update_loading', true )
 
       // AXIOS CALL OR DISPATCH
-      var callInput = {
+      var input = {
         collection: this.coll,
-        doc_id: this.itemId
+        doc_id: this.itemId,
+        set_current: false
       }
 
-      this.$store.dispatch('getOneItem', callInput)
+      this.$store.dispatch('getOneItem', input)
 
         .then(result => {
-          console.log('VE_DMT - get_DMT_fromApi / result: ', result)
+          this.$store.state.LOG && console.log('VE_DMT - get_DMT_fromApi / result: ', result)
 
           this.itemDoc = result.data
 
@@ -808,7 +809,7 @@ export default {
         })
 
         .catch(error => {
-          console.log('VE_DMT - get_DMT_fromApi / submit - error... : ', error)
+          this.$store.state.LOG && console.log('VE_DMT - get_DMT_fromApi / submit - error... : ', error)
 
           this.loading = false
           // this.$emit('update_loading', false )
@@ -873,23 +874,23 @@ export default {
     updateIsFile (val) {
       // if( val.subField == "src_type"){
       if (val.subField === 'switchFileType') {
-        console.log('\n updateIsFile - src_type / val : ', val)
+        this.$store.state.LOG && console.log('\n updateIsFile - src_type / val : ', val)
         this.is_file = val.is_file
         this.filetype = val.filetype
       }
 
       if (val.subField === 'fileExt') {
-        console.log('\n updateIsFile - fileExt / val : ', val)
+        this.$store.state.LOG && console.log('\n updateIsFile - fileExt / val : ', val)
         this.itemDoc.specs.src_type = val.fileExt
         this.filetype = val.fileExt
       }
 
-      console.log('updateIsFile / this.filetype : ', this.filetype)
+      this.$store.state.LOG && console.log('updateIsFile / this.filetype : ', this.filetype)
     },
 
     //  USER AUTH  - checkUserAuth for an item --> /utils
     checkUserAuth (fieldName) {
-      // console.log("\ncheckUserAuth DMT / fieldName : ", fieldName ) ;
+      // this.$store.state.LOG && console.log("\ncheckUserAuth DMT / fieldName : ", fieldName ) ;
 
       var canUpdateField = false
 

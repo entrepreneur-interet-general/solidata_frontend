@@ -388,7 +388,7 @@ export default {
   // cf : https://stackoverflow.com/questions/45813347/difference-between-the-created-and-mounted-events-in-vue-js
 
   created () {
-    // console.log("- valueEdit / created ---> subField / item_data : ", this.subField + ' / ' + this.item_data ) ;
+    // this.$store.state.LOG && console.log("- valueEdit / created ---> subField / item_data : ", this.subField + ' / ' + this.item_data ) ;
     this.itemData = this.item_data
     this.fileExt = this.filetype
     if (this.is_reload && this.is_file) {
@@ -397,7 +397,7 @@ export default {
   },
   mounted () {
     if (this.subfield === 'src_type') {
-      // console.log("- valueEdit / mounted ---> this.filetype : ", this.filetype ) ;
+      // this.$store.state.LOG && console.log("- valueEdit / mounted ---> this.filetype : ", this.filetype ) ;
       this.fileExt = this.filetype
     }
   },
@@ -467,7 +467,7 @@ export default {
   watch: {
 
     filetype (newVal, oldVal) { // watch it
-      console.log('WATCH - filetype - changed: ', newVal, ' | was: ', oldVal)
+      this.$store.state.LOG && console.log('WATCH - filetype - changed: ', newVal, ' | was: ', oldVal)
       this.fileExt = newVal
     },
 
@@ -500,7 +500,7 @@ export default {
       this.snackText = 'opened'
     },
     close () {
-      console.log('Dialog closed')
+      this.$store.state.LOG && console.log('Dialog closed')
     },
 
     snack_if_not_create () {
@@ -529,9 +529,9 @@ export default {
 
     // FILE INFOS UPDATE - coming from child
     updateFile (val) {
-      console.log('\n updateFile / val.file : ', val.file)
-      console.log('updateFile / val.fileName : ', val.fileName)
-      console.log('updateFile / val.fileExt : ', val.fileExt)
+      this.$store.state.LOG && console.log('\n updateFile / val.file : ', val.file)
+      this.$store.state.LOG && console.log('updateFile / val.fileName : ', val.fileName)
+      this.$store.state.LOG && console.log('updateFile / val.fileExt : ', val.fileExt)
 
       this.itemData = val.fileName
 
@@ -554,16 +554,16 @@ export default {
     // FILE-API SWITCH
     srcTypeSwitch (event) {
       if (this.subField === 'src_type') {
-        console.log('\n srcTypeSwitch... ')
+        this.$store.state.LOG && console.log('\n srcTypeSwitch... ')
         var isFile = true
 
-        console.log('srcTypeSwitch / this.fileExt : ', this.fileExt)
+        this.$store.state.LOG && console.log('srcTypeSwitch / this.fileExt : ', this.fileExt)
 
         if (this.fileExt === 'API') {
           isFile = false
         }
 
-        console.log('srcTypeSwitch / isFile : ', isFile)
+        this.$store.state.LOG && console.log('srcTypeSwitch / isFile : ', isFile)
 
         // send data back to parent component viewEditDMF
         this.$emit('input', {
@@ -575,7 +575,7 @@ export default {
     },
 
     updateSeparator () {
-      console.log('\nupdateSeparator / this.csv_separator : ', this.csv_separator)
+      this.$store.state.LOG && console.log('\nupdateSeparator / this.csv_separator : ', this.csv_separator)
       if (this.is_reload) {
         const data = {
           parentField: 'specs',
@@ -590,7 +590,7 @@ export default {
 
     // submit value for update : via API backend | via $store.set_current_new
     submitValue () {
-      console.log('\n submitValue... ')
+      this.$store.state.LOG && console.log('\n submitValue... ')
 
       this.formHasErrors = false
 
@@ -613,7 +613,7 @@ export default {
       if (!this.is_create && !this.noDirectUpdate) {
         // var pseudoFormData = ObjectFormatterUpdate.prepareFormData(this.form) ;
         var pseudoFormData = [ this.form ]
-        console.log('submitValue - update / pseudoFormData : ', pseudoFormData)
+        this.$store.state.LOG && console.log('submitValue - update / pseudoFormData : ', pseudoFormData)
         // dispatch action from store
         this.$store.dispatch('updateItem', {
           coll: this.coll,
@@ -621,17 +621,17 @@ export default {
           form: pseudoFormData // this.form,
         })
           .then(response => {
-            console.log('submit / success... : ', response)
+            this.$store.state.LOG && console.log('submit / success... : ', response)
             this.alert = { type: 'success', message: response.msg }
             this.loading = false
             // update current in store
             // valueData.update_current = true
-            // console.log("submitValue - create / valueData : ", valueData)
+            // this.$store.state.LOG && console.log("submitValue - create / valueData : ", valueData)
             // this.$store.commit(`${this.coll}/set_current`, valueData );
             this.$store.commit(`${this.coll}/set_current`, response)
           })
           .catch(error => {
-            console.log('submit / error... : ', error)
+            this.$store.state.LOG && console.log('submit / error... : ', error)
             this.loading = false
             this.alert = { type: 'error', message: 'login error' }
             if (error.response && error.response.data) {
@@ -640,12 +640,12 @@ export default {
           })
       } else if (this.noDirectUpdate) {
         // UPDATE VALUE TO STORE at reload
-        console.log('submitValue - reload / valueData : ', valueData)
+        this.$store.state.LOG && console.log('submitValue - reload / valueData : ', valueData)
         this.$store.commit(`${this.coll}/set_reload_data`, valueData)
         this.loading = false
       } else {
         // UPDATE VALUE TO STORE at current_new
-        console.log('submitValue - create / valueData : ', valueData)
+        this.$store.state.LOG && console.log('submitValue - create / valueData : ', valueData)
         this.$store.commit(`${this.coll}/set_current_new`, valueData)
         this.loading = false
       }

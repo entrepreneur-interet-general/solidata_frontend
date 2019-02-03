@@ -315,7 +315,7 @@ export default {
   },
 
   mounted () {
-    console.log('\n- itemDocInfos / created ---> item_doc : ', this.item_doc)
+    this.$store.state.LOG && console.log('\n- itemDocInfos / created ---> item_doc : ', this.item_doc)
     this.itemDoc = this.item_doc
     this.onResize()
     window.addEventListener('resize', this.onResize, { passive: true })
@@ -422,23 +422,23 @@ export default {
     updateIsFile (val) {
       // if( val.subField == "src_type"){
       if (val.subField === 'switchFileType') {
-        console.log('\n updateIsFile - src_type / val : ', val)
+        this.$store.state.LOG && console.log('\n updateIsFile - src_type / val : ', val)
         this.is_file = val.is_file
         this.filetype = val.filetype
       }
 
       if (val.subField === 'fileExt') {
-        console.log('\n updateIsFile - fileExt / val : ', val)
+        this.$store.state.LOG && console.log('\n updateIsFile - fileExt / val : ', val)
         this.itemDoc.specs.src_type = val.fileExt
         this.filetype = val.fileExt
       }
 
-      console.log('updateIsFile / this.filetype : ', this.filetype)
+      this.$store.state.LOG && console.log('updateIsFile / this.filetype : ', this.filetype)
     },
 
     //  USER AUTH  - checkUserAuth for an item --> /utils
     checkUserAuth (fieldName) {
-      // console.log("\ncheckUserAuth / field_name : ", field_name ) ;
+      // this.$store.state.LOG && console.log("\ncheckUserAuth / field_name : ", field_name ) ;
 
       var canUpdateField = false
 
@@ -451,7 +451,7 @@ export default {
         canUpdateField = this.$checkDocUserAuth(this.item_doc, fieldName, isLogged, userId)
       }
 
-      // console.log("checkUserAuth / canUpdateField : ", canUpdateField ) ;
+      // this.$store.state.LOG && console.log("checkUserAuth / canUpdateField : ", canUpdateField ) ;
 
       return canUpdateField
     }

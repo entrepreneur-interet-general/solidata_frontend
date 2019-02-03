@@ -261,8 +261,8 @@ export default {
   },
 
   created () {
-    console.log('\n itemList_dataIterator / col : ', this.coll)
-    console.log('itemList_dataIterator / items_in_parent : \n', this.items_in_parent)
+    this.$store.state.LOG && console.log('\n itemList_dataIterator / col : ', this.coll)
+    this.$store.state.LOG && console.log('itemList_dataIterator / items_in_parent : \n', this.items_in_parent)
   },
 
   data () {
@@ -300,7 +300,7 @@ export default {
 
     //  immediate : true,
     //  handler (newVal, oldVal ) {
-    //   console.log("~ watch ItemsList_DI / items_in_parent - newVal : ", newVal )
+    //   this.$store.state.LOG && console.log("~ watch ItemsList_DI / items_in_parent - newVal : ", newVal )
     //  }
 
     // }
@@ -310,7 +310,7 @@ export default {
 
     itemsIn  () {
       var inTeamList = this.items_coll['docs_user_is_in_team']
-      console.log('~ ItemsList_DI / items_in_parent - newVal : ', inTeamList)
+      this.$store.state.LOG && console.log('~ ItemsList_DI / items_in_parent - newVal : ', inTeamList)
       // if (inTeamList !== undefined && inTeamList.length !== 0) {
       //   return inTeamList// .sort((a, b) => a.infos.title.toUpperCase().localeCompare( b.infos.title.toUpperCase() ) )
       // } else {
@@ -363,15 +363,15 @@ export default {
   methods: {
 
     is_in_parent (itemId) {
-      console.log('\n-- is_in_parent ...')
+      this.$store.state.LOG && console.log('\n-- is_in_parent ...')
       var isInArray = false
       const coll = this.coll
 
-      // console.log("\n-- is_in_parent ... this.items_in_parent : ", this.items_in_parent ) ;
-      // console.log("-- is_in_parent ... coll (A) : ", coll ) ;
+      // this.$store.state.LOG && console.log("\n-- is_in_parent ... this.items_in_parent : ", this.items_in_parent ) ;
+      // this.$store.state.LOG && console.log("-- is_in_parent ... coll (A) : ", coll ) ;
 
       if (this.items_in_parent) {
-        // console.log("-- is_in_parent ... itemId : ", itemId ) ;
+        // this.$store.state.LOG && console.log("-- is_in_parent ... itemId : ", itemId ) ;
         const checkInArray = obj => obj['oid_' + coll] === itemId
         isInArray = this.items_in_parent.some(checkInArray)
       }
@@ -380,38 +380,38 @@ export default {
     },
 
     itemsList (inOut) {
-      // console.log("-- itemsInList ..." ) ;
-      // console.log("-- itemsInList / inOut : ", inOut) ;
+      // this.$store.state.LOG && console.log("-- itemsInList ..." ) ;
+      // this.$store.state.LOG && console.log("-- itemsInList / inOut : ", inOut) ;
 
       const searchStr = this.searchString
 
       let itemsList = (inOut === 'inTeam') ? this.itemsIn : this.itemsNot
 
       if (searchStr !== null) {
-        // console.log("-- itemsInList / searchStr : ", searchStr) ;
-        // console.log("-- itemsInList / itemsList : ", itemsList) ;
+        // this.$store.state.LOG && console.log("-- itemsInList / searchStr : ", searchStr) ;
+        // this.$store.state.LOG && console.log("-- itemsInList / itemsList : ", itemsList) ;
         // for (var d in itemsList){
-        //  console.log("itemsList[d] : ", itemsList[d] )
+        //  this.$store.state.LOG && console.log("itemsList[d] : ", itemsList[d] )
         // }
 
         itemsList = itemsList.filter(function (item) {
-          // console.log("-- itemsInList / item : ", item) ;
+          // this.$store.state.LOG && console.log("-- itemsInList / item : ", item) ;
           return (item.infos.title.includes(searchStr))
         })
       };
 
       // NOT WORKING ...
       // if ( itemsList.length != 0 ) {
-      //  console.log("-- itemsInList / itemsList : ", itemsList) ;
+      //  this.$store.state.LOG && console.log("-- itemsInList / itemsList : ", itemsList) ;
       //  itemsList.sort((a, b) => a.infos.title.toUpperCase().localeCompare( b.infos.title.toUpperCase() ) )
       // }
 
-      // console.log("-- itemsInList / itemsList : ", itemsList) ;
+      // this.$store.state.LOG && console.log("-- itemsInList / itemsList : ", itemsList) ;
       return itemsList
     },
 
     updateParentDatasetList (input) {
-      console.log('updateParentDatasetList / input : ', input)
+      this.$store.state.LOG && console.log('updateParentDatasetList / input : ', input)
       this.$emit('update_parent_dataset', input)
     }
 

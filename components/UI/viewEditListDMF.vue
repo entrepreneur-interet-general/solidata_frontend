@@ -841,9 +841,9 @@ export default {
   },
 
   created () {
-    console.log('\n- viewEditListDMF / created ...')
-    console.log('- viewEditListDMF / listDMF : ', this.listDMF)
-    console.log('- viewEditListDMF / canEdit_ol : ', this.canEdit_ol)
+    this.$store.state.LOG && console.log('\n- viewEditListDMF / created ...')
+    this.$store.state.LOG && console.log('- viewEditListDMF / listDMF : ', this.listDMF)
+    this.$store.state.LOG && console.log('- viewEditListDMF / canEdit_ol : ', this.canEdit_ol)
 
     this.populateSelectedCols(this.parent_REC_mapping)
 
@@ -852,7 +852,7 @@ export default {
       this.list_DMF_oids = this.listDMF.map(function (obj) {
         return obj.oid_dmf
       })
-      console.log('- viewEditListDMF / list_DMF_oids : ', this.list_DMF_oids)
+      this.$store.state.LOG && console.log('- viewEditListDMF / list_DMF_oids : ', this.list_DMF_oids)
 
       // get complete data for every DMF in list_DMF_oids => methods
       this.get_docs_fromApi()
@@ -953,13 +953,13 @@ export default {
 
     // getDMF_openlevel_computed(dmf_id) {
 
-    //    // console.log("... getDMF_openlevel - dmf_id : ", dmf_id ) ;
+    //    // this.$store.state.LOG && console.log("... getDMF_openlevel - dmf_id : ", dmf_id ) ;
 
     //    var dmf_ol_value = ''
     //    var dmf_mapper = this.parent_map.find(obj => {
     //       return obj.oid_dmf === dmf_id
     //    })
-    //    // console.log(" getDMF_openlevel / dmf_mapper : ", dmf_mapper )
+    //    // this.$store.state.LOG && console.log(" getDMF_openlevel / dmf_mapper : ", dmf_mapper )
     //    if (dmf_mapper != undefined) {
     //       dmf_ol_value = dmf_mapper.open_level_show
     //    }
@@ -992,7 +992,7 @@ export default {
 
       immediate: true,
       handler (newVal, oldVal) {
-        // console.log( "\nVE DMT / watch ~ loading / newVal : \n", newVal )
+        // this.$store.state.LOG && console.log( "\nVE DMT / watch ~ loading / newVal : \n", newVal )
 
         // var doc_id = "from_VE_DMF_list"
         var input = {
@@ -1010,8 +1010,8 @@ export default {
 
       immediate: true,
       handler (newVal, oldVal) {
-        console.log('\nVE DMT / watch ~ listDMF / newVal : \n', newVal)
-        console.log('\nVE DMT / watch ~ listDMF / oldVal : \n', oldVal)
+        this.$store.state.LOG && console.log('\nVE DMT / watch ~ listDMF / newVal : \n', newVal)
+        this.$store.state.LOG && console.log('\nVE DMT / watch ~ listDMF / oldVal : \n', oldVal)
 
         if (!Array.isArray(newVal) || newVal.length) {
           this.loading = true
@@ -1020,7 +1020,7 @@ export default {
           this.list_DMF_oids = newVal.map(function (obj) {
             return obj.oid_dmf
           })
-          console.log('- viewEditListDMF / list_DMF_oids : ', this.list_DMF_oids)
+          this.$store.state.LOG && console.log('- viewEditListDMF / list_DMF_oids : ', this.list_DMF_oids)
 
           // get complete data for every DMF in list_DMF_oids => methods
           this.get_docs_fromApi()
@@ -1036,16 +1036,16 @@ export default {
     },
 
     populateSelectedCols (parentRECmapping) {
-      console.log('\n REC VEListDMF - populateSelectedCols ...')
-      console.log('REC VEListDMF -  parentRECmapping : \n', parentRECmapping)
+      this.$store.state.LOG && console.log('\n REC VEListDMF - populateSelectedCols ...')
+      this.$store.state.LOG && console.log('REC VEListDMF -  parentRECmapping : \n', parentRECmapping)
 
       if (parentRECmapping !== undefined) {
         var recParams = parentRECmapping.rec_params
 
-        console.log('\n REC VEListDMF - recParams not undefined ...')
+        this.$store.state.LOG && console.log('\n REC VEListDMF - recParams not undefined ...')
 
         if (recParams.dmf_list_to_geocode.length > 0) {
-          console.log('\n REC VEListDMF - rec_params.new_dmfs_list.length > 1 ...')
+          this.$store.state.LOG && console.log('\n REC VEListDMF - rec_params.new_dmfs_list.length > 1 ...')
 
           this.selected_cols = recParams.dmf_list_to_geocode
         }
@@ -1053,13 +1053,13 @@ export default {
     },
 
     getDMF_openlevel (dmfId) {
-      // console.log("... getDMF_openlevel - dmfId : ", dmfId ) ;
+      // this.$store.state.LOG && console.log("... getDMF_openlevel - dmfId : ", dmfId ) ;
 
       var dmfOLvalue = ''
       var dmfMapper = this.parent_map.find(obj => {
         return obj.oid_dmf === dmfId
       })
-      // console.log(" getDMF_openlevel / dmfMapper : ", dmfMapper )
+      // this.$store.state.LOG && console.log(" getDMF_openlevel / dmfMapper : ", dmfMapper )
       if (dmfMapper !== undefined) {
         dmfOLvalue = dmfMapper.open_level_show
       }
@@ -1069,7 +1069,7 @@ export default {
 
     //  USER AUTH  - checkUserAuth for an item --> /utils
     checkUserAuth (fieldName) {
-      // console.log("\ncheckUserAuth / fieldName : ", fieldName ) ;
+      // this.$store.state.LOG && console.log("\ncheckUserAuth / fieldName : ", fieldName ) ;
 
       var canUpdateField = false
 
@@ -1082,13 +1082,13 @@ export default {
         canUpdateField = this.$checkDocUserAuth(this.item_doc, fieldName, isLogged, userId)
       }
 
-      // console.log("checkUserAuth / canUpdateField : ", canUpdateField ) ;
+      // this.$store.state.LOG && console.log("checkUserAuth / canUpdateField : ", canUpdateField ) ;
 
       return canUpdateField
     },
 
     onScroll (e) {
-      // console.log("... onScroll - e.target : ", e.target ) ;
+      // this.$store.state.LOG && console.log("... onScroll - e.target : ", e.target ) ;
       var scrollData = e.target
       // this.offsetTop    = scrollData.scrollTop ;
       this.offsetLeft = scrollData.scrollLeft
@@ -1104,7 +1104,7 @@ export default {
     },
 
     switchSettings () {
-      // console.log("settingsToolbar - switchSettings / this.is_settings : ", this.is_settings )
+      // this.$store.state.LOG && console.log("settingsToolbar - switchSettings / this.is_settings : ", this.is_settings )
       this.$emit('settings')
     },
 
@@ -1119,7 +1119,7 @@ export default {
     },
 
     deleteChild (itemInfos) {
-      console.log('\n...viewEditListDMF - deleteChild / item_infos : \n ', itemInfos)
+      this.$store.state.LOG && console.log('\n...viewEditListDMF - deleteChild / item_infos : \n ', itemInfos)
 
       var input = {
         add_or_delete: 'delete_from_list',
@@ -1128,13 +1128,13 @@ export default {
         parentDoc_coll: itemInfos.parentDoc_coll,
         re_emit: itemInfos.re_emit
       }
-      console.log('deleteChild / input : ', input)
+      this.$store.state.LOG && console.log('deleteChild / input : ', input)
 
       this.$emit('update_parent_dataset', input)
     },
 
     openDMF_lib_parent () {
-      console.log('\n...viewEditListDMF - openDMF_lib_parent ')
+      this.$store.state.LOG && console.log('\n...viewEditListDMF - openDMF_lib_parent ')
 
       // send data back to parent component
       this.$emit('input')
@@ -1142,7 +1142,7 @@ export default {
 
     // utils to pivot data to datatable format
     pivotData (dataFromAPI) {
-      console.log('\n...viewEditListDMF - pivotData / dataFromAPI (A) : ', dataFromAPI)
+      this.$store.state.LOG && console.log('\n...viewEditListDMF - pivotData / dataFromAPI (A) : ', dataFromAPI)
 
       // var for internal purposes
       var dataNewHeaders = []
@@ -1152,15 +1152,15 @@ export default {
 
       // add empty_column_normalized to beginning of dataFromAPI
       dataFromAPI.unshift(this.empty_column_normalized)
-      // console.log("...viewEditListDMF - pivotData / dataFromAPI (B) : ", dataFromAPI);
+      // this.$store.state.LOG && console.log("...viewEditListDMF - pivotData / dataFromAPI (B) : ", dataFromAPI);
       this.listDMF_extended = dataFromAPI
 
       // --------------------------------------------- //
       // loop through data_to_pivot => headers / columns
       // --------------------------------------------- //
       for (let dmf in dataFromAPI) {
-        // console.log("\n...viewEditListDMF - pivotData / dmf (C) : ", dmf);
-        // console.log("...viewEditListDMF - pivotData / dataFromAPI[dmf]['infos.title'] (D) : \n", dataFromAPI[dmf]["infos.title"]);
+        // this.$store.state.LOG && console.log("\n...viewEditListDMF - pivotData / dmf (C) : ", dmf);
+        // this.$store.state.LOG && console.log("...viewEditListDMF - pivotData / dataFromAPI[dmf]['infos.title'] (D) : \n", dataFromAPI[dmf]["infos.title"]);
 
         // create new header
         var tempHeader = {
@@ -1170,55 +1170,55 @@ export default {
           sortable: false,
           align: 'center'
         }
-        // console.log("...viewEditListDMF - pivotData / tempHeader.value : ", tempHeader.value);
+        // this.$store.state.LOG && console.log("...viewEditListDMF - pivotData / tempHeader.value : ", tempHeader.value);
 
         // push DMF oid in dataNewHeaders
         dataNewHeaders.push(tempHeader)
       };
 
       // send datatable_headers back
-      // console.log("\n...viewEditListDMF - pivotData / dataNewHeaders : ", dataNewHeaders);
+      // this.$store.state.LOG && console.log("\n...viewEditListDMF - pivotData / dataNewHeaders : ", dataNewHeaders);
       this.DMF_headers = dataNewHeaders
 
       var tempDMFlight = dataNewHeaders.slice(0)
       tempDMFlight.shift()
-      // console.log("\n...viewEditListDMF - pivotData / tempDMFlight : ", tempDMFlight);
+      // this.$store.state.LOG && console.log("\n...viewEditListDMF - pivotData / tempDMFlight : ", tempDMFlight);
       this.DMF_headers_light = tempDMFlight
-      // console.log("...viewEditListDMF - pivotData / this.DMF_headers_light : ", this.DMF_headers_light);
+      // this.$store.state.LOG && console.log("...viewEditListDMF - pivotData / this.DMF_headers_light : ", this.DMF_headers_light);
 
       // --------------------------------------------- //
       // loop through fields to create dataPivoted => rows
       // --------------------------------------------- //
 
-      // console.log("...viewEditListDMF - pivotData / this.empty_column_normalized : ", this.empty_column_normalized );
+      // this.$store.state.LOG && console.log("...viewEditListDMF - pivotData / this.empty_column_normalized : ", this.empty_column_normalized );
       // for (var field in   ) {
       for (var field of Object.keys(this.empty_column_normalized)) {
-        // console.log("\n----- viewEditListDMF - pivotData / field : ", field);
+        // this.$store.state.LOG && console.log("\n----- viewEditListDMF - pivotData / field : ", field);
 
         if (field !== '_id') {
           let tempField = {}
 
           if (field !== 'delete_child') {
             for (let dmf in dataFromAPI) {
-              // console.log("...viewEditListDMF - pivotData / dmf : ", dmf);
-              // console.log("...viewEditListDMF - pivotData / dataFromAPI[dmf]['_id'] : ", dataFromAPI[dmf]["_id"] );
-              // console.log("...viewEditListDMF - pivotData / dataFromAPI[dmf][field] : ", dataFromAPI[dmf][field] );
+              // this.$store.state.LOG && console.log("...viewEditListDMF - pivotData / dmf : ", dmf);
+              // this.$store.state.LOG && console.log("...viewEditListDMF - pivotData / dataFromAPI[dmf]['_id'] : ", dataFromAPI[dmf]["_id"] );
+              // this.$store.state.LOG && console.log("...viewEditListDMF - pivotData / dataFromAPI[dmf][field] : ", dataFromAPI[dmf][field] );
               tempField[ dataFromAPI[dmf]['_id'] ] = dataFromAPI[dmf][ field ]
             }
           } else {
             for (let dmf in dataFromAPI) {
-              // console.log("...viewEditListDMF - pivotData / dmf : ", dmf);
+              // this.$store.state.LOG && console.log("...viewEditListDMF - pivotData / dmf : ", dmf);
               tempField[ dataFromAPI[dmf]['_id'] ] = dataFromAPI[dmf][ '_id' ]
             };
           }
 
-          // console.log("...viewEditListDMF - pivotData / tempField : ", tempField);
+          // this.$store.state.LOG && console.log("...viewEditListDMF - pivotData / tempField : ", tempField);
           dataPivoted.push(tempField)
         }
       }
 
       // send dataPivoted back to get_docs_fromApi()
-      console.log('...viewEditListDMF - pivotData / dataPivoted : ', dataPivoted)
+      this.$store.state.LOG && console.log('...viewEditListDMF - pivotData / dataPivoted : ', dataPivoted)
       this.list_DMF_full_pivoted = dataPivoted
       this.list_DMF_first_row_pivoted = [ dataPivoted[0] ]
 
@@ -1228,7 +1228,7 @@ export default {
 
     // AXIOS CALL
     get_docs_fromApi () {
-      console.log('\n...viewEditListDMF - get_doc_fromApi ... ')
+      this.$store.state.LOG && console.log('\n...viewEditListDMF - get_doc_fromApi ... ')
 
       this.loading = true
 
@@ -1249,7 +1249,7 @@ export default {
       this.$store.dispatch('getListItems', callInput)
 
         .then(result => {
-          console.log('viewEditListDMF get_doc_fromApi / result: ', result)
+          this.$store.state.LOG && console.log('viewEditListDMF get_doc_fromApi / result: ', result)
 
           this.list_DMF_full = result.data
 
@@ -1267,13 +1267,13 @@ export default {
           // detect scroll : cf : https://forum.vuejs.org/t/how-to-detect-body-scroll/7057/5
           // sync scroll   : cf : https://github.com/asvd/syncscroll/blob/master/syncscroll.js
           var dataTable = this.$refs.datatable // ) ;
-          // console.log("- viewEditListDMF / then 1 - dataTable : ", dataTable ) ;
+          // this.$store.state.LOG && console.log("- viewEditListDMF / then 1 - dataTable : ", dataTable ) ;
 
           if (dataTable !== undefined) {
-          // console.log("- viewEditListDMF / then 2 - dataTable : ", dataTable ) ;
+          // this.$store.state.LOG && console.log("- viewEditListDMF / then 2 - dataTable : ", dataTable ) ;
           // component selector : https://forum.vuejs.org/t/help-with-selector/18652/11
             var dt = dataTable.$el.querySelector('.v-table__overflow')
-            // console.log("- viewEditListDMF / then 3 - dt : ", dt ) ;
+            // this.$store.state.LOG && console.log("- viewEditListDMF / then 3 - dt : ", dt ) ;
             dt.addEventListener('scroll', this.onScroll)
             dt.classList.add('no-scroll')
             this.dataTable = dt
@@ -1297,7 +1297,7 @@ export default {
         })
 
         .catch(error => {
-          console.log('viewEditListDMF get_doc_fromApi / submit - error... : ', error)
+          this.$store.state.LOG && console.log('viewEditListDMF get_doc_fromApi / submit - error... : ', error)
 
           this.loading = false
           this.alert = {type: 'error', message: 'login error'}

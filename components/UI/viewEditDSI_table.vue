@@ -132,7 +132,7 @@ export default {
   },
 
   created () {
-    console.log('\n- viewEditDSI_table / created... ')
+    this.$store.state.LOG && console.log('\n- viewEditDSI_table / created... ')
 
     this.pagination = this.pagin
 
@@ -140,13 +140,13 @@ export default {
     // detect scroll : cf : https://forum.vuejs.org/t/how-to-detect-body-scroll/7057/5
     // sync scroll : cf : https://github.com/asvd/syncscroll/blob/master/syncscroll.js
     var dataTable = this.$refs.datatable // ) ;
-    // console.log("- viewEditDSI_table / then 1 - dataTable : ", dataTable ) ;
+    // this.$store.state.LOG && console.log("- viewEditDSI_table / then 1 - dataTable : ", dataTable ) ;
 
     if (dataTable !== undefined) {
-      console.log('- viewEditDSI_table / then 2 - dataTable : ', dataTable)
+      this.$store.state.LOG && console.log('- viewEditDSI_table / then 2 - dataTable : ', dataTable)
       // component selector : https://forum.vuejs.org/t/help-with-selector/18652/11
       var dt = dataTable.$el.querySelector('.v-table__overflow')
-      console.log('- viewEditDSI_table / then 3 - dt : ', dt)
+      this.$store.state.LOG && console.log('- viewEditDSI_table / then 3 - dt : ', dt)
       dt.addEventListener('scroll', this.onScroll)
       this.dataTable = dt
     }
@@ -192,7 +192,7 @@ export default {
 
     // SCROLLER
     onScroll (e) {
-      // console.log("... onScroll - e.target : ", e.target ) ;
+      // this.$store.state.LOG && console.log("... onScroll - e.target : ", e.target ) ;
       var scrollData = e.target
       // this.offsetTop   = scrollData.scrollTop ;
       this.offsetLeft = scrollData.scrollLeft

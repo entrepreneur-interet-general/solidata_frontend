@@ -13,12 +13,12 @@ const ObjectCleaner = {
   },
 
   returnCleanObject (rawObject) {
-    console.log('\n// returnCleanObject ... ')
-    console.log('// returnCleanObject / rawObject : ', rawObject)
+    state.LOG && console.log('\n// returnCleanObject ... ')
+    state.LOG && console.log('// returnCleanObject / rawObject : ', rawObject)
 
     var stringyfiedObject = JSON.stringify(rawObject, this.replaceUndefinedOrNull)
     var cleanObject = JSON.parse(stringyfiedObject)
-    console.log('// returnCleanObject / cleanObject : ', cleanObject)
+    state.LOG && console.log('// returnCleanObject / cleanObject : ', cleanObject)
 
     return cleanObject
   }
@@ -211,9 +211,10 @@ export const state = () => ({
 
   // NODE_ENV: process.env.NODE_ENV,
   DEBUG: process.env.DEBUG,
-  is_debug: false,
-
+  MODE_APP: process.env.MODE_APP,
+  LOG: process.env.LOG,
   CONFIG: process.env.CONFIG_APP,
+  is_debug: false,
 
   // APP TITLE
   title: '<span>SOLI</span><i><strong>DATA</strong></i>',
@@ -553,6 +554,10 @@ export const state = () => ({
 
 export const getters = {
 
+  getLog: state => {
+    return state.LOG
+  }
+
 }
 
 export const mutations = {
@@ -608,13 +613,13 @@ export const mutations = {
 
 export const actions = {
 
-  nuxtServerInit ({commit}, {req}) {
-    console.log('\n $ nuxtServerInit...')
+  nuxtServerInit ({commit, state}, {req}) {
+    state.LOG && console.log('\n $ nuxtServerInit...')
     //  let accessToken  = null ;
     //  let refreshToken = null ;
     //  if (req.headers.cookie) {
     //  var parsed = cookieparser.parse(req.headers.cookie)
-    //  console.log("parsed : ", parsed)
+    //  state.LOG && console.log("parsed : ", parsed)
     //  accessToken = JSON.parse(parsed.tokens.access_token)
     //  refreshToken = JSON.parse(parsed.tokens.refresh_token)
     // }
@@ -626,28 +631,28 @@ export const actions = {
   },
 
   createItem ({commit, state, rootState}, payload) {
-    console.log('\n... $ createItem... for payload.collection : ', payload.collection)
+    state.LOG && console.log('\n... $ createItem... for payload.collection : ', payload.collection)
 
-    const collection = payload.coll
+    const collection = payload.collection
 
     // HEADERS
     const config = {'headers': {'Authorization': rootState.auth.access_token}}
-    console.log('... $ createItem / config : ', config)
+    state.LOG && console.log('... $ createItem / config : ', config)
 
     // DATA TO SEND
-    console.log('... $ createItem / payload.data : ', payload.data)
-    // console.log("... createItem / payload.data.title : ", payload.data.title ) ;
+    state.LOG && console.log('... $ createItem / payload.data : ', payload.data)
+    // state.LOG && console.log("... createItem / payload.data.title : ", payload.data.title ) ;
     var cleanPayload = ObjectCleaner.returnCleanObject(payload.data)
-    console.log('... $ createItem / cleanPayload : ', cleanPayload)
+    state.LOG && console.log('... $ createItem / cleanPayload : ', cleanPayload)
 
     // CREATE ITEM
     var collFile = rootState[collection].current_file
-    console.log('... $ createItem / collFile : ', collFile)
+    state.LOG && console.log('... $ createItem / collFile : ', collFile)
 
     // is contains file change data to formData
     // if ( payload.data.src_type != 'API' && collFile != '' ) {
     if (collFile !== undefined && collFile !== '') {
-      console.log('... $ createItem / collFile  : ', collFile)
+      state.LOG && console.log('... $ createItem / collFile  : ', collFile)
 
       // payload to formData
       var formData = new FormData()
@@ -657,20 +662,20 @@ export const actions = {
 
       // append file to formData
       formData.append('form_file', collFile)
-      console.log('... $ createItem / formData  : ', formData)
+      state.LOG && console.log('... $ createItem / formData  : ', formData)
 
       // append stuff to config headers
       config.headers['Content-Type'] = 'multipart/form-data'
 
       // overwrite cleanPayload
       cleanPayload = formData
-      console.log('... $ createItem / cleanPayload : ', cleanPayload)
+      state.LOG && console.log('... $ createItem / cleanPayload : ', cleanPayload)
     }
 
     // API CALL
     return this.$axios.$post(`${collection}/create/`, cleanPayload, config)
       .then(response => {
-        console.log('... $ createItem / response : ', response)
+        state.LOG && console.log('... $ createItem / response : ', response)
 
         // set up corresponding store
         commit(`${collection}/set_current`, response.data, {root: true})
@@ -687,14 +692,14 @@ export const actions = {
         return this.$router.push(`/${collection}/${newItemId}`)
       })
       .catch(error => {
-        console.log('... $ createItem / error : ', error)
+        state.LOG && console.log('... $ createItem / error : ', error)
         commit(`set_error`, error)
         return error
       })
   },
 
   getOneItem ({commit, state, rootState}, input) {
-    console.log('\n... $ getOneItem : input : ', input)
+    state.LOG && console.log('\n... $ getOneItem : input : ', input)
     var collection = input.collection
     var docId = input.doc_id
     var fDataParams = {}
@@ -702,7 +707,7 @@ export const actions = {
 
     // get fDataParams if coll in dsi, dso, dsr
     if (collection === 'dsi' || collection === 'dso') {
-      console.log('... $ getOneItem : collection : ', collection)
+      state.LOG && console.log('... $ getOneItem : collection : ', collection)
       fDataParams = input.f_data_params
     }
 
@@ -711,49 +716,51 @@ export const actions = {
       headers: {'Authorization': rootState.auth.access_token},
       params: fDataParams
     }
-    console.log('... $ getOneItem : config : ', config)
+    state.LOG && console.log('... $ getOneItem : config : ', config)
 
     // API CALL
     return this.$axios.$get(`${collection}/infos/get_one/${docId}`, config)
 
       .then(response => {
-        console.log(`... $ getOneItem : response OK... `)
-        // console.log(`... $ getOneItem : response : `, response);
-        // commit(`${collection}/set_current`, response.data);
+        state.LOG && console.log(`... $ getOneItem : response OK... `)
+        // state.LOG && console.log(`... $ getOneItem : response : `, response);
+        if (input.set_current) {
+          commit(`${collection}/set_current`, response)
+        }
 
         // commit(`set_alert`, response.msg)
         return response
       })
 
       .catch(error => {
-        console.log('... $ getOneItem / error : ', error)
+        state.LOG && console.log('... $ getOneItem / error : ', error)
         commit(`set_error`, error)
         return error
       })
   },
 
   getListItems ({commit, state, rootState}, input) {
-    console.log('\n... $ getListItems : input : ', input)
+    state.LOG && console.log('\n... $ getListItems : input : ', input)
 
     var collection = input.coll
     var parameters = input.q_params
     var level = input.level
 
-    console.log('... $ getListItems : parameters : ', parameters)
+    state.LOG && console.log('... $ getListItems : parameters : ', parameters)
 
     // SET UP CONFIG FOR API CALL
     const config = {
       headers: {'Authorization': rootState.auth.access_token},
       params: parameters
     }
-    // console.log("... $ getListItems : config : ", config );
+    // state.LOG && console.log("... $ getListItems : config : ", config );
 
     // GET DATA
     return this.$axios.$get(`${collection}/infos/list`, config)
 
       .then(response => {
-        console.log(`... $ getListItems : response OK... `)
-        // console.log(`... $ getListItems : response : `, response);
+        state.LOG && console.log(`... $ getListItems : response OK... `)
+        // state.LOG && console.log(`... $ getListItems : response : `, response);
         if (level !== 'get_datasets') {
           commit(`${collection}/set_list`, response)
         }
@@ -763,23 +770,23 @@ export const actions = {
       })
 
       .catch(error => {
-        console.log('... $ getListItems / error...')
-        console.log('... $ getListItems / error.response.status : ', error.response.status)
-        // console.log("... $ getListItems / error : ", error ) ;
+        state.LOG && console.log('... $ getListItems / error...')
+        state.LOG && console.log('... $ getListItems / error.response.status : ', error.response.status)
+        // state.LOG && console.log("... $ getListItems / error : ", error ) ;
         commit(`set_error`, error)
         return error
       })
   },
 
   resetListsItems ({commit, dispatch, state, rootState}, input) {
-    console.log('reset_lists_fromApi ...')
+    state.LOG && console.log('reset_lists_fromApi ...')
     const collectionsList = input.collections
     const currentLevel = input.level
 
     var promisesList = []
 
     collectionsList.forEach(function (coll) {
-      console.log('- - - coll : ', coll)
+      state.LOG && console.log('- - - coll : ', coll)
 
       // create parameters vars for later request in $store
       var parameters = state[coll].parameters
@@ -801,27 +808,27 @@ export const actions = {
   },
 
   reloadData ({commit, dispatch, state, rootState}, payload) {
-    console.log('\n... $ reloadData... for payload.collection : ', payload.collection)
+    state.LOG && console.log('\n... $ reloadData... for payload.collection : ', payload.collection)
 
-    const collection = payload.coll
+    const collection = payload.collection
     const docId = payload.doc_id
 
     // HEADERS
     const config = {'headers': {'Authorization': rootState.auth.access_token}}
-    console.log('... $ reloadData / config : ', config)
+    state.LOG && console.log('... $ reloadData / config : ', config)
 
     // DATA TO SEND
-    console.log('... $ reloadData / payload.data : ', payload.data)
+    state.LOG && console.log('... $ reloadData / payload.data : ', payload.data)
     var cleanPayload = ObjectCleaner.returnCleanObject(payload.data)
-    console.log('... $ reloadData / cleanPayload : ', cleanPayload)
+    state.LOG && console.log('... $ reloadData / cleanPayload : ', cleanPayload)
 
     // CREATE ITEM
     var collFile = rootState[collection].current_file
-    console.log('... $ reloadData / collFile : ', collFile)
+    state.LOG && console.log('... $ reloadData / collFile : ', collFile)
 
     // if contains file change data to formData
     if (collFile !== undefined && collFile !== '') {
-      console.log('... $ reloadData / collFile  : ', collFile)
+      state.LOG && console.log('... $ reloadData / collFile  : ', collFile)
 
       // payload to formData
       var formData = new FormData()
@@ -831,52 +838,56 @@ export const actions = {
 
       // append file to formData
       formData.append('form_file', collFile)
-      console.log('... $ reloadData / formData  : ', formData)
+      state.LOG && console.log('... $ reloadData / formData  : ', formData)
 
       // append stuff to config headers
       config.headers['Content-Type'] = 'multipart/form-data'
 
       // overwrite cleanPayload
       cleanPayload = formData
-      console.log('... $ reloadData / cleanPayload : ', cleanPayload)
+      state.LOG && console.log('... $ reloadData / cleanPayload : ', cleanPayload)
     }
 
     // API CALL
-    return this.$axios.$put(`${collection}/reload/${docId}`, cleanPayload, config)
+    return this.$axios.$post(`${collection}/reload/${docId}`, cleanPayload, config)
       .then(response => {
-        console.log(`... $ reloadData : response OK... `)
+        state.LOG && console.log(`... $ reloadData : response OK... `)
         // set up corresponding store
-        commit(`${payload.collection}/set_current`, response.data, {root: true})
+        // commit(`${collection}/set_current`, response.data, {root: true})
+        let input = payload
+        input['fDataParams'] = {}
+        input['set_current'] = true
+        dispatch(`getOneItem`, input)
         return response
       })
       .catch(error => {
-        console.log('... $ reloadData / error : ', error)
+        state.LOG && console.log('... $ reloadData / error : ', error)
         commit(`set_error`, error)
         return error
       })
   },
 
   updateItem ({commit, dispatch, state, rootState}, input) {
-    console.log('\n... $ updateItem : input : ', input)
+    state.LOG && console.log('\n... $ updateItem : input : ', input)
 
     var collection = input.coll
     var docId = input.doc_id
     var fields = input.form
-    console.log('... $ updateItem : fields : \n', fields)
+    state.LOG && console.log('... $ updateItem : fields : \n', fields)
 
     // SET UP CONFIG
     const config = {
       headers: {'Authorization': rootState.auth.access_token}
       // params : parameters
     }
-    console.log('... $ updateItem : config : ', config)
+    state.LOG && console.log('... $ updateItem : config : ', config)
 
     // API CALL
     return this.$axios.$put(`${collection}/edit/${docId}`, fields, config)
 
       .then(response => {
-        console.log(`... $ updateItem : response OK... `)
-        // console.log(`... $ updateItem : response : `, response);
+        state.LOG && console.log(`... $ updateItem : response OK... `)
+        // state.LOG && console.log(`... $ updateItem : response : `, response);
         // commit(`${collection}/set_current`, response);
 
         // rebuild DSO if updated doc is PRJ
@@ -892,33 +903,33 @@ export const actions = {
       })
 
       .catch(error => {
-        console.log('... $ updateItem / error : ', error)
+        state.LOG && console.log('... $ updateItem / error : ', error)
         commit(`set_error`, error)
         return error
       })
   },
 
   updateMapping ({commit, dispatch, state, rootState}, input) {
-    console.log('\n... $ updateMapping : input : ', input)
+    state.LOG && console.log('\n... $ updateMapping : input : ', input)
 
     var collection = input.coll
     var docId = input.doc_id
     var fields = input.form
-    console.log('... $ updateMapping : fields : \n', fields)
+    state.LOG && console.log('... $ updateMapping : fields : \n', fields)
 
     // SET UP CONFIG
     const config = {
       headers: {'Authorization': rootState.auth.access_token}
       // params : parameters
     }
-    console.log('... $ updateMapping : config : ', config)
+    state.LOG && console.log('... $ updateMapping : config : ', config)
 
     // API CALL
     return this.$axios.$put(`${collection}/mapping/${docId}`, fields, config)
 
       .then(response => {
-        console.log(`... $ updateMapping : response OK... `)
-        // console.log(`... $ updateMapping : response : `, response);
+        state.LOG && console.log(`... $ updateMapping : response OK... `)
+        // state.LOG && console.log(`... $ updateMapping : response : `, response);
         commit(`${collection}/set_current`, response)
 
         // rebuild DSO if updated doc is PRJ
@@ -934,47 +945,47 @@ export const actions = {
       })
 
       .catch(error => {
-        console.log('... $ updateMapping / error : ', error)
+        state.LOG && console.log('... $ updateMapping / error : ', error)
         commit(`set_error`, error)
         return error
       })
   },
 
   solidifyData ({commit, dispatch, state, rootState}, input) {
-    console.log('\n... $ solidifyData : input : ', input)
+    state.LOG && console.log('\n... $ solidifyData : input : ', input)
 
     var collection = input.coll
     var docId = input.doc_id
     var fields = input.form
-    console.log('... $ solidifyData : fields : \n', fields)
+    state.LOG && console.log('... $ solidifyData : fields : \n', fields)
 
     // SET UP CONFIG
     const config = {
       headers: {'Authorization': rootState.auth.access_token}
       // params : parameters
     }
-    console.log('... $ solidifyData : config : ', config)
+    state.LOG && console.log('... $ solidifyData : config : ', config)
 
     // API CALL
     return this.$axios.$put(`${collection}/solidify/${docId}`, fields, config)
 
       .then(response => {
-        console.log(`... $ solidifyData : response OK... `)
-        // console.log(`... $ solidifyData : response : `, response);
+        state.LOG && console.log(`... $ solidifyData : response OK... `)
+        // state.LOG && console.log(`... $ solidifyData : response : `, response);
         commit(`${collection}/set_current`, response)
 
         return response
       })
 
       .catch(error => {
-        console.log('... $ solidifyData / error : ', error)
+        state.LOG && console.log('... $ solidifyData / error : ', error)
         commit(`set_error`, error)
         return error
       })
   },
 
   buildDso ({commit, state, rootState}, input) {
-    console.log('\n... $ buildDso : input : ', input)
+    state.LOG && console.log('\n... $ buildDso : input : ', input)
     var prjId = input.prj_id
 
     // get f_data_params if coll in dsi, dso, dsr
@@ -989,14 +1000,14 @@ export const actions = {
       headers: {'Authorization': rootState.auth.access_token},
       params: fDataParams
     }
-    console.log('... $ buildDso : config : ', config)
+    state.LOG && console.log('... $ buildDso : config : ', config)
 
     // API CALL
     return this.$axios.$put(`dso/edit/${prjId}`, fields, config)
 
       .then(response => {
-        console.log(`... $ buildDso : response OK... `)
-        // console.log(`... $ buildDso : response : `, response);
+        state.LOG && console.log(`... $ buildDso : response OK... `)
+        // state.LOG && console.log(`... $ buildDso : response : `, response);
         // commit(`dso/set_current`, response);
 
         commit(`set_alert`, response.msg)
@@ -1004,14 +1015,14 @@ export const actions = {
       })
 
       .catch(error => {
-        console.log('... $ buildDso / error : ', error)
+        state.LOG && console.log('... $ buildDso / error : ', error)
         commit(`set_error`, error)
         return error
       })
   },
 
   deleteItem ({commit, state, rootState}, input) {
-    console.log('\n... $ deleteItem : input : ', input)
+    state.LOG && console.log('\n... $ deleteItem : input : ', input)
 
     var collection = input.coll
     var docId = input.doc_id
@@ -1021,18 +1032,18 @@ export const actions = {
       // params : parameters
     }
 
-    console.log('... $ deleteItem : config : ', config)
+    state.LOG && console.log('... $ deleteItem : config : ', config)
 
     return this.$axios.$delete(`${collection}/edit/${docId}`, config)
       .then(response => {
-        console.log(`... $ deleteItem : response : `, response)
+        state.LOG && console.log(`... $ deleteItem : response : `, response)
 
         commit(`set_alert`, response.msg)
         return response
         // return this.$router.push(`/${this.coll}`)
       })
       .catch(error => {
-        console.log('... $ deleteItem / error : ', error)
+        state.LOG && console.log('... $ deleteItem / error : ', error)
         commit(`set_error`, error)
         return error
       })

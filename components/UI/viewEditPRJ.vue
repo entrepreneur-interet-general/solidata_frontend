@@ -27,6 +27,7 @@
           :isPreview="isPreview"
           :isSettings="isSettings"
           :is_loading="isLoading"
+          :is_export="true"
           @input="switchPreview"
           @settings="panel_lib_dsi=[false];panel_lib_dmt=[false];panel_lib_tag=[true];panel_infos=[true];isSettings=true"
           >
@@ -1044,7 +1045,7 @@ export default {
   // },
 
   created () {
-    console.log('\n- viewEditPRJ / created ---> item_doc : ', this.item_doc)
+    this.$store.state.LOG && console.log('\n- viewEditPRJ / created ---> item_doc : ', this.item_doc)
 
     // RESET SOME COLLECTIONS IN STORE
     // var input = {
@@ -1069,9 +1070,9 @@ export default {
     //  {"oid_dsi" : "5c08f2da0a82868129391891" }
     // ] ;
 
-    // console.log("\n- viewEditPRJ / created ---> this.list_DMT_oids : ", this.list_DMT_oids ) ;
-    // console.log("\n- viewEditPRJ / created ---> this.list_DSI_oids : ", this.list_DSI_oids ) ;
-    // console.log("\n- viewEditPRJ / created ---> this.list_DTAGoids : ", this.list_TAG_oids ) ;
+    // this.$store.state.LOG && console.log("\n- viewEditPRJ / created ---> this.list_DMT_oids : ", this.list_DMT_oids ) ;
+    // this.$store.state.LOG && console.log("\n- viewEditPRJ / created ---> this.list_DSI_oids : ", this.list_DSI_oids ) ;
+    // this.$store.state.LOG && console.log("\n- viewEditPRJ / created ---> this.list_DTAGoids : ", this.list_TAG_oids ) ;
   },
 
   data () {
@@ -1204,13 +1205,13 @@ export default {
 
       immediate: true,
       handler (newVal, oldVal) {
-        console.log('\nVE PRJ / watch ~ item_doc / newVal : \n', newVal)
-        // console.log( "\nVE PRJ / watch ~ item_doc / oldVal : \n", oldVal )
+        this.$store.state.LOG && console.log('\nVE PRJ / watch ~ item_doc / newVal : \n', newVal)
+        // this.$store.state.LOG && console.log( "\nVE PRJ / watch ~ item_doc / oldVal : \n", oldVal )
 
         if (newVal) {
           // update local DMT list and DSI list
-          console.log('VE PRJ / watch ~ item_doc / newVal.infos.title : \n', newVal.infos.title)
-          console.log('VE PRJ / watch ~ item_doc / newVal.log.is_buildable : \n', newVal.log.is_buildable)
+          this.$store.state.LOG && console.log('VE PRJ / watch ~ item_doc / newVal.infos.title : \n', newVal.infos.title)
+          this.$store.state.LOG && console.log('VE PRJ / watch ~ item_doc / newVal.log.is_buildable : \n', newVal.log.is_buildable)
           this.itemDoc = newVal
           this.list_DMT_oids = newVal.datasets.dmt_list
           this.list_DSI_oids = newVal.datasets.dsi_list
@@ -1230,7 +1231,7 @@ export default {
     // },
 
     getDSI_map (dsiId) {
-      // console.log("... getDSI_map - dsiId : ", dsiId ) ;
+      // this.$store.state.LOG && console.log("... getDSI_map - dsiId : ", dsiId ) ;
       // var parent_map = this.item_doc.mapping.dsi_to_dmf ;
       var parentMap = this.itemDoc.mapping.dsi_to_dmf
       var dsiMap = []
@@ -1238,7 +1239,7 @@ export default {
       var dsiMapper = parentMap.filter(obj => {
         return obj.oid_dsi === dsiId
       })
-      // console.log(" getDSI_map / dsi_mapper : ", dsi_mapper )
+      // this.$store.state.LOG && console.log(" getDSI_map / dsi_mapper : ", dsi_mapper )
       if (dsiMapper !== undefined) {
         dsiMap = dsiMapper
       }
@@ -1247,12 +1248,12 @@ export default {
     },
 
     updateScroll (input) {
-      // console.log("updateScroll / input : ", input )
+      // this.$store.state.LOG && console.log("updateScroll / input : ", input )
       this.scrollLeft = input.left
     },
 
     updateLoading (input) {
-      console.log('updateLoading / input : ', input)
+      this.$store.state.LOG && console.log('updateLoading / input : ', input)
       this.loading = input.loading
       // this.loading_list[input.coll][input.doc_id] = input.loading
       this.loading_list[input.coll] = input.loading
@@ -1303,23 +1304,23 @@ export default {
     updateIsFile (val) {
       // if( val.subField == "src_type"){
       if (val.subField === 'switchFileType') {
-        console.log('\n updateIsFile - src_type / val : ', val)
+        this.$store.state.LOG && console.log('\n updateIsFile - src_type / val : ', val)
         this.is_file = val.is_file
         this.filetype = val.filetype
       }
 
       if (val.subField === 'fileExt') {
-        console.log('\n updateIsFile - fileExt / val : ', val)
+        this.$store.state.LOG && console.log('\n updateIsFile - fileExt / val : ', val)
         this.itemDoc.specs.src_type = val.fileExt
         this.filetype = val.fileExt
       }
 
-      console.log('updateIsFile / this.filetype : ', this.filetype)
+      this.$store.state.LOG && console.log('updateIsFile / this.filetype : ', this.filetype)
     },
 
     //  checkUserAuth for an item --> /utils
     checkUserAuth (fieldName) {
-      // console.log("checkUserAuth / fieldName : ", fieldName ) ;
+      // this.$store.state.LOG && console.log("checkUserAuth / fieldName : ", fieldName ) ;
 
       var canUpdateField = false
 
@@ -1341,7 +1342,7 @@ export default {
 
     // submit value to create item via API backend
     createItem () {
-      console.log('\n VE PRJ createItem... ')
+      this.$store.state.LOG && console.log('\n VE PRJ createItem... ')
 
       this.alert = null
       this.loading = true
@@ -1350,7 +1351,7 @@ export default {
 
       // this.formHasErrors = false ;
 
-      console.log('VE PRJ createItem - currentNew : ', currentNew)
+      this.$store.state.LOG && console.log('VE PRJ createItem - currentNew : ', currentNew)
 
       // Object.keys(this.form).forEach(f => {
       //   if (!this.form[f]) this.formHasErrors = true
@@ -1363,17 +1364,17 @@ export default {
 
       // add file's data if needed
       if (this.is_file === true) {
-        console.log('VE PRJ createItem / adding file  to dataToSend')
+        this.$store.state.LOG && console.log('VE PRJ createItem / adding file  to dataToSend')
         // dataToSend['file']   = this.$store.state[this.coll].current_file ;
         dataToSend['csv_sep'] = this.$store.state[this.coll].csv_sep
       //  dataToSend['filename']  = this.$store.state[this.coll].current_filename ;
       }
 
-      console.log('VE PRJ createItem / dataToSend : ', dataToSend)
+      this.$store.state.LOG && console.log('VE PRJ createItem / dataToSend : ', dataToSend)
 
       //  PREPARE PAYLOAD
       var payload = { collection: this.coll, data: dataToSend }
-      console.log('VE PRJ createItem / payload : ', payload)
+      this.$store.state.LOG && console.log('VE PRJ createItem / payload : ', payload)
 
       // dispatch action from store
       this.$store.dispatch('createItem', payload)
@@ -1389,7 +1390,7 @@ export default {
           // return this.$router.push(`/${this.coll}/${newItemId}`)
         })
         .catch(error => {
-          console.log('VE PRJ createItem / submit / error... : ', error)
+          this.$store.state.LOG && console.log('VE PRJ createItem / submit / error... : ', error)
 
           this.loading = false
           this.alert = {type: 'error', message: 'login error'}
@@ -1419,14 +1420,14 @@ export default {
 
     // UPDATE PRJ DOCUMENT
     update_parent_list (input) {
-      console.log('update_parent_list / input : ', input)
+      this.$store.state.LOG && console.log('update_parent_list / input : ', input)
 
       this.loading = true
 
       // load values as pseudoForm
       var pseudoForm = this.form(input)
       var pseudoFormData = [ pseudoForm ]
-      console.log('update_parent_list / pseudoFormData : ', pseudoFormData)
+      this.$store.state.LOG && console.log('update_parent_list / pseudoFormData : ', pseudoFormData)
 
       // dispatch action from store for update
       this.$store.dispatch('updateItem', {
@@ -1440,12 +1441,12 @@ export default {
           this.loading = false
 
           // update current in store
-          console.log('update_parent_list - response : ', response)
+          this.$store.state.LOG && console.log('update_parent_list - response : ', response)
           this.$store.commit(`${this.coll}/set_current`, response)
         })
 
         .catch(error => {
-          console.log('submit / error... : ', error)
+          this.$store.state.LOG && console.log('submit / error... : ', error)
           this.loading = false
 
           this.$store.commit(`set_error`, error)
@@ -1458,7 +1459,7 @@ export default {
     },
 
     rebuild_dso () {
-      console.log('rebuild_dso... ')
+      this.$store.state.LOG && console.log('rebuild_dso... ')
 
       // dispatch action from store for update
       this.$store.dispatch('buildDso', {
@@ -1470,12 +1471,12 @@ export default {
           this.loading = false
 
         // update current dso in store
-        // console.log("update_parent_list - result : ", result )
+        // this.$store.state.LOG && console.log("update_parent_list - result : ", result )
         // this.$store.commit(`dso/set_current`, result );
         })
 
         .catch(error => {
-          console.log('submit / error... : ', error)
+          this.$store.state.LOG && console.log('submit / error... : ', error)
           this.loading = false
 
           this.$store.commit(`set_error`, error)
@@ -1489,7 +1490,7 @@ export default {
 
     // reset_lists_fromApi(collections, level) {
 
-    //  console.log("reset_lists_fromApi ..." )
+    //  this.$store.state.LOG && console.log("reset_lists_fromApi ..." )
     //  const collections_list  = collections ;
     //  const current_level   = level ;
 
@@ -1497,7 +1498,7 @@ export default {
 
     //  collections_list.forEach ( function (coll, index, initial_array ){
 
-    //   console.log("- - - coll : ", coll ) ;
+    //   this.$store.state.LOG && console.log("- - - coll : ", coll ) ;
 
     //   // create parameters vars for later request in $store
     //   var parameters = this.$store.state[coll].parameters

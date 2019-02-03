@@ -61,18 +61,14 @@
 
 <script>
 // import SectionTitle from '~/components/UI/sectionTitle.vue'
-
 // import ViewEditBasicDoc from '~/components/UI/viewEditDMF.vue'
 // import ViewEditDSI from '~/components/UI/viewEditDSI.vue'
 
 export default {
   components: {
-
     // SectionTitle,
-
     // ViewEditBasicDoc,
     // ViewEditDSI
-
   },
 
   // add var-arg to middleware with meta
@@ -87,36 +83,6 @@ export default {
     return {
       coll: 'dsi',
       tab: 'datasets'
-
-      // parentFieldsList : [
-
-      // 	{
-      // 		parentFieldName : "infos",
-      // 		subFields 	: [
-      // 			"title",
-      // 			"description",
-      // 			"licence"
-      // 		]
-      // 	},
-
-      // 	{
-      // 		parentFieldName : "public_auth",
-      // 		subFields 	: [
-      // 			"open_level_show",
-      // 			"open_level_edit",
-      // 		]
-      // 	},
-
-      // 	{
-      // 		parentFieldName : "specs",
-      // 		subFields 	: [
-      // 			"src_type",
-      // 			"src_link",
-      // 			"src_parser",
-      // 		]
-      // 	},
-      // ]
-
     }
   },
 

@@ -22,9 +22,11 @@ const choosePort = (ENVPROD) => {
     return NUXT_ENV_PORT_PROD
   }
 }
+const logAllowed = ['preprod', 'local']
 const configApp = {
   API_URL: chooseAPIbaseUrl(process.env.NUXT_ENV_API_VAR),
-  port: choosePort(process.env.NUXT_ENV_API_VAR)
+  port: choosePort(process.env.NUXT_ENV_API_VAR),
+  mode: process.env.NUXT_ENV_API_VAR
 }
 console.log('process.env :', process.env)
 console.log('configApp :', configApp)
@@ -60,8 +62,10 @@ module.exports = {
   // custom env variables for nuxt
   // cf : https://github.com/nuxt/nuxt.js/issues/1789
   env: {
-    DEBUG: process.env.NODE_ENV === 'development'
-    // CONFIG_APP: configApp
+    DEBUG: process.env.NODE_ENV === 'development',
+    MODE_APP: configApp.mode,
+    LOG: logAllowed.includes(configApp.mode),
+    CONFIG_APP: configApp
   },
 
   router: {

@@ -290,7 +290,7 @@ export default {
   },
 
   created () {
-    console.log('\n- viewEditDoc / created ---> item_doc : ', this.item_doc)
+    this.$store.state.LOG && console.log('\n- viewEditDoc / created ---> item_doc : ', this.item_doc)
     this.itemDoc = this.item_doc
     // this.canEdit = this.checkUserAuth(this.parentField+'.'+this.subField)
     // this.canEdit = this.checkUserAuth(this.parentFieldslist)
@@ -391,23 +391,23 @@ export default {
     updateIsFile (val) {
       // if( val.subField == "src_type"){
       if (val.subField === 'switchFileType') {
-        console.log('\n updateIsFile - src_type / val : ', val)
+        this.$store.state.LOG && console.log('\n updateIsFile - src_type / val : ', val)
         this.is_file = val.is_file
         this.filetype = val.filetype
       }
 
       if (val.subField === 'fileExt') {
-        console.log('\n updateIsFile - fileExt / val : ', val)
+        this.$store.state.LOG && console.log('\n updateIsFile - fileExt / val : ', val)
         this.itemDoc.specs.src_type = val.fileExt
         this.filetype = val.fileExt
       }
 
-      console.log('updateIsFile / this.filetype : ', this.filetype)
+      this.$store.state.LOG && console.log('updateIsFile / this.filetype : ', this.filetype)
     },
 
     //  checkUserAuth for an item --> /utils
     checkUserAuth (fieldName) {
-      // console.log("checkUserAuth / fieldName : ", fieldName ) ;
+      // this.$store.state.LOG && console.log("checkUserAuth / fieldName : ", fieldName ) ;
 
       var canUpdateField = false
 
@@ -424,7 +424,7 @@ export default {
 
     // submit value to create item via API backend
     createItem () {
-      console.log('\n VE DOC createItem... ')
+      this.$store.state.LOG && console.log('\n VE DOC createItem... ')
 
       this.alert = null
       this.loading = true
@@ -433,7 +433,7 @@ export default {
 
       // this.formHasErrors = false ;
 
-      console.log('VE DOC createItem - currentNew : ', currentNew)
+      this.$store.state.LOG && console.log('VE DOC createItem - currentNew : ', currentNew)
 
       // Object.keys(this.form).forEach(f => {
       //     if (!this.form[f]) this.formHasErrors = true
@@ -446,17 +446,17 @@ export default {
 
       // add file's data if needed
       if (this.is_file === true) {
-        console.log('VE DOC createItem / adding csv_sep to dataToSend')
+        this.$store.state.LOG && console.log('VE DOC createItem / adding csv_sep to dataToSend')
         // dataToSend['file']     = this.$store.state[this.coll].current_file ;
         dataToSend['csv_sep'] = this.$store.state[this.coll].csv_sep
         // dataToSend['filename']   = this.$store.state[this.coll].current_filename ;
       }
 
-      console.log('VE DOC createItem / dataToSend : ', dataToSend)
+      this.$store.state.LOG && console.log('VE DOC createItem / dataToSend : ', dataToSend)
 
       //  PREPARE PAYLOAD
       var payload = { collection: this.coll, data: dataToSend }
-      console.log('VE DOC createItem / payload : ', payload)
+      this.$store.state.LOG && console.log('VE DOC createItem / payload : ', payload)
 
       // dispatch action from store
       this.$store.dispatch('createItem', payload)
@@ -472,7 +472,7 @@ export default {
           // return this.$router.push(`/${this.coll}/${newItemId}`)
         })
         .catch(error => {
-          console.log('VE DOC createItem / submit / error... : ', error)
+          this.$store.state.LOG && console.log('VE DOC createItem / submit / error... : ', error)
           this.loading = false
           this.$store.commit(`set_error`, error)
           if (error.response && error.response.data) {

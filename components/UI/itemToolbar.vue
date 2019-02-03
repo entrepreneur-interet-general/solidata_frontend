@@ -63,10 +63,11 @@
         <v-btn 
           slot="activator"
           v-if="!is_create"
-          :disabled="!checkUserAuth('team')"
+          disabled
           icon
           small
           >
+          <!-- :disabled="!checkUserAuth('team')" -->
           <v-icon 
             color=""
             >
@@ -84,6 +85,7 @@
           slot="activator"
           icon
           small
+          disabled
           >
           <v-icon 
             small
@@ -97,6 +99,26 @@
         </span>
       </v-tooltip>
 
+      <!-- TO DO : EXPORT BTN -->
+      <v-tooltip top>
+        <v-btn 
+          slot="activator"
+          v-if="is_export"
+          icon
+          small
+          disabled
+          >
+          <v-icon 
+            small
+            color=""
+            >
+            {{ $store.state.mainIcons.export.icon }}
+          </v-icon>
+        </v-btn>
+        <span>
+          {{ $t(`global.open_export`, $store.state.locale ) }}
+        </span>
+      </v-tooltip>
 
       <!-- RELOAD / RESET / DELETE ITEM MENU -->
       <v-menu 
@@ -469,7 +491,8 @@ export default {
     'isSettings',
     'is_reset',
     'is_reload',
-    'is_loading'
+    'is_loading',
+    'is_export'
   ],
 
   data () {
@@ -487,6 +510,7 @@ export default {
       dialog_del: false,
       dialog_reset: false,
       dialog_reload: false,
+      dialog_export: false,
 
       parentFieldsListDSI: [
         {
@@ -519,7 +543,7 @@ export default {
 
       immediate: true,
       handler (newVal, oldVal) {
-        console.log('\nItemToolbar / watch ~ item_doc / newVal : \n', newVal)
+        this.$store.state.LOG && console.log('\nItemToolbar / watch ~ item_doc / newVal : \n', newVal)
 
         if (newVal) {
           this.itemDoc = newVal
@@ -532,17 +556,17 @@ export default {
   methods: {
 
     switchPreview () {
-      console.log('itemToolbar - switchPreview / this.is_preview : ', this.is_preview)
+      this.$store.state.LOG && console.log('itemToolbar - switchPreview / this.is_preview : ', this.is_preview)
       this.$emit('input')
     },
     switchSettings () {
-      console.log('itemToolbar - switchSettings / this.is_settings : ', this.is_settings)
+      this.$store.state.LOG && console.log('itemToolbar - switchSettings / this.is_settings : ', this.is_settings)
       this.$emit('settings')
     },
 
     //  USER AUTH  - checkUserAuth for an item --> /utils
     checkUserAuth (fieldName) {
-      // console.log("\ncheckUserAuth / fieldName : ", fieldName ) ;
+      // this.$store.state.LOG && console.log("\ncheckUserAuth / fieldName : ", fieldName ) ;
 
       var canUpdateField = false
 
@@ -555,29 +579,25 @@ export default {
         canUpdateField = this.$checkDocUserAuth(this.itemDoc, fieldName, isLogged, userId)
       }
 
-      // console.log("checkUserAuth / canUpdateField : ", canUpdateField ) ;
+      // this.$store.state.LOG && console.log("checkUserAuth / canUpdateField : ", canUpdateField ) ;
 
       return canUpdateField
     },
 
     reloadData () {
-      console.log('itemToolbar - reloadData ...')
+      this.$store.state.LOG && this.$store.state.LOG && console.log('itemToolbar - reloadData ...')
       const reloadSpecs = this.$store.state[this.coll].reload_data
-      console.log('itemToolbar - reloadData / reloadSpecs : ', reloadSpecs)
+      this.$store.state.LOG && console.log('itemToolbar - reloadData / reloadSpecs : ', reloadSpecs)
 
       // // REFORMAT DATA
-      // let reloadSpecsCopy = Object.assign({}, reloadSpecs)
-      // delete reloadSpecsCopy._id
-      // delete reloadSpecsCopy.public_auth
-      // delete reloadSpecsCopy.log
       let reloadSpecsCopy = this.$store.getters[this.coll + '/getReloadSpecs']
       let dataToSend = this.$prepareFormData(reloadSpecsCopy)
       // let dataToSend = this.$prepareFormData(reloadSpecs)
-      console.log('itemToolbar - reloadData / dataToSend : ', dataToSend)
+      this.$store.state.LOG && console.log('itemToolbar - reloadData / dataToSend : ', dataToSend)
 
       //  PREPARE PAYLOAD
-      let payload = { coll: this.coll, doc_id: this.itemId, data: dataToSend }
-      console.log('itemToolbar - reloadData / payload : ', payload)
+      let payload = { collection: this.coll, doc_id: this.itemId, data: dataToSend }
+      this.$store.state.LOG && console.log('itemToolbar - reloadData / payload : ', payload)
 
       // dispatch action from store
       this.$store.dispatch('reloadData', payload)
@@ -585,7 +605,7 @@ export default {
           this.loading = false
         })
         .catch(error => {
-          console.log('itemToolbar - reloadData / submit / error... : ', error)
+          this.$store.state.LOG && console.log('itemToolbar - reloadData / submit / error... : ', error)
           this.loading = false
           this.$store.commit(`set_error`, error)
           if (error.response && error.response.data) {
@@ -595,7 +615,7 @@ export default {
     },
 
     deleItem () {
-      console.log('\n itemToolbar - deleItem ... ')
+      this.$store.state.LOG && console.log('\n itemToolbar - deleItem ... ')
 
       this.loading = true
       this.is_loading = true
@@ -608,7 +628,7 @@ export default {
       this.$store.dispatch('deleteItem', callInput)
 
         .then(response => {
-          console.log('itemToolbar - deleItem / response: ', response)
+          this.$store.state.LOG && console.log('itemToolbar - deleItem / response: ', response)
 
           this.loading = false
           this.is_loading = false
@@ -618,7 +638,7 @@ export default {
         })
 
         .catch(error => {
-          console.log('itemToolbar - deleItem / error... : ', error)
+          this.$store.state.LOG && console.log('itemToolbar - deleItem / error... : ', error)
 
           this.loading = false
           this.is_loading = false
