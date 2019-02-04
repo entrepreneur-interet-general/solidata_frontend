@@ -1723,17 +1723,17 @@ export default {
     },
 
     searchData () {
-        // change pagination params in store[coll]
-        let paginationParams = {
-          search_for: this.searchFor,
-          page: this.pagination.page,
-          per_page: this.pagination.rowsPerPage,
-          // total_items: this.pagination.totalItems,
-          sort_by: this.pagination.sortBy,
-          descending: this.pagination.descending
-        }
-        this.$store.state.LOG && console.log('...VE DSI pagination - paginationParams : ', paginationParams)
-        this.get_FData_fromApi(paginationParams)
+      // change pagination params in store[coll]
+      let searchParams = {
+        search_for: this.searchFor,
+        page: this.pagination.page,
+        per_page: this.pagination.rowsPerPage,
+        // total_items: this.pagination.totalItems,
+        sort_by: this.pagination.sortBy,
+        descending: this.pagination.descending
+      }
+      this.$store.state.LOG && console.log('...VE DSI pagination - searchParams : ', searchParams)
+      this.get_FData_fromApi(searchParams)
     },
 
     get_FData_fromApi (pagParams) {

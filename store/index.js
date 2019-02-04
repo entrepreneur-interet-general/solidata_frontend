@@ -703,7 +703,6 @@ export const actions = {
     var collection = input.collection
     var docId = input.doc_id
     var fDataParams = {}
-    // var fDataParams  = input.f_data_params ;
 
     // get fDataParams if coll in dsi, dso, dsr
     if (collection === 'dsi' || collection === 'dso') {
