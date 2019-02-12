@@ -255,35 +255,64 @@
                 class="subheading grey--text"
                 >
 
-                <v-tooltip top>
-
-                  <v-btn
-                    slot="activator"
+                <!-- <v-tooltip top> -->
+                    <!-- slot="activator" -->
+                  <!-- <v-btn
                     icon
                     v-show="isPreview || add_to_parent"
                     flat
-                    class="grey"
                     dark
                     small 
-                    :to="`/${item_doc.specs.doc_type}/${item_doc._id}`"
-                    >
+                    > -->
+                    <!-- class="grey" -->
+                    <!-- @click="show_dmf_table=!show_dmf_table" -->
+                    <!-- :to="`/${item_doc.specs.doc_type}/${item_doc._id}`" -->
                     <!-- @click="goToItem()" -->
-
-                    <v-icon small>
+                    <v-icon 
+                      v-show="isPreview || add_to_parent"
+                      small
+                      class="mr-2"
+                      color="grey"
+                      >
                       {{ $store.state.mainIcons[collName].icon }}
                     </v-icon>
+                  <!-- </v-btn> -->
                   
-                  </v-btn>
-                  
-                  <span>
+                  <!-- <span>
                     {{ $t(`datamodels.preview`, $store.state.locale) }}
-                  </span>
+                  </span> -->
 
                 </v-tooltip>
 
                 <span>
                   {{ item_doc.infos.title | truncate(30, '...') }}
                 </span>
+
+                <v-tooltip right>
+                  <v-btn
+                    slot="activator"
+                    icon
+                    v-show="add_to_parent"
+                    flat
+                    small 
+                    :to="`/${item_doc.specs.doc_type}/${item_doc._id}`"
+                    >
+                    <!-- @click="goToItem()" -->
+                    <v-icon 
+                      small
+                      color="grey"
+                      >
+                      {{ $store.state.mainIcons.edit.icon }}
+                    </v-icon>
+                  </v-btn>
+                  
+                  <span>
+                    {{ $t(`datamodels.edit`, $store.state.locale) }}
+                  </span>
+
+                </v-tooltip>
+
+
 
                   <!-- - ScT : {{ offsetTop }} -->
                   <!-- - ScL : {{ offsetLeft }} -->
@@ -443,8 +472,8 @@
 
               </v-menu>
 
-
-              <v-tooltip top>
+              <!-- DRAWER CONTROL -->
+              <!-- <v-tooltip top>
                 <v-btn 
                   slot="activator"
                   flat
@@ -463,9 +492,9 @@
                 <span>
                   {{ $t(`datamodels.preview`, $store.state.locale) }}
                 </span>
-              </v-tooltip>
+              </v-tooltip> -->
 
-            </v-toolbar>
+            </v-toolbar> 
 
 
             <v-expand-transition>
@@ -634,7 +663,7 @@
               slot="header"
               >
 
-              <v-icon small class="px-2">
+              <!-- <v-icon small class="px-2">
                 {{ $store.state.mainIcons.datamodels.icon }}
               </v-icon>
               <v-icon small class="accent--text">
@@ -642,6 +671,10 @@
               </v-icon>
               <v-icon small class="px-2">
                 {{ $store.state.mainIcons.view.icon }}
+              </v-icon> -->
+
+              <v-icon small class="accent--text mr-2">
+                {{ $store.state.mainIcons.map_doc.icon }}
               </v-icon>
 
               <span>

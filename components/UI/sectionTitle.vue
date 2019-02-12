@@ -7,6 +7,7 @@
     > -->
     <!-- :height="$store.state.mainSectionsHeight" -->
 
+
   <v-toolbar 
     fluid 
     flat
@@ -15,7 +16,29 @@
     :color="sectionColor"
     :dark="is_dark"
     >
-          
+
+    <v-toolbar-title
+      class="body-2 grey--text"
+      v-if="!isDashboard"
+      >
+      <v-btn
+        icon
+        nuxt
+        @click="$router.go(-1)"
+        >
+        <!-- :to="'/dashboard#'+tab" -->
+        <v-icon>
+          {{ $store.state.mainIcons.back.icon }}  
+        </v-icon>
+      </v-btn>
+      <span 
+        class="hidden-sm-and-down">
+       {{ $t('links.back', $store.state.locale)}}
+      </span>
+    </v-toolbar-title>
+
+    <v-spacer></v-spacer>
+
     <v-toolbar-side-icon 
       icon
       flat
@@ -46,13 +69,33 @@
         {{ title }}
       </span>
 
-      &nbsp;
-
       <span 
-        class="caption"
+        class="caption hidden-sm-and-down"
         >
+        &nbsp;
         {{ intro }}
       </span>
+
+      <!-- QUESTION BTN -->
+      <v-tooltip top>
+        <v-btn 
+          slot="activator"
+          class="pb-1 ml-0"
+          icon
+          small
+          disabled
+          >
+          <v-icon 
+            small
+            color=""
+            >
+            {{ $store.state.mainIcons.infos.icon }}
+          </v-icon>
+        </v-btn>
+        <span>
+          {{ $t(`global.what_is`, $store.state.locale ) }}
+        </span>
+      </v-tooltip>
 
     </v-toolbar-title>
         
@@ -72,19 +115,18 @@
       >
     </BtnCreate> -->
 
-    <v-spacer v-if="!isDashboard"></v-spacer>
+    <v-spacer></v-spacer>
 
-    <v-btn
+    <!-- <v-btn
       v-if="!isDashboard"
       icon
       nuxt
       @click="$router.go(-1)"
       >
-      <!-- :to="'/dashboard#'+tab" -->
       <v-icon>
         {{ $store.state.mainIcons.back.icon }}  
       </v-icon>
-    </v-btn>
+    </v-btn> -->
 
 
   </v-toolbar>

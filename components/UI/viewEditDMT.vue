@@ -66,6 +66,7 @@
             :is_create="is_create" 
             :isPreview="isPreview"
             :isSettings="isSettings"
+            :is_export="true"
             :is_reset="false"
             :is_loading="loading"
             @input="switchPreview"
@@ -103,7 +104,7 @@
           <v-flex class="xs12 sm10 md8 justify-center py-5">
 
             <!-- COMPONENTS FOR COMMON DOCS INFOS -->    
-            <v-expansion-panel
+            <!-- <v-expansion-panel
               v-model="panel_infos"
               expand
               class="elevation-0"
@@ -123,7 +124,6 @@
                   </span>
                 </div>
 
-                  <!-- :is_preview="isPreview" -->
                 <ItemDocInfos
                   :coll="coll"
                   :is_create="is_create"
@@ -135,7 +135,7 @@
               
             </v-expansion-panel>
 
-            <v-divider></v-divider>
+            <v-divider></v-divider> -->
 
 
             <!-- DMF LIBRARY -->
@@ -182,6 +182,7 @@
                   :coll="'dmf'"
                   :items_coll="$store.state.dmf.list"
                   :no_margin="true"
+                  :denser="true"
 
                   :add_to_parent="true"
                   :parentDoc_id="itemId"
@@ -318,6 +319,40 @@
 
     </v-layout>
 
+
+    <!-- COMPONENTS FOR COMMON DOCS INFOS -->    
+    <v-expansion-panel
+      v-if="is_itemDoc && !isPreview && !no_toolbar"
+      v-model="panel_infos"
+      expand
+      class="elevation-0 mt-3"
+      >
+
+      <v-expansion-panel-content>
+
+        <div 
+          class="pb-0 mb-0"
+          slot="header"
+          >
+          <v-icon small color="accent" class="mr-3">
+            {{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
+          </v-icon>
+          <span>
+            {{ $t(`parentFields.infos`, $store.state.locale) }}
+          </span>
+        </div>
+
+          <!-- :is_preview="isPreview" -->
+        <ItemDocInfos
+          :coll="coll"
+          :is_create="is_create"
+          :item_doc="itemDoc"
+          >
+        </itemDocInfos>
+
+      </v-expansion-panel-content>
+      
+    </v-expansion-panel>
 
     <!-- COMPONENTS FOR COMMON DOCS USES -->    
     <v-expansion-panel

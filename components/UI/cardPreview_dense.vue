@@ -116,6 +116,7 @@
 
         <!-- OPEN LEVEL EDIT -->
         <v-card-text 
+          v-if="!denser"
           :class="`${ (coll==='tag') ? 'px-2 pb-4 pt-2 ' : 'pa-2 '} text-xs-center`"
           >
           <v-icon 
@@ -125,15 +126,16 @@
             {{ $store.state.mainIcons.edit.icon }}
           </v-icon>
           {{ item.public_auth.open_level_edit }}
+        
+        
         </v-card-text>
 
+        <v-divider v-if="!denser && coll!=='tag'" ></v-divider>
 
         <!-- if - PRJ / DSI / DMT -->
         <div
           v-if="!not_main_colls.includes(coll)"
           >
-
-          <v-divider ></v-divider>
 
           <v-responsive
             :height="height_main_coll_content"
@@ -236,8 +238,6 @@
           v-if="coll=='dmf'"
           >
 
-          <v-divider ></v-divider>
-
           <v-responsive
             text-xs-center
             class="mx-0 py-1"
@@ -248,15 +248,11 @@
               class="pa-0" 
               >
 
-              <!-- <v-container pa-0 ma-0 text-xs-center align-center> -->
-
               <v-list dense two-line class="ma-0 transparent">
 
-                <v-list-tile>
-
-                  <!-- <v-list-tile-action>
-                    <v-icon color="indigo">mail</v-icon>
-                  </v-list-tile-action> -->
+                <v-list-tile
+                  v-if="!denser"
+                  >
 
                   <v-list-tile-content>
                     <v-list-tile-sub-title>
@@ -271,13 +267,9 @@
 
                 </v-list-tile>
 
-                <v-divider class=""></v-divider>
+                <v-divider v-if="!denser" class=""></v-divider>
 
                 <v-list-tile >
-                  
-                  <!-- <v-list-tile-action>
-                    <v-icon color="indigo">mail</v-icon>
-                  </v-list-tile-action> -->
 
                   <v-list-tile-content>
                     <v-list-tile-sub-title>
@@ -291,8 +283,6 @@
                 </v-list-tile>
 
               </v-list>
-
-              <!-- </v-container> -->
 
             </v-card-text>
 
@@ -336,6 +326,8 @@ export default {
     'item',
     'index',
     'inTeam',
+
+    'denser',
 
     'add_to_parent',
     'parentDoc_coll',

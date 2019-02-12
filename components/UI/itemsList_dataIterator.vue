@@ -143,6 +143,7 @@
             :tab="tab"
             :item="props.item"
             :inTeam="'yes'"
+            :denser="denser"
 
             :add_to_parent="add_to_parent"
             :parentDoc_id="parentDoc_id"
@@ -203,6 +204,7 @@
             :tab="tab"
             :item="props.item"
             :inTeam="'no'"
+            :denser="denser"
 
             :add_to_parent="add_to_parent"
             :parentDoc_id="parentDoc_id"
@@ -246,6 +248,7 @@ export default {
     'coll',
 
     'no_margin',
+    'denser',
 
     // props to add item to parent
     'add_to_parent',

@@ -21,7 +21,7 @@
       <!-- ACCESS SETTINGS -->
       <v-tooltip 
         v-if="!is_create"
-        top
+        right
         >
         <v-btn 
           slot="activator"
@@ -44,6 +44,7 @@
 
       <!-- SWITCH FOR PREVIEW -->
       <v-btn 
+        v-if="$store.state.DEBUG"
         icon
         small
         :color="btnSwitchColor"
@@ -80,7 +81,7 @@
       </v-tooltip>
 
       <!-- QUESTION BTN -->
-      <v-tooltip top>
+      <!-- <v-tooltip top>
         <v-btn 
           slot="activator"
           icon
@@ -97,10 +98,10 @@
         <span>
           {{ $t(`global.open_options`, $store.state.locale ) }}
         </span>
-      </v-tooltip>
+      </v-tooltip> -->
 
       <!-- TO DO : EXPORT BTN -->
-      <v-tooltip top>
+      <!-- <v-tooltip top>
         <v-btn 
           slot="activator"
           v-if="is_export"
@@ -118,7 +119,7 @@
         <span>
           {{ $t(`global.open_export`, $store.state.locale ) }}
         </span>
-      </v-tooltip>
+      </v-tooltip> -->
 
       <!-- RELOAD / RESET / DELETE ITEM MENU -->
       <v-menu 
@@ -176,6 +177,25 @@
               </span>
             </v-list-tile-title>
           </v-list-tile> -->
+
+          <!-- EXPORT BTN -->
+          <v-list-tile
+            v-if="is_export"
+            disabled
+            >
+            <v-list-tile-title
+              >
+              <v-icon 
+                small
+                color=""
+                >
+                {{ $store.state.mainIcons.export.icon }}
+              </v-icon>
+              <span>
+                {{ $t(`global.open_export`, $store.state.locale ) }}
+              </span>
+            </v-list-tile-title>
+          </v-list-tile>
 
 
           <!-- RELOAD BTN -->

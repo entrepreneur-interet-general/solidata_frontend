@@ -128,7 +128,7 @@
 
               <!-- COMPONENTS FOR COMMON DOCS INFOS -->    
                 <!-- v-show="!isPreview" -->
-              <v-expansion-panel
+              <!-- <v-expansion-panel
                 v-model="panel_infos"
                 expand
                 class="elevation-0"
@@ -147,7 +147,6 @@
                     </span>
                   </div>
 
-                    <!-- :is_preview="isPreview" -->
                   <ItemDocInfos
                     :coll="coll"
                     :is_create="is_create"
@@ -158,7 +157,7 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
 
-              <v-divider></v-divider>
+              <v-divider></v-divider> -->
 
 
               <!-- TAGS LIBRARY -->
@@ -256,9 +255,8 @@
                 <v-toolbar-title
                   class="subheading grey--text"
                   >
-
-                  <v-tooltip top>
-
+                  
+                  <!-- <v-tooltip top>
                     <v-btn
                       slot="activator"
                       icon
@@ -267,29 +265,51 @@
                       class="grey"
                       dark
                       small 
-                      @click="show_dsi_table=!show_dsi_table"
-                      >
+                      > -->
+                      <!-- @click="show_dsi_table=!show_dsi_table" -->
                       <!-- :to="`/${itemDoc.specs.doc_type}/${itemDoc._id}`" -->
-                      <!-- @click="goToItem()" -->
-
-                      <v-icon small>
+                      <v-icon 
+                        v-show="isPreview || add_to_parent"
+                        color="grey"
+                        class="mr-2"
+                        small
+                        >
                         {{ $store.state.mainIcons[collName].icon }}
                       </v-icon>
-                      
-                    </v-btn>
-
+                    <!-- </v-btn> -->
                     <span>
                       {{ $t(`datasets.preview`, $store.state.locale) }}
                     </span>
                   </v-tooltip>
 
-
-
-                  <span
-                    >
+                  <span>
                     {{ itemDoc.infos.title | truncate(30, '...') }}
                   </span>
                   
+                  <!-- EDIT / GO TO BTN -->
+                  <v-tooltip right>
+                    <v-btn
+                      slot="activator"
+                      icon
+                      v-show="add_to_parent"
+                      flat
+                      small 
+                      :to="`/${itemDoc.specs.doc_type}/${itemDoc._id}`"
+                      >
+                      <v-icon 
+                        small
+                        color="grey"
+                        >
+                        {{ $store.state.mainIcons.edit.icon }}
+                      </v-icon>
+                    </v-btn>
+                    <span>
+                      {{ $t(`datasets.edit`, $store.state.locale) }}
+                    </span>
+                  </v-tooltip>
+
+
+
                   <!-- -- parent_map : <br> <code>{{parent_map}}</code> -->
 
                   <!-- - ScT : {{ offsetTop }} -->
@@ -339,14 +359,13 @@
                   <!-- NEW ITEM -->
                   <v-btn 
                     slot="activator" 
-                    color="accent" 
-                    :diabled="loading"
+                    color="grey" 
                     dark 
                     block
                     round
-                    
                     outline
                     class="text-lowercase"
+                    :disabled="loading"
                     >
                     <v-icon small class="mr-2">
                       {{ $store.state.mainIcons.add_to_parent.icon }}  
@@ -406,7 +425,7 @@
                   <v-btn
                     slot="activator"
                     v-show="is_map"
-                    :class="`${ checkUserAuth('mapping.dsi_to_dmf') ? ( loading ? 'grey lighten-1' : 'accent') : 'grey lighten-1' } ml-2`"
+                    :class="`text-lowercase ${ checkUserAuth('mapping.dsi_to_dmf') ? ( loading ? 'grey lighten-1' : 'accent') : 'grey lighten-1' } ml-2`"
                     :disabled="!checkUserAuth('mapping.dsi_to_dmf') || loading"
                     flat
                     dark
@@ -415,7 +434,7 @@
                     @click="dialog_mapping = !dialog_mapping"
                     >
 
-                    <v-icon small right left>
+                    <!-- <v-icon small right left>
                       {{ $store.state.mainIcons.datasets.icon }}
                     </v-icon>
                     <v-icon small left>
@@ -423,10 +442,22 @@
                     </v-icon>
                     <v-icon small left>
                       {{ $store.state.mainIcons.datamodels.icon }}
+                    </v-icon> -->
+
+                    <v-icon 
+                      small
+                      class="px-2"
+                      >
+                      {{ $store.state.mainIcons.map_doc.icon }}
                     </v-icon>
+                    <span 
+                      class="hidden-sm-and-down">
+                      {{ $t(`projects.map_dmf`, $store.state.locale) }}
+                    </span>
 
                   </v-btn> 
-                  <span>
+                  <span 
+                    class="">
                     {{ $t(`projects.map_with_dmf`, $store.state.locale) }}
                   </span>
                 </v-tooltip>
@@ -1054,6 +1085,40 @@
 
       </v-layout>
 
+
+
+
+      <!-- COMPONENTS FOR COMMON DOCS INFOS -->    
+      <v-expansion-panel
+        v-show="!isPreview && !no_toolbar"
+        v-model="panel_infos"
+        expand
+        class="elevation-0 mt-3"
+        >
+
+        <v-expansion-panel-content>
+
+          <div 
+            slot="header"
+            >
+            <v-icon small color="accent" class="mr-3">
+              {{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
+            </v-icon>
+            <span>
+              {{ $t(`parentFields.infos`, $store.state.locale) }}
+            </span>
+          </div>
+
+            <!-- :is_preview="isPreview" -->
+          <ItemDocInfos
+            :coll="coll"
+            :is_create="is_create"
+            :item_doc="itemDoc"
+            >
+          </itemDocInfos>
+
+        </v-expansion-panel-content>
+      </v-expansion-panel>
 
 
       <!-- COMPONENTS FOR COMMON DOCS USES -->    

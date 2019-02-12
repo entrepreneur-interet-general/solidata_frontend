@@ -69,6 +69,39 @@
     </v-card-text>
 
 
+    <!-- COMPONENTS FOR COMMON DOCS INFOS -->  
+    <v-expansion-panel
+      v-show="!isPreview"
+      v-model="panel_infos"
+      expand
+      class="elevation-0"
+      >
+
+      <v-expansion-panel-content>
+
+        <div 
+          slot="header"
+          >
+          <v-icon small color="accent" class="mr-3">
+            {{ $store.state.mainIcons.parentFieldIcons.infos.icon }}  
+          </v-icon>
+          <span>
+            {{ $t(`parentFields.infos`, $store.state.locale) }}
+          </span>
+        </div>
+
+        <ItemDocInfos
+          :coll="coll"
+          :is_create="is_create"
+          :is_preview="false"
+          :item_doc="item_doc"
+          >
+        </itemDocInfos>
+
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+
+
     <!-- COMPONENTS FOR COMMON DOCS USES -->  
     <v-expansion-panel
       v-show="!isPreview"
@@ -126,7 +159,6 @@
           <v-flex class="xs12 sm10 md8 justify-center py-5">
 
             <!-- COMPONENTS FOR COMMON DOCS INFOS -->  
-              <!-- v-show="!isPreview" -->
             <v-expansion-panel
               v-model="panel_infos"
               expand
@@ -152,7 +184,6 @@
                   :is_preview="false"
                   :item_doc="item_doc"
                   >
-                  <!-- :item_doc="itemDoc" -->
                 </itemDocInfos>
 
               </v-expansion-panel-content>
@@ -162,7 +193,6 @@
 
 
             <!-- DMT LIBRARY -->
-              <!-- v-show="!isPreview" -->
             <v-expansion-panel
               v-if="$store.state.auth.isLogged"
               v-model="panel_lib_dmt"
@@ -189,6 +219,7 @@
                   :coll="'dmt'"
                   :items_coll="$store.state.dmt.list"
                   :no_margin="true"
+                  :denser="true"
 
                   :add_to_parent="true"
                   :parentDoc_id="itemId"
@@ -205,7 +236,6 @@
             <v-divider></v-divider>
 
             <!-- DSI LIBRARY -->
-              <!-- v-show="!isPreview" -->
             <v-expansion-panel
               v-if="$store.state.auth.isLogged"
               v-model="panel_lib_dsi"
@@ -219,9 +249,6 @@
                   slot="header"
                   >
 
-                  <!-- <v-icon small color="accent" class="mr-3">
-                    {{ $store.state.mainIcons.datasets.icon }}  
-                  </v-icon> -->
                   <v-badge
                     overlap
                     color="grey lighten-1"
@@ -250,6 +277,7 @@
                   :coll="'dsi'"
                   :items_coll="$store.state.dsi.list"
                   :no_margin="true"
+                  :denser="true"
 
                   :add_to_parent="true"
                   :parentDoc_id="itemId"
@@ -487,7 +515,6 @@
 
           </v-flex>
 
-
           <!-- NO DMT -->
           <v-flex 
             v-else
@@ -517,7 +544,7 @@
         <v-layout row wrap>
 
           <!-- BTN - DMT MANAGE / GOT TO DMT SELECTED -->
-          <v-flex 
+          <!-- <v-flex 
             v-if="list_DMT_oids.length != 0"
             xs12
             >
@@ -535,7 +562,6 @@
                     flat
                     :to="`${ list_DMT_oids.length != 0 ? '/dmt/'+list_DMT_oids[0].oid_dmt : '' }`"
                     >
-                    <!-- @click="panel_lib_dmt=[true]; panel_infos=[false]; isSettings=true" -->
                     <v-badge
                       overlap
                       color="grey lighten-1"
@@ -561,17 +587,18 @@
                 </v-tooltip>
               </v-card-text>
             </v-card>
-          </v-flex>
+          </v-flex> -->
 
-          <!-- BTN - DMT MANAGE / OPEN LIST -->
-          <v-flex xs12>
+          <!-- BTN - DMT MANAGE / OPEN LIST DMT -->
+          <v-flex xs12 v-show="isPreview">
             <v-card
               flat
-              :class="`pa-2 ml-3 ${ list_DMT_oids.length != 0 ? 'mt-2' : '' }`"
+              :class="`pa-2 ml-3`"
               >
+              <!-- :class="`pa-2 ml-3 ${ list_DMT_oids.length != 0 ? 'mt-2' : '' }`" -->
               <!-- - list_DMT_oids : {{ list_DMT_oids }} -->
               <v-card-text class="pa-0 text-xs-center ">
-                <v-tooltip top>
+                <!-- <v-tooltip top> -->
                   <v-btn 
                     slot="activator"
                     :disabled="loading || !checkUserAuth('datasets.dmt_list')"
@@ -589,12 +616,12 @@
                   <span>
                     {{ $t(`projects.manage_dmt` , $store.state.locale) }}
                   </span>
-                </v-tooltip>
+                <!-- </v-tooltip> -->
               </v-card-text>
             </v-card>
           </v-flex>
 
-          <!-- BTN - REBUILD -->
+          <!-- BTN - REBUILD / PUBLISH -->
           <v-flex 
             xs12
             v-show="!loading && list_DMT_oids.length != 0 && list_DSI_oids.length != 0"
@@ -602,10 +629,10 @@
             
             <v-card
               flat
-              class="pa-2 ml-3 mt-2"
+              :class="`pa-2 ml-3 ${ isPreview ? 'mt-2' : '' }`"
               >
               <v-card-text class="pa-0 text-xs-center">
-                <v-tooltip top>
+                <!-- <v-tooltip top> -->
                   <!-- :disabled="loading || !checkUserAuth('mapping.dmf_to_open_level')" -->
                   <v-btn 
                     slot="activator"
@@ -613,24 +640,24 @@
                     :disabled="!item_doc.log.is_buildable"
                     block
                     flat
-                    @click="rebuild_dso"
+                    @click="publish_dso"
                     >
                     <v-icon 
                       color="accent"
                       >
-                      {{ $store.state.mainIcons.rebuild.icon }}
-                    </v-icon>
+                      {{ $store.state.mainIcons.publish.icon }}
+                    </v-icon>               
                   </v-btn>
                   <span>
-                    {{ $t(`projects.rebuild`, $store.state.locale) }}
+                    {{ $t(`projects.publish`, $store.state.locale) }}
                   </span>
-                </v-tooltip>
+                <!-- </v-tooltip> -->
               </v-card-text>
             </v-card>
           </v-flex>
 
           <!-- BTN - EXPORT -->
-          <v-flex 
+          <!-- <v-flex 
             xs12
             v-show="!loading && list_DMT_oids.length != 0"
             >
@@ -641,7 +668,6 @@
               >
               <v-card-text class="pa-0 text-xs-center">
                 <v-tooltip top>
-                  <!-- :disabled="loading || !checkUserAuth('mapping.dmf_to_open_level')" -->
                   <v-btn 
                     slot="activator"
                     :class="`ma-0 text-lowercase ${ loading ? 'grey--text' : 'accent--text'}`"
@@ -662,7 +688,7 @@
                 </v-tooltip>
               </v-card-text>
             </v-card>
-          </v-flex>
+          </v-flex> -->
 
           <!-- BTN - RECIPES / GEOLOC -->
           <v-flex 
@@ -674,7 +700,7 @@
               class="pa-2 ml-3 mt-2"
               >
               <v-card-text class="pa-0 text-xs-center">
-                <v-tooltip top>
+                <!-- <v-tooltip top> -->
                   <v-btn 
                     slot="activator"
                     :disabled="loading || !checkUserAuth('mapping.dmf_to_open_level')"
@@ -693,7 +719,7 @@
                   <span>
                     {{ $t(`projects.geoloc`, $store.state.locale) }}
                   </span>
-                </v-tooltip>
+                <!-- </v-tooltip> -->
               </v-card-text>
             </v-card>
           </v-flex>
@@ -774,7 +800,7 @@
       </v-flex>
 
       <!-- CREATE NEW DSI BTN -->
-      <v-flex 
+      <!-- <v-flex 
         xs4 sm3 md2
         class="text-xs-center"
         >
@@ -809,7 +835,7 @@
 
         </v-card>
 
-      </v-flex>
+      </v-flex> -->
 
 
     </v-layout>
@@ -884,7 +910,7 @@
           </v-flex>
 
           <!-- ACTIONS ON DSI -->
-          <v-flex 
+          <!-- <v-flex 
             xs4 sm3 md2
             class="pa-0"
             v-show="!loading"
@@ -895,7 +921,6 @@
               >
               <v-card-text class="pa-0 text-xs-center">
               
-                <!-- ACTIONS ON DSI -->
                 <v-tooltip 
                   top
                   >
@@ -931,7 +956,7 @@
                     {{ $t(`datasets.go_to`, $store.state.locale) }}
                   </span>
 
-                </v-tooltip>
+                </v-tooltip> -->
 
 
                 <!-- <br> parent_map : <code>{{ getDSI_map(dsi.oid_dsi) }}</code> -->
@@ -941,9 +966,9 @@
                 <!-- <br> parentDoc_dmf_list : <code>{{$store.state.dmt.current_list_DMF_list}}</code> -->
                 <!-- <br> parentDoc_dmf_list_pivoted : <code>{{$store.state.dmt.current_list_DMF_list_pivoted}}</code> -->
               
-              </v-card-text>
+              <!-- </v-card-text>
             </v-card>
-          </v-flex>
+          </v-flex> -->
           
         </v-layout>
 
@@ -974,6 +999,12 @@
       </v-flex>
 
     </v-layout>
+
+
+
+
+
+
 
 
   </v-container>
@@ -1100,7 +1131,7 @@ export default {
       panel_lib_dmt: [false],
       panel_lib_dsi: [true],
       panel_lib_tag: [false],
-      panel_uses: [true],
+      panel_uses: [false],
 
       isPreview: this.is_preview,
       noToolbar: this.no_toolbar,
@@ -1458,8 +1489,8 @@ export default {
         })
     },
 
-    rebuild_dso () {
-      this.$store.state.LOG && console.log('rebuild_dso... ')
+    publish_dso () {
+      this.$store.state.LOG && console.log('publish_dso... ')
 
       // dispatch action from store for update
       this.$store.dispatch('buildDso', {

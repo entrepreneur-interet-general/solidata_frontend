@@ -16,6 +16,8 @@
 		"english"		: "Versión inglesa",
 		"french"		: "Versión francesa",
 
+		"back"      : "Volver a la página precedente",
+
 		"allprojects"   : "Proyectos",
 		"myprojects"    : "Mis proyectos",
 		"alldatasets"   : "Datos",
@@ -257,34 +259,35 @@
 	},
 
 	"projects" : {
-		"name"			: "Proyectos",
-		"singular"		: "Proyecto",
-		"intro"			: "Administrar sus proyectos",
-		"introAnon"		: "Todos los proyectos conpartidos por la comunidad",
-		"create"		: "Nuevo proyecto",
-		"edit"			: "Ver / editar las informaciones",
-		"title"			: "De un nombre a su proyecto",
+		"name"					: "Proyectos",
+		"singular"			: "Proyecto",
+		"intro"					: "Administrar sus proyectos",
+		"introAnon"			: "Todos los proyectos conpartidos por la comunidad",
+		"create"				: "Nuevo proyecto",
+		"edit"					: "Ver / editar las informaciones",
+		"title"					: "De un nombre a su proyecto",
 		"description" 	: "Describe su proyecto",
-		"licence" 		: "Elejir una licencia",
-		"tags" 			: "Elejir etiquetas para este proyecto",
-		"openlevel" 	: "Elejir un nivel de open data",
+		"licence" 			: "Elejir una licencia",
+		"tags" 					: "Elejir etiquetas para este proyecto",
+		"openlevel" 		: "Elejir un nivel de open data",
 		"open_level_edit" : "Elejir un open level para edición",
 		"open_level_show" : "Elejir un open level para prevista",
-		"f_code" 		: "Código de campo" ,
-		"f_object" 		: "Objecto del campo" ,
-		"f_type" 		: "Tipo de campo" ,
-		"f_comments" 	: "Comentarios sobre el campo" ,
+		"f_code" 				: "Código de campo" ,
+		"f_object" 			: "Objecto del campo" ,
+		"f_type" 				: "Tipo de campo" ,
+		"f_comments" 		: "Comentarios sobre el campo" ,
 		"f_is_required"	: "Campo está necesario" ,
-		"resume" 		: "Resumen",
+		"resume" 				: "Resumen",
 
-		"rebuild" 		: "Reconstruir los datos consolidados del proyecto",
-		"export" 		: "Exportar los datos del proyecto",
+		"rebuild" 			: "Reconstruir los datos consolidados del proyecto",
+		"publish" 			: "Publicar el proyecto",
+		"export" 				: "Exportar los datos del proyecto",
 		"geoloc_infos" 	: "Añadir datos de geolocalización al proyecto",
 
 		"dsi" 			: "Datos",
 		"no_dmt" 		: "Por favor seleccione un módelo",
 		"no_dsi" 		: "Por favor seleccione un o varios juegos de datos",
-		"no_dsi_map" 	: "Este juego de datos no está asociado con el módelo",
+		"no_dsi_map": "Este juego de datos no está asociado con el módelo",
 
 		"manage_dsi" 	: "Administrar sus datos",
 		"manage_dmt" 	: "Elejir un módelo de datos",
@@ -294,18 +297,19 @@
 		"del_dmt" 		: "Suprimir este módelos",
 		"del_rec" 		: "Suprimir esta receta",
 
-		"dsi_headers"	: "el título de columna original",
+		"dsi_headers"		: "el título de columna original",
 		"map_with_dmf"	: "Asociar cada título con un campo del módelo de datos",	
-		"dsi_map" 		: "Haz corresponder sus datos con su módelo de datos",
-		"dsi_to_dmf" 	: "Mapear este header",
+		"map_dmf"				: "Mapear el juego de datos",	
+		"dsi_map" 			: "Haz corresponder sus datos con su módelo de datos",
+		"dsi_to_dmf" 		: "Mapear este header",
 
 		"new_dmfs"		: "Elejir las nuevas columnas que se quiere añadir",
 		"choose_col"	: "Elejir el título de la nueva columna",
-		"new_col"		: "Elejir el título de la nueva columna o escribe el título de la nueva columna",
+		"new_col"			: "Elejir el título de la nueva columna o escribe el título de la nueva columna",
 
-		"geoloc"		: "Geo-localizar sus datos",
+		"geoloc"				: "Geo-localizar sus datos",
 		"geo_select_dmf": "Elejir las columnas del módelo de datos que permiten geo-localizar",
-		"add_compl"		: "Informaciones complementarias a propócito de la dirección"
+		"add_compl"			: "Informaciones complementarias a propócito de la dirección"
 
 	},
 
