@@ -33,7 +33,12 @@ export default function ({context, store, redirect, route, params, $axios}) {
   const currentItem = $axios.get(`${currentCollection}/infos/get_one/${itemId}`, config)
 
     .then(response => {
-      console.log('... getItem : response : ', response.data)
+      console.log('... getItem : response.data (1): ', response.data)
+      if (typeof response.data === 'string') {
+        console.log('... getItem : response.data is a string ')
+        response = JSON.parse(response)
+      }
+      console.log('... getItem : response.data (2): ', response.data)
       store.commit(`${currentCollection}/set_current`, response.data)
       // store.dispatch(`${current_collection}/dispatch_current`, response.data);
       return response

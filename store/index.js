@@ -52,12 +52,16 @@ const dmfTypesList = [
 
 const srcTypesList = [
   'xls',
+  'xlsx',
   'csv',
+  'tsv',
   'API'
 ]
 const srcFileTypesList = [
   'xls',
-  'csv'
+  'xlsx',
+  'csv',
+  'tsv'
   // 'API',
 ]
 // TO DO : try to find automatically the separator
