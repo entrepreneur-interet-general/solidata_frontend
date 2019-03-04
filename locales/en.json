@@ -309,6 +309,7 @@
 
     "geoloc"		    : "Geocode your data",
     "geo_select_dmf": "Choose the datamodel's columns allowing to geocode",
+		"geo_select_dsi": "Choose the datasets you want to geocode",
     "add_compl"	  	: "Complementary info about the address"
 
   },

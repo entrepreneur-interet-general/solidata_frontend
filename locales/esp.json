@@ -309,6 +309,7 @@
 
 		"geoloc"				: "Geo-localizar sus datos",
 		"geo_select_dmf": "Elejir las columnas del módelo de datos que permiten geo-localizar",
+		"geo_select_dsi": "Elejir los juegos de datos que quiere geo-localizar",
 		"add_compl"			: "Informaciones complementarias a propócito de la dirección"
 
 	},

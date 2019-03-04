@@ -74,6 +74,7 @@ export default {
       'prj',
       'tag',
       'dmf',
+      'dsi',
       'dmt',
       'rec'
     ],

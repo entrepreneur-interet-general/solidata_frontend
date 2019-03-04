@@ -72,8 +72,10 @@ export const state = () => ({
     'date',
     'price',
     'adress',
-    'latitude',
-    'longitude',
+    // 'lat',
+    // 'lon',
+    // 'latitude',
+    // 'longitude',
     'other'
   ]
 

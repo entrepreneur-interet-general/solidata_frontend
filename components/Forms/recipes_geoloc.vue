@@ -185,6 +185,43 @@
 
       </v-flex>
 
+      <!-- DSI TO GEOCODE -->
+      <v-flex
+        class="mt-5 xs12"
+        >
+
+        <!-- HELP TEXT -->
+        <span>
+          <v-icon 
+            color="grey"
+            small
+            >
+            {{ $store.state.mainIcons.infos.icon }}
+          </v-icon>	
+          {{ $t(`projects.geo_select_dsi`, $store.state.locale) }}
+        </span>
+
+        <!-- DSI SELECTION-->
+        <v-layout row justify-center> 
+          <v-flex class="pt-3 xs12 sm10 md8">
+            <v-select
+              v-model="selected_dsis"
+              :items="dsi_input_list"
+              :menu-props="{ maxHeight: '400' }"
+              item-text="title"
+              item-value="oid_dsi"
+              label="Select"
+              multiple
+              @change="update_mapping"
+            ></v-select>
+          </v-flex>
+        </v-layout> 
+        <br>
+        <!-- parent_DSI_oids : <code>{{ parent_DSI_oids }}</code><br> -->
+        <!-- dsi_input_list : <code>{{ dsi_input_list }}</code><br> -->
+        <!-- selected_dsis : <code>{{ selected_dsis }}</code><br> -->
+
+      </v-flex>
 
       <!-- ADDRESS COMPLEMENT -->
       <v-flex
@@ -366,6 +403,9 @@
       - parent_DMT_oids : <code>{{ parent_DMT_oids }}</code><br>
       <v-divider></v-divider>
 
+      - parent_DSI_oids : <code>{{ parent_DSI_oids }}</code><br>
+      <v-divider></v-divider>
+
       - item_doc.mapping.map_rec : <code>{{ item_doc.mapping.map_rec }}</code><br>
 
     </v-flex>
@@ -398,7 +438,8 @@ export default {
 
     'parent_REC_mapping',
     // "parent_REC_oids",
-    'parent_DMT_oids'
+    'parent_DMT_oids',
+    'parent_DSI_oids'
 
   ],
 
@@ -413,6 +454,8 @@ export default {
     console.log('\n- RecipesGeoloc / created ---> item_doc : ', this.item_doc)
     console.log('\n- RecipesGeoloc / created ---> parent_DMT_oids : ', this.parent_DMT_oids)
     console.log('\n- RecipesGeoloc / created ---> parent_REC_mapping : ', this.parent_REC_mapping)
+
+    this.dsi_input_list = this.$store.getters['dsi/getDSIinputList'](this.parent_DSI_oids)
 
     // set up geolocRec data
     this.setGeolocRecId(this.item_doc)
@@ -430,7 +473,12 @@ export default {
       // PSEUDO FORM
       geolocRec: null,
       rec_id: '',
+
       selected_dmfs: [],
+      
+      dsi_input_list: [],
+      selected_dsis: [],
+
       new_dmfs: [],
       new_dmf_open_level_show: 'open_data',
       add_complement: '',
@@ -439,25 +487,39 @@ export default {
 
       // CHOICES AND PRESELECTION NEW COLUMNS
       col_preselected: [
-        'longitude',
-        'latitude'
+        // 'longitude',
+        // 'latitude'
+        'lon',
+        'lat'
       ],
       col_choices: [
         'address',
-        'longitude',
-        'latitude',
+        // 'longitude',
+        // 'latitude',
+        'lon',
+        'lat',
         'altitude',
         'point',
         'raw'
       ],
       new_col_preselected: [
+        // {
+        //   text: 'longitude',
+        //   color: 'primary',
+        //   can_delete: false
+        // },
+        // {
+        //   text: 'latitude',
+        //   color: 'primary',
+        //   can_delete: false
+        // },
         {
-          text: 'longitude',
+          text: 'lon',
           color: 'primary',
           can_delete: false
         },
         {
-          text: 'latitude',
+          text: 'lat',
           color: 'primary',
           can_delete: false
         }
@@ -537,6 +599,7 @@ export default {
             field_to_update: 'mapping.map_rec',
             id_rec: this.rec_id,
             rec_params: {
+              dsi_list_to_geocode: this.selected_dsis,
               dmf_list_to_geocode: this.selected_dmfs,
               new_dmfs_list: this.new_dmfs,
               address_complement: this.add_complement,
@@ -582,8 +645,14 @@ export default {
         console.log('\nRecipesGeoloc / watch ~ item_doc / newVal : \n', newVal)
         this.setGeolocRecMap(newVal)
       }
+    },
+    parent_DSI_oids: {
+      immediate: true,
+      handler (newVal, oldVal) {
+        console.log('\nRecipesGeoloc / watch ~ parent_DSI_oids / newVal : \n', newVal)
+        this.dsi_input_list = this.$store.getters['dsi/getDSIinputList'](this.parent_DSI_oids)
+      }
     }
-
   },
 
   methods: {
@@ -606,6 +675,7 @@ export default {
       if (geolocRecFromMap !== undefined) {
         console.log('...RecipesGeoloc - geolocRecFromMap not undefined...')
         this.selected_dmfs = geolocRecFromMap.rec_params.dmf_list_to_geocode
+        this.selected_dsis = geolocRecFromMap.rec_params.dsi_list_to_geocode
         this.new_dmfs = geolocRecFromMap.rec_params.new_dmfs_list
         this.add_complement = geolocRecFromMap.rec_params.address_complement
         this.new_dmf_open_level_show = geolocRecFromMap.rec_params.new_dmf_open_level_show
@@ -616,6 +686,11 @@ export default {
 
     update_selected_dmfs (input) {
       this.selected_dmfs = input
+      this.update_mapping()
+    },
+
+    update_selected_dsis (input) {
+      this.selected_dsis = input
       this.update_mapping()
     },
 

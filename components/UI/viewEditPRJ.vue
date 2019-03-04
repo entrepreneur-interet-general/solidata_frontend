@@ -395,6 +395,7 @@
               :recTitle="'geoloc'"
               :parent_REC_mapping="PRJ_REC_Map"
               :parent_DMT_oids="list_DMT_oids"
+              :parent_DSI_oids="list_DSI_oids"
               
               :isPreview="isPreview"
               :isLoading="loading"

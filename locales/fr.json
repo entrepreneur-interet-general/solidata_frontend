@@ -308,6 +308,7 @@
 
 		"geoloc"				: "Géo-localiser vos données",
 		"geo_select_dmf": "Choisir les colonnes de votre modèle de données permettant la géolocalisation",
+		"geo_select_dsi": "Choisir les jeux de données à géocoder",
 		"add_compl"			: "Informations complémentaires sur les adresses"
 
 	},
