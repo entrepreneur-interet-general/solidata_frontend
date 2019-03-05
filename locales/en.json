@@ -128,6 +128,7 @@
     "list"			: "list",
     "create"		: "create",
     "export"		: "export",
+    "doc_api"	  : "API documentation",
 
     "email"			: "Email",
     "name" 			: "Name",

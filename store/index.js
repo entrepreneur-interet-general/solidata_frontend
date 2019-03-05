@@ -181,6 +181,7 @@ const mainIconsConst = {
   rebuild: {icon: 'fas fa-redo-alt'},
   publish: {icon: 'fa fa-upload'},
   export: {icon: 'get_app'},
+  doc_api: {icon: 'fas fa-code'},
 
   geoloc: {icon: 'pin_drop'},
 
@@ -220,6 +221,7 @@ export const state = () => ({
   MODE_APP: process.env.MODE_APP,
   LOG: process.env.LOG,
   CONFIG: process.env.CONFIG_APP,
+  APIURL: process.env.CONFIG_APP.API_URL,
   is_debug: false,
 
   // APP TITLE

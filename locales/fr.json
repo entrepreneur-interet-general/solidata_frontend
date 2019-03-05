@@ -126,6 +126,7 @@
 		"list"			: "liste",
 		"create"		: "créer",
 		"export"		: "exporter",
+    "doc_api"	  : "Documentation de l'API",
 
 		"email"			: "Email",
 		"name" 			: "Prénom",

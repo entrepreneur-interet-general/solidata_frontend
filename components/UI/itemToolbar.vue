@@ -1,3 +1,15 @@
+<style scoped>
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover, span:hover{
+    font-weight: bold;
+  }
+
+</style>
+
 <template>
 
   <div>
@@ -473,6 +485,23 @@
           </v-list-tile>
 
 
+          <!-- DOCUMENTATION LINK -->
+          <v-list-tile
+            >
+            <!-- BTN IN MENU -->
+            <v-list-tile-title 
+              class="pa-0 ma-0"
+              >
+              <v-icon small left class="pr-1 mb-1" color="error">
+                {{ $store.state.mainIcons.doc_api.icon }}
+              </v-icon>
+              <span>
+                <a target="_blank" :href="docAPIurl">
+                {{ $t(`global.doc_api`, $store.state.locale) }}
+                </a>
+              </span>
+            </v-list-tile-title>
+          </v-list-tile>
 
       
         </v-list>
@@ -553,8 +582,10 @@ export default {
     },
     btnSwitchColor () {
       return (this.isPreview) ? 'white' : 'primary'
+    },
+    docAPIurl () {
+      return this.$store.state.APIURL + "/" + this.coll + "/documentation"
     }
-
   },
 
   watch: {
