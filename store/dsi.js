@@ -84,6 +84,40 @@ export const getters = {
 
   getReloadSpecs: state => {
     return { specs: state.reload_data.specs }
+  },
+
+  gatherDSIlists: state => {
+    let dsiInTeam = (state.list.docs_user_is_in_team) ? state.list.docs_user_is_in_team : []
+    let dsiNotTeam = (state.list.docs_user_not_in_team) ? state.list.docs_user_not_in_team : []
+    let dsiAll = [ ...dsiInTeam, ...dsiNotTeam ]
+    if (dsiAll.length > 0) {
+      dsiAll = dsiAll.filter(dsi => { return dsi !== null && dsi !== undefined })
+    }
+    console.log('... store/getDSIinputList / dsiAll : ', dsiAll)
+    return dsiAll
+  },
+
+  getDSIinputList: (state) => (DSIoids) => {
+    console.log('\n... store/getDSIinputList / DSIoids : ', DSIoids)
+
+    const dsiList = DSIoids.map(dsi => (dsi.oid_dsi))
+    console.log('... store/getDSIinputList / dsiList : ', dsiList)
+
+    let dsiInTeam = (state.list.docs_user_is_in_team) ? state.list.docs_user_is_in_team : []
+    let dsiNotTeam = (state.list.docs_user_not_in_team) ? state.list.docs_user_not_in_team : []
+    let dsiAll = [ ...dsiInTeam, ...dsiNotTeam ]
+    if (dsiAll.length > 0) {
+      dsiAll = dsiAll.filter(dsi => { return dsi !== null && dsi !== undefined })
+    }
+    console.log('... store/getDSIinputList / dsiAll : ', dsiAll)
+
+    let dsiMapped = dsiAll.map(dsi => ({ oid_dsi: dsi._id, title: dsi.infos.title }))
+    console.log('... store/getDSIinputList / dsiMapped : ', dsiMapped)
+    let dsiFiltered = []
+    if (dsiMapped) { dsiFiltered = dsiMapped.filter(dsi => { return dsiList.includes(dsi.oid_dsi) }) }
+    console.log('... store/getDSIinputList / dsiFiltered : ', dsiFiltered)
+
+    return dsiFiltered
   }
 
 }

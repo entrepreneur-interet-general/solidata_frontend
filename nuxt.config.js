@@ -65,7 +65,7 @@ module.exports = {
     DEBUG: process.env.NODE_ENV === 'development',
     MODE_APP: configApp.mode,
     LOG: logAllowed.includes(configApp.mode),
-    CONFIG_APP: configApp
+    CONFIG_APP: configApp,
   },
 
   router: {

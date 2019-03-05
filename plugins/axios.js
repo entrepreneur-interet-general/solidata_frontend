@@ -17,13 +17,13 @@ export default function ({ $axios, redirect, store }) {
 
   $axios.onResponse(response => {
     console.log('\n> > > plugin axios / response.status : ', response.status)
+    console.log('\n> > > plugin axios / typeof response.data  : ', typeof response.data)
+
     // console.log('> > > plugin axios / response     : \n', response)
     // console.log('> > > plugin axios / response.headers  : \n', response.headers)
     // console.log('> > > plugin axios / response.data     : \n', response.data)
     // console.log('> > > plugin axios / response.config : ', response.config )
     // console.log("\n")
-    // config.headers['Content-Type'] = 'application/json';
-    // config.headers['Access-Control-Allow-Origin'] = "*";
   })
 
   //  cf : https://stackoverflow.com/questions/48402747/nuxt-js-vue-js-setting-axios-auth-token-in-vuex-store-resets-after-refresh

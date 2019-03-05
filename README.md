@@ -47,7 +47,7 @@ part 2b/3 of the TADATA! sofware suite ([ApiViz](https://github.com/entrepreneur
 - intuitive UX 
 - **multilingual** : FR, EN, ESP
 - login / register
-- import a **dataset** (dataset input) : from a file (csv, xls) or from an external API
+- import a **dataset** (dataset input) : from a file (csv, , xlsx) or from an external API
 - manage / create **datamodel templates** (schemas) from datamodel fields
 - manage / create **datamodel fields** 
 - manage / create **open data projects** : choose a datamodel, add several datasets and associate each with a datamodel, choose the level of open data for each datamodel field,solidify the compiled data with external API, export the compiled data (csv, or API endopoints)
