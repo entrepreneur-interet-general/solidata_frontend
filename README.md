@@ -69,6 +69,11 @@ Nice to see you around ! For a more complete tour check out :
 - map of a geolocalized project - with Leaflet
 
 -------
+## WHAT'S NEW ?
+
+- check out our our *[changelog](./CHANGELOG.md)* for more details
+
+-------
 
 
 ## BUILD SETUP
