@@ -30,6 +30,15 @@ part 2b/3 of the TADATA! sofware suite ([ApiViz](https://github.com/entrepreneur
 - manage all your data and your recipes by projects ;
 - be able to manage projects by teams and share data/recipes/datamodels...
 
+------
+
+## DEVELOPPERS
+
+Nice to see you around ! For a more complete tour check out : 
+- our *[guidelines](./GUIDELINES_DEV.md)*
+- our *[changelog](./CHANGELOG.md)*
+- our *[contribution guide](./CONTRIBUTING.md)*
+
 --------
 
 ## TECHNICAL POINTS
@@ -129,6 +138,22 @@ For detailed explanation on how things work, check out the [Nuxt.js](https://git
 <a href="./screenshots/documentation/AUTH_PROCESS_fixed.pdf" download>Download the schema as a PDF file</a>
 
 ![alt text](./screenshots/documentation/AUTH_PROCESS_fixed.jpeg "auth process")
+
+-------
+
+## CREDITS 
+
+#### Solidata's frontend team thanks :
+
+- the [SocialConnect](https://entrepreneur-interet-general.etalab.gouv.fr/defi/2017/09/26/socialconnect/) project, aka "Carrefour des Innovations Sociales"
+- the [EIG](https://entrepreneur-interet-general.etalab.gouv.fr/) program by [Etalab](https://www.etalab.gouv.fr/)
+- the [CGET](http://www.cget.gouv.fr/)
+- [Christophe Ninucci](https://github.com/chrnin) for his help, advices and taste for memes
+- the [creator](https://github.com/noirbizarre) and community of [Flask RestPlus](https://github.com/noirbizarre/flask-restplus)
+
+#### Contacts - maintainance :
+
+- [Julien Paris](<mailto:julien.paris@cget.gouv.fr>), developer (aka [JPy](https://twitter.com/jparis_py) on Twitter, or [Jpy](https://github.com/JulienParis) on Github)
 
 
 -------
