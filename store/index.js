@@ -47,6 +47,12 @@ const dmfTypesList = [
   'media_link',
   'hyperlink',
   'boolean',
+  'object',
+  'list_strings',
+  'list_integers',
+  'list_floats',
+  'list_objects',
+  'id',
   'other'
 ]
 
