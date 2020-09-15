@@ -36,7 +36,7 @@
     "js-cookie": "^2.2.0",
     "jsencrypt": "^3.0.0-rc.1",
     "jsonwebtoken": "^8.4.0",
-    "node-forge": "^0.7.6",
+    "node-forge": "^0.10.0",
     "node-rsa": "^1.0.2",
     "npm": "^6.4.0",
     "nuxt": "2.3.4",
