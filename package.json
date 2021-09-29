@@ -32,7 +32,7 @@
     "cookieparser": "^0.1.0",
     "crypto-js": "^3.1.9-1",
     "epic-spinners": "^1.0.3",
-    "i": "^0.3.6",
+    "i": "^0.3.7",
     "js-cookie": "^2.2.0",
     "jsencrypt": "^3.0.0-rc.1",
     "jsonwebtoken": "^8.4.0",
